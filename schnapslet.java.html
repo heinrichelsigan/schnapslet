@@ -1,0 +1,1647 @@
+<html>
+<head>
+	<title>Schnapslet V 0.2 source code</title>
+</head>
+<body>
+<pre>
+/*
+ *
+ * @author		   Heinrich Elsigan
+ * @version		  V 0.2
+ * @since			JDK 1.2.1
+ *
+ */
+/*
+   Copyright (C) 2000 - 2002 Heinrich Elsigan
+
+   Schnapslet java applet is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
+   See the GNU Library General Public License for more details.
+
+*/
+import java.lang.*;
+import java.io.*;
+import java.net.*;
+import java.awt.*;
+
+class card {
+	
+	boolean atou = false;
+	char color = 'n';   // 4 colors and 'n' for unitialized
+	int value = 0;	  // 5 values and 0 for unitialized
+	int intern = -1;	// 20 values for internal representation and (-1) for unitialized
+	java.lang.String name = new String();  // Human readable classifier
+	java.net.URL picture;  // picture 
+	java.awt.Image cardimage = null;
+	java.applet.Applet masterApplet = null;
+	
+	/**
+	 */
+	public card() {
+		super();
+		this.color = 'n';
+		this.value = 0;
+		this.intern = -1;
+		this.name = "nocard";		
+	}
+	
+	public card(java.applet.Applet applet) {
+		this();
+		his.masterApplet = applet;   
+	}
+	
+	public card(java.applet.Applet applet, int num) {
+		this(applet);
+		String tmpstr, namestr = new String();
+
+		if ((num >= 0) && (num < 20)) {
+			if (num < 5) { 
+				this.color = 'h'; namestr = namestr + "Herz_";
+			} else if (num < 10) {
+				this.color = 'p'; namestr = namestr + "Pik_";
+			} else if (num < 15) {
+				this.color = 'k'; namestr = namestr + "Karo_";
+			} else if (num < 20) {
+				this.color = 't'; namestr = namestr + "Treff_";
+			}
+			switch (num%5) {
+				case 0: this.value = 2;  namestr=namestr+"Jack"; break;
+				case 1: this.value = 3;  namestr=namestr+"Queen"; break;
+				case 2: this.value = 4;  namestr=namestr+"King"; break;
+				case 3: this.value = 10; namestr=namestr+"Ten"; break;
+				case 4: this.value = 11; namestr=namestr+"Ace"; break;			
+				default: // never be here break;
+			}
+			this.intern = num;
+			this.name = namestr;
+		}		 
+		
+		try {
+			tmpstr = new String(applet.getCodeBase() + "cardpics/" + this.color + this.value + ".gif");
+		 	System.err.println(tmpstr); 
+			this.picture = new java.net.URL(tmpstr);
+		} catch (java.net.MalformedURLException murle) { 
+			System.err.println(murle); 
+		} catch (Exception exi) {
+			exi.printStackTrace();
+		}				
+		return;
+	}
+
+	public card(java.applet.Applet applet, int numv, char atoudef) {
+		this(applet, numv);
+		if (this.color == atoudef) {
+			this.atou = true;
+		}
+	}
+
+	public card(card aCard) {
+		this();
+		this.atou = aCard.atou;
+		this.color = aCard.color;
+		this.value = aCard.value;
+		this.intern = aCard.intern;
+		this.name = aCard.name;
+		this.picture = aCard.picture;
+		this.cardimage = aCard.cardimage;
+	}
+		
+	/**
+	 * Liefert den menschlichen Bezeichner der Karte
+	 */
+	public String getName() {
+		return this.name;
+	}
+ 
+	/**
+	 * liefert die Farbe der Karte
+	 */
+	public char getColor() {
+		return this.color;
+	}
+
+	public void setAtou() {
+		this.atou = true;
+	}
+
+	/**
+	 * liefert den Punkt Wert der Karte
+	 */
+	public int getValue() {
+		return this.value;
+	}
+	
+	/**
+	 * liefert die URL des Kartensymbols
+	 */
+	public java.net.URL getPictureUrl() {
+		return (picture);
+	}
+	
+	/**
+	 * liefert das Image des Kartensymbols
+	 */
+	public java.awt.Image getImage() {
+		if (this.cardimage != null) {
+			return this.cardimage;
+		}
+		
+		java.awt.Image img1 = null;
+		String imgstr = new String("cardpics/" + this.color + this.value + ".gif");
+		try {
+			InputStream is = getClass().getResourceAsStream(imgstr);
+			BufferedInputStream bis = new BufferedInputStream(is);
+			// a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
+			byte[] byBuf = new byte[10000]; // is.read(byBuf);  or something like that... 
+			int byteRead = bis.read(byBuf,0,10000);
+			img1 = Toolkit.getDefaultToolkit().createImage(byBuf);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return img1;
+	}  
+	
+	/**
+	 * Zeigt an, ob es sich bei dieser Karte um ein Atou handelt.
+	 */
+	public boolean isAtou() {
+		return this.atou;
+	}
+	
+	/**
+	 * Zeigt an, ob es sich bei der Karte um eine reguläre Karte handelt.
+	 */
+	public boolean isValidCard() {
+		char c1 = this.color;
+		int v1 = this.value;
+		int i1 = this.intern;
+		if ((i1 < 0) || (i1 >= 20)) return false;
+		if ((c1 == 'h') || (c1 == 'p') || (c1 == 't') || (c1 == 'k')) {
+			if (((v1 >= 2) && (v1 <= 4)) || (v1 == 10) || (v1 == 11)) {
+				return true;
+			}
+		}
+		return false;
+	}	
+
+	/**
+	 * gibt an ob diese Karte ohne Kontext des Spiels eine andere schlägt
+	 * 
+	 * @param otherCard
+	 */
+	public boolean hitsValue(card otherCard) {
+		if (this.color == otherCard.color) {
+			if (this.getValue() > otherCard.getValue()) 
+				return true;
+		}
+		return false;
+	}
+		
+
+	/**
+	 * gibt an ob diese Karte die übergebene Karte otherCard schlägt
+	 * 
+	 * @param otherCard die andere Karte
+	 * @param active Der Flag active gibt an, welche Karte zuerst ausgespielt wurder.
+	 * Wurde die Karte selbst zuerst ausgespielt, so wird active true übergeben.
+	 */
+	public boolean hitsCard(card otherCard, boolean active) {
+		if (this.color == otherCard.color) {
+			if (this.getValue() > otherCard.getValue()) 
+				return true;
+			else return false;
+		}
+		if ((this.isAtou()) && (otherCard.isAtou()==false)) {
+			return true;
+		}
+		if ((this.isAtou()==false) && (otherCard.isAtou())) {
+			return false;
+		}
+		return active;
+	}
+}
+</pre>
+<hr>
+<pre>
+import java.lang.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+class player {
+	volatile boolean begins;	// does this Player begin ?
+	card hand[] = new card[5];  // Cards in Players Hand
+	// not implemented yet !
+	// card hits[] = new card[10]; // hits made by this player 
+	
+	boolean hasClosed = false;
+	int points = 0;			 // points made by this player
+	char pairs[] = { 'n', 'n', 'n', 'n' };
+	char handpairs[] = { 'n', 'n' };
+	volatile int colorHitArray[] = { 0, 0, 0, 0, 0 };
+
+	public player() {
+		super();
+		hasClosed = false;
+		for (int i = 0; i < 5; i++) {
+		   hand[i] = new card();
+		   colorHitArray[i] = (-1);
+		}		
+	}
+	
+	public player(boolean starts) {
+		this();
+		this.begins = starts;
+	}
+		
+	public void stop() {
+		int i;
+		for (i=0; i<5; i++) 
+			hand[i]=null;
+	}
+		
+	public String showHand() {
+		String retVal = "";
+		for (int j=0; j<5; j++) 
+			retVal = retVal + hand[j].getName() + " ";
+		return retVal;
+	}
+	
+	/**
+	 * Kartenhand von Spieler sortieren mit schlechten Bubble Sort Algo
+	 * 
+	 */	
+	public void sortHand() {
+		int j, k, min, mark;
+		card tmpCard;
+		for (k = 0; k < 4; k++) { // this is bubble sort bad algo ;(
+			min = 20;
+			mark = -1;
+			for (j=k; j<5; j++) {
+				if (hand[j].intern < min) {
+					min = hand[j].intern; 
+					mark = j;
+				}
+			}
+			if (mark>0) {
+				tmpCard = hand[mark];
+				hand[mark] = hand[k];
+				hand[k] = tmpCard;
+			}
+		}
+	}
+	
+	/**
+	 * Darf Spieler jetzt Atou austauschen 
+	 * 
+	 * true für darf austauschen, otherwise false
+	 */
+	public int canChangeAtou() {
+		for (int i=0; i<5; i++) 
+			if ((hand[i].isAtou()) && (hand[i].getValue()==2)) {
+				return i;
+			}
+		return (-1);
+	}
+	
+	/**
+	 * Hat Spieler einen 20er den er ansagen darf
+	 * 
+	 * true für darf ansagen, otherwise false
+	 */
+	public int has20() {
+		int i, hpidx=0;
+		handpairs[0]= 'n'; handpairs[1]= 'n';
+		for (i = 0; i < 4; i++) {
+			if (hand[i].color ==  hand[i+1].color) 
+				if ((hand[i].getValue() + hand[i+1].getValue()) == 7) 
+					handpairs[hpidx++] = hand[i].color;
+		}
+		return hpidx;
+	}
+			
+	/**
+	 * Weist dem Spieler eine neue Karte zu
+	 * 
+	 */	
+	public void assignCard(card gotCard) {
+		int i = 0;
+		while ((i < 5) && (hand[i].isValidCard())) i++;
+		if (i < 5) hand[i] = new card(gotCard);
+	}		
+	
+	/**
+	 * Farbstichzwang ist etwas scheisse implementiert, war glaub ich eingraucht
+	 * 
+	 * @param nynum der Index der Karte die der Spieler angeklickt hat
+	 * @param aCard Karte die der Computer ausgespielt hat
+	 *
+	 * true, wenn der Spieler nicht mogeln versucht, otherwise false
+	 */
+	public boolean isInColorHitsContextValid(int nynum, card aCard) {
+		int i = 0; int j = 0; int max = -1;
+		for (i = 0; i < 5; i++) {
+			// ist gültige Karte -> PRI 0
+			if (hand[i].isValidCard()) {
+				colorHitArray[i] = 0;
+				if (max < 0) max = 0;
+				// ich hab gleich Farbe -> PRI 2
+				if ((hand[i].color) == aCard.color) {
+					colorHitArray[i] = 2;
+					if (max < 2) max = 2;
+					// ich kann aber auch noch stechen -> PRI 3
+					if ((hand[i].getValue()) > (aCard.getValue())) {
+						colorHitArray[i] = 3;
+						if (max < 3) max = 3;
+					}
+				} else {
+					// ich kann mit Atou stechen -> PRI 1
+					if ((aCard.isAtou() == false) && (hand[i].isAtou())) {
+						colorHitArray[i] = 1;
+						if (max < 1) max = 1;
+					}
+				}
+			} else colorHitArray[i] = (-1);
+		}
+
+		if (colorHitArray[nynum] == max) return true;
+		return false;   
+	}
+	
+	/**
+	 * KI für Farbstichzwang ist etwas dürftig beim Computer
+	 * 
+	 */
+	public int bestInColorHitsContext(card aCard) {
+		int i = 0, j = 0, mark = -1, max = -1;
+		for (i = 0; i < 5; i++) {
+			if (hand[i].isValidCard() == false) {
+				colorHitArray[i] = (-1);
+			} else
+			if (hand[i].isValidCard()) {
+				colorHitArray[i] = 0; 
+				if (max < 0) max = 0;
+				if ((hand[i].color) == (aCard.color)) { 
+					// same colors
+					colorHitArray[i] = 2; 
+					if (max < 2) max = 2;
+					if ((hand[i].getValue()) > (aCard.getValue())) {
+						colorHitArray[i] = 3; 
+						if (max < 3) max = 3;
+					}
+				} else { // not same colors
+					if ((hand[i].isAtou()) && (aCard.isAtou() == false)) {
+						// ich kann mit Atou stechen -> PRI 1						
+						colorHitArray[i] = 1;
+						if (max < 1) max = 1;
+					}
+				}
+		   	}
+		}
+	
+		for (j = 0; j < 5; j++) {
+			if (colorHitArray[j] == max) {
+				if (mark < 0)  mark = j;
+				else switch(max) {
+					case 0: case 2: 
+						if ((hand[mark].getValue()) > (hand[j].getValue())) 
+							mark = j; 
+						break;
+					case 1: case 3:	
+						if ((hand[mark].getValue()) < (hand[j].getValue()))
+							mark = j; 
+						break;
+					default: 
+						break;
+				}
+			}
+		}
+		return mark;			
+	}	
+}
+</pre>
+<hr>
+
+<pre>
+import java.lang.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+class game {
+	volatile boolean isGame = false;   // a Game is running
+	char atouInGame = 'n';			 // color that is atou in this game
+	boolean atouChanged = false;	  // Atou allready changed
+	boolean playersTurn = true;	  // Who's playing
+	char said = 'n';
+	char csaid = 'n';
+	boolean colorHitRule = false;
+	boolean isClosed = false;
+	card playedOut;
+	int index = 9;	
+	int movs = 0;
+	int inGame[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+					10,11,12,13,14,15,16,17,18,19 };
+	card set[] = new card[20]; 
+	messageQueue mqueue = new messageQueue();
+	player gambler;
+	player computer;
+	java.applet.Applet masterApplet = null;
+	
+					
+	public game() {
+		super();
+		isGame = true;
+		atouChanged = false;   
+		playersTurn = true;
+		colorHitRule = false;	
+		isClosed = false;
+	}
+	
+	public game(java.applet.Applet applet) {
+		this();
+		masterApplet = applet;
+		mqueue.clear();
+		mqueue.insert("Starting new game ...");
+		
+		card set[] = new card[20];
+		for (int i = 0; i < 20; i++) {
+			set[i] = new card(); //new card(applet, -1);
+			inGame[i] = i;
+		}	  
+		
+		index = 9;
+		said = 'n';
+		csaid = 'n';
+		mqueue.insert("Creating new players ...");
+		gambler = new player(true);
+		gambler.points = 0;
+		computer = new player(false);
+		computer.points = 0;
+		mergeCards();
+	}
+	
+	public void mergeCards() {
+		int i, k, j, l, tmp;
+		
+		mqueue.insert("merging Cards ...");
+		Random rand = new Random();
+		if ((k = rand.nextInt())< 0) k = 0 - k; k = k%32;
+		for (i=0; i<k+20; i++) {
+			if ((j = rand.nextInt())< 0) j = 0 - j; j = j%20;
+			if ((l = rand.nextInt())< 0) l = 0 - l; l = l%20;
+			if (l == j) j=0;
+			tmp = inGame[l];
+			inGame[l] = inGame[j];
+			inGame[j]= tmp;
+		}
+
+		set[19] = new card(masterApplet, inGame[19]);
+		set[19].setAtou();
+		mqueue.insert("Atou ist " + set[19].getName() + " !");
+		this.atouInGame = set[19].getColor();
+		for (i = 0; i < 19; i++) {
+			set[i] = new card(masterApplet, inGame[i], this.atouInGame);
+			if (i < 5) {
+				gambler.assignCard(set[i]);
+			} else if (i < 10) {
+				computer.assignCard(set[i]);
+			}
+		}
+		gambler.sortHand();
+		computer.sortHand();
+	}
+	
+	public void destroyGame() {
+		computer.stop();
+		gambler.stop();
+		gambler = null;
+		computer = null;
+		playedOut = null;		
+		for (int i = 0; i < 20; i++) {
+			set[i] = null;
+			inGame[i] = i;
+		}
+	}
+
+	public void stopGame() {
+		isGame = false;
+		atouInGame = 'n';
+	   
+		colorHitRule = false;
+		isClosed = false;
+		playedOut = new card(); // new card(masterApplet, -1);
+		for (int i = 0; i < 5; i++) {
+			gambler.hand[i] = new card(); // new card(masterApplet, -1);
+			computer.hand[i] = playedOut;
+		}					 
+		mqueue.insert("ending game ...");
+		
+	}
+
+	public void changeAtou(player aPlayer) {
+		int cardidx;
+		card tmpCard;
+		if ((cardidx=aPlayer.canChangeAtou()) < 0) return ;
+		tmpCard = aPlayer.hand[cardidx];
+		aPlayer.hand[cardidx] = set[19];
+		set[19] = tmpCard;
+		gambler.sortHand();
+		atouChanged = true;
+	}
+	
+	public boolean atouIsChangable(player aPlayer) {
+		if (atouChanged) return false;
+		if (aPlayer.canChangeAtou() >= 0) return true;
+		return false;
+	}
+	
+	public int checkPoints(int ccard) {
+		int tmppoints;
+		if (playersTurn) {
+			if (playedOut.hitsCard(computer.hand[ccard],true) == true) {
+				playersTurn = true;
+				tmppoints = playedOut.value + computer.hand[ccard].value;
+				gambler.points+= tmppoints;
+				mqueue.insert("Sie stechen und machen " + tmppoints + " Punkte !");
+				return tmppoints;
+			} else {
+				playersTurn = false;
+				tmppoints = playedOut.value+computer.hand[ccard].value;
+				computer.points+= tmppoints;
+				mqueue.insert("Computer sticht und macht: " + tmppoints + " Punkte ");
+				return (-tmppoints);
+			}
+		} else {
+			if (computer.hand[ccard].hitsCard(playedOut,true)) {
+				playersTurn = false;
+				tmppoints = playedOut.value + computer.hand[ccard].value;
+				computer.points+= tmppoints;
+				mqueue.insert("Computer sticht und macht: " + tmppoints + " Punkte ");
+				return (-tmppoints);
+			} else {
+				tmppoints = playedOut.value+computer.hand[ccard].value;
+				playersTurn = true;
+				gambler.points+= tmppoints;
+				mqueue.insert("Sie stechen und machen "+tmppoints+" Punkte !");				
+				return tmppoints;
+			}			
+		}
+	}
+
+	public int assignNewCard() {
+		int retval = 0;
+		if (colorHitRule == false) {
+			if (playersTurn) { 
+				gambler.assignCard(set[++index]);				
+				computer.assignCard(set[++index]);				 
+			} else {
+				computer.assignCard(set[++index]);			   
+				gambler.assignCard(set[++index]);								
+			}
+			if (index == 17) atouChanged=true;						
+			if (index == 19) { retval = 1; colorHitRule = true; }
+		} else {
+			movs++;
+		}
+		computer.sortHand();  
+		gambler.sortHand();
+	   
+		return retval;
+	}
+	
+	public int computerStarts() {
+		int min = 12; int c_idx = 0; int i; int j=0; int mark = 0;
+
+		if ((i=computer.has20()) > 0) {
+			if ((i > 1) && (computer.handpairs[1] == this.atouInGame)) 
+				mark = 1;
+			for (j = 0; j < 5; j++) {
+				if ((computer.hand[j].color == computer.handpairs[mark]) &&
+					(computer.hand[j].getValue() > 2) && (computer.hand[j].getValue() < 5)) {
+					csaid = computer.handpairs[0];
+					if (computer.hand[j].isAtou() == true) 
+						computer.points += 40;
+					else 
+						computer.points += 20;
+					return j;
+				}
+			}
+		}
+		
+		if (colorHitRule) {
+			mark = 0;
+			for (i = 0; i < 5; i++) {
+				if (computer.hand[i].isValidCard()) {
+					return i;
+				}
+			}
+		}
+
+		for (i = 0; i < 5; i++) {
+			if (computer.hand[i].isValidCard()) {
+				if (computer.hand[i].isAtou() == false) {
+					if (computer.hand[i].getValue() < min) {
+						c_idx = i;
+						min=computer.hand[i].getValue();
+					}
+				}
+			}
+		}
+		return c_idx;
+	}
+		
+	public int computersAnswer() {
+		int min = 12; int c_idx = 0; 
+		int i, j;
+		String c_array = "Computer ARRAY: ";
+		if (colorHitRule) {
+			i = computer.bestInColorHitsContext(this.playedOut);
+			for (j = 0; j < 5; j++)
+				c_array = c_array + computer.colorHitArray[j] + " ";
+			mqueue.insert(c_array);
+			mqueue.insert("Computer MAX: " + i + " !");
+			mqueue.insert("Computer Hand: " + computer.showHand());
+			return(i);
+		}
+
+		for (i = 0; i < 5; i++) {
+			if (computer.hand[i].hitsCard(playedOut,false)) {
+				if (computer.hand[i].isAtou() == false) {
+					return i;
+				}
+				if (playedOut.getValue() > 5) {
+					return i;				
+				}
+			}
+		}
+		for (i = 0; i < 5; i++) {
+			if (computer.hand[i].isValidCard()) {
+				if (computer.hand[i].getValue() < min) {
+					c_idx = i;
+					min = computer.hand[i].getValue();
+				}
+			}
+		}
+		return c_idx;
+	}
+	
+	public String printColor(char ch) {
+		switch(ch) {
+			case 'k': return "Karo";
+			case 'h': return "Herz";
+			case 't': return "Treff";
+			case 'p': return "Pik";
+			default: break;
+		}
+		return "NoColor";
+	}
+	
+	class messageQueue {
+		StringBuffer qbuffer;
+		int qindex;
+		int qcount;
+		
+		public messageQueue() {
+			super();
+			clear();
+		}
+		
+		public void clear() {
+			qbuffer = new StringBuffer();
+			qindex = 0;
+			qcount = 0;
+		}
+		
+		public void insert (String mes) {
+			qcount++;
+			qbuffer.append(">" + mes + "\n");
+			// qbuffer.append(qcount + "->" + mes + "\n");
+		}
+		
+		public String fetch() {
+			String retVal = qbuffer.toString().substring(qindex);
+			qindex = qbuffer.length();
+			return retVal;
+		}
+		
+		public String history() {
+			return (qbuffer.toString());
+		}
+	}   
+}
+</pre>
+<hr>
+<pre>
+/*
+*
+* @author		   Heinrich Elsigan
+* @version		  V 0.2
+* @since			JDK 1.2.1
+*
+*/
+/*
+   Copyright (C) 2000 - 2002 Heinrich Elsigan
+
+   Schnapslet java applet is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
+   See the GNU Library General Public License for more details.
+
+*/
+// UR SCHLECHT KOMMENTIERT => DAFÜR OPEN SOURCE ;(
+import java.awt.*;
+import java.net.*;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+import java.applet.*;
+import java.beans.*;
+
+public class schnapslet extends Applet implements Runnable
+{
+	final static String PROTO = "http";
+	final static String HOST  = "members.chello.at";
+	final static int	PORT  = 80;
+	long errNum = 0; // Errors Ticker
+	int ccard; // Computers Card played
+	volatile card emptyTmpCard;
+	volatile boolean ready = false; // Ready to play
+	volatile byte psaychange = 0;
+	boolean pSaid = false; // Said something
+	static java.lang.Runtime runtime = null;
+	URL emptyURL, backURL, talonURL, notURL;
+	static String emptyJarStr =	"cardpics/e.gif";
+	static String backJarStr =	"cardpics/verdeckt.gif";
+	static String notJarStr = 	"cardpics/n0.gif";
+	static String talonJarStr =	"cardpics/t.gif";
+	game aGame;
+	java.awt.Font schnapsFont;
+	Thread t0;
+	
+	//{{DECLARE_CONTROLS
+	java.awt.TextArea tDbg = new java.awt.TextArea();
+	java.awt.Panel pHand = new java.awt.Panel();
+	ImageViewer im1 = new ImageViewer();
+	ImageViewer im0 = new ImageViewer();
+	ImageViewer im2 = new ImageViewer();
+	ImageViewer im3 = new ImageViewer();
+	ImageViewer im4 = new ImageViewer();
+	java.awt.Panel pGame = new java.awt.Panel();
+	ImageViewer imOut0 = new ImageViewer();
+	ImageViewer imOut1 = new ImageViewer();
+	ImageViewer imTalon = new ImageViewer();
+	ImageViewer imAtou = new ImageViewer();
+	java.awt.Panel pAction = new java.awt.Panel();
+	java.awt.Button bMerge = new java.awt.Button();
+	java.awt.Button bStop = new java.awt.Button();
+	java.awt.Button b20b = new java.awt.Button();
+	java.awt.Button b20a = new java.awt.Button();
+	java.awt.Button bChange = new java.awt.Button();
+	java.awt.TextField tPoints = new java.awt.TextField();
+	java.awt.Button bcont = new java.awt.Button();
+	java.awt.Button pHelp = new java.awt.Button();
+	java.awt.TextField tRest = new java.awt.TextField();
+	java.awt.TextField tMes = new java.awt.TextField();
+	java.awt.TextField tsMes = new java.awt.TextField();
+	//}}
+	
+	protected void initURLBase() {
+		try { 
+			notURL =   new URL(this.getCodeBase() + "cardpics/n0.gif");
+			emptyURL = new URL(this.getCodeBase() + "cardpics/e.gif");
+			backURL =  new URL(this.getCodeBase() + "cardpics/verdeckt.gif");
+			talonURL = new URL(this.getCodeBase() + "cardpics/t.gif");
+		} catch (Exception error) { 
+			// TODO Review: What Exception should be thrown here?
+		}
+	}
+	
+	public void init()
+	{
+		initURLBase();
+
+		//{{INIT_CONTROLS
+		setLayout(null);
+		schnapsFont = new java.awt.Font("Dialog", Font.PLAIN, 9);
+		setFont(schnapsFont);
+		setSize(504,420);
+		tDbg.setEditable(false);
+		add(tDbg);
+		tDbg.setBounds(0,312,504,108);
+		tDbg.setFont(new Font("Dialog", Font.PLAIN, 10));
+		pHand.setLayout(null);
+		add(pHand);
+		pHand.setBounds(0,132,384,108);
+		// set first players hand card image
+		try { 
+			im0.setImageURL(notURL);
+		} catch (Exception im0ex) {
+			System.err.println(im0ex.toString());
+			im0ex.printStackTrace();
+		}
+		pHand.add(im0);
+		im0.setBounds(12,0,72,96);		
+		
+		try {
+			im1.setImageURL(notURL); 
+		} catch (Exception im1ex) {
+			System.err.println(im1ex.toString());
+			im1ex.printStackTrace();
+		}
+		pHand.add(im1);
+		im1.setBounds(84,0,72,96);
+
+		try {
+			im2.setImageURL(notURL); 
+		} catch (Exception im2ex) {
+			System.err.println(im2ex.toString());
+			im2ex.printStackTrace();			
+		}
+		pHand.add(im2);
+		im2.setBounds(156,0,72,96);
+		
+		try {
+			im3.setImageURL(notURL); 
+		} catch (Exception im3ex) {
+			System.err.println(im3ex.toString());
+			im3ex.printStackTrace();			
+		}
+		pHand.add(im3);
+		im3.setBounds(228,0,72,96);
+		// Add last Image for players card hand
+		try {
+			im4.setImageURL(notURL); 
+		} catch (Exception im4ex) {
+			System.err.println(im4ex.toString());
+			im4ex.printStackTrace();
+		}
+		pHand.add(im4);
+		im4.setBounds(300,0,72,96);
+		
+		pGame.setLayout(null);
+		add(pGame);
+		pGame.setBounds(0,0,384,132);
+		// Set Auspielkarte1 image
+		try {
+			imOut0.setImageURL(emptyURL); 
+		} catch (Exception imOutEx) {
+			System.err.println(imOutEx.toString());
+			imOutEx.printStackTrace();			
+		}	
+		pGame.add(imOut0);
+		imOut0.setBounds(96,24,72,96);
+		// Set Ausspielkarte2 image -> default to empty image
+		try {
+			imOut1.setImageURL(emptyURL); 
+		} catch (Exception imOutEx) {
+			System.err.println(imOutEx.toString());
+			imOutEx.printStackTrace();
+		}
+		pGame.add(imOut1);
+		imOut1.setBounds(12,12,72,96);
+		// Set Talon Image
+		try {
+			imTalon.setImageURL(talonURL);
+		} catch (Exception imTalonEx) {
+			System.err.println(imTalonEx.toString());
+			imTalonEx.printStackTrace();
+		}
+		imTalon.setVisible(true);			
+		pGame.add(imTalon);
+		imTalon.setBounds(204,24,96,72);
+		// Set atou card image 
+		try {
+			imAtou.setImageURL(notURL); 
+		} catch (Exception imAtouEx) {
+			System.err.println(imAtouEx.toString());
+			imAtouEx.printStackTrace();
+		}
+		pGame.add(imAtou);
+		imAtou.setBounds(276,12,72,96);
+		
+		pAction.setLayout(null);
+		add(pAction);
+		pAction.setBounds(384,0,120,240);
+		
+		bMerge.setLabel("Start");
+		pAction.add(bMerge);
+		bMerge.setBackground(java.awt.Color.lightGray);
+		bMerge.setBounds(12,0,96,24);
+		bMerge.setFont(schnapsFont);
+		
+		bStop.setLabel("Ende");
+		bStop.setEnabled(false);
+		pAction.add(bStop);
+		bStop.setBackground(java.awt.Color.lightGray);
+		bStop.setBounds(12,24,96,24);
+		bStop.setFont(schnapsFont);
+		
+		b20b.setLabel("40 Ansagen");
+		pAction.add(b20b);
+		b20b.setBackground(java.awt.Color.lightGray);
+		b20b.setBounds(12,144,96,24);
+		b20b.setFont(schnapsFont);
+		b20b.setEnabled(false);
+		
+		b20a.setLabel("20 Ansagen");
+		pAction.add(b20a);
+		b20a.setBackground(java.awt.Color.lightGray);
+		b20a.setBounds(12,120,96,24);
+		b20a.setFont(schnapsFont);
+		b20a.setEnabled(false);
+		
+		bChange.setLabel("Atou tauschen");
+		bChange.setEnabled(false);
+		pAction.add(bChange);
+		bChange.setBackground(java.awt.Color.lightGray);
+		bChange.setBounds(12,168,96,24);
+		bChange.setFont(schnapsFont);
+		
+		tPoints.setEditable(false);
+		tPoints.setText("0");
+		tPoints.setFont(schnapsFont);
+		pAction.add(tPoints);
+		tPoints.setBounds(72,84,36,26);
+		
+		bcont.setLabel("WEITER");
+		bcont.setEnabled(false);
+		pAction.add(bcont);
+		bcont.setBackground(java.awt.Color.lightGray);
+		bcont.setBounds(12,204,96,24);
+		bcont.setFont(schnapsFont);
+		
+		pHelp.setLabel("Hilfe");
+		pAction.add(pHelp);
+		pHelp.setBackground(java.awt.Color.lightGray);
+		pHelp.setBounds(12,48,97,24);
+		pHelp.setFont(schnapsFont);
+		
+		tRest.setEditable(false);
+		tRest.setText("10");
+		pAction.add(tRest);
+		tRest.setBounds(12,84,36,26);
+		tRest.setFont(schnapsFont);
+		
+		tMes.setEditable(false);
+		tMes.setText("Um ein neues Spiel zu beginnen klicken Sie auf Start");
+		add(tMes);
+		tMes.setFont(schnapsFont);
+		tMes.setBounds(12,250,480,26);
+		
+		tsMes.setEditable(false);
+		add(tsMes);
+		tsMes.setBackground(java.awt.Color.white);
+		tsMes.setForeground(java.awt.Color.red);
+		tsMes.setFont(schnapsFont);
+		tsMes.setBounds(12,276,480,28);
+		tsMes.setVisible(false);
+		//}}
+		t0 = new Thread(this);
+		t0.start();
+
+		
+		//{{REGISTER_LISTENERS
+		SymAction lSymAction = new SymAction();
+		bStop.addActionListener(lSymAction);
+		bMerge.addActionListener(lSymAction);
+		bChange.addActionListener(lSymAction);
+		SymMouse aSymMouse = new SymMouse();
+		im0.addMouseListener(aSymMouse);
+		b20a.addActionListener(lSymAction);
+		b20b.addActionListener(lSymAction);
+		im1.addMouseListener(aSymMouse);
+		im2.addMouseListener(aSymMouse);
+		im3.addMouseListener(aSymMouse);
+		im4.addMouseListener(aSymMouse);
+		tMes.addMouseListener(aSymMouse);
+		bcont.addActionListener(lSymAction);
+		pHelp.addActionListener(lSymAction);
+		imAtou.addMouseListener(aSymMouse);
+		//}}
+	}
+	
+	//Java ActionListener pattern to handle events
+	class SymAction implements java.awt.event.ActionListener {
+		public void actionPerformed(java.awt.event.ActionEvent event) {
+			Object object = event.getSource();
+			if (object == bStop)
+				bStop_ActionPerformed(event);
+			else if (object == bMerge)
+				bMerge_ActionPerformed(event);
+			else if (object == bChange)
+				bChange_ActionPerformed(event);
+			else if (object == b20a)
+				b20a_ActionPerformed(event);
+			else if (object == b20b)
+				b20b_ActionPerformed(event);
+			else if (object == bcont)
+				bcont_ActionPerformed(event);
+			else if (object == pHelp)
+				pHelp_ActionPerformed(event);
+		}
+	}
+	
+	// Method to load images directly from jar file => never worked 
+	Image setJarIncludedImage(String imgstr) {
+		Image img = null;
+		try {
+			InputStream is = getClass().getResourceAsStream(imgstr);
+			BufferedInputStream bis = new BufferedInputStream(is);
+			// a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
+			byte[] byBuf = new byte[10000];  // is.read(byBuf);  or something like that...
+			int byteRead = bis.read(byBuf, 0, 10000);
+			img = Toolkit.getDefaultToolkit().createImage(byBuf);
+ 	 	} catch(Exception e) {
+			e.printStackTrace();
+ 		}
+		return img;
+	}
+	
+	// simple error handler
+	void errHandler(java.lang.Throwable myErr) {
+		tDbg.append("\nCRITICAL ERROR #" + (++errNum));
+		tDbg.append("\nMessage: " + myErr.getMessage());
+		tDbg.append("\nString: " + myErr.toString());
+		tDbg.append("\nLmessage: "+ myErr.getLocalizedMessage() + "\n");
+		myErr.printStackTrace();
+	}
+	
+	void resetButtons(int level) {
+		if (level >= 0 ) {
+			b20a.setLabel("20 Ansagen");
+			b20a.setEnabled(false);
+			b20b.setLabel("40 Ansagen");
+			b20b.setEnabled(false);
+			bChange.setEnabled(false);
+		}
+		if (level >= 1) {
+			bcont.setEnabled(false);
+			if (imTalon.isVisible()==false)
+				imTalon.setVisible(true);  
+			try {
+				imTalon.setImageURL(talonURL);
+				imAtou.setImageURL(emptyURL);
+			} catch (java.beans.PropertyVetoException pvex) {
+				this.errHandler(pvex);
+			} catch (Exception ex) {
+				this.errHandler(ex);
+			}
+		}
+		if (level >= 2) {		
+			try {
+				imOut0.setImageURL(emptyURL);
+				imOut1.setImageURL(emptyURL);
+			} catch (java.beans.PropertyVetoException pvex) {
+				this.errHandler(pvex);
+			} catch (Exception ex) {
+				this.errHandler(ex);
+			}
+		}
+	}
+	
+	void bStop_ActionPerformed(java.awt.event.ActionEvent event) {	// to do: code goes here.
+		bStop_ActionPerformed_Interaction1(event);
+	}
+
+	void bStop_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+			stopGame(2);
+		} catch (Exception e) {
+			this.errHandler(e);
+		}
+	}
+	
+	void stopGame(int levela) {
+		bStop.setEnabled(false);
+		aGame.stopGame();
+		resetButtons(levela);			
+		showPlayersCards();
+		aGame.destroyGame();
+		java.lang.System.runFinalization();
+		java.lang.System.gc();
+		bMerge.setEnabled(true);
+	}
+
+	void bMerge_ActionPerformed(java.awt.event.ActionEvent event) {	// to do: code goes here.
+		bMerge_ActionPerformed_Interaction1(event);
+	}
+	
+	
+	void bMerge_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		startGame();
+	}
+
+	void startGame() {	/* Mischen */
+		bMerge.setEnabled(false);
+		runtime = java.lang.Runtime.getRuntime();
+		aGame = null;
+		runtime.runFinalization();		
+		runtime.gc();
+
+		aGame = new game(this);
+		tsMes.setVisible(false);
+		resetButtons(1);
+		tDbg.setText("");
+		tRest.setText("10");
+		
+		emptyTmpCard = new card(); // new card(this, -1);
+		tPoints.setText(""+aGame.gambler.points);
+		showAtouCard();
+		showTalonCard();
+		bStop.setEnabled(true);
+		gameTurn(0);
+	}
+	
+	void closeGame() { //	Implementierung des Zudrehens
+		if (aGame.isGame == false || aGame.gambler == null) {
+			tsMes.setVisible(true);
+			tsMes.setText("Kein Spiel gestartet!");
+			return;
+		}
+		tsMes.setVisible(true);
+		tsMes.setText("Spieler dreht zu !");
+		
+		try {
+			imTalon.setImageURL(emptyURL);
+			imTalon.setVisible(false);
+		} catch (java.beans.PropertyVetoException jbpvex) {
+			this.errHandler(jbpvex);
+		}				   
+		
+		try {	
+			imAtou.setImageURL(backURL);
+		} catch (java.beans.PropertyVetoException jbpvex) {
+			this.errHandler(jbpvex);
+		}	
+		
+		aGame.colorHitRule = true;
+		aGame.isClosed = true;
+		aGame.gambler.hasClosed = true;
+		
+		if (aGame.atouChanged == false) {
+			aGame.atouChanged = true;
+		}
+		gameTurn(0);
+	}
+	
+	void tsEnds(String endMessage, int ix) {
+		tsMes.setText(endMessage);
+		tsMes.setVisible(true);
+		stopGame(ix);
+		return ;
+	}
+		
+	
+	void twentyEnough(boolean who) {
+		int xj = 0;
+		String andEnough = "20 und genug !";
+		ready = false;
+		if (who) {
+			try {
+				while(aGame.gambler.hand[xj++].color != aGame.said) ;
+				imOut0.setImageURL(aGame.gambler.hand[xj-1].getPictureUrl());
+				imOut1.setImageURL(aGame.gambler.hand[xj].getPictureUrl());				
+				if (aGame.said == aGame.atouInGame) {
+					andEnough = "40 und genug !";
+				}
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}			
+			tsEnds(new String(andEnough+" Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !"), 1);	   
+		} else {
+			try {
+				while(aGame.computer.hand[xj++].color != aGame.csaid) ;
+				imOut0.setImageURL(aGame.computer.hand[xj-1].getPictureUrl());		
+				imOut1.setImageURL(aGame.computer.hand[xj].getPictureUrl());
+				if (aGame.csaid == aGame.atouInGame) { 
+					andEnough="40 und genug !";
+				}
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}						
+			printMes();
+			tsEnds(new String(andEnough+"Computer hatgewonnen mit " + aGame.computer.points + " Punkten !"), 1);
+		}
+		return;		
+	}
+	
+	void endTurn() {
+		int tmppoints;
+		/* IMPLEMENT COMPUTERS STRATEGIE HERE */
+		if (aGame.playersTurn) {
+			ccard = aGame.computersAnswer();
+			try {				
+				imOut1.setImageURL(aGame.computer.hand[ccard].getPictureUrl());
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}
+		} else { 
+		}
+		
+		tmppoints = aGame.checkPoints(ccard);
+		aGame.computer.hand[ccard] = emptyTmpCard;
+		tPoints.setText("" + aGame.gambler.points);
+		
+		if (tmppoints > 0) {
+			tMes.setText("Ihr Stich mit Punkten " + tmppoints + " ! Klicken Sie auf Weiter !");
+			if (aGame.isClosed && (aGame.computer.hasClosed)) {
+				tsEnds("Zudrehen des Computers fehlgeschlagen, sie haben gewonnen !", 1);
+				return ;
+			}
+		} else { 
+			tMes.setText("Computer sticht " + (-tmppoints) + " ! Klicken Sie auf Weiter !"); 
+			if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
+				tsEnds("Zudrehen fehlgeschlagen, Computer hat gewonnen !", 1);
+				return ;
+			}
+		}
+
+		// Assign new cards 
+		if (aGame.assignNewCard() == 1) {
+			/* NOW WE HAVE NO MORE TALON */
+			try {
+				// imTalon.setImage(setJarIncludedImage(emptyJarStr)); 
+				imTalon.setImageURL(emptyURL);
+				imTalon.setVisible(false);
+				
+				// imAtou.setImage(setJarIncludedImage(emptyJarStr)); 
+				imAtou.setImageURL(emptyURL);
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}			  
+			tsMes.setVisible(true);
+			tsMes.setText("Keine Karten im Talon -> Farb- und Stichzwang !");
+		}
+		tRest.setText(""+(19-aGame.index));
+		printMes();
+		// resetButtons(0);
+		pSaid = false; 
+		aGame.said = 'n'; 
+		aGame.csaid = 'n';
+		
+		if (aGame.playersTurn) {
+			if (aGame.gambler.points > 65) {
+				tsEnds("Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !", 1);
+				return;
+			}
+		} else {
+			if (aGame.computer.points > 65) {
+				tsEnds("Computer hat gewonnen mit " + aGame.computer.points + " Punkten !", 1);
+				return;
+			}
+		}		
+
+		if (aGame.movs >= 5) {
+			if (aGame.isClosed) {
+				if (aGame.gambler.hasClosed) {
+					tsEnds("Zudrehen fehlgeschlagen, Computer hat gewonnen !", 1);
+				}
+				if (aGame.computer.hasClosed) {
+					tsEnds("Computers Zudrehen fehlgeschlagen, Sie haben gewonnen !", 1);
+				}
+				return ;
+			} else {
+				if (tmppoints > 0) {
+					tsEnds("Letzter Stich: Sie haben gewonnen !", 1);
+				} else {
+					tsEnds("Letzter Stich: Computer hat gewonnen !", 1);
+				}
+				return;
+			}
+		}
+
+		bcont.setEnabled(true);
+		ready = false;
+	}
+		
+	
+	void gameTurn(int ixlevel) {
+		if (ixlevel < 1) {
+			try {
+				// imOut0.setImage(setJarIncludedImage(emptyJarStr)); 
+				imOut0.setImageURL(emptyURL);
+				// imOut1.setImage(setJarIncludedImage(emptyJarStr)); 
+				imOut1.setImageURL(emptyURL);
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}
+			showPlayersCards();
+			pSaid = false; 
+			aGame.said = 'n'; 
+			aGame.csaid = 'n';
+		}	
+		if (aGame.playersTurn) {
+			// Wann kann man austauschen ?
+			if (ixlevel < 1)
+				if ((aGame.atouIsChangable(aGame.gambler)) && (pSaid == false)) {
+					psaychange += 1;
+					bChange.setEnabled(true);
+				}
+			// Gibts was zum Ansagen ?
+			int a20 = aGame.gambler.has20();
+			if (a20 > 0) {
+				psaychange += 2;
+				b20a.setLabel(aGame.printColor(aGame.gambler.handpairs[0])+" ansagen");
+				b20a.setEnabled(true);
+				if (a20 > 1) {
+					b20b.setLabel(aGame.printColor(aGame.gambler.handpairs[1])+" ansagen");
+					b20b.setEnabled(true);
+				} else { 
+					b20b.setLabel("kein 2. Paar");
+				}
+			}
+			// Info 
+			tMes.setText("Zum Auspielen einfach auf die entsprechende Karte klicken");				
+		} else { 
+			/* COMPUTERS TURN IMPLEMENTIEREN */
+			if (aGame.atouIsChangable(aGame.computer)) {
+				aGame.changeAtou(aGame.computer);
+				this.showAtouCard();
+				tsMes.setVisible(true);
+				tsMes.setText("COMPUTER TAUSCHT ATOU AUS !!!");
+				aGame.mqueue.insert("Computer tauscht Atou aus !");
+			}
+			ccard = aGame.computerStarts();
+			if (aGame.csaid != 'n') {
+				tsMes.setVisible(true);
+				tsMes.setText("COMPUTER SAGT PAAR IN " + aGame.printColor(aGame.csaid) + " AN !!!");				
+				aGame.mqueue.insert("Computer sagt Paar in " + aGame.printColor(aGame.csaid) + " an !");								
+				if (aGame.computer.points > 65) {
+					twentyEnough(false);
+				}
+			}			
+			try {
+				imOut1.setImage(aGame.computer.hand[ccard].getImage());
+				imOut1.setImageURL(aGame.computer.hand[ccard].getPictureUrl());
+			} catch (java.beans.PropertyVetoException jbpvex) {
+				this.errHandler(jbpvex);
+			}
+			tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
+		}
+		ready = true; 
+		printMes();
+	}
+	
+	void printMes() {
+		tDbg.append(aGame.mqueue.fetch());   
+	}
+	
+	void showPlayersCards() {
+
+		try {
+			im0.setImageURL(aGame.gambler.hand[0].getPictureUrl());
+			im1.setImageURL(aGame.gambler.hand[1].getPictureUrl());
+			im2.setImageURL(aGame.gambler.hand[2].getPictureUrl());
+			im3.setImageURL(aGame.gambler.hand[3].getPictureUrl());
+			im4.setImageURL(aGame.gambler.hand[4].getPictureUrl());
+		} catch (java.beans.PropertyVetoException exp) {
+			 this.errHandler(exp);
+		}
+	}
+	
+	void showTalonCard() {
+		try {
+			// imTalon.setImage(setJarIncludedImage(talonJarStr)); 
+			imTalon.setImageURL(talonURL);
+			// imTalon.setImageURL(new java.net.URL(this.getCodeBase() + "cardpics/talon.gif")); 
+		} catch (Exception imTalonEx) {
+			System.err.println(imTalonEx.toString());
+			imTalonEx.printStackTrace();
+		}
+		imTalon.setVisible(true);	
+	}
+	
+	void showAtouCard() {
+
+		try {
+			imAtou.setImageURL(aGame.set[19].getPictureUrl());
+		} catch (java.beans.PropertyVetoException exp) {
+			this.errHandler(exp);
+		}
+		
+	}
+
+	void bChange_ActionPerformed(java.awt.event.ActionEvent event) {	// to do: code goes here.
+		bChange_ActionPerformed_Interaction1(event);
+	}
+
+	void bChange_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+			aGame.changeAtou(aGame.gambler);
+			bChange.setEnabled(false);
+			showAtouCard();
+			showPlayersCards();
+			gameTurn(1);
+		} catch (Exception e) {
+			this.errHandler(e);			
+		}
+	}
+
+	class SymMouse extends java.awt.event.MouseAdapter {
+		public void mouseClicked(java.awt.event.MouseEvent event) {
+			Object object = event.getSource();
+			if (object == im0) imageMouseEventHandler(event, 0);
+			else if (object == im1) imageMouseEventHandler(event, 1);
+			else if (object == im2) imageMouseEventHandler(event, 2);
+			else if (object == im3)imageMouseEventHandler(event, 3);
+			else if (object == im4) imageMouseEventHandler(event, 4);
+			else if (object == imAtou) imageMouseEventHandler(event, 10);
+		}
+	}
+
+
+	void b20a_ActionPerformed(java.awt.event.ActionEvent event) { 	// to do: code goes here.
+		b20a_ActionPerformed_Interaction1(event);
+	}
+
+	void b20a_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+			if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) {
+				return;
+			}
+			if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
+				aGame.gambler.points += 40;
+			} else {
+				aGame.gambler.points += 20;
+			}
+			pSaid = true;
+			resetButtons(0);
+			aGame.said = aGame.gambler.handpairs[0];
+			aGame.mqueue.insert("Spieler sagt Paar in " + aGame.printColor(aGame.said) + " an !");
+			printMes();
+			tPoints.setText("" + aGame.gambler.points);
+			if (aGame.gambler.points > 65) {
+				twentyEnough(true);
+			}
+		} catch (Exception e) {
+			this.errHandler(e);
+		}
+	}
+
+	void b20b_ActionPerformed(java.awt.event.ActionEvent event) {
+		b20b_ActionPerformed_Interaction1(event);
+	}
+
+	void b20b_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+			if ((pSaid) || (aGame.gambler.handpairs[1]=='n')) {
+				return;
+			}
+			if (aGame.gambler.handpairs[1] == aGame.atouInGame) {
+				aGame.gambler.points += 40;
+			}
+			else {
+				aGame.gambler.points += 20;
+			}
+			pSaid = true;
+			resetButtons(0);
+			aGame.said = aGame.gambler.handpairs[1];
+			aGame.mqueue.insert("Spieler sagt Paar in " + aGame.printColor(aGame.said) + " an !");			
+			printMes();
+			tPoints.setText("" + aGame.gambler.points);
+			if (aGame.gambler.points > 65) {
+				twentyEnough(true);
+			}
+		} catch (Exception e) {
+			this.errHandler(e);
+		}
+	}
+	
+	void imageMouseEventHandler(java.awt.event.MouseEvent event, int ic) {
+		int j;
+		String c_array = "Player Array: ";
+		try {
+			if (ready == false) {
+				return;		
+			}
+			
+			if (ic == 10) {
+				if (aGame.playersTurn && (aGame.isClosed == false) && (pSaid == false) && (aGame.index < 16)) {
+					closeGame();   
+				}
+				return;
+			}
+			if (aGame.gambler.hand[ic].isValidCard() == false) {
+				aGame.mqueue.insert("Das ist keine gültige Karte !");
+				printMes();
+				return;			
+			}
+			if (pSaid) {
+				if ((aGame.said == aGame.gambler.hand[ic].getColor()) && 
+					(aGame.gambler.hand[ic].getValue() > 2) && 
+					(aGame.gambler.hand[ic].getValue() < 5)) {
+						; // we can continue
+				 } else {
+					aGame.mqueue.insert("Sie muessen eine Karte vom Paar ausspielen !");
+					printMes();					
+					return ;			
+				 }
+			}
+			if (aGame.colorHitRule && (aGame.playersTurn == false)) {
+				// CORRECT WAY ?
+				if ((aGame.gambler.isInColorHitsContextValid(ic,aGame.computer.hand[ccard])) == false) {
+					aGame.mqueue.insert("Farb und Stichzwang muss eingehalten werden !");
+					int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
+	   				for (j=0; j<5; j++) {
+		  				c_array=c_array + aGame.gambler.colorHitArray[j] + " ";
+					}
+		   			aGame.mqueue.insert(c_array);
+					aGame.mqueue.insert("Beste Karte wäre: "+tmpint);
+					printMes();
+					return ;
+				}
+			}
+			if (psaychange > 0) {
+				resetButtons(0);
+				psaychange = 0;
+			}
+			aGame.playedOut = aGame.gambler.hand[ic];
+			// Besser Cards als Array
+			switch (ic) {
+				case 0: 
+					im0.setImageURL(emptyURL); 
+					break;
+				case 1: 
+					im1.setImageURL(emptyURL); 
+					break;				
+				case 2: 
+					im2.setImageURL(emptyURL); 
+					break;				
+				case 3: 
+					im3.setImageURL(emptyURL); 
+					break;				
+				case 4: 
+					im4.setImageURL(emptyURL); 
+					break;				
+				default: tDbg.append("Assertion !");
+			}
+			
+			imOut0.setImageURL(aGame.gambler.hand[ic].getPictureUrl());
+		
+		} catch (Exception e) {
+			this.errHandler(e);			
+		}
+		aGame.gambler.hand[ic] = emptyTmpCard;
+		ready = false;
+		endTurn();
+	}
+	
+	public void run() {
+		
+	}
+
+	void bcont_ActionPerformed(java.awt.event.ActionEvent event) {
+		bcont_ActionPerformed_Interaction1(event);
+	}
+
+	void bcont_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+		  ready = true;
+			bcont.setEnabled(false);
+			tsMes.setVisible(false);
+			gameTurn(0);
+		} catch (Exception e) {
+			this.errHandler(e);			
+		}
+	}
+
+	void pHelp_ActionPerformed(java.awt.event.ActionEvent event) {	 
+		pHelp_ActionPerformed_Interaction1(event);
+	}
+
+	void pHelp_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+		try {
+			tDbg.append("-------------------------------------------------------------------------\n");
+			tDbg.append("Schnapslet V 0.2 - Pre Alpha Release \n");
+			tDbg.append("Implementierung des Kartenspiel Schnapsen als einfaches java.awt.Applet\n");
+			tDbg.append("von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n");
+			tDbg.append("Funktionsweise:\n");
+			tDbg.append("Das Spiel ist so angelegt, dass man gegen den Computer spielt.\n");
+			tDbg.append("Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das\n");
+			tDbg.append("Kartensymbol klickt. Andere Optionen, wie \"Atou austauschen\" oder \n");
+			tDbg.append("\"Ein Paar Ansagen\" sind über die Buttons links oben moeglich; diese\n");
+			tDbg.append("Optionen muessen gewaehlt werden, bevor man eine Karte auspielt !\n");
+			tDbg.append("Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst\n");
+			tDbg.append("kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!\n");
+			tDbg.append("Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt\n");
+			tDbg.append("es bei der Implementierung des Farb- und Stichzwangs noch kleine Bugs!\n");
+			tDbg.append("Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.\n");
+			tDbg.append("Ideen, Vorschläge, Verbesserungen werden gerne angenommen !\n");
+			tDbg.append("-------------------------------------------------------------------------\n");			
+			
+			aGame.gambler.points = 0;
+			aGame.computer.points = 0;
+			
+		} catch (Exception e) {
+		}
+	}
+
+}
+
+</pre>
+</body>
+</html>
