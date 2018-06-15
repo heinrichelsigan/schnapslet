@@ -145,12 +145,12 @@ class card {
      * liefert die URL des Kartensymbols
      */
     public java.net.URL getPictureUrl() {
-        return (picture);
-		// URL xy = null; 
-		// try {
-		// 	xy = new URL("http://www.area23.at/cardpics/" + this.color + this.value + ".gif");
-		// } catch (Exception e) { }
-		// return xy;
+        //return (picture);
+		URL xy = null; 
+		try {
+			xy = new URL("http://www.area23.at/cardpics/" + this.color + this.value + ".gif");
+		} catch (Exception e) { }
+		return xy;
     }
 	
 	/**

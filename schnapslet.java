@@ -75,20 +75,20 @@ public class schnapslet extends Applet implements Runnable
 	
 	protected void initURLBase() {
 		try { 
-			notURL =   new URL(this.getCodeBase() + "cardpics/n0.gif");
-		    emptyURL = new URL(this.getCodeBase() + "cardpics/e.gif");
-		    // backURL =  new URL("http://www.area23.at/" + "cardpics/verdeckt.gif");
-			backURL =  new URL(this.getCodeBase() + "cardpics/verdeckt.gif");
-		    talonURL = new URL(this.getCodeBase() + "cardpics/t.gif");
+			notURL =   new URL("http://www.area23.at/" + "cardpics/n0.gif");
+		    emptyURL = new URL("http://www.area23.at/" + "cardpics/e.gif");
+		    backURL =  new URL("http://www.area23.at/" + "cardpics/verdeckt.gif");
+			// backURL =  new URL(this.getCodeBase() + "cardpics/verdeckt.gif");
+		    talonURL = new URL("http://www.area23.at/" + "cardpics/t.gif");
 		} catch (Exception error) { 
 		}
 	}
 	
 	 public static void main(String args[]) {
         Frame appletFrame = new Frame("schnapslet");
-        appletFrame.setLayout(new GridLayout(2,2));
-        appletFrame.resize(1024, 768);
-        appletFrame.show();
+        appletFrame.setLayout(new GridLayout(1,1));
+        appletFrame.setSize(504,432);
+        appletFrame.setVisible(true);
         Applet myApplet = new schnapslet();
         appletFrame.add(myApplet);
         myApplet.init();
@@ -127,7 +127,7 @@ public class schnapslet extends Applet implements Runnable
 			im0ex.printStackTrace();
 		}
 		pHand.add(im0);
-		im0.setBounds(12,0,72,96);		
+		im0.setBounds(12,12,72,96);		
 		
 		try {
 			// im1.setImage(setJarIncludedImage(notJarStr)); 
@@ -137,7 +137,7 @@ public class schnapslet extends Applet implements Runnable
 			im1ex.printStackTrace();
 		}
 		pHand.add(im1);
-		im1.setBounds(84,0,72,96);
+		im1.setBounds(84,12,72,96);
 
 		try {
 			// im2.setImage(setJarIncludedImage(notJarStr)); 
@@ -147,7 +147,7 @@ public class schnapslet extends Applet implements Runnable
 			im2ex.printStackTrace();			
 		}
 		pHand.add(im2);
-		im2.setBounds(156,0,72,96);
+		im2.setBounds(156,12,72,96);
 		
 		try {
 			// im3.setImage(setJarIncludedImage(notJarStr)); 
@@ -157,7 +157,7 @@ public class schnapslet extends Applet implements Runnable
 			im3ex.printStackTrace();			
 		}
 		pHand.add(im3);
-		im3.setBounds(228,0,72,96);
+		im3.setBounds(228,12,72,96);
     
 		try {
 			// im4.setImage(setJarIncludedImage(notJarStr)); 
@@ -167,11 +167,11 @@ public class schnapslet extends Applet implements Runnable
 			im4ex.printStackTrace();
 		}
 		pHand.add(im4);
-		im4.setBounds(300,0,72,96);
+		im4.setBounds(300,12,72,96);
 		
 		pGame.setLayout(null);
 		add(pGame);
-		pGame.setBounds(0,0,384,132);
+		pGame.setBounds(0,12,384,132);
 		
 		try {
 			// imOut0.setImage(setJarIncludedImage(emptyJarStr)); 
@@ -220,7 +220,7 @@ public class schnapslet extends Applet implements Runnable
 		
 		pAction.setLayout(null);
 		add(pAction);
-		pAction.setBounds(384,0,120,240);
+		pAction.setBounds(384,12,120,240);
 		
 		bMerge.setLabel("Start");
 		pAction.add(bMerge);
@@ -273,7 +273,7 @@ public class schnapslet extends Applet implements Runnable
 		pHelp.setLabel("Hilfe");
 		pAction.add(pHelp);
 		pHelp.setBackground(java.awt.Color.lightGray);
-		pHelp.setBounds(12,48,97,24);
+		pHelp.setBounds(12,60,97,24);
 		pHelp.setFont(schnapsFont);
 		
 		tRest.setEditable(false);
