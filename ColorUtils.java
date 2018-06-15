@@ -1,4 +1,4 @@
-package symantec.itools.awt.util;
+// package symantec.itools.awt.util;
 
 import java.awt.Color;
 import java.util.Hashtable;
@@ -15,7 +15,7 @@ import java.lang.IllegalArgumentException;
 /**
  * Many useful color related utility functions for color manipulation.
  * <p>
- * @version 1.1, August 5, 1997
+ * @version 1.1, August 5, 	1997
  * @author  Symantec
  */
 public class ColorUtils
@@ -39,7 +39,7 @@ public class ColorUtils
 	 */
 	public static Color darken( int r, int g, int b, double percent ) throws IllegalArgumentException
 	{
-		symantec.itools.util.GeneralUtils.checkValidPercent(percent);
+			GeneralUtils.checkValidPercent(percent);
 
 		return new Color( Math.max((int)(r * (1-percent)), 0),
 							Math.max((int)(g * (1-percent)),0),
@@ -56,7 +56,7 @@ public class ColorUtils
 	 */
 	public static Color darken( Color c, double percent ) throws IllegalArgumentException
 	{
-		symantec.itools.util.GeneralUtils.checkValidPercent(percent);
+		GeneralUtils.checkValidPercent(percent);
 
 		int r, g, b;
 		r = c.getRed();
@@ -77,7 +77,7 @@ public class ColorUtils
 	 */
 	public static Color lighten( int r, int g, int b, double percent ) throws IllegalArgumentException
 	{
-		symantec.itools.util.GeneralUtils.checkValidPercent(percent);
+		GeneralUtils.checkValidPercent(percent);
 
 		int r2, g2, b2;
 		r2 = r + (int)((255 - r) * percent );
@@ -96,7 +96,7 @@ public class ColorUtils
 	 */
 	public static Color lighten( Color c, double percent ) throws IllegalArgumentException
 	{
-		symantec.itools.util.GeneralUtils.checkValidPercent(percent);
+		GeneralUtils.checkValidPercent(percent);
 
 		int r, g, b;
 		r = c.getRed();
@@ -116,7 +116,7 @@ public class ColorUtils
 	 */
 	public static Color fade( Color from, Color to, double percent ) throws IllegalArgumentException
 	{
-		symantec.itools.util.GeneralUtils.checkValidPercent(percent);
+		GeneralUtils.checkValidPercent(percent);
 
 		int from_r, from_g, from_b;
 		int to_r, to_g, to_b;
@@ -181,15 +181,15 @@ public class ColorUtils
 
 		if (lightness >= 0.90)
 		{
-			return(symantec.itools.awt.util.ColorUtils.darken(c, 0.100));
+			return(ColorUtils.darken(c, 0.100));
 		}
 		else if (lightness <= 0.20)
 		{
-			return(symantec.itools.awt.util.ColorUtils.lighten(c, 0.600));
+			return(ColorUtils.lighten(c, 0.600));
 		}
 		else
 		{
-			return(symantec.itools.awt.util.ColorUtils.lighten(c, 0.600));
+			return(ColorUtils.lighten(c, 0.600));
 		}
 	}
 
@@ -208,15 +208,15 @@ public class ColorUtils
 
 		if (lightness >= 0.90)
 		{
-			return(symantec.itools.awt.util.ColorUtils.darken(c, 0.250));
+			return(ColorUtils.darken(c, 0.250));
 		}
 		else if (lightness <= 0.20)
 		{
-			return(symantec.itools.awt.util.ColorUtils.lighten(c, 0.200));
+			return(ColorUtils.lighten(c, 0.200));
 		}
 		else
 		{
-			return(symantec.itools.awt.util.ColorUtils.darken(c, 0.250));
+			return(ColorUtils.darken(c, 0.250));
 		}
 	}
 }

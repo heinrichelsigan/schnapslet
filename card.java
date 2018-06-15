@@ -50,8 +50,10 @@ class card {
         this.masterApplet = applet;   
     }
     
-    public card(java.applet.Applet applet, int num) {
-        this(applet);
+
+	
+    public card(int num) {
+		this();
         String tmpstr, namestr = new String();
 
         if ((num >= 0) && (num < 20)) {
@@ -86,7 +88,7 @@ class card {
 		}
 		
 		try {
-        	tmpstr = new String(applet.getCodeBase() + "cardpics/" + this.color + this.value + ".gif");
+        	tmpstr = new String("http://www.area23.at/" + "cardpics/" + this.color + this.value + ".gif");
          	System.err.println(tmpstr); 
 			this.picture = new java.net.URL(tmpstr);
         } catch (java.net.MalformedURLException murle) { 
@@ -95,6 +97,13 @@ class card {
 			exi.printStackTrace();
 		}		
 		
+        return;
+    }	
+	
+    public card(java.applet.Applet applet, int num) {
+        this(num);
+		this.masterApplet = applet;   
+        
         return;
     }
 

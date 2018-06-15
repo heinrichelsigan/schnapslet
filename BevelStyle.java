@@ -1,4 +1,4 @@
-package symantec.itools.awt;
+// package symantec.itools.awt;
 
 import java.beans.PropertyVetoException;
 

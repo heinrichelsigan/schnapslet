@@ -1,4 +1,4 @@
-package symantec.itools.util;
+// package symantec.itools.util;
 
 import java.lang.IllegalArgumentException;
 import java.util.ResourceBundle;
@@ -47,6 +47,6 @@ public final class GeneralUtils {
 		return left + right;
 	}
 
-    static protected ResourceBundle errors = ResourceBundle.getBundle("symantec.itools.resources.ErrorsBundle");
+    static protected ResourceBundle errors = ResourceBundle.getBundle("ErrorsBundle");
 
 }

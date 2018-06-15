@@ -14,7 +14,7 @@ import java.beans.*;
 public class JSchnapslet extends JApplet implements java.lang.Runnable
 {
     final static String PROTO = "http";
-    final static String HOST  = "area23.mond.at";
+    final static String HOST  = "www.area23.at";
     final static int    PORT  = 80;
     volatile long errNum = 0; // Errors Ticker
     volatile int ccard; // Computers Card played
@@ -29,7 +29,7 @@ public class JSchnapslet extends JApplet implements java.lang.Runnable
 	public void init()
 	{
 		// Take out this line if you don't use symantec.itools.net.RelativeURL or symantec.itools.awt.util.StatusScroller
-		symantec.itools.lang.Context.setApplet(this);
+		Context.setApplet(this);
 		
 		// This line prevents the "Swing: checked access to system event queue" message seen in some browsers.
 		getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
@@ -49,7 +49,7 @@ public class JSchnapslet extends JApplet implements java.lang.Runnable
 		    backURL = new URL(PROTO,HOST,PORT,"/cardpics/n0.gif");
 		    talonURL = new URL(PROTO,HOST,PORT,"/cardpics/talon.gif");
 		} catch (java.net.MalformedURLException error) { }
-		javax.swing.
+		//javax.swing.
 		java.awt.Font schnapsFont = new java.awt.Font("Dialog", Font.PLAIN, 10);
 		getContentPane().add(tDbg);
 		tDbg.setBounds(0,288,504,132);

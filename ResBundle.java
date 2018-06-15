@@ -1,4 +1,4 @@
-package symantec.itools.resources;
+// package symantec.itools.resources;
 
 import java.util.ListResourceBundle;
 

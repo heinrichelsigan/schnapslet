@@ -181,7 +181,7 @@ class player {
         return mark;            
     }    
                     
-    /*
+    
     public boolean isColorHitValid(int cidx, card otherCard) {
         int i;
         // gleiche Farbe und größer -> OK 
@@ -202,5 +202,5 @@ class player {
 
         return true;
     }
-    */
+    
 }
