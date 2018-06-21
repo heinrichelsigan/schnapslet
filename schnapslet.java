@@ -510,6 +510,7 @@ public class schnapslet extends Applet implements Runnable
         if (who) {
             try {
                 while(aGame.gambler.hand[xj++].color != aGame.said) ;
+				while(aGame.gambler.hand[xj++].getValue() < 3) ;
 				// imOut0.setImage(aGame.gambler.hand[xj-1].getImage());
                 imOut0.setImageURL(aGame.gambler.hand[xj-1].getPictureUrl());
                 // imOut1.setImage(aGame.gambler.hand[xj].getImage());
@@ -524,6 +525,7 @@ public class schnapslet extends Applet implements Runnable
         } else {
             try {
                 while(aGame.computer.hand[xj++].color != aGame.csaid) ;
+				while(aGame.computer.hand[xj++].getValue() < 3) ;
 				// imOut0.setImage(aGame.computer.hand[xj-1].getImage());
                 imOut0.setImageURL(aGame.computer.hand[xj-1].getPictureUrl());
 				// imOut1.setImage(aGame.computer.hand[xj].getImage());				

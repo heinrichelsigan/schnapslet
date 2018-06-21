@@ -17,13 +17,14 @@
 
 */
 package at.area23.heinrichelsigan.schnapslet;
-// import area23.schnapslet.*;
+
+import at.area23.heinrichelsigan.schnapslet.card;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 // import java.awt.*;
 
-class card {
+public class card {
     
 	boolean atou = false;
     char color = 'n';   // 4 colors and 'n' for unitialized
@@ -68,11 +69,11 @@ class card {
                 this.color = 't'; namestr = namestr + "Treff_";
             }
             switch (num%5) {
-                case 0: this.value = 2;  namestr=namestr+"Jack"; break;
-                case 1: this.value = 3;  namestr=namestr+"Queen"; break;
-                case 2: this.value = 4;  namestr=namestr+"King"; break;
-                case 3: this.value = 10; namestr=namestr+"Ten"; break;
-                case 4: this.value = 11; namestr=namestr+"Ace"; break;            
+                case 0: this.value = 2;  namestr = namestr + "Jack"; break;
+                case 1: this.value = 3;  namestr = namestr + "Queen"; break;
+                case 2: this.value = 4;  namestr = namestr + "King"; break;
+                case 3: this.value = 10; namestr = namestr + "Ten"; break;
+                case 4: this.value = 11; namestr = namestr + "Ace"; break;
                 default: // never be here break;
             }
             this.intern = num;
@@ -93,10 +94,11 @@ class card {
          	System.err.println(tmpstr); 
 			this.picture = new java.net.URL(tmpstr);
         } catch (java.net.MalformedURLException murle) { 
-			System.err.println(murle); 
+			System.err.println(murle.toString());
 		} catch (Exception exi) {
 			exi.printStackTrace();
-		}		
+            System.err.println(exi.toString());
+        }
 		
         return;
     }	
@@ -303,10 +305,10 @@ class card {
                 return true;
             else return false;
         }
-        if ((this.isAtou()) && (otherCard.isAtou()==false)) {
+        if ((this.isAtou()) && (otherCard.isAtou() == false)) {
 			return true;
 		}
-        if ((this.isAtou()==false) && (otherCard.isAtou())) {
+        if ((this.isAtou() == false) && (otherCard.isAtou())) {
 			return false;
 		}
         return active;

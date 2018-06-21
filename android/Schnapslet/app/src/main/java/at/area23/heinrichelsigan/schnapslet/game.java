@@ -17,14 +17,13 @@
 */
 package at.area23.heinrichelsigan.schnapslet;
 import at.area23.heinrichelsigan.schnapslet.card;
-// import area23.schnapslet.*;
+
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-
-class game {
+public class game {
     volatile boolean isGame = false;   // a Game is running
     char atouInGame = 'n';             // color that is atou in this game
     boolean atouChanged = false;      // Atou allready changed
@@ -82,11 +81,11 @@ class game {
         
         mqueue.insert("merging Cards ...");
         Random rand = new Random();
-	    if ((k = rand.nextInt())< 0) k = 0 - k; k=k%32;
-        for (i=0; i<k+20; i++) {
+	    if ((k = rand.nextInt()) < 0) k = 0 - k; k = k%32;
+        for (i = 0; i < k+20; i++) {
             if ((j = rand.nextInt())< 0) j = 0 - j; j = j%20;
             if ((l = rand.nextInt())< 0) l = 0 - l; l = l%20;
-            if (l == j) j=0;
+            if (l == j) j =0;
             tmp = inGame[l];
             inGame[l] = inGame[j];
             inGame[j]= tmp;
@@ -140,7 +139,7 @@ class game {
     public void changeAtou(player aPlayer) {
         int cardidx;
         card tmpCard;
-        if ((cardidx=aPlayer.canChangeAtou())<0) return ;
+        if ((cardidx = aPlayer.canChangeAtou()) < 0) return ;
         tmpCard = aPlayer.hand[cardidx];
         aPlayer.hand[cardidx] = set[19];
         set[19] = tmpCard;
@@ -159,14 +158,14 @@ class game {
 	    if (playersTurn) {
             if (playedOut.hitsCard(computer.hand[ccard],true)==true) {
                 playersTurn = true;
-                tmppoints=playedOut.value+computer.hand[ccard].value;
-                gambler.points+=tmppoints;
+                tmppoints = playedOut.value+computer.hand[ccard].value;
+                gambler.points += tmppoints;
                 mqueue.insert("Sie stechen und machen "+tmppoints+" Punkte !");
                 return tmppoints;
             } else {
                 playersTurn = false;
-                tmppoints=playedOut.value+computer.hand[ccard].value;
-                computer.points+=tmppoints;
+                tmppoints = playedOut.value+computer.hand[ccard].value;
+                computer.points += tmppoints;
                 mqueue.insert("Computer sticht und macht: "+tmppoints+" Punkte ");
                 return (-tmppoints);
             }
@@ -174,13 +173,13 @@ class game {
             if (computer.hand[ccard].hitsCard(playedOut,true)) {
                 playersTurn = false;
                 tmppoints=playedOut.value+computer.hand[ccard].value;
-                computer.points+=tmppoints;
+                computer.points += tmppoints;
                 mqueue.insert("Computer sticht und macht: "+tmppoints+" Punkte ");
                 return (-tmppoints);
             } else {
                 tmppoints=playedOut.value+computer.hand[ccard].value;
                 playersTurn = true;
-                gambler.points+=tmppoints;
+                gambler.points += tmppoints;
                 mqueue.insert("Sie stechen und machen "+tmppoints+" Punkte !");                
                 return tmppoints;
             }            
@@ -188,8 +187,8 @@ class game {
 	}
 
 	public int assignNewCard() {
-	    int retval=0;
-	    if (colorHitRule==false) {
+	    int retval = 0;
+	    if (colorHitRule == false) {
             if (playersTurn) { 
                 gambler.assignCard(set[++index]);                
                 computer.assignCard(set[++index]);                 
@@ -197,7 +196,7 @@ class game {
                 computer.assignCard(set[++index]);               
                 gambler.assignCard(set[++index]);                                
             }
-            if (index == 17) atouChanged=true;	                    
+            if (index == 17) atouChanged = true;
             if (index == 19) { retval = 1; colorHitRule = true; }
         } else {
             movs++;
@@ -209,37 +208,37 @@ class game {
 	}
     
     public int computerStarts() {
-        int min=12; int c_idx=0; int i; int j=0; int mark=0;
+        int min = 12; int c_idx = 0; int i; int j = 0; int mark = 0;
 
-        if ((i=computer.has20())>0) {
-            if ((i>1) && (computer.handpairs[1] == this.atouInGame)) 
+        if ((i = computer.has20()) > 0) {
+            if ((i > 1) && (computer.handpairs[1] == this.atouInGame))
                 mark=1;
-            for (j=0; j<5; j++) {
-                if ((computer.hand[j].color==computer.handpairs[mark]) &&
-                    (computer.hand[j].getValue()>2) && (computer.hand[j].getValue()<5)) {
-                    csaid=computer.handpairs[0];
-                    if (computer.hand[j].isAtou()==true) computer.points+=40;
-                    else computer.points+=20;
+            for (j = 0; j < 5; j++) {
+                if ((computer.hand[j].color == computer.handpairs[mark]) &&
+                    (computer.hand[j].getValue() > 2) && (computer.hand[j].getValue()<  5)) {
+                    csaid = computer.handpairs[0];
+                    if (computer.hand[j].isAtou() == true) computer.points += 40;
+                    else computer.points += 20;
                     return j;
                 }
             }
         }
         
         if (colorHitRule) {
-            mark=0;
-            for (i=0; i<5; i++) {
+            mark = 0;
+            for (i = 0; i < 5; i++) {
                 if (computer.hand[i].isValidCard()) {
                     return i;
                 }
             }
         }
 
-        for (i=0; i<5; i++) {
+        for (i = 0; i < 5; i++) {
             if (computer.hand[i].isValidCard()) {
                 if (computer.hand[i].isAtou() == false) {
-                    if (computer.hand[i].getValue()<min) {
-                        c_idx=i;
-                        min=computer.hand[i].getValue();
+                    if (computer.hand[i].getValue() < min) {
+                        c_idx = i;
+                        min = computer.hand[i].getValue();
                     }
                 }
             }
@@ -249,21 +248,22 @@ class game {
     
     
     public int computersAnswer() {
-        int min=12; int c_idx=0; int i, j;
+        int min = 12; int c_idx = 0; int i, j;
         String c_array = "Computer ARRAY: ";
-				if (colorHitRule) {
+        if (colorHitRule) {
             i=computer.bestInColorHitsContext(this.playedOut);
-            for (j=0; j<5; j++)
-							c_array=c_array + computer.colorHitArray[j] + " ";
-						mqueue.insert(c_array);
-						mqueue.insert("Computer MAX: "+i+" !");
-					  mqueue.insert("Computer Hand: "+computer.showHand());
-						return(i);
+            for (j = 0; j < 5; j++) {
+                c_array = c_array + computer.colorHitArray[j] + " ";
+            }
+            mqueue.insert(c_array);
+            mqueue.insert("Computer MAX: "+i+" !");
+            mqueue.insert("Computer Hand: "+computer.showHand());
+            return(i);
         }
 
-        for (i=0; i<5; i++) {
+        for (i = 0; i < 5; i++) {
             if (computer.hand[i].hitsCard(playedOut,false)) {
-                if (computer.hand[i].isAtou()==false) {
+                if (computer.hand[i].isAtou() == false) {
                     return i;
                 }
                 if (playedOut.getValue() > 5) {
@@ -271,10 +271,10 @@ class game {
                 }
             }
         }
-        for (i=0; i<5; i++) {
+        for (i = 0; i < 5; i++) {
             if (computer.hand[i].isValidCard()) {
                 if (computer.hand[i].getValue()<min) {
-                    c_idx=i;
+                    c_idx = i;
                     min=computer.hand[i].getValue();
                 }
             }
