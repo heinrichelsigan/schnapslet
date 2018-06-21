@@ -212,10 +212,10 @@ public class game {
 
         if ((i = computer.has20()) > 0) {
             if ((i > 1) && (computer.handpairs[1] == this.atouInGame))
-                mark=1;
+                mark = 1;
             for (j = 0; j < 5; j++) {
                 if ((computer.hand[j].color == computer.handpairs[mark]) &&
-                    (computer.hand[j].getValue() > 2) && (computer.hand[j].getValue()<  5)) {
+                    (computer.hand[j].getValue() > 2) && (computer.hand[j].getValue() < 5)) {
                     csaid = computer.handpairs[0];
                     if (computer.hand[j].isAtou() == true) computer.points += 40;
                     else computer.points += 20;
@@ -243,6 +243,7 @@ public class game {
                 }
             }
         }
+
         return c_idx;
     }
     
@@ -271,6 +272,7 @@ public class game {
                 }
             }
         }
+
         for (i = 0; i < 5; i++) {
             if (computer.hand[i].isValidCard()) {
                 if (computer.hand[i].getValue()<min) {
@@ -279,6 +281,7 @@ public class game {
                 }
             }
         }
+
         return c_idx;
     }
     

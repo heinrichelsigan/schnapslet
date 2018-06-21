@@ -169,11 +169,11 @@ public class MainActivity extends AppCompatActivity {
         tMes.setVisibility(View.INVISIBLE);
         resetButtons(1);
 
-        tDbg.setText("");
+        tDbg.setText("Neues Spiel started ...");
         tRest.setText("10");
 
         emptyTmpCard = new card(); // new card(this, -1);
-        tPoints.setText(""+aGame.gambler.points);
+        tPoints.setText("" + String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();
         bStop.setEnabled(true);
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // Info
-            // Info
+            tMes.setVisibility(View.VISIBLE);
             tMes.setText("Zum Auspielen einfach auf die entsprechende Karte klicken");
         } else {
             // COMPUTERS TURN IMPLEMENTIEREN
@@ -275,7 +275,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-            tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
+            // tMes.setVisibility(View.VISIBLE);
+            // tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
         }
 
         ready = true;
@@ -286,36 +287,45 @@ public class MainActivity extends AppCompatActivity {
         int xj = 0;
         String andEnough = "20 und genug !";
         ready = false;
+
+
+        if (aGame.said == aGame.atouInGame) {
+            andEnough = "40 und genug !";
+        }
+
         if (who) {
             try {
-                xj = 0;
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.gambler.hand[xj].color == aGame.said &&
+                            aGame.gambler.hand[xj].value == 3)
+                        imOut0.setImageResource(aGame.gambler.hand[xj].getResInt());
+                    if (aGame.gambler.hand[xj].color == aGame.said &&
+                            aGame.gambler.hand[xj].value == 4)
+                        imOut1.setImageResource(aGame.gambler.hand[xj].getResInt());
+                }
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
 
-                while(aGame.gambler.hand[xj++].color != aGame.csaid) ;
-                if(aGame.gambler.hand[xj].getValue() == 2)
-                    xj++;
-                imOut0.setImageResource(aGame.gambler.hand[xj-1].getResInt());
-                imOut1.setImageResource(aGame.gambler.hand[xj].getResInt());
-                if (aGame.said == aGame.atouInGame) {
-                    andEnough = "40 und genug !";
-                }
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-            tsEnds(new String(andEnough+" Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !"), 1);
+            tsEnds(new String(andEnough + " Sie haben gewonnen mit " + String.valueOf(aGame.gambler.points) + " Punkten !"), 1);
+
         } else {
+
             try {
-                while(aGame.computer.hand[xj++].color != aGame.csaid) ;
-                while(aGame.computer.hand[xj++].getValue() < 3) ;
-                imOut0.setImageResource(aGame.computer.hand[xj-1].getResInt());
-                imOut1.setImageResource(aGame.computer.hand[xj].getResInt());
-                if (aGame.csaid == aGame.atouInGame) {
-                    andEnough="40 und genug !";
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.computer.hand[xj].color == aGame.said &&
+                            aGame.computer.hand[xj].value == 3)
+                        imOut0.setImageResource(aGame.computer.hand[xj].getResInt());
+                    if (aGame.computer.hand[xj].color == aGame.said &&
+                            aGame.computer.hand[xj].value == 4)
+                        imOut1.setImageResource(aGame.computer.hand[xj].getResInt());
                 }
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
+
             printMes();
-            tsEnds(new String(andEnough+"Computer hatgewonnen mit " + aGame.computer.points + " Punkten !"), 1);
+            tsEnds(new String(andEnough+"Computer hatgewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
         }
         return;
     }
@@ -335,16 +345,18 @@ public class MainActivity extends AppCompatActivity {
 
         tmppoints = aGame.checkPoints(ccard);
         aGame.computer.hand[ccard] = emptyTmpCard;
-        tPoints.setText("" + aGame.gambler.points);
+        tPoints.setText("" + String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
-            tMes.setText("Ihr Stich mit Punkten " + tmppoints + " ! Klicken Sie auf Weiter !");
+            tMes.setVisibility(View.VISIBLE);
+            tMes.setText("Ihr Stich mit Punkten " + String.valueOf(tmppoints) + " ! Klicken Sie auf Weiter !");
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 tsEnds("Zudrehen des Computers fehlgeschlagen, sie haben gewonnen !", 1);
                 return ;
             }
         } else {
-            tMes.setText("Computer sticht " + (-tmppoints) + " ! Klicken Sie auf Weiter !");
+            tMes.setVisibility(View.VISIBLE);
+            tMes.setText("Computer sticht " + String.valueOf((-tmppoints)) + " ! Klicken Sie auf Weiter !");
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 tsEnds("Zudrehen fehlgeschlagen, Computer hat gewonnen !", 1);
                 return ;
@@ -373,12 +385,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
-                tsEnds("Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !", 1);
+                tsEnds("Sie haben gewonnen mit " + String.valueOf(aGame.gambler.points) + " Punkten !", 1);
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
-                tsEnds("Computer hat gewonnen mit " + aGame.computer.points + " Punkten !", 1);
+                tsEnds("Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !", 1);
                 return;
             }
         }
@@ -567,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
             aGame.said = aGame.gambler.handpairs[0];
             aGame.mqueue.insert("Spieler sagt Paar in " + aGame.printColor(aGame.said) + " an !");
             printMes();
-            tPoints.setText("" + aGame.gambler.points);
+            tPoints.setText("" + String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
                 twentyEnough(true);
             }
@@ -592,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
             aGame.said = aGame.gambler.handpairs[1];
             aGame.mqueue.insert("Spieler sagt Paar in " + aGame.printColor(aGame.said) + " an !");
             printMes();
-            tPoints.setText("" + aGame.gambler.points);
+            tPoints.setText("" + String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
                 twentyEnough(true);
             }
@@ -698,20 +710,18 @@ public class MainActivity extends AppCompatActivity {
     /* tDbg setting text */
 
     void printMes() {
-        tDbg.append(aGame.mqueue.fetch());
+        tDbg.setText(aGame.mqueue.fetch());
     }
 
     void errHandler(java.lang.Throwable myErr) {
-        tDbg.setText("");
-        tDbg.append("\nCRITICAL ERROR #" + (++errNum));
-        tDbg.append("\nMessage: " + myErr.getMessage());
-        tDbg.append("\nString: " + myErr.toString());
+        tDbg.setText("\nCRITICAL ERROR #" + String.valueOf((++errNum))  + " " + myErr.getMessage());
+        tDbg.append(myErr.toString());
         tDbg.append("\nLmessage: "+ myErr.getLocalizedMessage() + "\n");
         myErr.printStackTrace();
     }
 
     public void bHelp_Clicked(View arg0) {
-        tDbg.append("-------------------------------------------------------------------------\n");
+        tDbg.setText("-------------------------------------------------------------------------\n");
         tDbg.append("Schnapslet V 0.2 - Pre Alpha Release \n");
         tDbg.append("Implementierung des Kartenspiel Schnapsen als einfaches java.awt.Applet\n");
         tDbg.append("von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n");
