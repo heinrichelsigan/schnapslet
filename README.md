@@ -5,7 +5,7 @@ Austrian card game Schnapsen as either Java Applet or Java Application or Androi
 Documentation of Schnapsen a.k.a. 66 (sixty-six) card game can be found at Wikipedia:
 https://en.wikipedia.org/wiki/Sixty-six_(card_game) 
 
-ää schnapslet java application or applet
+## schnapslet java application or applet
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.
 
