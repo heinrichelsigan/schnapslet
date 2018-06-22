@@ -24,11 +24,15 @@ launch java application:
 use appletviewer to test applet
 > appletviewer index.html
 
-Sources for Android using Abdroid Stzudio are located under 
-schnapslet/android/Schnapslet
+# Schnapslet sources for android 
+
+Sources for android using Abdroid Stzudio are located under 
+> schnapslet/android/Schnapslet
 
 File readme.md is located at
-schnapslet/EADME.md
+> schnapslet/EADME.md
+
+# Wiki 
 
 Wiki files are located at
 https://github.com/heinrichelsigan/schnapslet/wiki/
