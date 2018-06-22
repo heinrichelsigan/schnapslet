@@ -34,10 +34,12 @@ use appletviewer to test schnapslet as old style deprecated java applet
 Sources for android using Abdroid Stzudio are located under 
 > schnapslet/android/Schnapslet
 
-File readme.md is located at
-> schnapslet/EADME.md
-
 ## Schnapslet Schnapsen Wiki 
 
 Wiki files are located at
 https://github.com/heinrichelsigan/schnapslet/wiki/
+
+## README.md
+
+the current File readme.md is located at
+> schnapslet/EADME.md
