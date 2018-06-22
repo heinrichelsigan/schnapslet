@@ -11,7 +11,9 @@
     Symantec Corporation, Visual Cafe 1998
  */
 
+package at.area23;
 
+import at.area23.*;
 import java.applet.Applet;
 import java.net.URL;
 

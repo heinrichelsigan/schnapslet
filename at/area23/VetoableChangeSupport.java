@@ -5,7 +5,9 @@
  *
  */
 
-// package symantec.itools.beans;
+package at.area23;
+
+import at.area23.*;
 
 import java.io.Serializable;
 import java.io.ObjectOutputStream;

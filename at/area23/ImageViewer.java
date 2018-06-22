@@ -1,4 +1,6 @@
-//package symantec.itools.multimedia;
+package at.area23;
+
+import at.area23.*;
 
 import java.awt.Component;
 import java.awt.Dimension;

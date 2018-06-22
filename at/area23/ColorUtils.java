@@ -1,4 +1,6 @@
-// package symantec.itools.awt.util;
+package at.area23;
+
+import at.area23.*;
 
 import java.awt.Color;
 import java.util.Hashtable;

@@ -1,3 +1,6 @@
+package at.area23;
+
+import at.area23.*;
 import java.awt.*;
 
 public class GetFrame {

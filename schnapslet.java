@@ -15,8 +15,9 @@
    See the GNU Library General Public License for more details.
 
 */
-// package area23.schnapslet;
-// import area23.schnapslet.*;
+
+import at.area23.*;
+import at.area23.schnapslet.*;	
 import java.awt.*;
 import java.net.*;
 import java.util.*;

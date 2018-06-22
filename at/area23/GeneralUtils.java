@@ -1,4 +1,6 @@
-// package symantec.itools.util;
+package at.area23;
+
+import at.area23.*;
 
 import java.lang.IllegalArgumentException;
 import java.util.ResourceBundle;

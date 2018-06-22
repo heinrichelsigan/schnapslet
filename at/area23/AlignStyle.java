@@ -1,5 +1,7 @@
-// package symantec.itools.awt;
+package at.area23;
 
+import at.area23.*;
+import java.beans.PropertyVetoException;
 import java.beans.PropertyVetoException;
 
 // 	05/31/97	LAB Updated to Java 1.1

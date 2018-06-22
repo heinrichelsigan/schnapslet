@@ -1,4 +1,6 @@
-// package symantec.itools.resources;
+package at.area23;
+
+import at.area23.*;
 
 import java.util.ListResourceBundle;
 

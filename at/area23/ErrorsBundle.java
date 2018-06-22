@@ -1,4 +1,6 @@
+package at.area23;
 
+import at.area23.*;
 import java.util.ListResourceBundle;
 
 public class ErrorsBundle extends ListResourceBundle {
