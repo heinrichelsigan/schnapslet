@@ -1,12 +1,15 @@
-## schnapslet 
+# schnapslet 
 
 Austrian card game Schnapsen as either Java Applet or Java Application or Android App
 
 Documentation of Schnapsen a.k.a. 66 (sixty-six) card game can be found at Wikipedia:
 https://en.wikipedia.org/wiki/Sixty-six_(card_game) 
 
-Java Applet and Java applicatopm source Files are located at top level in root of projects.
-ä## Compile and build java files with following commands:
+ää schnapslet java application or applet
+
+Java Applet and Java applicatopm source Files are located at top level in root of this projec.
+
+ä## Compile and build java sources with following commands:
 
 > javac.exe -Xlint:unchecked -Xlint:deprecation at\area23\*.java
 >
