@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
     <AbsoluteLayout
         android:layout_width="fill_parent"
@@ -104,8 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start"
-            android:layout_x="12dp"
-            android:layout_y="276dp"
+            android:layout_x="372dp"
+            android:layout_y="4dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -114,8 +114,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ende"
-            android:layout_x="12dp"
-            android:layout_y="300dp"
+            android:layout_x="372dp"
+            android:layout_y="28dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -124,10 +124,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hilfe"
-            android:layout_x="12dp"
-            android:layout_y="324dp"
+            android:layout_x="372dp"
+            android:layout_y="52dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
+            />
+
+        <TextView
+            android:id="@+id/tRest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="10"
+            android:layout_x="384dp"
+            android:layout_y="84dp"
+            android:minHeight="108dp"
+            android:minWidth="384dp"
+            />
+
+        <TextView
+            android:id="@+id/tPoints"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="0"
+            android:layout_x="444dp"
+            android:layout_y="84dp"
+            android:minHeight="108dp"
+            android:minWidth="384dp"
             />
 
         <Button
@@ -135,8 +157,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20 Ansagen"
-            android:layout_x="108dp"
-            android:layout_y="276dp"
+            android:layout_x="372dp"
+            android:layout_y="120dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -145,8 +167,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="40 Ansagen"
-            android:layout_x="108dp"
-            android:layout_y="300dp"
+            android:layout_x="372dp"
+            android:layout_y="144dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -155,39 +177,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Atou tauschen"
-            android:layout_x="108dp"
-            android:layout_y="324dp"
+            android:layout_x="372dp"
+            android:layout_y="168dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
-            />
-        <TextView
-            android:id="@+id/tRest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="108dp"
-            android:minWidth="384dp"
-            android:text="10"
-            android:layout_x="208dp"
-            android:layout_y="276dp"
-            />
-
-        <TextView
-            android:id="@+id/tPoints"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="108dp"
-            android:minWidth="384dp"
-            android:text="0"
-            android:layout_x="272dp"
-            android:layout_y="276dp"
             />
         <Button
             android:id="@+id/bcont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WEITER"
-            android:layout_x="204dp"
-            android:layout_y="300dp"
+            android:layout_x="372dp"
+            android:layout_y="204dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />

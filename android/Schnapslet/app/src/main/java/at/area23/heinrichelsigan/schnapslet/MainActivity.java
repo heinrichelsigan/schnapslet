@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.res.Configuration;
 import android.view.View;
 import android.view.View.OnClickListener;
 import java.net.URL;
@@ -39,6 +40,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // count = 0;
+        tDbg = (TextView) findViewById(R.id.tDbg);
+
+        if(getResources().getDisplayMetrics().widthPixels>getResources().getDisplayMetrics().
+                heightPixels)
+        {
+            tDbg.setText("Screen switched to Landscape mode");
+            setContentView(R.layout.activity_main_vertical);
+        }
+        else
+        {
+            tDbg.setText("Screen switched to Portrait mode");
+            setContentView(R.layout.activity_main);
+        }
 
         im0 = (ImageView) findViewById(R.id.im0);
         im1 = (ImageView) findViewById(R.id.im1);
@@ -59,14 +73,12 @@ public class MainActivity extends AppCompatActivity {
         bChange = (Button) findViewById(R.id.bChange);
         bcont = (Button) findViewById(R.id.bcont);
 
-        tDbg = (TextView) findViewById(R.id.tDbg);
+
         tMes = (TextView) findViewById(R.id.tMes);
         tPoints = (TextView) findViewById(R.id.tPoints);
         tRest = (TextView) findViewById(R.id.tRest);
 
         tMes.setVisibility(View.INVISIBLE);
-        initURLBase();
-        resetButtons(1);
 
         bStop.setEnabled(false);
         bChange.setEnabled(false);
@@ -75,6 +87,29 @@ public class MainActivity extends AppCompatActivity {
         bHelp.setEnabled(true);
 
         addListenerOnClickables();
+
+
+
+
+        initURLBase();
+        resetButtons(1);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            setContentView(R.layout.activity_main);
+            tDbg.setText("Layout PORTRAIT");
+        }
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            setContentView(R.layout.activity_main_vertical);
+            tDbg.setText("Layout LANDSCAPE");
+        }
     }
 
 
