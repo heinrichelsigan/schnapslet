@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button bMerge, bStop, bHelp, b20a, b20b,  bChange, bcont;
+    Button bStart, bStop, bHelp, b20a, b20b,  bChange, bContinue;
     ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou;
     TextView tRest, tPoints, tMes, tDbg;
 
@@ -35,22 +35,25 @@ public class MainActivity extends AppCompatActivity {
     // static String talonJarStr =	"cardpics/t.gif";
     game aGame;
 
+    /**
+     * Override onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // count = 0;
-        tDbg = (TextView) findViewById(R.id.tDbg);
 
+        String layoutMes = null;
         if(getResources().getDisplayMetrics().widthPixels>getResources().getDisplayMetrics().
                 heightPixels)
         {
-            tDbg.setText("Screen switched to Landscape mode");
+            layoutMes = new String("Screen switched to Landscape mode");
             setContentView(R.layout.activity_main_vertical);
         }
         else
         {
-            tDbg.setText("Screen switched to Portrait mode");
+            layoutMes = new String("Screen switched to Portrait mode");
             setContentView(R.layout.activity_main);
         }
 
@@ -65,25 +68,27 @@ public class MainActivity extends AppCompatActivity {
         imTalon =  (ImageView) findViewById(R.id.imTalon);
         imAtou =  (ImageView) findViewById(R.id.imAtou);
 
-        bMerge = (Button) findViewById(R.id.bMerge);
+        bStart = (Button) findViewById(R.id.bStart);
         bStop = (Button) findViewById(R.id.bStop);
         bHelp = (Button) findViewById(R.id.bHelp);
         b20a =  (Button) findViewById(R.id.b20a);
         b20b =  (Button) findViewById(R.id.b20b);
         bChange = (Button) findViewById(R.id.bChange);
-        bcont = (Button) findViewById(R.id.bcont);
-
+        bContinue = (Button) findViewById(R.id.bContinue);
 
         tMes = (TextView) findViewById(R.id.tMes);
+        tMes.setVisibility(View.INVISIBLE);
         tPoints = (TextView) findViewById(R.id.tPoints);
         tRest = (TextView) findViewById(R.id.tRest);
+        tDbg = (TextView) findViewById(R.id.tDbg);
+        tDbg.setText(layoutMes);
 
         tMes.setVisibility(View.INVISIBLE);
 
         bStop.setEnabled(false);
         bChange.setEnabled(false);
 
-        bMerge.setEnabled(true);
+        bStart.setEnabled(true);
         bHelp.setEnabled(true);
 
         addListenerOnClickables();
@@ -95,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
         resetButtons(1);
     }
 
-
+    /**
+     * Override onConfigurationChanged
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -112,38 +120,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public  void initURLBase() {
-        im0.setImageResource(R.drawable.n0);
-        im1.setImageResource(R.drawable.n0);
-        im2.setImageResource(R.drawable.n0);
-        im3.setImageResource(R.drawable.n0);
-        im4.setImageResource(R.drawable.n0);
-        imAtou.setImageResource(R.drawable.n0);
-        imTalon.setImageResource(R.drawable.t);
-        imOut0.setImageResource(R.drawable.leer);
-        imOut1.setImageResource(R.drawable.leer);
-    }
-
-    void showTalonCard() {
-        try {
-            imTalon.setImageResource (R.drawable.t);
-        } catch (Exception imTalonEx) {
-            System.err.println(imTalonEx.toString());
-            imTalonEx.printStackTrace();
-        }
-        imTalon.setVisibility(View.VISIBLE);
-    }
-
-    void showAtouCard() {
-        try {
-            imAtou.setImageResource(aGame.set[19].getResInt());
-        } catch (Exception exp) {
-            this.errHandler(exp);
-        }
-
-    }
-
+    /**
+     * reset Buttons
+     * @param level
+     */
     void resetButtons(int level) {
         if (level >= 0 ) {
             b20a.setText("20 Ansagen");
@@ -153,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             bChange.setEnabled(false);
         }
         if (level >= 1) {
-            bcont.setEnabled(false);
+            bContinue.setEnabled(false);
             if (imTalon.getVisibility() != View.VISIBLE)
                 imTalon.setVisibility(View.VISIBLE);
             try {
@@ -173,6 +153,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * init all ImageView's with default empty values
+     */
+    public  void initURLBase() {
+        im0.setImageResource(R.drawable.n0);
+        im1.setImageResource(R.drawable.n0);
+        im2.setImageResource(R.drawable.n0);
+        im3.setImageResource(R.drawable.n0);
+        im4.setImageResource(R.drawable.n0);
+        imAtou.setImageResource(R.drawable.n0);
+        imTalon.setImageResource(R.drawable.t);
+        imOut0.setImageResource(R.drawable.leer);
+        imOut1.setImageResource(R.drawable.leer);
+    }
+
+    /**
+     * showTalonCard
+     */
+    void showTalonCard() {
+        try {
+            imTalon.setImageResource (R.drawable.t);
+        } catch (Exception imTalonEx) {
+            System.err.println(imTalonEx.toString());
+            imTalonEx.printStackTrace();
+        }
+        imTalon.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * showAtouCard
+     */
+    void showAtouCard() {
+        try {
+            imAtou.setImageResource(aGame.set[19].getResInt());
+        } catch (Exception exp) {
+            this.errHandler(exp);
+        }
+
+    }
+
+    /**
+     * showPlayersCards
+     */
     void showPlayersCards() {
 
         try {
@@ -192,8 +216,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * start game
+     */
     void startGame() {	// Mischen
-        bMerge.setEnabled(false);
+        bStart.setEnabled(false);
         aGame = null;
 
         // runtime = java.lang.Runtime.getRuntime();
@@ -216,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
         gameTurn(0);
     }
 
+    /**
+     * close that game
+     */
     void closeGame() { //	Implementierung des Zudrehens
         if (aGame.isGame == false || aGame.gambler == null) {
             tMes.setVisibility(View.VISIBLE);
@@ -248,6 +278,10 @@ public class MainActivity extends AppCompatActivity {
         gameTurn(0);
     }
 
+    /**
+     * a turn in game
+     * @param ixlevel level
+     */
     void gameTurn(int ixlevel) {
         if (ixlevel < 1) {
             try {
@@ -318,6 +352,10 @@ public class MainActivity extends AppCompatActivity {
         printMes();
     }
 
+    /**
+     * say 20 or 40 and enough to finish game
+     * @param who player or computer
+     */
     void twentyEnough(boolean who) {
         int xj = 0;
         String andEnough = "20 und genug !";
@@ -365,6 +403,9 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
+    /**
+     * end current turn in game
+     */
     void endTurn() {
         int tmppoints;
         /* IMPLEMENT COMPUTERS STRATEGIE HERE */
@@ -449,16 +490,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        bcont.setEnabled(true);
+        bContinue.setEnabled(true);
         ready = false;
     }
 
+    /**
+     * stop current game
+     * @param levela
+     */
     void stopGame(int levela) {
         bStop.setEnabled(false);
         aGame.stopGame();
 
         resetButtons(levela);
-        bMerge.setEnabled(true);
+        bStart.setEnabled(true);
 
         showPlayersCards();
         aGame.destroyGame();
@@ -466,6 +511,11 @@ public class MainActivity extends AppCompatActivity {
         // java.lang.System.gc();
     }
 
+    /**
+     * tsEnds method for ending the current game
+     * @param endMessage ending game message
+     * @param ix level
+     */
     void tsEnds(String endMessage, int ix) {
         tMes.setText(endMessage);
         tMes.setVisibility(View.VISIBLE);
@@ -473,16 +523,17 @@ public class MainActivity extends AppCompatActivity {
         return ;
     }
 
-    /* Add all EventHandlers on Clickabl elements */
-
+    /**
+     * add listeners on all clickables
+     */
     public void addListenerOnClickables() {
 
         // imageView1.setOnClickListener() { }
-        bMerge = (Button) findViewById(R.id.bMerge);
-        bMerge.setOnClickListener(new OnClickListener() {
+        bStart = (Button) findViewById(R.id.bStart);
+        bStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                bMerge_Clicked(arg0);
+                bStart_Clicked(arg0);
             }
         });
         bStop = (Button) findViewById(R.id.bStop);
@@ -514,11 +565,11 @@ public class MainActivity extends AppCompatActivity {
                 b20b_Clicked(arg0);
             }
         });
-        bcont = (Button) findViewById(R.id.bcont);
-        bcont.setOnClickListener(new OnClickListener() {
+        bContinue = (Button) findViewById(R.id.bContinue);
+        bContinue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                bcont_Clicked(arg0);
+                bContinue_Clicked(arg0);
             }
         });
         bHelp = (Button) findViewById(R.id.bHelp);
@@ -573,12 +624,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /* Event Handler Buttons */
-
-    public void bMerge_Clicked(View arg0) {
+    /**
+     * bStop_Clicked
+     * @param arg0
+     */
+    public void bStart_Clicked(View arg0) {
         startGame();
     }
 
+    /**
+     * bChange_Clicked
+     * @param arg0
+     */
     public void bStop_Clicked(View arg0) {
         try {
             stopGame(2);
@@ -587,6 +644,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * b20a_Clicked
+     * @param arg0
+     */
     public void bChange_Clicked(View arg0) {
         try {
             aGame.changeAtou(aGame.gambler);
@@ -599,6 +660,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * b20a_Clicked
+     * @param arg0
+     */
     public void b20a_Clicked(View arg0) {
         try {
             if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) {
@@ -623,6 +688,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * b20b_Clicked
+     * @param arg0
+     */
     public void b20b_Clicked(View arg0) {
         try {
             if ((pSaid) || (aGame.gambler.handpairs[1]=='n')) {
@@ -648,10 +717,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void bcont_Clicked(View arg0) {
+    /**
+     * bContinue_Clicked
+     * @param arg0
+     */
+    public void bContinue_Clicked(View arg0) {
         try {
             ready = true;
-            bcont.setEnabled(false);
+            bContinue.setEnabled(false);
             tMes.setVisibility(View.INVISIBLE);
             gameTurn(0);
         } catch (Exception e) {
@@ -659,8 +732,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* EventHandler for all ImageViews */
 
+    /**
+     * EventHandler for all ImageViews
+     * @param arg0 View, that fired click
+     * @param ic image counter, that represents which ImageView is clicked
+     */
     void imageView_ClickEventHandler(View arg0, int ic) {
 
         int j;
@@ -742,12 +819,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /* tDbg setting text */
 
+    /**
+     * print message queue
+     */
     void printMes() {
         tDbg.setText(aGame.mqueue.fetch());
     }
 
+    /**
+     * Error handler
+     * @param myErr java.lang.Throwable
+     */
     void errHandler(java.lang.Throwable myErr) {
         tDbg.setText("\nCRITICAL ERROR #" + String.valueOf((++errNum))  + " " + myErr.getMessage());
         tDbg.append(myErr.toString());
@@ -755,6 +838,10 @@ public class MainActivity extends AppCompatActivity {
         myErr.printStackTrace();
     }
 
+    /**
+     * Help button clicked
+     * @param arg0
+     */
     public void bHelp_Clicked(View arg0) {
         tDbg.setText("-------------------------------------------------------------------------\n");
         tDbg.append("Schnapslet V 0.2 - Pre Alpha Release \n");
@@ -773,6 +860,9 @@ public class MainActivity extends AppCompatActivity {
         tDbg.append("Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.\n");
         tDbg.append("Ideen, Vorschläge, Verbesserungen werden gerne angenommen !\n");
         tDbg.append("-------------------------------------------------------------------------\n");
+        // try {
+        //     Thread.currentThread().sleep(10);
+        // } catch (Exception exInt) {
+        // }
     }
-
 }

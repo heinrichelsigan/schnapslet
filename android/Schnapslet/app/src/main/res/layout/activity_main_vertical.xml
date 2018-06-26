@@ -106,13 +106,13 @@
             android:layout_height="match_parent"
             android:minHeight="24dp"
             android:minWidth="340dp"
-            android:text="Kurzinfo Ausgabe"
+            android:text="Kurzinfo Anzeige"
             android:layout_x="0dp"
             android:layout_y="216dp"
             />
 
         <Button
-            android:id="@+id/bMerge"
+            android:id="@+id/bStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start"
@@ -168,7 +168,7 @@
             android:id="@+id/b20a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20 Ansagen"
+            android:text="20 ansagen"
             android:layout_x="372dp"
             android:layout_y="104dp"
             android:minWidth="96dp"
@@ -178,7 +178,7 @@
             android:id="@+id/b20b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40 Ansagen"
+            android:text="40 ansagen"
             android:layout_x="372dp"
             android:layout_y="128dp"
             android:minWidth="96dp"
@@ -195,10 +195,10 @@
             android:minHeight="24dp"
             />
         <Button
-            android:id="@+id/bcont"
+            android:id="@+id/bContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WEITER"
+            android:text="Weiter"
             android:layout_x="372dp"
             android:layout_y="176dp"
             android:minWidth="96dp"

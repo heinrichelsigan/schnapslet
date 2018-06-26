@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Schnapslet</string>
+    <string name="bStart_text">Start</string>
+    <string name="bStop_text">Ende</string>
+    <string name="bHelp_text">Hilfe</string>
+    <string name="bContinue_text">Weiter</string>
+    <string name="b20a_text">20 ansagen</string>
+    <string name="b20b_text">40 ansagen</string>
+    <string name="bChange_text">Atou tauschen</string>
+    <string name="tMes_text">Kurzinfo Anzeige</string>
+    <string name="tPoints_text">0</string>
+    <string name="tRest_text">0</string>
+    <string name="tDbg_text"></string>
 </resources>
+

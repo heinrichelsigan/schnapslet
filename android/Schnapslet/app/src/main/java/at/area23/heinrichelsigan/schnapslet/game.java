@@ -51,11 +51,7 @@ public class game {
         playersTurn = true;
         colorHitRule = false;    
         isClosed = false;
-	// }
-	
-	// public game(java.applet.Applet applet) {
-	//	this();
-	//	masterApplet = applet;
+
         mqueue.clear();
         mqueue.insert("Starting new game ...");
         
@@ -85,7 +81,15 @@ public class game {
         for (i = 0; i < k+20; i++) {
             if ((j = rand.nextInt())< 0) j = 0 - j; j = j%20;
             if ((l = rand.nextInt())< 0) l = 0 - l; l = l%20;
-            if (l == j) j =0;
+            if (l == j) {
+                if (l != 0)
+                    j = 0;
+                else if (j == 0) {
+                    l = k%20;
+                    if (l == 0)
+                        l = (i + 1)%20;
+                }
+            }
             tmp = inGame[l];
             inGame[l] = inGame[j];
             inGame[j]= tmp;

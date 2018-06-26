@@ -30,56 +30,99 @@ public class card {
     char color = 'n';   // 4 colors and 'n' for unitialized
     int value = 0;      // 5 values and 0 for unitialized
     int intern = -1;    // 20 values for internal representation and (-1) for unitialized
+    CARDVALUE cardValue = CARDVALUE.NONE;
+    CARDCOLOR cardColor = CARDCOLOR.NONE;
     java.lang.String name = new String();  // Human readable classifier
     java.net.URL picture;  // picture 
 	// ava.awt.Image cardimage = null;
 	// java.applet.Applet masterApplet = null;
-	
-    
+
+
     /**
+     * Constructor card()
      */
     public card() {
         super();
         this.color = 'n';
         this.value = 0;
         this.intern = -1;
-        this.name = "nocard";        
+        this.name = "nocard";
+        cardValue = CARDVALUE.NONE;
+        cardColor = CARDCOLOR.NONE;
     }
 	
-	/*
-	public card(java.applet.Applet applet) {
-        this();
-        this.masterApplet = applet;   
-    }
-    */
 
-	
+    /**
+     * Constructor card(int num)
+     * @param num internal value -2 or -1 or between 0 and 19
+     */
     public card(int num) {
 		this();
         String tmpstr, namestr = new String();
 
-        if ((num >= 0) && (num < 20)) {
-            if (num < 5) { 
-                this.color = 'h'; namestr = namestr + "Herz_";
+        if (num == -2) {
+            this.color = 'e';
+            this.cardColor = CARDCOLOR.EMPTY;
+            this.cardValue = CARDVALUE.EMPTY;
+        } else if (num == -1) {
+            this.color = 'n';
+            this.cardColor = CARDCOLOR.NONE;
+            this.cardValue = CARDVALUE.NONE;
+        } else if ((num >= 0) && (num < 20)) {
+            if (num < 5) {
+                this.color = 'h';
+                this.cardColor = CARDCOLOR.HERZ;
+                namestr = namestr + "Herz_";
             } else if (num < 10) {
-                this.color = 'p'; namestr = namestr + "Pik_";
+                this.color = 'p';
+                this.cardColor = CARDCOLOR.PIK;
+                namestr = namestr + "Pik_";
             } else if (num < 15) {
-                this.color = 'k'; namestr = namestr + "Karo_";
+                this.color = 'k';
+                this.cardColor = CARDCOLOR.KARO;
+                namestr = namestr + "Karo_";
             } else if (num < 20) {
-                this.color = 't'; namestr = namestr + "Treff_";
+                this.color = 't';
+                this.cardColor = CARDCOLOR.TREFF;
+                namestr = namestr + "Treff_";
             }
-            switch (num%5) {
-                case 0: this.value = 2;  namestr = namestr + "Jack"; break;
-                case 1: this.value = 3;  namestr = namestr + "Queen"; break;
-                case 2: this.value = 4;  namestr = namestr + "King"; break;
-                case 3: this.value = 10; namestr = namestr + "Ten"; break;
-                case 4: this.value = 11; namestr = namestr + "Ace"; break;
+            switch (num % 5) {
+                case 0:
+                    this.value = 2;
+                    this.cardValue = CARDVALUE.JACK;
+                    namestr = namestr + "Jack";
+                    break;
+                case 1:
+                    this.value = 3;
+                    this.cardValue = CARDVALUE.QUEEN;
+                    namestr = namestr + "Queen";
+                    break;
+                case 2:
+                    this.cardValue = CARDVALUE.KING;
+                    this.value = 4;
+                    namestr = namestr + "King";
+                    break;
+                case 3:
+                    this.value = 10;
+                    this.cardValue = CARDVALUE.TEN;
+                    namestr = namestr + "Ten";
+                    break;
+                case 4:
+                    this.value = 11;
+                    this.cardValue = CARDVALUE.ACE;
+                    namestr = namestr + "Ace";
+                    break;
                 default: // never be here break;
             }
-            this.intern = num;
-            this.name = namestr;
-        } 
-        
+        }
+        this.value = (int)cardValue.getValue();
+        this.color = (char)cardColor.getValue();
+        namestr = cardColor.toString() + "_" + String.valueOf(cardValue.getValue());
+        this.intern = num;
+        this.name = namestr;
+        System.err.println(namestr);
+
+        /*
 		try {
         	tmpstr = new String("cardpics/" + this.color + this.value + ".gif");
 			// this.cardimage = new Image();
@@ -88,13 +131,13 @@ public class card {
 			ex.printStackTrace();
 			System.err.println(ex.toString()); 
 		}
-		
+		*/
+
 		try {
         	tmpstr = new String("http://www.area23.at/" + "cardpics/" + this.color + this.value + ".gif");
-         	System.err.println(tmpstr); 
+            System.err.println(tmpstr);
+        	// System.err.println(tmpstr);
 			this.picture = new java.net.URL(tmpstr);
-        } catch (java.net.MalformedURLException murle) { 
-			System.err.println(murle.toString());
 		} catch (Exception exi) {
 			exi.printStackTrace();
             System.err.println(exi.toString());
@@ -111,7 +154,12 @@ public class card {
         return;
     }
 	*/
-	
+
+    /**
+     * Constructor card(int numv, char atoudef)
+     * @param numv internal value -2 or -1 or between 0 and 19
+     * @param atoudef color of atou
+     */
 	public card(int numv, char atoudef) {
         this(numv);
         if (this.color == atoudef) {
@@ -126,8 +174,12 @@ public class card {
             this.atou = true;
 		}
     }
-	*/	
+	*/
 
+    /**
+     * Constructor card(card aCard)
+     * @param aCard - a instanciated card object
+     */
     public card(card aCard) {
         this();
         this.atou = aCard.atou;
@@ -136,6 +188,8 @@ public class card {
         this.intern = aCard.intern;
         this.name = aCard.name;
         this.picture = aCard.picture;
+        this.cardValue = aCard.cardValue;
+        this.cardColor = aCard.cardColor;
 		// this.cardimage = aCard.cardimage;
     }
         
@@ -228,6 +282,10 @@ public class card {
             return R.drawable.h10;
         if (tmp.equals("h11"))
             return R.drawable.h11;
+
+        if (tmp.equals("e1") || tmp.equals("e0"))
+            return R.drawable.h11;
+
         return R.drawable.n0;
     }
 
