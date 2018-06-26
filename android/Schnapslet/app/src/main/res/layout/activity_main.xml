@@ -113,10 +113,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="24dp"
-            android:minWidth="384dp"
+            android:minWidth="340dp"
             android:text="Kurzinfo Ausgabe"
-            android:translationX="4dp"
-            android:layout_x="4dp"
+            android:layout_x="0dp"
             android:layout_y="216dp"
             />
 
