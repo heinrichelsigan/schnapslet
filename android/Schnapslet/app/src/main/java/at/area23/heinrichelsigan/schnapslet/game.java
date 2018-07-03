@@ -32,6 +32,7 @@ public class game {
     char csaid = 'n';
     boolean colorHitRule = false;
     boolean isClosed = false;
+    boolean shouldContinue = false;
     card playedOut;
     int index = 9;    
     int movs = 0;
@@ -51,6 +52,7 @@ public class game {
         playersTurn = true;
         colorHitRule = false;    
         isClosed = false;
+        shouldContinue = false;
 
         mqueue.clear();
         mqueue.insert("Starting new game ...");

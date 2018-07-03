@@ -2,8 +2,11 @@ package at.area23.heinrichelsigan.schnapslet;
 
 import at.area23.heinrichelsigan.schnapslet.card;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.graphics.drawable.AnimationDrawable;
 import android.widget.ImageSwitcher;
@@ -16,9 +19,12 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
 
-    Button bStart, bStop, bHelp, b20a, b20b,  bChange, bContinue;
+    // Button bStart, bStop, bHelp,
+    Button b20a, b20b,  bChange, bContinue;
     ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
+    Menu myMenu;
+
     AnimationDrawable frameAnimation;
 
     long errNum = 0; // Errors Ticker
@@ -77,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         frameAnimation = (AnimationDrawable)imMerge.getBackground();
         frameAnimation.start();
 
-        bStart = (Button) findViewById(R.id.bStart);
-        bStop = (Button) findViewById(R.id.bStop);
-        bHelp = (Button) findViewById(R.id.bHelp);
+        // bStart = (Button) findViewById(R.id.bStart);
+        // bStop = (Button) findViewById(R.id.bStop);
+        // bHelp = (Button) findViewById(R.id.bHelp);
         b20a =  (Button) findViewById(R.id.b20a);
         b20b =  (Button) findViewById(R.id.b20b);
         bChange = (Button) findViewById(R.id.bChange);
@@ -94,12 +100,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         tMes.setVisibility(View.INVISIBLE);
 
-        bStop.setEnabled(false);
+        // bStop.setEnabled(false);
         bChange.setEnabled(false);
         bContinue.setEnabled(false);
 
-        bStart.setEnabled(true);
-        bHelp.setEnabled(true);
+        // bStart.setEnabled(true);
+        // bHelp.setEnabled(true);
 
         addListenerOnClickables();
 
@@ -127,6 +133,39 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        myMenu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_start) {
+            if (aGame == null || !aGame.isGame)
+                startGame();
+            return true;
+        }
+        if (id == R.id.action_stop) {
+            if (aGame != null || aGame.isGame)
+                stopGame(2);
+            return true;
+        }
+        if (id == R.id.action_help) {
+            helpText();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * implements Runnable
      */
@@ -147,9 +186,13 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             bChange.setEnabled(false);
         }
         if (level >= 1) {
+            if (aGame != null)
+                aGame.shouldContinue = false;
             bContinue.setEnabled(false);
+
             if (imTalon.getVisibility() != View.VISIBLE)
                 imTalon.setVisibility(View.VISIBLE);
+
             try {
                 imTalon.setImageResource(R.drawable.t);
                 imAtou.setImageResource(R.drawable.n0);
@@ -236,7 +279,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * start game
      */
     void startGame() {	// Mischen
-        bStart.setEnabled(false);
+        // bStart.setEnabled(false);
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_start).setEnabled(false);
+        }
         aGame = null;
 
         // runtime = java.lang.Runtime.getRuntime();
@@ -275,7 +321,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tPoints.setText("" + String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();
-        bStop.setEnabled(true);
+        // bStop.setEnabled(true);
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_stop).setEnabled(true);
+        }
 
         gameTurn(0);
     }
@@ -388,6 +437,25 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         ready = true;
         printMes();
     }
+
+    /**
+     * Continue turn
+     */
+    void continueTurn() {
+        try {
+            ready = true;
+
+            if (aGame != null)
+                aGame.shouldContinue = false;
+            bContinue.setEnabled(false);
+
+            tMes.setVisibility(View.INVISIBLE);
+            gameTurn(0);
+        } catch (Exception e) {
+            this.errHandler(e);
+        }
+    }
+
 
     /**
      * say 20 or 40 and enough to finish game
@@ -527,7 +595,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
+        if (aGame != null)
+            aGame.shouldContinue = true;
         bContinue.setEnabled(true);
+
         ready = false;
     }
 
@@ -536,11 +607,17 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param levela
      */
     void stopGame(int levela) {
-        bStop.setEnabled(false);
+        // bStop.setEnabled(false);
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_stop).setEnabled(false);
+        }
         aGame.stopGame();
 
         resetButtons(levela);
-        bStart.setEnabled(true);
+        // bStart.setEnabled(true);
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_start).setEnabled(true);
+        }
 
         showPlayersCards();
         aGame.destroyGame();
@@ -572,6 +649,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void addListenerOnClickables() {
 
         // imageView1.setOnClickListener() { }
+        /*
         bStart = (Button) findViewById(R.id.bStart);
         bStart.setOnClickListener(new OnClickListener() {
             @Override
@@ -579,6 +657,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 bStart_Clicked(arg0);
             }
         });
+        */
+        /*
         bStop = (Button) findViewById(R.id.bStop);
         bStop.setOnClickListener(new OnClickListener() {
             @Override
@@ -586,6 +666,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 bStop_Clicked(arg0);
             }
         });
+        */
         bChange = (Button) findViewById(R.id.bChange);
         bChange.setOnClickListener(new OnClickListener() {
             @Override
@@ -615,6 +696,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 bContinue_Clicked(arg0);
             }
         });
+        /*
         bHelp = (Button) findViewById(R.id.bHelp);
         bHelp.setOnClickListener(new OnClickListener() {
             @Override
@@ -622,6 +704,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 bHelp_Clicked(arg0);
             }
         });
+        */
 
         im0 = (ImageView) findViewById(R.id.im0);
         im0.setOnClickListener(new OnClickListener() {
@@ -765,14 +848,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param arg0
      */
     public void bContinue_Clicked(View arg0) {
-        try {
-            ready = true;
-            bContinue.setEnabled(false);
-            tMes.setVisibility(View.INVISIBLE);
-            gameTurn(0);
-        } catch (Exception e) {
-            this.errHandler(e);
-        }
+        continueTurn();
     }
 
 
@@ -886,23 +962,25 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param arg0
      */
     public void bHelp_Clicked(View arg0) {
-        tDbg.setText("-------------------------------------------------------------------------\n");
-        tDbg.append("Schnapslet V 0.2 - Pre Alpha Release \n");
-        tDbg.append("Implementierung des Kartenspiel Schnapsen als einfaches java.awt.Applet\n");
-        tDbg.append("von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n");
-        tDbg.append("Funktionsweise:\n");
-        tDbg.append("Das Spiel ist so angelegt, dass man gegen den Computer spielt.\n");
-        tDbg.append("Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das\n");
-        tDbg.append("Kartensymbol klickt. Andere Optionen, wie \"Atou austauschen\" oder \n");
-        tDbg.append("\"Ein Paar Ansagen\" sind über die Buttons links oben moeglich; diese\n");
+        helpText();
+    }
+
+    /**
+     * helpText() prints out help text
+     */
+    public void helpText() {
+        tDbg.setText("Schnapslet V 0.2 - Kartenspiel Schnapsen als android app ");
+        tDbg.append("von Heinrich Elsigan (heinrich.elsigan@area23.at)\n");
+        tDbg.append("Das Spiel ist so angelegt, dass man gegen den Computer spielt. ");
+        tDbg.append("Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das ");
+        tDbg.append("Kartensymbol klickt. Andere Optionen, wie \"Atou austauschen\" oder ");
+        tDbg.append("\"Ein Paar Ansagen\" sind über die Buttons links oben moeglich; diese ");
         tDbg.append("Optionen muessen gewaehlt werden, bevor man eine Karte auspielt !\n");
-        tDbg.append("Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst\n");
+        tDbg.append("Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst ");
         tDbg.append("kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!\n");
-        tDbg.append("Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt\n");
-        tDbg.append("es bei der Implementierung des Farb- und Stichzwangs noch kleine Bugs!\n");
+        tDbg.append("Die Regeln entsprechen dem oesterreichischen Schnapsen, ");
         tDbg.append("Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.\n");
         tDbg.append("Ideen, Vorschläge, Verbesserungen werden gerne angenommen !\n");
-        tDbg.append("-------------------------------------------------------------------------\n");
         // try {
         //     Thread.currentThread().sleep(10);
         // } catch (Exception exInt) {

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Schnapslet</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Ende</string>
+    <string name="action_help">Hilfe</string>
+    <string name="action_continue">Weiter</string>
     <string name="bStart_text">Start</string>
     <string name="bStop_text">Ende</string>
     <string name="bHelp_text">Hilfe</string>
@@ -10,6 +15,6 @@
     <string name="tMes_text">Kurzinfo Anzeige</string>
     <string name="tPoints_text">0</string>
     <string name="tRest_text">0</string>
-    <string name="tDbg_text" translatable="false"></string>
+    <string name="tDbg_text"></string>
 </resources>
 

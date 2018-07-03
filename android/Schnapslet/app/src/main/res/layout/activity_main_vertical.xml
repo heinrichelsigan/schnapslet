@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
     <AbsoluteLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -14,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_x="0dp"
-            android:layout_y="108dp"
+            android:layout_y="100dp"
             android:src="@drawable/n0"
             android:minWidth="72dp"
             android:minHeight="96dp"
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_x="66dp"
-            android:layout_y="108dp"
+            android:layout_y="100dp"
             android:src="@drawable/n0"
             android:minWidth="72dp"
             android:minHeight="96dp"
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_x="132dp"
-            android:layout_y="108dp"
+            android:layout_y="100dp"
             android:src="@drawable/n0"
             android:minWidth="72dp"
             android:minHeight="96dp"
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_x="198dp"
-            android:layout_y="108dp"
+            android:layout_y="100dp"
             android:src="@drawable/n0"
             android:minWidth="72dp"
             android:minHeight="96dp"
@@ -54,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_x="264dp"
-            android:layout_y="108dp"
+            android:layout_y="100dp"
             android:src="@drawable/n0"
             android:minWidth="72dp"
             android:minHeight="96dp"
@@ -125,24 +126,25 @@
             android:minWidth="340dp"
             android:text="Kurzinfo Anzeige"
             android:layout_x="0dp"
-            android:layout_y="216dp"
+            android:layout_y="200dp"
             />
 
         <Button
-            android:id="@+id/bStart"
+            android:id="@+id/b20a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
+            android:text="20 ansagen"
+            android:enabled="false"
             android:layout_x="372dp"
             android:layout_y="0dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
         <Button
-            android:id="@+id/bStop"
+            android:id="@+id/b20b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ende"
+            android:text="40 ansagen"
             android:enabled="false"
             android:layout_x="372dp"
             android:layout_y="24dp"
@@ -150,10 +152,11 @@
             android:minHeight="24dp"
             />
         <Button
-            android:id="@+id/bHelp"
+            android:id="@+id/bChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hilfe"
+            android:text="Atou tauschen"
+            android:enabled="false"
             android:layout_x="372dp"
             android:layout_y="48dp"
             android:minWidth="96dp"
@@ -182,36 +185,7 @@
             android:minWidth="24dp"
             />
 
-        <Button
-            android:id="@+id/b20a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20 ansagen"
-            android:layout_x="372dp"
-            android:layout_y="104dp"
-            android:minWidth="96dp"
-            android:minHeight="24dp"
-            />
-        <Button
-            android:id="@+id/b20b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="40 ansagen"
-            android:layout_x="372dp"
-            android:layout_y="128dp"
-            android:minWidth="96dp"
-            android:minHeight="24dp"
-            />
-        <Button
-            android:id="@+id/bChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Atou tauschen"
-            android:layout_x="372dp"
-            android:layout_y="152dp"
-            android:minWidth="96dp"
-            android:minHeight="24dp"
-            />
+
         <Button
             android:id="@+id/bContinue"
             android:layout_width="wrap_content"
@@ -219,17 +193,18 @@
             android:text="Weiter"
             android:enabled="false"
             android:layout_x="372dp"
-            android:layout_y="176dp"
+            android:layout_y="104dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
+
 
         <TextView
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_x="0dp"
-            android:layout_y="354dp"
+            android:layout_y="250dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
             android:text=""
