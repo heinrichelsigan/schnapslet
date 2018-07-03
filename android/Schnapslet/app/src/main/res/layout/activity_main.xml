@@ -9,48 +9,80 @@
     <AbsoluteLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <AbsoluteLayout
+        <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="108dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
             android:layout_x="0dp"
             android:layout_y="0dp">
+
             <ImageView
                 android:id="@+id/imOut1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="0dp"
                 android:layout_y="0dp"
-                android:minWidth="72dp"
                 android:minHeight="96dp"
-                android:src="@drawable/e" />
+                android:minWidth="72dp"
+                android:src="@drawable/e"
+                android:visibility="visible"
+                />
             <ImageView
                 android:id="@+id/imOut0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="64dp"
                 android:layout_y="0dp"
                 android:src="@drawable/e"
                 android:minWidth="72dp"
                 android:minHeight="96dp" />
+
+
+			
+			<ImageView 
+				android:id="@+id/imMerge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="176dp"
+                android:layout_marginTop="0dp"
+                android:layout_x="176dp"
+                android:layout_y="0dp"
+                android:minWidth="144dp"
+                android:minHeight="96dp"
+                android:visibility="visible"
+                android:src="@drawable/anim_merge" />
+
             <ImageView
                 android:id="@+id/imAtou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_x="248dp"
+                android:layout_marginLeft="256dp"
+                android:layout_marginTop="0dp"
+                android:layout_x="256dp"
                 android:layout_y="0dp"
                 android:minWidth="72dp"
                 android:minHeight="96dp"
+                android:visibility="invisible"
                 android:src="@drawable/n0" />
+
             <ImageView
                 android:id="@+id/imTalon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="14dp"
                 android:layout_x="180dp"
                 android:layout_y="14dp"
                 android:minWidth="96dp"
                 android:minHeight="72dp"
-                android:src="@drawable/t" />
-        </AbsoluteLayout>
+                android:visibility="invisible"
+                />
+        </RelativeLayout>
         <AbsoluteLayout
             android:layout_width="340dp"
             android:layout_height="108dp"
@@ -139,6 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ende"
+                android:enabled="false"
                 android:layout_x="0dp"
                 android:layout_y="24dp"
                 android:minWidth="96dp"
@@ -149,6 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hilfe"
+                android:enabled="true"
                 android:layout_x="0dp"
                 android:layout_y="48dp"
                 android:minWidth="96dp"
@@ -182,6 +216,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Weiter"
+                android:enabled="false"
                 android:layout_x="96dp"
                 android:layout_y="24dp"
                 android:minWidth="96dp"

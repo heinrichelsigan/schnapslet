@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.widget.Button;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.res.Configuration;
@@ -12,15 +14,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Runnable {
 
     Button bStart, bStop, bHelp, b20a, b20b,  bChange, bContinue;
-    ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou;
+    ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
+    AnimationDrawable frameAnimation;
 
-    // final static String PROTO = "http";
-    // final static String HOST  = "^www.area23.at";
-    // final static int    PORT  = 80;
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
     volatile card emptyTmpCard;
@@ -57,16 +57,25 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
 
+
         im0 = (ImageView) findViewById(R.id.im0);
         im1 = (ImageView) findViewById(R.id.im1);
         im2 = (ImageView) findViewById(R.id.im2);
         im3 = (ImageView) findViewById(R.id.im3);
         im4 = (ImageView) findViewById(R.id.im4);
         im4 = (ImageView) findViewById(R.id.im4);
+
         imOut0 =  (ImageView) findViewById(R.id.imOut0);
         imOut1 =  (ImageView) findViewById(R.id.imOut1);
         imTalon =  (ImageView) findViewById(R.id.imTalon);
         imAtou =  (ImageView) findViewById(R.id.imAtou);
+        imTalon.setVisibility(View.INVISIBLE);
+        imAtou.setVisibility(View.INVISIBLE);
+
+        imMerge = (ImageView) findViewById(R.id.imMerge);
+        imMerge.setBackgroundResource(R.drawable.anim_merge);
+        frameAnimation = (AnimationDrawable)imMerge.getBackground();
+        frameAnimation.start();
 
         bStart = (Button) findViewById(R.id.bStart);
         bStop = (Button) findViewById(R.id.bStop);
@@ -87,17 +96,15 @@ public class MainActivity extends AppCompatActivity {
 
         bStop.setEnabled(false);
         bChange.setEnabled(false);
+        bContinue.setEnabled(false);
 
         bStart.setEnabled(true);
         bHelp.setEnabled(true);
 
         addListenerOnClickables();
 
-
-
-
         initURLBase();
-        resetButtons(1);
+        resetButtons(0);
     }
 
     /**
@@ -118,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main_vertical);
             tDbg.setText("Layout LANDSCAPE");
         }
+    }
+
+    /**
+     * implements Runnable
+     */
+    public void run() {
+
     }
 
     /**
@@ -167,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
         imTalon.setImageResource(R.drawable.t);
         imOut0.setImageResource(R.drawable.leer);
         imOut1.setImageResource(R.drawable.leer);
+        imTalon.setVisibility(View.INVISIBLE);
+        imAtou.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -229,6 +245,27 @@ public class MainActivity extends AppCompatActivity {
 
         aGame = new game();
         tMes.setVisibility(View.INVISIBLE);
+
+        frameAnimation.stop();
+        imMerge.setVisibility(View.INVISIBLE);
+
+        try {
+            im0.setImageResource(aGame.gambler.hand[0].getResInt());
+            Thread.sleep(100);
+            im1.setImageResource(aGame.gambler.hand[1].getResInt());
+            Thread.sleep(100);
+            im2.setImageResource(aGame.gambler.hand[2].getResInt());
+            Thread.sleep(200);
+            imAtou.setVisibility(View.VISIBLE);
+            Thread.sleep(100);
+            im3.setImageResource(aGame.gambler.hand[3].getResInt());
+            Thread.sleep(100);
+            im4.setImageResource(aGame.gambler.hand[4].getResInt());
+        } catch (Exception ext) { }
+
+        imAtou.setVisibility(View.VISIBLE);
+        imTalon.setVisibility(View.VISIBLE);
+
         resetButtons(1);
 
         tDbg.setText("Neues Spiel started ...");
@@ -507,8 +544,14 @@ public class MainActivity extends AppCompatActivity {
 
         showPlayersCards();
         aGame.destroyGame();
+
+        // imMerge.setVisibility(View.VISIBLE);
+        // frameAnimation.start();
+        imTalon.setVisibility(View.INVISIBLE);
+        imAtou.setVisibility(View.INVISIBLE);
         // java.lang.System.runFinalization();
         // java.lang.System.gc();
+        // await Task.Delay(3000);
     }
 
     /**

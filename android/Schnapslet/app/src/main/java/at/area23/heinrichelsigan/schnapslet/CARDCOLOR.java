@@ -29,17 +29,17 @@ public enum CARDCOLOR {
 	KARO('k'),
 	TREFF('t');
 
+	private final char value;
+
+	public char getValue() {
+		return value;
+	}
+
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
 	private CARDCOLOR(char value) {
 		this.value = value;
-	}
-
-	private final char value;
-
-	public char getValue() {
-		return value;
 	}
 
 };

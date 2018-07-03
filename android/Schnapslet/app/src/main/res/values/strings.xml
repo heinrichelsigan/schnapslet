@@ -10,6 +10,6 @@
     <string name="tMes_text">Kurzinfo Anzeige</string>
     <string name="tPoints_text">0</string>
     <string name="tRest_text">0</string>
-    <string name="tDbg_text"></string>
+    <string name="tDbg_text" translatable="false"></string>
 </resources>
 

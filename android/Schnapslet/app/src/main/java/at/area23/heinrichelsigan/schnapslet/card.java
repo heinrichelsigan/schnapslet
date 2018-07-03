@@ -34,7 +34,7 @@ public class card {
     CARDCOLOR cardColor = CARDCOLOR.NONE;
     java.lang.String name = new String();  // Human readable classifier
     java.net.URL picture;  // picture 
-	// ava.awt.Image cardimage = null;
+	//
 	// java.applet.Applet masterApplet = null;
 
 
@@ -43,8 +43,8 @@ public class card {
      */
     public card() {
         super();
-        this.color = 'n';
-        this.value = 0;
+        // this.color = 'n';
+        // this.value = 0;
         this.intern = -1;
         this.name = "nocard";
         cardValue = CARDVALUE.NONE;
@@ -61,64 +61,48 @@ public class card {
         String tmpstr, namestr = new String();
 
         if (num == -2) {
-            this.color = 'e';
             this.cardColor = CARDCOLOR.EMPTY;
             this.cardValue = CARDVALUE.EMPTY;
         } else if (num == -1) {
-            this.color = 'n';
             this.cardColor = CARDCOLOR.NONE;
             this.cardValue = CARDVALUE.NONE;
-        } else if ((num >= 0) && (num < 20)) {
-            if (num < 5) {
-                this.color = 'h';
+        } else  if ((num >= 0) && (num < 20)) {
+
+            if (num >= 0 && num < 5)
                 this.cardColor = CARDCOLOR.HERZ;
-                namestr = namestr + "Herz_";
-            } else if (num < 10) {
-                this.color = 'p';
+            else if (num < 10)
                 this.cardColor = CARDCOLOR.PIK;
-                namestr = namestr + "Pik_";
-            } else if (num < 15) {
-                this.color = 'k';
+            else if (num < 15)
                 this.cardColor = CARDCOLOR.KARO;
-                namestr = namestr + "Karo_";
-            } else if (num < 20) {
-                this.color = 't';
+            else if (num < 20)
                 this.cardColor = CARDCOLOR.TREFF;
-                namestr = namestr + "Treff_";
-            }
+
             switch (num % 5) {
                 case 0:
-                    this.value = 2;
                     this.cardValue = CARDVALUE.JACK;
-                    namestr = namestr + "Jack";
                     break;
                 case 1:
-                    this.value = 3;
                     this.cardValue = CARDVALUE.QUEEN;
-                    namestr = namestr + "Queen";
                     break;
                 case 2:
                     this.cardValue = CARDVALUE.KING;
-                    this.value = 4;
-                    namestr = namestr + "King";
                     break;
                 case 3:
-                    this.value = 10;
                     this.cardValue = CARDVALUE.TEN;
-                    namestr = namestr + "Ten";
                     break;
                 case 4:
-                    this.value = 11;
                     this.cardValue = CARDVALUE.ACE;
-                    namestr = namestr + "Ace";
                     break;
                 default: // never be here break;
+                    break;
             }
         }
+
+        this.intern = num;
         this.value = (int)cardValue.getValue();
         this.color = (char)cardColor.getValue();
-        namestr = cardColor.toString() + "_" + String.valueOf(cardValue.getValue());
-        this.intern = num;
+
+        namestr = cardColor.toString() + "_" + cardValue.getName();
         this.name = namestr;
         System.err.println(namestr);
 
@@ -146,14 +130,8 @@ public class card {
         return;
     }	
 	
-	/*
-    public card(java.applet.Applet applet, int num) {
-        this(num);
-		this.masterApplet = applet;   
-        
-        return;
-    }
-	*/
+
+
 
     /**
      * Constructor card(int numv, char atoudef)
@@ -167,14 +145,7 @@ public class card {
 		}
     }
 
-	/*
-    public card(java.applet.Applet applet, int numv, char atoudef) {
-        this(applet, numv);
-        if (this.color == atoudef) {
-            this.atou = true;
-		}
-    }
-	*/
+
 
     /**
      * Constructor card(card aCard)
@@ -204,7 +175,7 @@ public class card {
      * liefert die Farbe der Karte
      */
     public char getColor() {
-        return this.color;
+        return (char)cardColor.getValue();
     }
 
 	public void setAtou() {
@@ -215,7 +186,7 @@ public class card {
      * liefert den Punkt Wert der Karte
      */
     public int getValue() {
-        return this.value;
+        return (int)cardValue.getValue();
     }
     
 	/**

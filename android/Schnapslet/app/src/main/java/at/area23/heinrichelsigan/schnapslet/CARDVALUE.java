@@ -30,6 +30,12 @@ public enum CARDVALUE {
 	TEN(10),
 	ACE(11);
 
+	private final int value;
+
+	public int getValue() {
+		return value;
+	}
+
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
@@ -37,10 +43,8 @@ public enum CARDVALUE {
 		this.value = value;
 	}
 
-	private final int value;
-
-	public int getValue() {
-		return value;
+	public String getName() {
+		return this.name();
 	}
 };
 

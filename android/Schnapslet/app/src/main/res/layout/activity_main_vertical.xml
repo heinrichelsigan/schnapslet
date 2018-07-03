@@ -79,25 +79,42 @@
             android:minHeight="96dp"
             android:src="@drawable/leer"
             />
+
         <ImageView
-            android:id="@+id/imTalon"
+            android:id="@+id/imMerge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="186dp"
-            android:layout_y="15dp"
-            android:minWidth="96dp"
-            android:minHeight="72dp"
-            android:src="@drawable/t"
-            />
+            android:layout_marginLeft="176dp"
+            android:layout_marginTop="0dp"
+            android:layout_x="176dp"
+            android:layout_y="0dp"
+            android:minWidth="144dp"
+            android:minHeight="96dp"
+            android:visibility="visible"
+            android:src="@drawable/anim_merge" />
+
         <ImageView
             android:id="@+id/imAtou"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="252dp"
+            android:layout_x="256dp"
             android:layout_y="0dp"
             android:minWidth="72dp"
             android:minHeight="96dp"
             android:src="@drawable/n0"
+            android:visibility="invisible"
+            />
+        <ImageView
+            android:id="@+id/imTalon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="180dp"
+            android:layout_y="14dp"
+            android:minWidth="96dp"
+            android:minHeight="72dp"
+            android:src="@drawable/t"
+            android:visibility="invisible"
+            android:contentDescription="imageTalon"
             />
 
         <TextView
@@ -126,6 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ende"
+            android:enabled="false"
             android:layout_x="372dp"
             android:layout_y="24dp"
             android:minWidth="96dp"
@@ -199,6 +217,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Weiter"
+            android:enabled="false"
             android:layout_x="372dp"
             android:layout_y="176dp"
             android:minWidth="96dp"
