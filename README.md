@@ -9,7 +9,7 @@ https://en.wikipedia.org/wiki/Sixty-six_(card_game)
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.
 
-ä## Compile and build java sources with following commands:
+## Compile and build java sources with following commands:
 
 > javac.exe -Xlint:unchecked -Xlint:deprecation at\area23\*.java
 >
@@ -31,7 +31,7 @@ use appletviewer to test schnapslet as old style deprecated java applet
 
 ## schnapslet sources for android 
 
-Sources for android using Abdroid Stzudio are located under 
+Sources for android using Abdroid Studio are located under 
 > schnapslet/android/Schnapslet
 
 ## Schnapslet Schnapsen Wiki 
@@ -42,4 +42,4 @@ https://github.com/heinrichelsigan/schnapslet/wiki/
 ## README.md
 
 the current File readme.md is located at
-> schnapslet/EADME.md
+> schnapslet/README.md

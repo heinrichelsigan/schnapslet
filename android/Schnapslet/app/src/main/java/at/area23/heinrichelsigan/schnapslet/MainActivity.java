@@ -1,6 +1,6 @@
 package at.area23.heinrichelsigan.schnapslet;
 
-import at.area23.heinrichelsigan.schnapslet.card;
+import at.area23.heinrichelsigan.schnapslet.*;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
-    volatile card emptyTmpCard;
+    volatile Card emptyTmpCard;
     volatile boolean ready = false; // Ready to play
     volatile byte psaychange = 0;
     boolean pSaid = false; // Said something
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     // static String backJarStr =	"cardpics/verdeckt.gif";
     // static String notJarStr = 	"cardpics/n0.gif";
     // static String talonJarStr =	"cardpics/t.gif";
-    game aGame;
+    Game aGame;
 
     /**
      * Override onCreate
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         // runtime.runFinalization();
         // runtime.gc();
 
-        aGame = new game();
+        aGame = new Game();
         tMes.setVisibility(View.INVISIBLE);
 
         frameAnimation.stop();
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tDbg.setText("Neues Spiel started ...");
         tRest.setText("10");
 
-        emptyTmpCard = new card(); // new card(this, -1);
+        emptyTmpCard = new Card(); // new Card(this, -1);
         tPoints.setText("" + String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();

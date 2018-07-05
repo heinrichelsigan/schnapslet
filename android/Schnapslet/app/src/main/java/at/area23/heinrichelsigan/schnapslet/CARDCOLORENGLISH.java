@@ -21,7 +21,9 @@ package at.area23.heinrichelsigan.schnapslet;
 import java.lang.*;
 
 public enum CARDCOLORENGLISH {
-	
+
+	EMPTY('e'),
+	NONE('n'),
 	HEARTS('h'),
 	SPADES('p'),
 	DIAMONDS('k'),

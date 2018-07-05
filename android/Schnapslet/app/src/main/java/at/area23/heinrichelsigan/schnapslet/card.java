@@ -18,13 +18,13 @@
 */
 package at.area23.heinrichelsigan.schnapslet;
 
-import at.area23.heinrichelsigan.schnapslet.card;
+import at.area23.heinrichelsigan.schnapslet.Card;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 // import java.awt.*;
 
-public class card {
+public class Card {
     
 	boolean atou = false;
     char color = 'n';   // 4 colors and 'n' for unitialized
@@ -39,9 +39,9 @@ public class card {
 
 
     /**
-     * Constructor card()
+     * Constructor Card()
      */
-    public card() {
+    public Card() {
         super();
         // this.color = 'n';
         // this.value = 0;
@@ -53,10 +53,10 @@ public class card {
 	
 
     /**
-     * Constructor card(int num)
+     * Constructor Card(int num)
      * @param num internal value -2 or -1 or between 0 and 19
      */
-    public card(int num) {
+    public Card(int num) {
 		this();
         String tmpstr, namestr = new String();
 
@@ -134,11 +134,11 @@ public class card {
 
 
     /**
-     * Constructor card(int numv, char atoudef)
+     * Constructor Card(int numv, char atoudef)
      * @param numv internal value -2 or -1 or between 0 and 19
      * @param atoudef color of atou
      */
-	public card(int numv, char atoudef) {
+	public Card(int numv, char atoudef) {
         this(numv);
         if (this.color == atoudef) {
             this.atou = true;
@@ -148,10 +148,10 @@ public class card {
 
 
     /**
-     * Constructor card(card aCard)
-     * @param aCard - a instanciated card object
+     * Constructor Card(Card aCard)
+     * @param aCard - a instanciated Card object
      */
-    public card(card aCard) {
+    public Card(Card aCard) {
         this();
         this.atou = aCard.atou;
         this.color = aCard.color;
@@ -312,7 +312,7 @@ public class card {
      * 
      * @param otherCard
      */
-    public boolean hitsValue(card otherCard) {
+    public boolean hitsValue(Card otherCard) {
         if (this.color == otherCard.color) {
             if (this.getValue() > otherCard.getValue()) 
                 return true;
@@ -328,7 +328,7 @@ public class card {
      * active Der Flag active gibt an, welche Karte zuerst ausgespielt wurder.
      * Wurde die Karte selbst zuerst ausgespielt, so wird active true uebergeben.
      */
-    public boolean hitsCard(card otherCard, boolean active) {
+    public boolean hitsCard(Card otherCard, boolean active) {
         if (this.color == otherCard.color) {
             if (this.getValue() > otherCard.getValue()) 
                 return true;

@@ -16,14 +16,14 @@
 
 */
 package at.area23.heinrichelsigan.schnapslet;
-import at.area23.heinrichelsigan.schnapslet.card;
+import at.area23.heinrichelsigan.schnapslet.Card;
 
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class game {
+public class Game {
     volatile boolean isGame = false;   // a Game is running
     char atouInGame = 'n';             // color that is atou in this game
     boolean atouChanged = false;      // Atou allready changed
@@ -33,19 +33,19 @@ public class game {
     boolean colorHitRule = false;
     boolean isClosed = false;
     boolean shouldContinue = false;
-    card playedOut;
+    Card playedOut;
     int index = 9;    
     int movs = 0;
     int inGame[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
-    card set[] = new card[20]; 
+    Card set[] = new Card[20]; 
     messageQueue mqueue = new messageQueue();
-    player gambler;
-    player computer;
+    Player gambler;
+    Player computer;
 	// java.applet.Applet masterApplet = null;
     
                     
-    public game() {
+    public Game() {
         super();
         isGame = true;
         atouChanged = false;   
@@ -57,9 +57,9 @@ public class game {
         mqueue.clear();
         mqueue.insert("Starting new game ...");
         
-        card set[] = new card[20];
+        Card set[] = new Card[20];
         for (int i = 0; i < 20; i++) {
-	        set[i] = new card(); //new card(applet, -1);
+	        set[i] = new Card(); //new Card(applet, -1);
 	        inGame[i] = i;
         }      
         
@@ -67,9 +67,9 @@ public class game {
         said = 'n';
         csaid = 'n';
         mqueue.insert("Creating new players ...");
-        gambler = new player(true);
+        gambler = new Player(true);
         gambler.points = 0;
-        computer = new player(false);
+        computer = new Player(false);
         computer.points = 0;
         mergeCards();
     }
@@ -97,14 +97,14 @@ public class game {
             inGame[j]= tmp;
         }
 
-        // et[19] = new card(masterApplet, inGame[19]);
-        set[19] = new card(inGame[19]);
+        // et[19] = new Card(masterApplet, inGame[19]);
+        set[19] = new Card(inGame[19]);
         set[19].setAtou();
         mqueue.insert("Atou ist " + set[19].getName() + " !");
         this.atouInGame = set[19].getColor();
         for (i = 0; i < 19; i++) {
-            // set[i] = new card(masterApplet, inGame[i], this.atouInGame);
-            set[i] = new card(inGame[i], this.atouInGame);
+            // set[i] = new Card(masterApplet, inGame[i], this.atouInGame);
+            set[i] = new Card(inGame[i], this.atouInGame);
             if (i < 5) {
                 gambler.assignCard(set[i]);
             } else if (i < 10) {
@@ -133,18 +133,18 @@ public class game {
        
         colorHitRule = false;
         isClosed = false;
-        playedOut = new card(); // new card(masterApplet, -1);
+        playedOut = new Card(); // new Card(masterApplet, -1);
         for (int i = 0; i < 5; i++) {
-	        gambler.hand[i] = new card(); // new card(masterApplet, -1);
+	        gambler.hand[i] = new Card(); // new card(masterApplet, -1);
 	        computer.hand[i] = playedOut;
         }                     
         mqueue.insert("ending game ...");
         
 	}
 
-    public void changeAtou(player aPlayer) {
+    public void changeAtou(Player aPlayer) {
         int cardidx;
-        card tmpCard;
+        Card tmpCard;
         if ((cardidx = aPlayer.canChangeAtou()) < 0) return ;
         tmpCard = aPlayer.hand[cardidx];
         aPlayer.hand[cardidx] = set[19];
@@ -153,7 +153,7 @@ public class game {
         atouChanged = true;
     }
     
-    public boolean atouIsChangable(player aPlayer) {
+    public boolean atouIsChangable(Player aPlayer) {
         if (atouChanged) return false;
         if (aPlayer.canChangeAtou()>=0) return true;
         return false;

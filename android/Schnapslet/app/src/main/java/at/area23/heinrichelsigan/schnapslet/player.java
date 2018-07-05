@@ -17,17 +17,17 @@
 */
 package at.area23.heinrichelsigan.schnapslet;
 
-import at.area23.heinrichelsigan.schnapslet.card;
+import at.area23.heinrichelsigan.schnapslet.Card;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class player {
+public class Player {
     volatile boolean begins;    // does this Player begin ?
-    card hand[] = new card[5];  // Cards in Players Hand
+    Card hand[] = new Card[5];  // Cards in Players Hand
     // not implemented yet !
-    // card hits[] = new card[10]; // hits made by this player 
+    // Card hits[] = new Card[10]; // hits made by this player 
 
     boolean hasClosed = false;
     int points = 0;             // points made by this player
@@ -35,16 +35,16 @@ public class player {
     char handpairs[] = {'n', 'n'};
     volatile int colorHitArray[] = {0, 0, 0, 0, 0};
 
-    public player() {
+    public Player() {
         super();
         hasClosed = false;
         for (int i = 0; i < 5; i++) {
-            hand[i] = new card();
+            hand[i] = new Card();
             colorHitArray[i] = (-1);
         }
     }
 
-    public player(boolean starts) {
+    public Player(boolean starts) {
         this();
         this.begins = starts;
     }
@@ -64,7 +64,7 @@ public class player {
 
     public void sortHand() { // BubbleSort
         int j, k, min, mark;
-        card tmpCard;
+        Card tmpCard;
         for (k = 0; k < 4; k++) { // Bubble
             min = 20;
             mark = -1;
@@ -103,13 +103,13 @@ public class player {
     }
 
 
-    public void assignCard(card gotCard) {
+    public void assignCard(Card gotCard) {
         int i = 0;
         while ((i < 5) && (hand[i].isValidCard())) i++;
-        if (i < 5) hand[i] = new card(gotCard);
+        if (i < 5) hand[i] = new Card(gotCard);
     }
 
-    public boolean isInColorHitsContextValid(int nynum, card aCard) {
+    public boolean isInColorHitsContextValid(int nynum, Card aCard) {
         int i = 0;
         int j = 0;
         int max = -1;
@@ -147,7 +147,7 @@ public class player {
         return false;
     }
 
-    public int bestInColorHitsContext(card aCard) {
+    public int bestInColorHitsContext(Card aCard) {
         int i = 0, j = 0, mark = -1, max = -1;
 
         for (i = 0; i < 5; i++) {
@@ -202,7 +202,7 @@ public class player {
     }
 
 
-    public boolean isColorHitValid(int cidx, card otherCard) {
+    public boolean isColorHitValid(int cidx, Card otherCard) {
         int i;
         // gleiche Farbe und groesser -> OK
         if (hand[cidx].hitsValue(otherCard))
