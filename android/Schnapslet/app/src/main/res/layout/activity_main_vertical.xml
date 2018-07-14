@@ -7,88 +7,40 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <AbsoluteLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
         <ImageView
-            android:id="@+id/im0"
+            android:id="@+id/imOut1"
+            android:contentDescription="@string/imOut1_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="0dp"
-            android:layout_y="100dp"
-            android:src="@drawable/n0"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="0dp"
             android:minWidth="72dp"
             android:minHeight="96dp"
-            />
-        <ImageView
-            android:id="@+id/im1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="66dp"
-            android:layout_y="100dp"
-            android:src="@drawable/n0"
-            android:minWidth="72dp"
-            android:minHeight="96dp"
-            />
-        <ImageView
-            android:id="@+id/im2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="132dp"
-            android:layout_y="100dp"
-            android:src="@drawable/n0"
-            android:minWidth="72dp"
-            android:minHeight="96dp"
-            />
-        <ImageView
-            android:id="@+id/im3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="198dp"
-            android:layout_y="100dp"
-            android:src="@drawable/n0"
-            android:minWidth="72dp"
-            android:minHeight="96dp"
-            />
-        <ImageView
-            android:id="@+id/im4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="264dp"
-            android:layout_y="100dp"
-            android:src="@drawable/n0"
-            android:minWidth="72dp"
-            android:minHeight="96dp"
+            android:src="@drawable/leer"
             />
         <ImageView
             android:id="@+id/imOut0"
+            android:contentDescription="@string/imOut0_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="96dp"
-            android:layout_y="0dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginTop="0dp"
             android:src="@drawable/leer"
             android:minWidth="72dp"
             android:minHeight="96dp"
-            />
-        <ImageView
-            android:id="@+id/imOut1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_x="4dp"
-            android:layout_y="0dp"
-            android:minWidth="72dp"
-            android:minHeight="96dp"
-            android:src="@drawable/leer"
             />
 
         <ImageView
             android:id="@+id/imMerge"
+            android:contentDescription="@string/imMerge_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="176dp"
             android:layout_marginTop="0dp"
-            android:layout_x="176dp"
-            android:layout_y="0dp"
             android:minWidth="144dp"
             android:minHeight="96dp"
             android:visibility="visible"
@@ -96,10 +48,11 @@
 
         <ImageView
             android:id="@+id/imAtou"
+            android:contentDescription="@string/imAtou_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="256dp"
-            android:layout_y="0dp"
+            android:layout_marginLeft="256dp"
+            android:layout_marginTop="0dp"
             android:minWidth="72dp"
             android:minHeight="96dp"
             android:src="@drawable/n0"
@@ -107,15 +60,71 @@
             />
         <ImageView
             android:id="@+id/imTalon"
+            android:contentDescription="@string/imTalon_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="180dp"
-            android:layout_y="14dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="14dp"
             android:minWidth="96dp"
             android:minHeight="72dp"
             android:src="@drawable/t"
             android:visibility="invisible"
-            android:contentDescription="imageTalon"
+            />
+
+        <ImageView
+            android:id="@+id/im0"
+            android:contentDescription="@string/im0_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/n0"
+            android:minWidth="72dp"
+            android:minHeight="96dp"
+            />
+        <ImageView
+            android:id="@+id/im1"
+            android:contentDescription="@string/im1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="66dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/n0"
+            android:minWidth="72dp"
+            android:minHeight="96dp"
+            />
+        <ImageView
+            android:id="@+id/im2"
+            android:contentDescription="@string/im2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="132dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/n0"
+            android:minWidth="72dp"
+            android:minHeight="96dp"
+            />
+        <ImageView
+            android:id="@+id/im3"
+            android:contentDescription="@string/im3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="198dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/n0"
+            android:minWidth="72dp"
+            android:minHeight="96dp"
+            />
+        <ImageView
+            android:id="@+id/im4"
+            android:contentDescription="@string/im4_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="264dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/n0"
+            android:minWidth="72dp"
+            android:minHeight="96dp"
             />
 
         <TextView
@@ -124,19 +133,19 @@
             android:layout_height="match_parent"
             android:minHeight="24dp"
             android:minWidth="340dp"
-            android:text="Kurzinfo Anzeige"
-            android:layout_x="0dp"
-            android:layout_y="200dp"
+            android:text="@string/tMes_text"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="200dp"
             />
 
         <Button
             android:id="@+id/b20a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20 ansagen"
+            android:text="@string/b20a_text"
             android:enabled="false"
-            android:layout_x="372dp"
-            android:layout_y="0dp"
+            android:layout_marginLeft="372dp"
+            android:layout_marginTop="0dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -144,10 +153,10 @@
             android:id="@+id/b20b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40 ansagen"
+            android:text="@string/b20b_text"
             android:enabled="false"
-            android:layout_x="372dp"
-            android:layout_y="24dp"
+            android:layout_marginLeft="372dp"
+            android:layout_marginTop="24dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -155,10 +164,10 @@
             android:id="@+id/bChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Atou tauschen"
+            android:text="@string/bChange_text"
             android:enabled="false"
-            android:layout_x="372dp"
-            android:layout_y="48dp"
+            android:layout_marginLeft="372dp"
+            android:layout_marginTop="48dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
@@ -167,51 +176,48 @@
             android:id="@+id/tRest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="10"
-            android:layout_x="384dp"
-            android:layout_y="80dp"
+            android:text="@string/tRest_text"
+            android:layout_marginLeft="384dp"
+            android:layout_marginTop="80dp"
             android:minHeight="24dp"
             android:minWidth="384dp"
             />
-
         <TextView
             android:id="@+id/tPoints"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="0"
-            android:layout_x="444dp"
-            android:layout_y="80dp"
+            android:text="@string/tPoints_text"
+            android:layout_marginLeft="444dp"
+            android:layout_marginTop="80dp"
             android:minHeight="48dp"
             android:minWidth="24dp"
             />
-
 
         <Button
             android:id="@+id/bContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weiter"
+            android:text="@string/bContinue_text"
             android:enabled="false"
-            android:layout_x="372dp"
-            android:layout_y="104dp"
+            android:layout_marginLeft="372dp"
+            android:layout_marginTop="104dp"
             android:minWidth="96dp"
             android:minHeight="24dp"
             />
-
 
         <TextView
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_x="0dp"
-            android:layout_y="250dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="250dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
-            android:text=""
+            android:text="@string/tDbg_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
-    </AbsoluteLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

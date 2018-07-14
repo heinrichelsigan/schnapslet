@@ -19,38 +19,53 @@
 package at.area23.heinrichelsigan.schnapslet;
 
 import at.area23.heinrichelsigan.schnapslet.Card;
+import android.content.res.Resources;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
+import android.util.TypedValue;
+
 import java.lang.*;
 import java.io.*;
 import java.net.*;
-// import java.awt.*;
 
 public class Card {
-    
-	boolean atou = false;
-    char color = 'n';   // 4 colors and 'n' for unitialized
-    int value = 0;      // 5 values and 0 for unitialized
     int intern = -1;    // 20 values for internal representation and (-1) for unitialized
     CARDVALUE cardValue = CARDVALUE.NONE;
     CARDCOLOR cardColor = CARDCOLOR.NONE;
+    boolean atou = false;
+    char color = 'n';   // 4 colors and 'n' for unitialized
+    int value = -1; // 5 values and 0 for unitialized
     java.lang.String name = new String();  // Human readable classifier
     java.net.URL picture;  // picture 
 	//
 	// java.applet.Applet masterApplet = null;
-
+    Resources r;
+    Context context;
 
     /**
      * Constructor Card()
      */
     public Card() {
         super();
-        // this.color = 'n';
-        // this.value = 0;
         this.intern = -1;
         this.name = "nocard";
         cardValue = CARDVALUE.NONE;
         cardColor = CARDCOLOR.NONE;
+        this.color = (char)cardColor.getValue();
+        this.value = cardValue.getValue();
     }
-	
+
+    /**
+     *  Constructor Card
+     * @param c us context of android app
+     */
+    public Card(Context c) {
+        this();
+        this.context = c;
+        r = c.getResources();
+    }
 
     /**
      * Constructor Card(int num)
@@ -58,7 +73,7 @@ public class Card {
      */
     public Card(int num) {
 		this();
-        String tmpstr, namestr = new String();
+        String tmpstr;
 
         if (num == -2) {
             this.cardColor = CARDCOLOR.EMPTY;
@@ -102,25 +117,11 @@ public class Card {
         this.value = (int)cardValue.getValue();
         this.color = (char)cardColor.getValue();
 
-        namestr = cardColor.toString() + "_" + cardValue.getName();
-        this.name = namestr;
-        System.err.println(namestr);
-
-        /*
-		try {
-        	tmpstr = new String("cardpics/" + this.color + this.value + ".gif");
-			// this.cardimage = new Image();
-			// this.cardimage = JarIncludedImage(tmpstr);
-		} catch (java.lang.Exception ex) {
-			ex.printStackTrace();
-			System.err.println(ex.toString()); 
-		}
-		*/
+        this.name = cardColor.toString() + "_" + cardValue.getName();;
+        // System.err.println(namestr);
 
 		try {
         	tmpstr = new String("http://www.area23.at/" + "cardpics/" + this.color + this.value + ".gif");
-            System.err.println(tmpstr);
-        	// System.err.println(tmpstr);
 			this.picture = new java.net.URL(tmpstr);
 		} catch (Exception exi) {
 			exi.printStackTrace();
@@ -128,24 +129,132 @@ public class Card {
         }
 		
         return;
-    }	
-	
+    }
 
-
+    /**
+     * Constructor of Card
+     * @param num internal value -2 or -1 or between 0 and 19
+     * @param c us context of android app
+     */
+    public Card(int num, Context c) {
+        this(num);
+        this.context = c;
+        r = c.getResources();
+    }
 
     /**
      * Constructor Card(int numv, char atoudef)
      * @param numv internal value -2 or -1 or between 0 and 19
      * @param atoudef color of atou
      */
-	public Card(int numv, char atoudef) {
+    public Card(int numv, char atoudef) {
         this(numv);
         if (this.color == atoudef) {
             this.atou = true;
-		}
+        }
     }
 
+    /**
+     * Constructor Card
+     * @param numv internal value -2 or -1 or between 0 and 19
+     * @param atoudef color of atou
+     * @param c us context of android app
+     */
+    public Card(int numv, char atoudef, Context c) {
+        this(numv, c);
+        if (this.color == atoudef) {
+            this.atou = true;
+        }
+    }
 
+    /**
+     * another Constructor of Card
+     * @param aCardColor the current Card Color
+     * @param aCardValue the current Card Value
+     */
+    public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue) {
+
+        this.cardColor = aCardColor;
+        this.cardValue = aCardValue;
+
+        int num = -1;
+        if (aCardColor == CARDCOLOR.EMPTY) num = -2;
+        if (aCardValue == CARDVALUE.NONE) num = -1;
+        else if (aCardValue == CARDVALUE.JACK) num = 0;
+        else if (aCardValue == CARDVALUE.QUEEN) num = 1;
+        else if (aCardValue == CARDVALUE.KING) num = 2;
+        else if (aCardValue == CARDVALUE.TEN) num = 3;
+        else if (aCardValue == CARDVALUE.ACE) num = 4;
+
+        if (cardColor == CARDCOLOR.PIK) num += 5;
+        if (cardColor == CARDCOLOR.KARO) num += 10;
+        if (cardColor == CARDCOLOR.TREFF) num += 15;
+
+        this.intern = num;
+        this.color = (char)aCardColor.getValue();
+        this.value = aCardValue.getValue();
+
+        this.name = cardColor.toString() + "_" + cardValue.getName();
+
+        try {
+            this.picture = new java.net.URL(new String("http://www.area23.at/" + "cardpics/" + this.color + this.value + ".gif"));
+        } catch (Exception exi) {
+            exi.printStackTrace();
+            System.err.println(exi.toString());
+        }
+    }
+
+    /**
+     * another Constructor of Card
+     * @param aCardColor the current Card Color
+     * @param aCardValue the current Card Value
+     * @param atoudef char of atoude
+     */
+    public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef) {
+        this(aCardColor, aCardValue);
+        if (this.color == atoudef) {
+            this.atou = true;
+        }
+    }
+
+    /**
+     * Constructor of Card
+     * @param aCardColor the current Card Color
+     * @param aCardValue the current Card Value
+     * @param atoudef char of atoudef
+     * @param c us context of android app
+     */
+    public  Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef, Context c) {
+        this(aCardColor, aCardValue, atoudef);
+        this.context = c;
+        this.r = c.getResources();
+    }
+
+    /**
+     * another Constructor of Card
+     * @param aCardColor the current Card Color
+     * @param aCardValue the current Card Value
+     * @param atouColor Card Color of Atou
+     */
+    public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, CARDCOLOR atouColor) {
+        this(aCardColor, aCardValue);
+        if (this.color == (char)atouColor.getValue()) {
+            this.atou = true;
+        }
+    }
+
+    /**
+     * another Constructor of Card
+     * @param aCardColor the current Card Color
+     * @param aCardValue the current Card Value
+     * @param atouColor Card Color of Atou
+     * @param c is context of android app
+     */
+    public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, CARDCOLOR atouColor, Context c) {
+        this(aCardColor, aCardValue, atouColor);
+        this.context = c;
+        this.r = c.getResources();
+    }
 
     /**
      * Constructor Card(Card aCard)
@@ -161,9 +270,21 @@ public class Card {
         this.picture = aCard.picture;
         this.cardValue = aCard.cardValue;
         this.cardColor = aCard.cardColor;
-		// this.cardimage = aCard.cardimage;
+        this.r = aCard.r;
+        // cardImage = aCard.cardImage;
     }
-        
+
+    /**
+     * Constructor
+     * @param aCard- a instanciated Card object
+     * @param c us context of android app
+     */
+    public Card(Card aCard, Context c) {
+        this(aCard);
+        this.context = c;
+        r = c.getResources();
+    }
+
     /**
      * Liefert den menschlichen Bezeichner der Karte
      */
@@ -178,19 +299,24 @@ public class Card {
         return (char)cardColor.getValue();
     }
 
+    /**
+     * setAtou() us to  set czrrebt card as arou
+     */
 	public void setAtou() {
 		this.atou = true;
 	}
 
     /**
-     * liefert den Punkt Wert der Karte
+     * getValue
+     * @return points value of current card
      */
     public int getValue() {
         return (int)cardValue.getValue();
     }
-    
-	/**
-     * liefert die URL des Kartensymbols
+
+    /**
+     * getPictureUrl
+     * @return a picture URL to ab image in !WWW
      */
     public java.net.URL getPictureUrl() {
         //return (picture);
@@ -201,6 +327,10 @@ public class Card {
 		return xy;
     }
 
+    /**
+     * getPictureUri
+     * @return va picture Uri to ab image in !WWW
+     */
     public android.net.Uri getPictureUri() {
         //return (picture);
         android.net.Uri xx = null;
@@ -211,88 +341,35 @@ public class Card {
         return xx;
     }
 
-    public int getResInt() {
+    /**
+     * getResourcesInt
+     * @return the RessourceID drom "drawable" as int for tge soecific card
+     */
+    public int getResourcesInt() {
         String tmp = this.color + String.valueOf(this.value);
-        if (tmp.equals("k2"))
-            return R.drawable.k2;
-        if (tmp.equals("k3"))
-            return R.drawable.k3;
-        if (tmp.equals("k4"))
-            return R.drawable.k4;
-        if (tmp.equals("k10"))
-            return R.drawable.k10;
-        if (tmp.equals("k11"))
-            return R.drawable.k11;
-        if (tmp.equals("p2"))
-            return R.drawable.p2;
-        if (tmp.equals("p3"))
-            return R.drawable.p3;
-        if (tmp.equals("p4"))
-            return R.drawable.p4;
-        if (tmp.equals("p10"))
-            return R.drawable.p10;
-        if (tmp.equals("p11"))
-            return R.drawable.p11;
-        if (tmp.equals("t2"))
-            return R.drawable.t2;
-        if (tmp.equals("t3"))
-            return R.drawable.t3;
-        if (tmp.equals("t4"))
-            return R.drawable.t4;
-        if (tmp.equals("t10"))
-            return R.drawable.t10;
-        if (tmp.equals("t11"))
-            return R.drawable.t11;
-        if (tmp.equals("h2"))
-            return R.drawable.h2;
-        if (tmp.equals("h3"))
-            return R.drawable.h3;
-        if (tmp.equals("h4"))
-            return R.drawable.h4;
-        if (tmp.equals("h10"))
-            return R.drawable.h10;
-        if (tmp.equals("h11"))
-            return R.drawable.h11;
 
-        if (tmp.equals("e1") || tmp.equals("e0"))
-            return R.drawable.h11;
+        int drawableID = context.getResources().getIdentifier(tmp, "drawable", context.getPackageName());
 
-        return R.drawable.n0;
+        if (tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
+            return R.drawable.e1;
+
+        if (tmp.equals("n0") || tmp.equals("n"))
+            return R.drawable.n0;
+
+        return drawableID;
     }
 
-	/**
-     * liefert das Image des Kartensymbols
-
-	public java.awt.Image getImage() {
-		if (this.cardimage != null) {
-			return this.cardimage;
-		}
-		
-		java.awt.Image img1 = null;
-		String imgstr = new String("cardpics/" + this.color + this.value + ".gif");
-		try {
-			InputStream is = getClass().getResourceAsStream(imgstr);
-			BufferedInputStream bis = new BufferedInputStream(is);
-			// a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
-			byte[] byBuf = new byte[10000]; // is.read(byBuf);  or something like that... 
-			int byteRead = bis.read(byBuf,0,10000);
-			img1 = Toolkit.getDefaultToolkit().createImage(byBuf);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return img1;
-	}  
-	     */
-    
     /**
-     * Zeigt an, ob es sich bei dieser Karte um ein Atou handelt.
+     * isAtou
+     * @return true, uf current card is currently ab Atou in that game
      */
     public boolean isAtou() {
         return this.atou;
     }
-    
+
     /**
-     * Zeigt an, ob es sich bei der Karte um eine regulaere Karte handelt.
+     * isValidCard
+     * @return true, if the current card is valid, false, if ut's av enory ir none reference
      */
     public boolean isValidCard() {
         char c1 = this.color;
@@ -305,12 +382,12 @@ public class Card {
 			}
         }
         return false;
-    }    
+    }
 
     /**
-     * gibt an ob diese Karte ohne Kontext des Spiels eine andere schlaegt
-     * 
+     * hitsValue
      * @param otherCard
+     * @return truem, if card hits value of otherCard
      */
     public boolean hitsValue(Card otherCard) {
         if (this.color == otherCard.color) {
@@ -319,45 +396,56 @@ public class Card {
         }
         return false;
     }
-        
 
     /**
-     * gibt an ob diese Karte die ueergebene Karte otherCard schlaegt
-     * 
-     * otherCard die andere Karte
-     * active Der Flag active gibt an, welche Karte zuerst ausgespielt wurder.
-     * Wurde die Karte selbst zuerst ausgespielt, so wird active true uebergeben.
+     * hitsCard
+     * @param otherCard
+     * @param active - us card active card, uf no clear rule for hitting otherCard,
+     * @return true, if current card hits otherCard, false otherwise
      */
     public boolean hitsCard(Card otherCard, boolean active) {
         if (this.color == otherCard.color) {
-            if (this.getValue() > otherCard.getValue()) 
-                return true;
-            else return false;
+            if (this.getValue() > otherCard.getValue())
+            return true;
+            else
+                return false;
         }
-        if ((this.isAtou()) && (otherCard.isAtou() == false)) {
+        if ((this.isAtou()) && (!otherCard.isAtou())) {
 			return true;
 		}
-        if ((this.isAtou() == false) && (otherCard.isAtou())) {
+        if ((!this.isAtou()) && (otherCard.isAtou())) {
 			return false;
 		}
         return active;
     }
- 
-	/*
-	public java.awt.Image JarIncludedImage(String imgstr) {
-		java.awt.Image img1 = null;
-		try {
-			InputStream is = getClass().getResourceAsStream(imgstr);
-			BufferedInputStream bis = new BufferedInputStream(is);
-			// a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
-			byte[] byBuf = new byte[10000]; // is.read(byBuf);  or something like that... 
-			int byteRead = bis.read(byBuf,0,10000);
-			img1 = Toolkit.getDefaultToolkit().createImage(byBuf);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return img1;
-	} 
-	*/
-   
+
+    public Drawable getDrawable() {
+
+        String tmp = this.color + String.valueOf(this.value);
+        android.util.TypedValue typVak = new TypedValue();
+        typVak.resourceId = this.getResourcesInt();
+        Resources.Theme theme =  context.getResources().newTheme();
+        Drawable drawvle = context.getResources().getDrawable(this.getResourcesInt(), theme);
+
+        return drawvle;
+    }
+
+    public  byte[] getBytes() {
+        byte[] byBuf = null;
+        try {
+            InputStream is = context.getResources().openRawResource(this.getResourcesInt());
+            BufferedInputStream bis = new BufferedInputStream(is);
+            // a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
+            byBuf = new byte[10000]; // is.read(byBuf);  or something like that...
+            int byteRead = bis.read(byBuf,0,10000);
+
+            return byBuf;
+            // img1 = Toolkit.getDefaultToolkit().createImage(byBuf);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return byBuf;
+    }
+
 }

@@ -7,9 +7,10 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <AbsoluteLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="100dp"
@@ -20,6 +21,7 @@
 
             <ImageView
                 android:id="@+id/imOut1"
+                android:contentDescription="@string/imOut1_text"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="0dp"
@@ -33,6 +35,7 @@
                 />
             <ImageView
                 android:id="@+id/imOut0"
+                android:contentDescription="@string/imOut0_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="64dp"
@@ -45,6 +48,7 @@
 
 			<ImageView 
 				android:id="@+id/imMerge"
+                android:contentDescription="@string/imMerge_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="176dp"
@@ -58,6 +62,7 @@
 
             <ImageView
                 android:id="@+id/imAtou"
+                android:contentDescription="@string/imAtou_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="256dp"
@@ -68,9 +73,9 @@
                 android:minHeight="96dp"
                 android:visibility="invisible"
                 android:src="@drawable/n0" />
-
             <ImageView
                 android:id="@+id/imTalon"
+                android:contentDescription="@string/imTalon_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="180dp"
@@ -82,15 +87,20 @@
                 android:visibility="invisible"
                 />
         </RelativeLayout>
-        <AbsoluteLayout
+        <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="100dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="100dp"
             android:layout_x="0dp"
             android:layout_y="100dp">
             <ImageView
                 android:id="@+id/im0"
+                android:contentDescription="@string/im0_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="0dp"
                 android:layout_y="0dp"
                 android:src="@drawable/n0"
@@ -99,8 +109,11 @@
                 />
             <ImageView
                 android:id="@+id/im1"
+                android:contentDescription="@string/im1_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="64dp"
                 android:layout_y="0dp"
                 android:src="@drawable/n0"
@@ -109,8 +122,11 @@
                 />
             <ImageView
                 android:id="@+id/im2"
+                android:contentDescription="@string/im2_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="128dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="128dp"
                 android:layout_y="0dp"
                 android:src="@drawable/n0"
@@ -119,8 +135,11 @@
                 />
             <ImageView
                 android:id="@+id/im3"
+                android:contentDescription="@string/im3_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="192dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="192dp"
                 android:layout_y="0dp"
                 android:src="@drawable/n0"
@@ -129,15 +148,18 @@
                 />
             <ImageView
                 android:id="@+id/im4"
+                android:contentDescription="@string/im4_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="256dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="256dp"
                 android:layout_y="0dp"
                 android:src="@drawable/n0"
                 android:minWidth="72dp"
                 android:minHeight="96dp"
                 />
-        </AbsoluteLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tMes"
@@ -145,14 +167,19 @@
             android:layout_height="match_parent"
             android:minHeight="24dp"
             android:minWidth="340dp"
-            android:text="Kurzinfo Anzeige"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="200dp"
+            android:text="@string/tMes_text"
             android:layout_x="0dp"
             android:layout_y="200dp"
             />
 
-        <AbsoluteLayout
+
+        <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="240dp"
             android:layout_x="0dp"
             android:layout_y="240dp">
 
@@ -160,8 +187,10 @@
                 android:id="@+id/bContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weiter"
+                android:text="@string/bContinue_text"
                 android:enabled="false"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="0dp"
                 android:layout_y="0dp"
                 android:minWidth="96dp"
@@ -171,8 +200,10 @@
                 android:id="@+id/bChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Atou tauschen"
+                android:text="@string/bChange_text"
                 android:enabled="false"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="24dp"
                 android:layout_x="0dp"
                 android:layout_y="24dp"
                 android:minWidth="96dp"
@@ -185,7 +216,9 @@
                 android:layout_height="match_parent"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
-                android:text="10"
+                android:text="@string/tRest_text"
+                android:layout_marginLeft="102dp"
+                android:layout_marginTop="4dp"
                 android:layout_x="102dp"
                 android:layout_y="4dp"
                 />
@@ -195,7 +228,9 @@
                 android:layout_height="match_parent"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
-                android:text="0"
+                android:text="@string/tPoints_text"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="4dp"
                 android:layout_x="150dp"
                 android:layout_y="4dp"
                 />
@@ -204,7 +239,9 @@
                 android:id="@+id/b20a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20 ansagen"
+                android:text="@string/b20a_text"
+                android:layout_marginLeft="192dp"
+                android:layout_marginTop="0dp"
                 android:layout_x="192dp"
                 android:layout_y="0dp"
                 android:minWidth="96dp"
@@ -214,28 +251,32 @@
                 android:id="@+id/b20b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="40 ansagen"
+                android:text="@string/b20b_text"
+                android:layout_marginLeft="192dp"
+                android:layout_marginTop="24dp"
                 android:layout_x="192dp"
                 android:layout_y="24dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
                 />
 
-        </AbsoluteLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="300dp"
             android:layout_x="0dp"
             android:layout_y="300dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
-            android:text=""
+            android:text="@string/tDbg_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
-    </AbsoluteLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -17,35 +17,44 @@
 */
 package at.area23.heinrichelsigan.schnapslet;
 
+
 import at.area23.heinrichelsigan.schnapslet.Card;
 import java.lang.*;
+import android.content.res.Resources;
+import android.content.Context;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class Player {
     volatile boolean begins;    // does this Player begin ?
-    Card hand[] = new Card[5];  // Cards in Players Hand
+    Card[] hand = new Card[5];  // Cards in Players Hand
     // not implemented yet !
-    // Card hits[] = new Card[10]; // hits made by this player 
+    // Card hits[] = new Card[10]; // hits made by this player
 
     boolean hasClosed = false;
     int points = 0;             // points made by this player
-    char pairs[] = {'n', 'n', 'n', 'n'};
-    char handpairs[] = {'n', 'n'};
-    volatile int colorHitArray[] = {0, 0, 0, 0, 0};
+    // char pairs[] = {'n', 'n', 'n', 'n'};
+    PairCard[] pairs = new PairCard[2];
+    char[] handpairs = {'n', 'n'};
+    volatile int[] colorHitArray = {0, 0, 0, 0, 0};
+    int playerOptions = 0;
+    Resources r;
+    Context context;
 
-    public Player() {
+    public Player(Context c) {
         super();
+        this.context = c;
+        this.r = c.getResources();
         hasClosed = false;
         for (int i = 0; i < 5; i++) {
-            hand[i] = new Card();
+            hand[i] = new Card(c);
             colorHitArray[i] = (-1);
         }
     }
 
-    public Player(boolean starts) {
-        this();
+    public Player(boolean starts, Context c) {
+        this(c);
         this.begins = starts;
     }
 
@@ -82,6 +91,10 @@ public class Player {
         }
     }
 
+    /**
+     * canChangeAtou
+     * @return if can change atou, return index of card, that is Jack to change, otherwiese -1
+     */
     public int canChangeAtou() {
         for (int i = 0; i < 5; i++)
             if ((hand[i].isAtou()) && (hand[i].getValue() == 2)) {
@@ -90,23 +103,43 @@ public class Player {
         return (-1);
     }
 
+    /**
+     * has20 - checks if a player (the player or computer) has a Queen & King pair
+     * @return number of pairs, that player has (1 or 2)
+     */
     public int has20() {
         int i, hpidx = 0;
         handpairs[0] = 'n';
         handpairs[1] = 'n';
+
         for (i = 0; i < 4; i++) {
-            if (hand[i].color == hand[i + 1].color)
-                if ((hand[i].getValue() + hand[i + 1].getValue()) == 7)
+            if (hand[i].color == hand[i + 1].color) {
+                if ((hand[i].getValue() + hand[i + 1].getValue()) == 7) {
+
+                    if (hpidx == 0) {
+                        pairs[0] = new PairCard(hand[i], hand[i + 1]);
+                    }
+                    if (hpidx == 1) {
+                        pairs[1] = new PairCard(hand[i], hand[i + 1]);
+                    }
+
                     handpairs[hpidx++] = hand[i].color;
+                }
+            }
         }
         return hpidx;
     }
 
-
+    /**
+     * assignCard assigns a new card to players hand
+     * @param gotCard - the new card to assign
+     */
     public void assignCard(Card gotCard) {
         int i = 0;
-        while ((i < 5) && (hand[i].isValidCard())) i++;
-        if (i < 5) hand[i] = new Card(gotCard);
+        while ((i < 5) && (hand[i].isValidCard()))
+            i++;
+        if (i < 5)
+            hand[i] = new Card(gotCard, context);
     }
 
     public boolean isInColorHitsContextValid(int nynum, Card aCard) {
@@ -115,7 +148,7 @@ public class Player {
         int max = -1;
         for (i = 0; i < 5; i++) {
             // ist gueltige Karte -> PRI 0
-            if (hand[i].isValidCard() == false) {
+            if (!hand[i].isValidCard()) {
                 colorHitArray[i] = (-1);
             } else if (hand[i].isValidCard()) {
 
@@ -151,7 +184,7 @@ public class Player {
         int i = 0, j = 0, mark = -1, max = -1;
 
         for (i = 0; i < 5; i++) {
-            if (hand[i].isValidCard() == false) {
+            if (!hand[i].isValidCard()) {
                 colorHitArray[i] = (-1);
             } else if (hand[i].isValidCard()) {
 
@@ -160,7 +193,7 @@ public class Player {
 
                 if ((hand[i].color) != (aCard.color)) {
                     // not same colors
-                    if ((hand[i].isAtou()) && (aCard.isAtou() == false)) {
+                    if ((hand[i].isAtou()) && (!aCard.isAtou())) {
                         // ich kann mit Atou stechen -> PRI 1
                         colorHitArray[i] = 1;
                         if (max < 1) max = 1;
@@ -184,12 +217,12 @@ public class Player {
                 else switch (max) {
                     case 0:
                     case 2:
-                        if ((hand[mark].getValue()) > (hand[j].getValue()))
+                        if ((hand[mark].getValue()) <  (hand[j].getValue()))
                             mark = j;
                         break;
                     case 1:
                     case 3:
-                        if ((hand[mark].getValue()) < (hand[j].getValue()))
+                        if ((hand[mark].getValue()) <  (hand[j].getValue()))
                             mark = j;
                         break;
                     default:
@@ -200,7 +233,6 @@ public class Player {
 
         return mark;
     }
-
 
     public boolean isColorHitValid(int cidx, Card otherCard) {
         int i;
