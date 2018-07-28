@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.graphics.drawable.AnimationDrawable;
+// import android.graphics.drawable.AnimatedImageDrawable;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     Menu myMenu;
 
     AnimationDrawable frameAnimation;
+    // android.graphics.drawable.AnimatedImageDrawable animatedGif;
 
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
@@ -60,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         String layoutMes = null;
         if(getResources().getDisplayMetrics().widthPixels > getResources().getDisplayMetrics().heightPixels)
         {
-            layoutMes = new String("Screen switched to Landscape mode");
+            layoutMes = new String(getString(R.string.landscape_mode));
             setContentView(R.layout.activity_main_vertical);
         }
         else
         {
-            layoutMes = new String("Screen switched to Portrait mode");
+            layoutMes = new String(getString(R.string.portrait_mode));
             setContentView(R.layout.activity_main);
         }
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         im2 = (ImageView) findViewById(R.id.im2);
         im3 = (ImageView) findViewById(R.id.im3);
         im4 = (ImageView) findViewById(R.id.im4);
-        im4 = (ImageView) findViewById(R.id.im4);
+        // im4 = (ImageView) findViewById(R.id.im4);
 
         imOut0 =  (ImageView) findViewById(R.id.imOut0);
         imOut1 =  (ImageView) findViewById(R.id.imOut1);
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         imMerge = (ImageView) findViewById(R.id.imMerge);
         imMerge.setBackgroundResource(R.drawable.anim_merge);
+        // animatedGif = (android.graphics.drawable.AnimatedImageDrawable)imMerge.getBackground();
+        // animatedGif.start();
         frameAnimation = (AnimationDrawable)imMerge.getBackground();
         frameAnimation.start();
 
@@ -130,12 +134,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             setContentView(R.layout.activity_main);
-            tDbg.setText("Layout PORTRAIT");
+            tDbg.setText(getString(R.string.portrait_mode));
         }
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             setContentView(R.layout.activity_main_vertical);
-            tDbg.setText("Layout LANDSCAPE");
+            tDbg.setText(getString(R.string.landscape_mode));
         }
     }
 
@@ -185,9 +189,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     void resetButtons(int level) {
         if (level >= 0 ) {
-            b20a.setText("20 Ansagen");
+            b20a.setText(R.string.b20a_text);
+            // b20a.setText("20 Ansagen");
             b20a.setEnabled(false);
-            b20b.setText("40 Ansagen");
+            b20b.setText(R.string.b20b_text);
+            // b20b.setText("40 Ansagen");
             b20b.setEnabled(false);
             bChange.setEnabled(false);
         }
@@ -299,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         aGame = new Game(getApplicationContext());
         tMes.setVisibility(View.INVISIBLE);
 
+        // animatedGif.stop();
         frameAnimation.stop();
         imMerge.setVisibility(View.INVISIBLE);
 
@@ -603,8 +610,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 if (aGame.gambler.hasClosed) {
                     tsEnds(getString(R.string.closing_failed), 1);
                 }
-                if (aGame.computer.hasClosed) {
-                    tsEnds(getString(R.string.computer_closing_failed), 1);
+                try {
+                    if (aGame.computer.hasClosed) {
+                        tsEnds(getString(R.string.computer_closing_failed), 1);
+                    }
+                } catch (Exception jbpvex) {
+                    this.errHandler(jbpvex);
                 }
                 return ;
             } else {
@@ -882,7 +893,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     void imageView_ClickEventHandler(View arg0, int ic) {
 
         int j;
-        String c_array = "Player Array: ";
+        // String c_array = "Player Array: ";
         try {
             if (!ready) {
                 return;
@@ -916,10 +927,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
                     aGame.mqueue.insert(getString(R.string.you_must_play_color_hit_force_rules));
                     int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
-                    for (j = 0; j < 5; j++) {
-                        c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
-                    }
-                    aGame.mqueue.insert(c_array);
+                    // for (j = 0; j < 5; j++) {
+                    //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
+                    // }
+                    // aGame.mqueue.insert(c_array);
 
                     aGame.mqueue.insert(getString(R.string.best_card_would_be, aGame.gambler.hand[tmpint].getName()));
                     printMes();

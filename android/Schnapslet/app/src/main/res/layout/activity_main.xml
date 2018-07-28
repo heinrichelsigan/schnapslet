@@ -36,8 +36,8 @@
             <ImageView
                 android:id="@+id/imOut0"
                 android:contentDescription="@string/imOut0_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
                 android:layout_marginLeft="64dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="64dp"
@@ -49,8 +49,8 @@
 			<ImageView 
 				android:id="@+id/imMerge"
                 android:contentDescription="@string/imMerge_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="144dp"
+                android:layout_height="96dp"
                 android:layout_marginLeft="176dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="176dp"
@@ -63,11 +63,11 @@
             <ImageView
                 android:id="@+id/imAtou"
                 android:contentDescription="@string/imAtou_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="256dp"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="256dp"
+                android:layout_x="250dp"
                 android:layout_y="0dp"
                 android:minWidth="72dp"
                 android:minHeight="96dp"
@@ -76,11 +76,11 @@
             <ImageView
                 android:id="@+id/imTalon"
                 android:contentDescription="@string/imTalon_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="180dp"
+                android:layout_width="96dp"
+                android:layout_height="72dp"
+                android:layout_marginLeft="176dp"
                 android:layout_marginTop="14dp"
-                android:layout_x="180dp"
+                android:layout_x="176dp"
                 android:layout_y="14dp"
                 android:minWidth="96dp"
                 android:minHeight="72dp"
@@ -97,8 +97,8 @@
             <ImageView
                 android:id="@+id/im0"
                 android:contentDescription="@string/im0_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="0dp"
@@ -110,9 +110,9 @@
             <ImageView
                 android:id="@+id/im1"
                 android:contentDescription="@string/im1_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="64dp"
                 android:layout_y="0dp"
@@ -123,9 +123,9 @@
             <ImageView
                 android:id="@+id/im2"
                 android:contentDescription="@string/im2_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="128dp"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="120dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="128dp"
                 android:layout_y="0dp"
@@ -136,9 +136,9 @@
             <ImageView
                 android:id="@+id/im3"
                 android:contentDescription="@string/im3_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="192dp"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="180dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="192dp"
                 android:layout_y="0dp"
@@ -149,9 +149,9 @@
             <ImageView
                 android:id="@+id/im4"
                 android:contentDescription="@string/im4_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="256dp"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginLeft="240dp"
                 android:layout_marginTop="0dp"
                 android:layout_x="256dp"
                 android:layout_y="0dp"
@@ -195,6 +195,7 @@
                 android:layout_y="0dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
+                android:textSize="10sp"
                 />
             <Button
                 android:id="@+id/bChange"
@@ -208,6 +209,7 @@
                 android:layout_y="24dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -246,6 +248,7 @@
                 android:layout_y="0dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
+                android:textSize="10sp"
                 />
             <Button
                 android:id="@+id/b20b"
@@ -258,6 +261,7 @@
                 android:layout_y="24dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
+                android:textSize="10sp"
                 />
 
         </RelativeLayout>
@@ -277,6 +281,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:textSize="10sp"
             />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

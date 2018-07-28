@@ -1,8 +1,9 @@
-<resources>
+    <resources>
     <string name="app_name">Schnapslet</string>
     <string name="action_settings">Settings</string>
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
+    <string name="action_options">Options</string>
     <string name="action_help">Help</string>
     <string name="action_continue">Continue</string>
     <string name="bStart_text">Start</string>
@@ -55,6 +56,8 @@
     <string name="atou_is">Atou is %1$s!</string>
     <string name="best_card_would_be">Best card would be: %1$s</string>
     <string name="ending_game">Ending game!</string>
+    <string name="landscape_mode">Screen switched to Landscape mode</string>
+    <string name="portrait_mode">Screen switched to Portrait mode</string>
     <string name="help_text">Schnapslet V 0.2 - Card game Schnapsen as an android app by Heinrich Elsigan (heinrich.elsigan@area23.at) The game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol. Other options, such as "exchange atou" or "announce a marriage" are possible via the buttons on the top left; These options must be chosen before playing a card! If the computer is on the turn, it plays a card and you can then by clicking on your own cards, sting or on it! The rules correspond to the Austrian Schnapsen, Zudrehen is implemented. You just have to click on the Atou map.</string>
 </resources>
 

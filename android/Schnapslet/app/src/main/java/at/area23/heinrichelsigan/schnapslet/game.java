@@ -392,18 +392,18 @@ public class Game {
     public int computersAnswer() {
 
         int i = 0, j = 0;
-        String c_array = "Computer ARRAY: ";
+        // String c_array = "Computer ARRAY: ";
 
         //region colorHitRule
         if (colorHitRule) {
             i = computer.bestInColorHitsContext(this.playedOut);
-            for (j = 0; j < 5; j++) {
-                c_array = c_array + computer.colorHitArray[j] + " ";
-            }
+            // for (j = 0; j < 5; j++) {
+            //     c_array = c_array + computer.colorHitArray[j] + " ";
+            // }
 
-            mqueue.insert(c_array);
-            mqueue.insert("i = " + i +  " Computer,hand[" + i + "] = " + computer.hand[i].getName() + " !");
-            mqueue.insert("Computer Hand: " + computer.showHand());
+            // mqueue.insert(c_array);
+            // mqueue.insert("i = " + i +  " Computer,hand[" + i + "] = " + computer.hand[i].getName() + " !");
+            // mqueue.insert("Computer Hand: " + computer.showHand());
 
             return(i);
         }
