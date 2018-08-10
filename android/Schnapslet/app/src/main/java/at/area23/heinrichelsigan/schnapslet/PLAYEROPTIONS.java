@@ -20,6 +20,11 @@ package at.area23.heinrichelsigan.schnapslet;
 
 import java.lang.*;
 
+/**
+ * PLAYEROPTIONS enum represents possible options of playing.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public enum PLAYEROPTIONS {
 
 	CHANGEATOU(1),

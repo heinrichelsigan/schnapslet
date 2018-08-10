@@ -23,6 +23,11 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * PairCard class represents a pair (marriage) of cards.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public class PairCard {
     
 	boolean atou = false;

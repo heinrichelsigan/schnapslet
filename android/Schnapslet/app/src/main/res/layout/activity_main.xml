@@ -15,37 +15,40 @@
             android:layout_width="340dp"
             android:layout_height="100dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_x="0dp"
-            android:layout_y="0dp">
+            android:layout_marginTop="0dp">
 
-            <ImageView
-                android:id="@+id/imOut1"
-                android:contentDescription="@string/imOut1_text"
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="0dp"
-                android:layout_y="0dp"
-                android:minHeight="96dp"
-                android:minWidth="72dp"
-                android:src="@drawable/e"
-                android:visibility="visible"
-                />
-            <ImageView
-                android:id="@+id/imOut0"
-                android:contentDescription="@string/imOut0_text"
+                android:id="@+id/playedCard1">
+                <ImageView
+                    android:id="@+id/imOut1"
+                    android:contentDescription="@string/imOut1_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/e"
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="64dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="64dp"
-                android:layout_y="0dp"
-                android:src="@drawable/e"
-                android:minWidth="72dp"
-                android:minHeight="96dp" />
-
+                android:id="@+id/playedCard0">
+                <ImageView
+                    android:id="@+id/imOut0"
+                    android:contentDescription="@string/imOut0_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/e"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp" />
+            </LinearLayout>
 			<ImageView 
 				android:id="@+id/imMerge"
                 android:contentDescription="@string/imMerge_text"
@@ -53,125 +56,148 @@
                 android:layout_height="96dp"
                 android:layout_marginLeft="176dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="176dp"
-                android:layout_y="0dp"
                 android:minWidth="144dp"
                 android:minHeight="96dp"
                 android:visibility="visible"
                 android:src="@drawable/anim_merge" />
-
-            <ImageView
-                android:id="@+id/imAtou"
-                android:contentDescription="@string/imAtou_text"
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="250dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="250dp"
-                android:layout_y="0dp"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                android:visibility="invisible"
-                android:src="@drawable/n0" />
-            <ImageView
-                android:id="@+id/imTalon"
-                android:contentDescription="@string/imTalon_text"
+                android:id="@+id/atouCard">
+                <ImageView
+                    android:id="@+id/imAtou"
+                    android:contentDescription="@string/imAtou_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    android:visibility="visible"
+                    android:src="@drawable/n0" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="96dp"
                 android:layout_height="72dp"
                 android:layout_marginLeft="176dp"
                 android:layout_marginTop="14dp"
-                android:layout_x="176dp"
-                android:layout_y="14dp"
-                android:minWidth="96dp"
-                android:minHeight="72dp"
-                android:visibility="invisible"
-                />
+                android:id="@+id/talonCard">
+                <ImageView
+                    android:id="@+id/imTalon"
+                    android:contentDescription="@string/imTalon_text"
+                    android:layout_width="96dp"
+                    android:layout_height="72dp"
+                    android:minWidth="96dp"
+                    android:minHeight="72dp"
+                    android:visibility="invisible"
+                    />
+            </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="100dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="100dp"
-            android:layout_x="0dp"
-            android:layout_y="100dp">
-            <ImageView
-                android:id="@+id/im0"
-                android:contentDescription="@string/im0_text"
+            android:layout_marginTop="100dp">
+
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
+                android:id="@+id/playerCard0"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_x="0dp"
-                android:layout_y="0dp"
-                android:src="@drawable/n0"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                />
-            <ImageView
-                android:id="@+id/im1"
-                android:contentDescription="@string/im1_text"
+                android:layout_marginTop="0dp">
+
+                <ImageView
+                    android:id="@+id/im0"
+                    android:contentDescription="@string/im0_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/n0"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="64dp"
-                android:layout_y="0dp"
-                android:src="@drawable/n0"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                />
-            <ImageView
-                android:id="@+id/im2"
-                android:contentDescription="@string/im2_text"
+                android:id="@+id/playerCard1">
+
+                <ImageView
+                    android:id="@+id/im1"
+                    android:contentDescription="@string/im1_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/n0"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="128dp"
-                android:layout_y="0dp"
-                android:src="@drawable/n0"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                />
-            <ImageView
-                android:id="@+id/im3"
-                android:contentDescription="@string/im3_text"
+                android:id="@+id/playerCard2">
+
+                <ImageView
+                    android:id="@+id/im2"
+                    android:contentDescription="@string/im2_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/n0"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="180dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="192dp"
-                android:layout_y="0dp"
-                android:src="@drawable/n0"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                />
-            <ImageView
-                android:id="@+id/im4"
-                android:contentDescription="@string/im4_text"
+                android:id="@+id/playerCard3">
+
+                <ImageView
+                    android:id="@+id/im3"
+                    android:contentDescription="@string/im3_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/n0"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginLeft="240dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="256dp"
-                android:layout_y="0dp"
-                android:src="@drawable/n0"
-                android:minWidth="72dp"
-                android:minHeight="96dp"
-                />
+                android:id="@+id/playerCard4">
+
+                <ImageView
+                    android:id="@+id/im4"
+                    android:contentDescription="@string/im4_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/n0"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    />
+            </LinearLayout>
         </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tMes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="24dp"
-            android:minWidth="340dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="200dp"
-            android:text="@string/tMes_text"
+            android:minHeight="24dp"
+            android:minWidth="340dp"
             android:layout_x="0dp"
             android:layout_y="200dp"
+            android:text="@string/tMes_text"
             />
 
 
@@ -179,20 +205,16 @@
             android:layout_width="340dp"
             android:layout_height="60dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="240dp"
-            android:layout_x="0dp"
-            android:layout_y="240dp">
+            android:layout_marginTop="240dp">
 
             <Button
                 android:id="@+id/bContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bContinue_text"
-                android:enabled="false"
+                android:enabled="true"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="0dp"
-                android:layout_y="0dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
                 android:textSize="10sp"
@@ -205,8 +227,6 @@
                 android:enabled="false"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="24dp"
-                android:layout_x="0dp"
-                android:layout_y="24dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
                 android:textSize="10sp"
@@ -221,8 +241,6 @@
                 android:text="@string/tRest_text"
                 android:layout_marginLeft="102dp"
                 android:layout_marginTop="4dp"
-                android:layout_x="102dp"
-                android:layout_y="4dp"
                 />
             <TextView
                 android:id="@+id/tPoints"
@@ -233,8 +251,6 @@
                 android:text="@string/tPoints_text"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="4dp"
-                android:layout_x="150dp"
-                android:layout_y="4dp"
                 />
 
             <Button
@@ -244,8 +260,6 @@
                 android:text="@string/b20a_text"
                 android:layout_marginLeft="192dp"
                 android:layout_marginTop="0dp"
-                android:layout_x="192dp"
-                android:layout_y="0dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
                 android:textSize="10sp"
@@ -257,8 +271,6 @@
                 android:text="@string/b20b_text"
                 android:layout_marginLeft="192dp"
                 android:layout_marginTop="24dp"
-                android:layout_x="192dp"
-                android:layout_y="24dp"
                 android:minWidth="96dp"
                 android:minHeight="24dp"
                 android:textSize="10sp"
@@ -272,8 +284,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="300dp"
-            android:layout_x="0dp"
-            android:layout_y="300dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
             android:text="@string/tDbg_text"

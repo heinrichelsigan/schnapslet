@@ -23,6 +23,11 @@ import java.util.*;
 import android.content.res.Resources;
 import android.content.Context;
 
+/**
+ * Game class represents a single game.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public class Game {
     volatile boolean isGame = false;   // a Game is running
     char atouInGame = 'n';             // color that is atou in this game
@@ -272,6 +277,39 @@ public class Game {
        
         return retval;
 	}
+
+
+    /**
+     * assignNextCard assigns the next card
+     * @return the assigned Card for player
+     */
+	public int assignNextCard(Card assignedCard) {
+        int retval = 0;
+        if (colorHitRule == false) {
+            if (playersTurn) {
+                assignedCard = set[++index];
+                gambler.assignCard(assignedCard);
+                computer.assignCard(set[++index]);
+            } else {
+                computer.assignCard(set[++index]);
+                assignedCard = set[++index];
+                gambler.assignCard(assignedCard);
+            }
+            if (index == 17)
+                atouChanged = true;
+            if (index == 19) {
+                retval = 1;
+                colorHitRule = true;
+            }
+        } else {
+            assignedCard = null;
+            movs++;
+        }
+        computer.sortHand();
+        gambler.sortHand();
+
+        return retval;
+    }
 
     /**
      * computerStarts() implementation of a move, where computer sraers (that move)

@@ -20,6 +20,11 @@ package at.area23.heinrichelsigan.schnapslet;
 
 import java.lang.*;
 
+/**
+ * CARDVALUE enum represents the value of a card.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public enum CARDVALUE {
 
 	NONE(0),

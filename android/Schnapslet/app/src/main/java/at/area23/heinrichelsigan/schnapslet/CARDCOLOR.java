@@ -20,6 +20,11 @@ package at.area23.heinrichelsigan.schnapslet;
 
 import java.lang.*;
 
+/**
+ * CARDCOLOR enum represents the color of a card.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public enum CARDCOLOR {
 
 	EMPTY('e'),

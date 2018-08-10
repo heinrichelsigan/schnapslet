@@ -2,28 +2,45 @@ package at.area23.heinrichelsigan.schnapslet;
 
 import at.area23.heinrichelsigan.schnapslet.*;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 // import android.graphics.drawable.AnimatedImageDrawable;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+// import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.DragEvent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.DragShadowBuilder;
+import android.view.View.OnDragListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import java.net.URL;
-// import com.google.cloud.translate.Translation;
-// import com.google.cloud.translate.*;
 
-
+/**
+ * MainActivity class implements the MainActivity.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public class MainActivity extends AppCompatActivity implements Runnable {
 
     private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
@@ -36,10 +53,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     AnimationDrawable frameAnimation;
     // android.graphics.drawable.AnimatedImageDrawable animatedGif;
 
+    LinearLayout playedCard0, playedCard1, atouCard, talonCard, playerCard0, playerCard1, playerCard2, playerCard3, playerCard4;
+
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
-    volatile Card emptyTmpCard;
-    volatile boolean ready = false; // Ready to play
+    volatile Card emptyTmpCard, touchedCard, draggedCard, assignedCard = null;
+    volatile boolean ready = false, droppedCard = false, dragged20 = false;
     volatile byte psaychange = 0;
     boolean pSaid = false; // Said something
     static java.lang.Runtime runtime = null;
@@ -71,13 +90,21 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             setContentView(R.layout.activity_main);
         }
 
+        playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
+        playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
+        atouCard = (LinearLayout) findViewById(R.id.atouCard);
+        talonCard = (LinearLayout) findViewById(R.id.talonCard);
+        playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
+        playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
+        playerCard2 = (LinearLayout) findViewById(R.id.playerCard2);
+        playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
+        playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
 
         im0 = (ImageView) findViewById(R.id.im0);
         im1 = (ImageView) findViewById(R.id.im1);
         im2 = (ImageView) findViewById(R.id.im2);
         im3 = (ImageView) findViewById(R.id.im3);
         im4 = (ImageView) findViewById(R.id.im4);
-        // im4 = (ImageView) findViewById(R.id.im4);
 
         imOut0 =  (ImageView) findViewById(R.id.imOut0);
         imOut1 =  (ImageView) findViewById(R.id.imOut1);
@@ -112,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         // bStop.setEnabled(false);
         bChange.setEnabled(false);
-        bContinue.setEnabled(false);
+        // bContinue.setEnabled(false);
 
         // bStart.setEnabled(true);
         // bHelp.setEnabled(true);
@@ -122,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         initURLBase();
         resetButtons(0);
     }
+
+
 
     /**
      * Override onConfigurationChanged
@@ -214,8 +243,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
         if (level >= 2) {
             try {
-                imOut0.setImageResource(R.drawable.leer);
-                imOut1.setImageResource(R.drawable.leer);
+                imOut0.setImageResource(R.drawable.e);
+                imOut1.setImageResource(R.drawable.e);
             } catch (Exception ex) {
                 this.errHandler(ex);
             }
@@ -234,8 +263,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         im4.setImageResource(R.drawable.n0);
         imAtou.setImageResource(R.drawable.n0);
         imTalon.setImageResource(R.drawable.t);
-        imOut0.setImageResource(R.drawable.leer);
-        imOut1.setImageResource(R.drawable.leer);
+        imOut0.setImageResource(R.drawable.e);
+        imOut1.setImageResource(R.drawable.e);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
     }
@@ -277,10 +306,20 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             // tDbg.setText(myStr);
 
             im0.setImageResource(aGame.gambler.hand[0].getResourcesInt());
+            im0.setVisibility(View.VISIBLE);
+            playerCard0.setVisibility(View.VISIBLE);
             im1.setImageResource(aGame.gambler.hand[1].getResourcesInt());
+            im1.setVisibility(View.VISIBLE);
+            playerCard1.setVisibility(View.VISIBLE);
             im2.setImageResource(aGame.gambler.hand[2].getResourcesInt());
+            im2.setVisibility(View.VISIBLE);
+            playerCard2.setVisibility(View.VISIBLE);
             im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
+            im3.setVisibility(View.VISIBLE);
+            playerCard3.setVisibility(View.VISIBLE);
             im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            im4.setVisibility(View.VISIBLE);
+            playerCard4.setVisibility(View.VISIBLE);
 
         } catch (Exception exp) {
             this.errHandler(exp);
@@ -325,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             this.errHandler(ext);
         }
 
+        atouCard.setVisibility(View.VISIBLE);
         imAtou.setVisibility(View.VISIBLE);
         imTalon.setVisibility(View.VISIBLE);
 
@@ -333,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tDbg.setText("");
         tRest.setText(R.string.tPoints_text);
 
-        emptyTmpCard = new Card(getApplicationContext()); // new Card(this, -1);
+        emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
         tPoints.setText("" + String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();
@@ -351,21 +391,23 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     void closeGame() { //	Implementierung des Zudrehens
         if (aGame.isGame == false || aGame.gambler == null) {
             tMes.setVisibility(View.VISIBLE);
+
             tMes.setText(R.string.nogame_started);
             return;
         }
         tMes.setVisibility(View.VISIBLE);
+        setTextMessage(getString(R.string.player_closed_game));
         tMes.setText(R.string.player_closed_game);
 
         try {
-            imTalon.setImageResource(R.drawable.leer);
-            imTalon.setVisibility(View.INVISIBLE);
+            imTalon.setImageResource(R.drawable.t);
+            imTalon.setVisibility(View.VISIBLE);
         } catch (Exception jbpvex) {
             this.errHandler(jbpvex);
         }
 
         try {
-            imAtou.setImageResource(R.drawable.verdeckt);
+            imAtou.setImageResource(R.drawable.n0);
         } catch (Exception jbpvex) {
             this.errHandler(jbpvex);
         }
@@ -433,11 +475,13 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
                 this.showAtouCard();
+                setTextMessage(getString(R.string.computer_changes_atou));
                 outPutMessage += getString(R.string.computer_changes_atou);
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
+                setTextMessage(getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid)));
                 outPutMessage = outPutMessage + getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
             }
 
@@ -471,6 +515,14 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     void continueTurn() {
         try {
             ready = true;
+            dragged20 = false;
+            droppedCard = false;
+
+            if (aGame == null || !aGame.isGame) {
+                startGame();
+                return;
+            }
+
 
             if (aGame != null)
                 aGame.shouldContinue = false;
@@ -559,31 +611,46 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         if (tmppoints > 0) {
             tMes.setVisibility(View.VISIBLE);
+            setTextMessage(getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue));
             tMes.setText(getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue));
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 tsEnds(getString(R.string.computer_closing_failed), 1);
-                return ;
+                return;
             }
         } else {
             tMes.setVisibility(View.VISIBLE);
+            setTextMessage(getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue));
             tMes.setText(getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue));
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 tsEnds(getString(R.string.closing_failed), 1);
-                return ;
+                return;
             }
         }
 
+        int emptyIndex = -1;
+        if (!aGame.colorHitRule) {
+            for (int idx = 0; idx < 5; idx++) {
+                if (!aGame.gambler.hand[idx].isValidCard())
+                    emptyIndex = idx;
+                break;
+            }
+        }
+
+
         // Assign new cards
-        if (aGame.assignNewCard() == 1) {
+        if (aGame.assignNextCard(assignedCard) == 1) {
             /* NOW WE HAVE NO MORE TALON */
             try {
                 imTalon.setImageResource(R.drawable.e1);
                 imTalon.setVisibility(View.INVISIBLE);
                 imAtou.setImageResource(R.drawable.e1);
+                atouCard.setVisibility(View.INVISIBLE);
+                imAtou.setVisibility(View.INVISIBLE);
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
             tMes.setVisibility(View.VISIBLE);
+            setTextMessage(getString(R.string.color_hit_force_mode));
             tMes.setText(getString(R.string.color_hit_force_mode));
         }
         tRest.setText(""+(19-aGame.index));
@@ -632,6 +699,14 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             aGame.shouldContinue = true;
         bContinue.setEnabled(true);
 
+        imTalon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                bContinue_Clicked(arg0);
+            }
+        });
+
+
         ready = false;
     }
 
@@ -657,8 +732,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         // imMerge.setVisibility(View.VISIBLE);
         // frameAnimation.start();
-        imTalon.setVisibility(View.INVISIBLE);
-        imAtou.setVisibility(View.INVISIBLE);
+        imTalon.setImageResource(R.drawable.t);
+        imTalon.setVisibility(View.VISIBLE);
+        atouCard.setVisibility(View.VISIBLE);
+        imAtou.setVisibility(View.VISIBLE);
+        atouCard.setVisibility(View.VISIBLE);
+        imAtou.setImageResource(R.drawable.n0);
         // java.lang.System.runFinalization();
         // java.lang.System.gc();
         // await Task.Delay(3000);
@@ -671,6 +750,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     void tsEnds(String endMessage, int ix) {
         tMes.setText(endMessage);
+        setTextMessage(endMessage);
         tMes.setVisibility(View.VISIBLE);
         stopGame(ix);
         return ;
@@ -681,25 +761,30 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     public void addListenerOnClickables() {
 
-        // imageView1.setOnClickListener() { }
-        /*
-        bStart = (Button) findViewById(R.id.bStart);
-        bStart.setOnClickListener(new OnClickListener() {
+        playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
+        playedCard0.setOnDragListener(new OnDragListener() {
             @Override
-            public void onClick(View arg0) {
-                bStart_Clicked(arg0);
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                return layoutView_OnDragHandler(view, dragEvent, -2);
             }
         });
-        */
-        /*
-        bStop = (Button) findViewById(R.id.bStop);
-        bStop.setOnClickListener(new OnClickListener() {
+        playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
+        playedCard1.setOnDragListener(new OnDragListener() {
             @Override
-            public void onClick(View arg0) {
-                bStop_Clicked(arg0);
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                return layoutView_OnDragHandler(view, dragEvent, -2);
             }
         });
-        */
+
+
+
+        playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
+        playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
+        playerCard2 = (LinearLayout) findViewById(R.id.playerCard2);
+        playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
+        playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
+
+
         bChange = (Button) findViewById(R.id.bChange);
         bChange.setOnClickListener(new OnClickListener() {
             @Override
@@ -740,40 +825,70 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         */
 
         im0 = (ImageView) findViewById(R.id.im0);
-        im0.setOnClickListener(new OnClickListener() {
+        im0.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 0);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return image_OnTouchListener(view, motionEvent, 0);
             }
         });
+//        im0.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                imageView_ClickEventHandler(arg0, 0);
+//            }
+//        });
         im1 = (ImageView) findViewById(R.id.im1);
-        im1.setOnClickListener(new OnClickListener() {
+        im1.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 1);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return image_OnTouchListener(view, motionEvent, 1);
             }
         });
+//        im1.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                imageView_ClickEventHandler(arg0, 1);
+//            }
+//        });
         im2 = (ImageView) findViewById(R.id.im2);
-        im2.setOnClickListener(new OnClickListener() {
+        im2.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 2);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return image_OnTouchListener(view, motionEvent, 2);
             }
         });
+//        im2.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                imageView_ClickEventHandler(arg0, 2);
+//            }
+//        });
         im3 = (ImageView) findViewById(R.id.im3);
-        im3.setOnClickListener(new OnClickListener() {
+        im3.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 3);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return image_OnTouchListener(view, motionEvent, 3);
             }
         });
+//        im3.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                imageView_ClickEventHandler(arg0, 3);
+//            }
+//        });
         im4 = (ImageView) findViewById(R.id.im4);
-        im4.setOnClickListener(new OnClickListener() {
+        im4.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 4);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return image_OnTouchListener(view, motionEvent, 4);
             }
         });
+//        im4.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                imageView_ClickEventHandler(arg0, 4);
+//            }
+//        });
         imAtou = (ImageView) findViewById(R.id.imAtou);
         imAtou.setOnClickListener(new OnClickListener() {
             @Override
@@ -836,6 +951,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             pSaid = true;
             resetButtons(0);
             aGame.said = aGame.gambler.handpairs[0];
+            setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
             tPoints.setText("" + String.valueOf(aGame.gambler.points));
@@ -865,6 +981,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             pSaid = true;
             resetButtons(0);
             aGame.said = aGame.gambler.handpairs[1];
+            setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
             tPoints.setText("" + String.valueOf(aGame.gambler.points));
@@ -882,6 +999,313 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     public void bContinue_Clicked(View arg0) {
         continueTurn();
+        imTalon.setOnClickListener(null);
+    }
+
+    /**
+     * OnTouchListener
+     * @param view current view
+     * @param motionEvent the motion Event
+     * @param ic additional indexer
+     * @return true|false
+     */
+    boolean image_OnTouchListener(View view, MotionEvent motionEvent, int ic) {
+
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+
+            if (!aGame.gambler.hand[ic].isValidCard()) {
+                setTextMessage(getString(R.string.this_is_no_valid_card));
+                aGame.mqueue.insert(getString(R.string.this_is_no_valid_card));
+                printMes();
+                return false;
+            }
+
+            atouCard = (LinearLayout) findViewById(R.id.atouCard);
+            atouCard.setOnDragListener(null);
+
+            ClipData data = ClipData.newPlainText("", "");
+            DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+
+            int viewId = view.getId();
+            switch (viewId) {
+                case R.id.im0:
+                    touchedCard = aGame.gambler.hand[0];
+                    break;
+                case R.id.im1:
+                    touchedCard = aGame.gambler.hand[1];
+                    break;
+                case R.id.im2:
+                    touchedCard = aGame.gambler.hand[2];
+                    break;
+                case R.id.im3:
+                    touchedCard = aGame.gambler.hand[3];
+                    break;
+                case R.id.im4:
+                    touchedCard = aGame.gambler.hand[4];
+                    break;
+                default: // assert(0)
+                    break;
+            }
+            if ((aGame.atouIsChangable(aGame.gambler)) && (pSaid == false) &&
+                    touchedCard.cardValue == CARDVALUE.JACK && touchedCard.isAtou()) {
+                atouCard = (LinearLayout) findViewById(R.id.atouCard);
+                atouCard.setOnDragListener(new OnDragListener() {
+                    @Override
+                    public boolean onDrag(View view, DragEvent dragEvent) {
+                        return layoutView_OnDragHandler(view, dragEvent, -1);
+                    }
+                });
+            }
+
+            playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
+            playerCard0.setOnDragListener(null);
+            playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
+            playerCard1.setOnDragListener(null);
+            playerCard2 = (LinearLayout) findViewById(R.id.playerCard2);
+            playerCard2.setOnDragListener(null);
+            playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
+            playerCard3.setOnDragListener(null);
+            playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
+            playerCard4.setOnDragListener(null);
+
+            if (touchedCard.cardValue == CARDVALUE.QUEEN || touchedCard.cardValue == CARDVALUE.KING) {
+
+                for (int idx = 0; idx < 5; idx++) {
+                    Card dropCard = aGame.gambler.hand[idx];
+                    if (dropCard.isValidCard() &&
+                            (dropCard.cardColor == touchedCard.cardColor) &&
+                            (dropCard.getValue() + touchedCard.getValue() == 7)) {
+
+                        switch (idx) {
+                            case 0:
+                                playerCard0.setOnDragListener(new OnDragListener() {
+                                    @Override
+                                    public boolean onDrag(View view, DragEvent dragEvent) {
+                                        return layoutView_OnDragHandler(view, dragEvent, 0);
+                                    }
+                                });
+                                break;
+                            case 1:
+                                playerCard1.setOnDragListener(new OnDragListener() {
+                                    @Override
+                                    public boolean onDrag(View view, DragEvent dragEvent) {
+                                        return layoutView_OnDragHandler(view, dragEvent, 1);
+                                    }
+                                });
+                                break;
+                            case 2:
+                                playerCard2.setOnDragListener(new OnDragListener() {
+                                    @Override
+                                    public boolean onDrag(View view, DragEvent dragEvent) {
+                                        return layoutView_OnDragHandler(view, dragEvent, 2);
+                                    }
+                                });
+                                break;
+                            case 3:
+                                playerCard3.setOnDragListener(new OnDragListener() {
+                                    @Override
+                                    public boolean onDrag(View view, DragEvent dragEvent) {
+                                        return layoutView_OnDragHandler(view, dragEvent, 3);
+                                    }
+                                });
+                                break;
+                            case 4:
+                                playerCard4.setOnDragListener(new OnDragListener() {
+                                    @Override
+                                    public boolean onDrag(View view, DragEvent dragEvent) {
+                                        return layoutView_OnDragHandler(view, dragEvent, 4);
+                                    }
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+            }
+
+            view.startDrag(data, shadowBuilder, view, 0);
+            view.setVisibility(View.INVISIBLE);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * OnDragHandler
+     * @param view current view
+     * @param dragEvent
+     * @param ic additional index to specify event
+     * @return true|false
+     */
+    boolean layoutView_OnDragHandler(View view, DragEvent dragEvent, int ic) {
+
+        Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
+        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+
+        if (touchedCard == null)
+            return false;
+
+        int action = dragEvent.getAction();
+        switch (dragEvent.getAction()) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                // do nothing
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                view.setBackgroundDrawable(enterShape);
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                view.setBackgroundDrawable(normalShape);
+                break;
+            case DragEvent.ACTION_DROP:
+                // Dropped, reassign View to ViewGroup
+                View dropView = (View) dragEvent.getLocalState();
+                ViewGroup owner = (ViewGroup) dropView.getParent();
+                // owner.removeView(dropView);
+                LinearLayout container = (LinearLayout) view;
+
+                dragged20 = false;
+                droppedCard = true;
+
+                int viewID = dropView.getId();
+                int lcId = container.getId();
+
+                if (lcId == R.id.atouCard || ic == -1) {
+                    draggedCard = touchedCard;
+                    touchedCard = null;
+                    // container.addView(view, 0);
+                    view.setVisibility(View.VISIBLE);
+                    bChange_Clicked(view);
+                    showPlayersCards();
+                    return  true;
+                }
+                if (lcId == R.id.playedCard0 || lcId == R.id.playedCard1 || ic == -2) {
+                    // container.addView(view, 0);
+                    view.setVisibility(View.VISIBLE);
+                    draggedCard = touchedCard;
+                    touchedCard = null;
+
+                    switch (viewID) {
+                        case R.id.im0:
+                            imageView_ClickEventHandler(view, 0);
+                            break;
+                        case R.id.im1:
+                            imageView_ClickEventHandler(view, 1);
+                            break;
+                        case R.id.im2:
+                            imageView_ClickEventHandler(view, 2);
+                            break;
+                        case R.id.im3:
+                            imageView_ClickEventHandler(view, 3);
+                            break;
+                        case R.id.im4:
+                            imageView_ClickEventHandler(view, 4);
+                            break;
+                        default:
+                            // assert(0);
+                            break;
+                    }
+                    return true;
+                }
+
+                if (lcId == R.id.playerCard0 || lcId == R.id.playerCard1 || lcId == R.id.playerCard2 ||
+                        lcId == R.id.playerCard3 || lcId == R.id.playerCard4) {
+                    if (touchedCard.cardValue != CARDVALUE.QUEEN && touchedCard.cardValue != CARDVALUE.KING) {
+                        view.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                    Card dropCard = null;
+                    switch (lcId) {
+                        case R.id.playerCard0:
+                            dropCard = aGame.gambler.hand[0];
+                            break;
+                        case R.id.playerCard1:
+                            dropCard = aGame.gambler.hand[1];
+                            break;
+                        case R.id.playerCard2:
+                            dropCard = aGame.gambler.hand[2];
+                            break;
+                        case R.id.playerCard3:
+                            dropCard = aGame.gambler.hand[3];
+                            break;
+                        case R.id.playerCard4:
+                            dropCard = aGame.gambler.hand[4];
+                            break;
+                        default:
+                            break;
+                    }
+                    if ((dropCard.cardColor == touchedCard.cardColor) &&
+                            (dropCard.getValue() + touchedCard.getValue() == 7)) {
+
+                        if (dropCard.isAtou()) {
+                        // if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
+                            aGame.gambler.points += 40;
+                        } else {
+                            aGame.gambler.points += 20;
+                        }
+                        pSaid = true;
+                        resetButtons(0);
+                        aGame.said = dropCard.getColor();
+                        setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+                        aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+                        printMes();
+                        tPoints.setText("" + String.valueOf(aGame.gambler.points));
+                        if (aGame.gambler.points > 65) {
+                            twentyEnough(true);
+                        }
+
+                        dragged20 = true;
+
+                        switch (viewID) {
+                            case R.id.im0:
+                                imageView_ClickEventHandler(view, 0);
+                                im0.setImageResource(R.drawable.e);
+                                break;
+                            case R.id.im1:
+                                imageView_ClickEventHandler(view, 1);
+                                im1.setImageResource(R.drawable.e);
+                                break;
+                            case R.id.im2:
+                                imageView_ClickEventHandler(view, 2);
+                                im2.setImageResource(R.drawable.e);
+                                break;
+                            case R.id.im3:
+                                imageView_ClickEventHandler(view, 3);
+                                im3.setImageResource(R.drawable.e);
+                                break;
+                            case R.id.im4:
+                                imageView_ClickEventHandler(view, 4);
+                                im4.setImageResource(R.drawable.e);
+                                break;
+                            default:
+                                // assert(0);
+                                break;
+                        }
+
+                        view.setVisibility(View.VISIBLE);
+                        return true;
+                    }
+
+                    view.setVisibility(View.VISIBLE);
+                    showPlayersCards();
+                    return false;
+
+                }
+
+                // container.addView(view, 0);
+                // container.addView(view);
+                view.setVisibility(View.VISIBLE);
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                view.setBackgroundDrawable(normalShape);
+                if (!dragged20 || !droppedCard)
+                    showPlayersCards();
+            default:
+                break;
+        }
+        return true;
     }
 
 
@@ -906,6 +1330,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 return;
             }
             if (!aGame.gambler.hand[ic].isValidCard()) {
+                setTextMessage(getString(R.string.this_is_no_valid_card));
                 aGame.mqueue.insert(getString(R.string.this_is_no_valid_card));
                 printMes();
                 return;
@@ -916,6 +1341,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                         (aGame.gambler.hand[ic].getValue() < 5)) {
                     ; // we can continue
                 } else {
+                    setTextMessage(getString(R.string.you_must_play_pair_card));
                     aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
                     printMes();
                     return ;
@@ -924,7 +1350,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             if (aGame.colorHitRule && (!aGame.playersTurn)) {
                 // CORRECT WAY ?
                 if ((!aGame.gambler.isInColorHitsContextValid(ic,aGame.computer.hand[ccard]))) {
-
+                    setTextMessage(getString(R.string.you_must_play_color_hit_force_rules));
                     aGame.mqueue.insert(getString(R.string.you_must_play_color_hit_force_rules));
                     int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
                     // for (j = 0; j < 5; j++) {
@@ -934,6 +1360,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
                     aGame.mqueue.insert(getString(R.string.best_card_would_be, aGame.gambler.hand[tmpint].getName()));
                     printMes();
+                    showPlayersCards();
                     return ;
                 }
             }
@@ -973,6 +1400,20 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     }
 
+    /**
+     * setTextMessage shows a new Toast dynamic message
+     * @param text to display
+     */
+    void setTextMessage(CharSequence text) {
+
+        if (text != null && text != "") {
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+    }
 
     /**
      * print message queue
@@ -1004,33 +1445,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * helpText() prints out help text
      */
     public void helpText() {
-        tDbg.setText(R.string.help_text);
-        // tDbg.setText("Schnapslet V 0.2 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (heinrich.elsigan@area23.at)\n");
-        // tDbg.append("Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt. ");
-        // tDbg.append("Andere Optionen, wie \"Atou austauschen\" oder \"Ein Paar Ansagen\" sind über die Buttons links oben moeglich; diese Optionen muessen gewaehlt werden, bevor man eine Karte auspielt! ");
-        // tDbg.append("Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben! ");
-        // tDbg.append("Die Regeln entsprechen dem oesterreichischen Schnapsen, Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.\n");
-
         try {
-             Thread.currentThread().sleep(10);
+            Thread.currentThread().sleep(10);
         } catch (Exception exInt) {
             errHandler(exInt);
         }
-        /*
-        try {
-            TranslateOptions options = TranslateOptions.newBuilder()
-                    .setApiKey(API_KEY)
-                    .build();
-            Translate translate = options.getService();
-            final Translation translation =
-                    translate.translate("Hello World",
-                            Translate.TranslateOption.targetLanguage("de"));
-            String translated = translation.getTranslatedText();
-            tDbg.append(translated + "\n");
-        } catch (Exception exTranslation) {
-            this.errHandler(exTranslation);
-        }
-        /* */
+        // tDbg.setText(R.string.help_text);
+
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
 
     }
+
 }

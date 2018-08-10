@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity">
+
+    <TextView
+        android:id           ="@+id/helpTextView"
+        android:layout_width ="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/help_text"
+        />
+
+    <!-- This FrameLayout adds no behavior to the UI, it simply occupies all the extra space which forces the views below down to the bottom of the screen. -->
+    <FrameLayout
+        android:layout_width ="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id                ="@+id/builtWithTextView"
+        android:layout_width      ="match_parent"
+        android:layout_height     ="wrap_content"
+        android:layout_marginLeft ="20dp"
+        android:layout_marginRight="20dp"
+        android:text              ="@string/build_with" />
+
+    <Button
+        android:id           ="@+id/learnMoreButton"
+        android:layout_width ="match_parent"
+        android:layout_height="wrap_content"
+        android:text         ="@string/learn_more" />
+    <Button
+        android:id           ="@+id/backButton"
+        android:layout_width ="match_parent"
+        android:layout_height="wrap_content"
+        android:text         ="@string/back_button" />
+
+
+</LinearLayout>

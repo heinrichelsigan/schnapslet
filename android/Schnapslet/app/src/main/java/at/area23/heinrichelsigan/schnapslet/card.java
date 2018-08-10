@@ -30,6 +30,11 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Card class represents a playing card in Game.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public class Card {
     int intern = -1;    // 20 values for internal representation and (-1) for unitialized
     CARDVALUE cardValue = CARDVALUE.NONE;
@@ -276,7 +281,7 @@ public class Card {
 
     /**
      * Constructor
-     * @param aCard- a instanciated Card object
+     * @param aCard a instanciated Card object
      * @param c us context of android app
      */
     public Card(Card aCard, Context c) {

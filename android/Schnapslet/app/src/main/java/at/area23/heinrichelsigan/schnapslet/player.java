@@ -26,6 +26,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/**
+ * Player class represents the player or computer in a game.
+ *
+ * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
+ */
 public class Player {
     volatile boolean begins;    // does this Player begin ?
     Card[] hand = new Card[5];  // Cards in Players Hand
