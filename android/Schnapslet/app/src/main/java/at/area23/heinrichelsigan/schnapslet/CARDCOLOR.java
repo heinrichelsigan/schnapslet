@@ -4,10 +4,9 @@
 * @version          V 0.2
 * @since            JDK 1.2.1
 *
-
 */
 /*
-   Copyright (C) 2000 - 2002 Heinrich Elsigan
+   Copyright (C) 2000 - 2018 Heinrich Elsigan
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
