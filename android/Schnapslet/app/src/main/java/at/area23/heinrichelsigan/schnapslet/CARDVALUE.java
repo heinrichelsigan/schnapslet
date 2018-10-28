@@ -27,8 +27,8 @@ import java.lang.*;
  */
 public enum CARDVALUE {
 
-	NONE(0),
-	EMPTY(1),
+	EMPTY(-2),
+	NONE(-1),
 	JACK(2),
 	QUEEN(3),
 	KING(4),

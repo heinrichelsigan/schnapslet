@@ -11,8 +11,11 @@ import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 // import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 // import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.DragEvent;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
-    volatile Card emptyTmpCard, touchedCard, draggedCard, assignedCard = null;
+    volatile Card touchedCard, draggedCard, assignedCard = null;
     volatile boolean ready = false, droppedCard = false, dragged20 = false;
     volatile byte psaychange = 0;
     boolean pSaid = false; // Said something
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         addListenerOnClickables();
 
-        initURLBase();
+        // initURLBase();
         resetButtons(0);
     }
 
@@ -216,16 +219,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * reset Buttons
      * @param level
      */
-    void resetButtons(int level) {
+    protected void resetButtons(int level) {
+
         if (level >= 0 ) {
             b20a.setText(R.string.b20a_text);
-            // b20a.setText("20 Ansagen");
             b20a.setEnabled(false);
             b20b.setText(R.string.b20b_text);
-            // b20b.setText("40 Ansagen");
             b20b.setEnabled(false);
             bChange.setEnabled(false);
         }
+
         if (level >= 1) {
             if (aGame != null)
                 aGame.shouldContinue = false;
@@ -241,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 this.errHandler(ex);
             }
         }
+
         if (level >= 2) {
             try {
                 imOut0.setImageResource(R.drawable.e);
@@ -272,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * showTalonCard
      */
-    void showTalonCard() {
+    protected void showTalonCard() {
         try {
             imTalon.setImageResource (R.drawable.t);
         } catch (Exception imTalonEx) {
@@ -285,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * showAtouCard
      */
-    void showAtouCard() {
+    protected void showAtouCard() {
         try {
             imAtou.setImageResource(aGame.set[19].getResourcesInt());
         } catch (Exception exp) {
@@ -297,26 +301,62 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * showPlayersCards
      */
-    void showPlayersCards() {
+    protected void showPlayersCards() {
 
         try {
             // String myStr = String.valueOf(aGame.gambler.hand[0].getResourcesInt()) + " ; " +
             //         String.valueOf(aGame.gambler.hand[1].getResourcesInt()) + " ; "+
             //         String.valueOf(aGame.gambler.hand[2].getResourcesInt()) + " ; ";
             // tDbg.setText(myStr);
+            Drawable normalShape;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
+            } else {
+                normalShape = getResources().getDrawable(R.drawable.shape);
+            }
 
-            im0.setImageResource(aGame.gambler.hand[0].getResourcesInt());
+            Card handCard = aGame.emptyTmpCard;
+
+            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[0].isValidCard())
+                handCard = aGame.gambler.hand[0];
+            im0.setImageResource(handCard.getResourcesInt());
             im0.setVisibility(View.VISIBLE);
             playerCard0.setVisibility(View.VISIBLE);
-            im1.setImageResource(aGame.gambler.hand[1].getResourcesInt());
+            playerCard0.setBackground(normalShape);
+            im1.setBackground(normalShape);
+
+            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[1].isValidCard())
+                handCard = aGame.gambler.hand[1];
+            else
+                handCard = aGame.emptyTmpCard;
+            im1.setImageResource(handCard.getResourcesInt());
             im1.setVisibility(View.VISIBLE);
             playerCard1.setVisibility(View.VISIBLE);
-            im2.setImageResource(aGame.gambler.hand[2].getResourcesInt());
+            playerCard1.setBackground(normalShape);
+            im1.setBackground(normalShape);
+
+            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[2].isValidCard())
+                handCard = aGame.gambler.hand[2];
+            else
+                handCard = aGame.emptyTmpCard;
+            im2.setImageResource(handCard.getResourcesInt());
             im2.setVisibility(View.VISIBLE);
             playerCard2.setVisibility(View.VISIBLE);
+
+
+            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[3].isValidCard())
+                handCard = aGame.gambler.hand[3];
+            else
+                handCard = aGame.emptyTmpCard;
             im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
             im3.setVisibility(View.VISIBLE);
             playerCard3.setVisibility(View.VISIBLE);
+
+
+            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[4].isValidCard())
+                handCard = aGame.gambler.hand[4];
+            else
+                handCard = aGame.emptyTmpCard;
             im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
             im4.setVisibility(View.VISIBLE);
             playerCard4.setVisibility(View.VISIBLE);
@@ -329,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * start game
      */
-    void startGame() {
+    protected void startGame() {
 
         if (myMenu != null) {
             myMenu.findItem(R.id.action_start).setEnabled(false);
@@ -373,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tDbg.setText("");
         tRest.setText(R.string.tPoints_text);
 
-        emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
+        // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
         tPoints.setText("" + String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();
@@ -388,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * close that game
      */
-    void closeGame() { //	Implementierung des Zudrehens
+    protected void closeGame() { //	Implementierung des Zudrehens
         if (aGame.isGame == false || aGame.gambler == null) {
             tMes.setVisibility(View.VISIBLE);
 
@@ -426,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * a turn in game
      * @param ixlevel level
      */
-    void gameTurn(int ixlevel) {
+    protected void gameTurn(int ixlevel) {
         if (ixlevel < 1) {
             try {
                 imOut0.setImageResource(R.drawable.e1);
@@ -512,7 +552,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * Continue turn
      */
-    void continueTurn() {
+    protected void continueTurn() {
         try {
             ready = true;
             dragged20 = false;
@@ -540,7 +580,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * say 20 or 40 and enough to finish game
      * @param who player or computer
      */
-    void twentyEnough(boolean who) {
+    protected void twentyEnough(boolean who) {
         int xj = 0;
         String andEnough = getString(R.string.twenty_and_enough);
         ready = false;
@@ -592,7 +632,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * end current turn in game
      */
-    void endTurn() {
+    protected void endTurn() {
         int tmppoints;
         /* IMPLEMENT COMPUTERS STRATEGIE HERE */
         if (aGame.playersTurn) {
@@ -606,7 +646,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
 
         tmppoints = aGame.checkPoints(ccard);
-        aGame.computer.hand[ccard] = emptyTmpCard;
+        aGame.computer.hand[ccard] = aGame.emptyTmpCard;
         tPoints.setText("" + String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
@@ -714,7 +754,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * stop current game
      * @param levela
      */
-    void stopGame(int levela) {
+    protected void stopGame(int levela) {
         // bStop.setEnabled(false);
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(false);
@@ -722,7 +762,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         aGame.stopGame();
 
         resetButtons(levela);
-        // bStart.setEnabled(true);
+
+        bContinue.setEnabled(true);
         if (myMenu != null) {
             myMenu.findItem(R.id.action_start).setEnabled(true);
         }
@@ -732,12 +773,15 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         // imMerge.setVisibility(View.VISIBLE);
         // frameAnimation.start();
+
         imTalon.setImageResource(R.drawable.t);
         imTalon.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setImageResource(R.drawable.n0);
+
+
         // java.lang.System.runFinalization();
         // java.lang.System.gc();
         // await Task.Delay(3000);
@@ -748,7 +792,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param endMessage ending game message
      * @param ix level
      */
-    void tsEnds(String endMessage, int ix) {
+    private void tsEnds(String endMessage, int ix) {
         tMes.setText(endMessage);
         setTextMessage(endMessage);
         tMes.setVisibility(View.VISIBLE);
@@ -775,8 +819,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 return layoutView_OnDragHandler(view, dragEvent, -2);
             }
         });
-
-
 
         playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
         playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
@@ -814,15 +856,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 bContinue_Clicked(arg0);
             }
         });
-        /*
-        bHelp = (Button) findViewById(R.id.bHelp);
-        bHelp.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                bHelp_Clicked(arg0);
-            }
-        });
-        */
+
 
         im0 = (ImageView) findViewById(R.id.im0);
         im0.setOnTouchListener(new OnTouchListener() {
@@ -1009,7 +1043,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param ic additional indexer
      * @return true|false
      */
-    boolean image_OnTouchListener(View view, MotionEvent motionEvent, int ic) {
+    protected boolean image_OnTouchListener(View view, MotionEvent motionEvent, int ic) {
 
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
@@ -1027,25 +1061,35 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 
             int viewId = view.getId();
-            switch (viewId) {
-                case R.id.im0:
-                    touchedCard = aGame.gambler.hand[0];
+            String tmp;
+
+            for (int i = 0; i < 5; i++){
+                tmp = "im" + String.valueOf(i);
+                int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
+                if (viewId == myID) {
+                    touchedCard = aGame.gambler.hand[i];
                     break;
-                case R.id.im1:
-                    touchedCard = aGame.gambler.hand[1];
-                    break;
-                case R.id.im2:
-                    touchedCard = aGame.gambler.hand[2];
-                    break;
-                case R.id.im3:
-                    touchedCard = aGame.gambler.hand[3];
-                    break;
-                case R.id.im4:
-                    touchedCard = aGame.gambler.hand[4];
-                    break;
-                default: // assert(0)
-                    break;
+                }
             }
+//            switch (viewId) {
+//                case R.id.im0:
+//                    touchedCard = aGame.gambler.hand[0];
+//                    break;
+//                case R.id.im1:
+//                    touchedCard = aGame.gambler.hand[1];
+//                    break;
+//                case R.id.im2:
+//                    touchedCard = aGame.gambler.hand[2];
+//                    break;
+//                case R.id.im3:
+//                    touchedCard = aGame.gambler.hand[3];
+//                    break;
+//                case R.id.im4:
+//                    touchedCard = aGame.gambler.hand[4];
+//                    break;
+//                default: // assert(0)
+//                    break;
+//            }
             if ((aGame.atouIsChangable(aGame.gambler)) && (pSaid == false) &&
                     touchedCard.cardValue == CARDVALUE.JACK && touchedCard.isAtou()) {
                 atouCard = (LinearLayout) findViewById(R.id.atouCard);
@@ -1125,6 +1169,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
             }
 
+            // view.startDragAndDrop(data, shadowBuilder, view, 0);
             view.startDrag(data, shadowBuilder, view, 0);
             view.setVisibility(View.INVISIBLE);
             return true;
@@ -1140,10 +1185,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param ic additional index to specify event
      * @return true|false
      */
-    boolean layoutView_OnDragHandler(View view, DragEvent dragEvent, int ic) {
+    protected boolean layoutView_OnDragHandler(View view, DragEvent dragEvent, int ic) {
 
-        Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
-        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+        Drawable enterShape;
+        Drawable normalShape;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            enterShape = getResources().getDrawable(R.drawable.shape_droptarget, getApplicationContext().getTheme());
+            normalShape = getResources().getDrawable(R.drawable.shape, getApplicationContext().getTheme());
+        } else {
+            enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
+            normalShape = getResources().getDrawable(R.drawable.shape);
+        }
 
         if (touchedCard == null)
             return false;
@@ -1154,10 +1207,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 // do nothing
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                view.setBackgroundDrawable(enterShape);
+                view.setBackground(enterShape);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
-                view.setBackgroundDrawable(normalShape);
+                view.setBackground(normalShape);
                 break;
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
@@ -1187,27 +1240,37 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                     draggedCard = touchedCard;
                     touchedCard = null;
 
-                    switch (viewID) {
-                        case R.id.im0:
-                            imageView_ClickEventHandler(view, 0);
-                            break;
-                        case R.id.im1:
-                            imageView_ClickEventHandler(view, 1);
-                            break;
-                        case R.id.im2:
-                            imageView_ClickEventHandler(view, 2);
-                            break;
-                        case R.id.im3:
-                            imageView_ClickEventHandler(view, 3);
-                            break;
-                        case R.id.im4:
-                            imageView_ClickEventHandler(view, 4);
-                            break;
-                        default:
-                            // assert(0);
-                            break;
+                    String tmp;
+                    for (int i = 0; i < 5; i++){
+                        tmp = "im" + String.valueOf(i);
+                        int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
+                        if (viewID == myID) {
+                            imageView_ClickEventHandler(view, i);
+                            return true;
+                        }
                     }
-                    return true;
+
+//                    switch (viewID) {
+//                        case R.id.im0:
+//                            imageView_ClickEventHandler(view, 0);
+//                            break;
+//                        case R.id.im1:
+//                            imageView_ClickEventHandler(view, 1);
+//                            break;
+//                        case R.id.im2:
+//                            imageView_ClickEventHandler(view, 2);
+//                            break;
+//                        case R.id.im3:
+//                            imageView_ClickEventHandler(view, 3);
+//                            break;
+//                        case R.id.im4:
+//                            imageView_ClickEventHandler(view, 4);
+//                            break;
+//                        default:
+//                            // assert(0);
+//                            break;
+//                    }
+//                    return true;
                 }
 
                 if (lcId == R.id.playerCard0 || lcId == R.id.playerCard1 || lcId == R.id.playerCard2 ||
@@ -1217,6 +1280,14 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                         return false;
                     }
                     Card dropCard = null;
+                    String tmp;
+                    for (int i = 0; i < 5; i++){
+                        tmp = "playerCard" + String.valueOf(i);
+                        int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
+                        if (lcId == myID) {
+                            dropCard = aGame.gambler.hand[i];
+                        }
+                    }
                     switch (lcId) {
                         case R.id.playerCard0:
                             dropCard = aGame.gambler.hand[0];
@@ -1299,7 +1370,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 view.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
-                view.setBackgroundDrawable(normalShape);
+                view.setBackground(normalShape);
                 if (!dragged20 || !droppedCard)
                     showPlayersCards();
             default:
@@ -1314,9 +1385,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param arg0 View, that fired click
      * @param ic image counter, that represents which ImageView is clicked
      */
-    void imageView_ClickEventHandler(View arg0, int ic) {
+    protected void imageView_ClickEventHandler(View arg0, int ic) {
 
-        int j;
+        int     j;
         // String c_array = "Player Array: ";
         try {
             if (!ready) {
@@ -1370,6 +1441,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
             aGame.playedOut = aGame.gambler.hand[ic];
             // Besser Cards als Array
+            String tmp = "im" + String.valueOf(ic);
+            int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
+            ImageView cardPlayed = (ImageView) findViewById(myID);
+            cardPlayed.setImageResource(R.drawable.e);
+
             switch (ic) {
                 case 0:
                     im0.setImageResource(R.drawable.e);
@@ -1394,7 +1470,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         } catch (Exception e) {
             this.errHandler(e);
         }
-        aGame.gambler.hand[ic] = emptyTmpCard;
+        aGame.gambler.hand[ic] = aGame.emptyTmpCard;
         ready = false;
         endTurn();
 
@@ -1404,7 +1480,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * setTextMessage shows a new Toast dynamic message
      * @param text to display
      */
-    void setTextMessage(CharSequence text) {
+    private void setTextMessage(CharSequence text) {
 
         if (text != null && text != "") {
             Context context = getApplicationContext();
@@ -1418,7 +1494,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * print message queue
      */
-    void printMes() {
+    private void printMes() {
         tDbg.append(aGame.mqueue.fetch());
     }
 
@@ -1426,7 +1502,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * Error handler
      * @param myErr java.lang.Throwable
      */
-    void errHandler(java.lang.Throwable myErr) {
+    private void errHandler(java.lang.Throwable myErr) {
         tDbg.append("\nCRITICAL ERROR #" + String.valueOf((++errNum))  + " " + myErr.getMessage());
         tDbg.append(myErr.toString());
         tDbg.append("\nMessage: "+ myErr.getLocalizedMessage() + "\n");
@@ -1434,10 +1510,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     /**
-     * Help button clicked
-     * @param arg0
+     * bHelp_Clicked(View arg0) fired, when button Help clicked
+     * @param arg0 View arg0
      */
-    public void bHelp_Clicked(View arg0) {
+    private void bHelp_Clicked(View arg0) {
         helpText();
     }
 

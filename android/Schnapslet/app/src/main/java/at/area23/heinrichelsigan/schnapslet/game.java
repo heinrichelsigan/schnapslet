@@ -38,8 +38,8 @@ public class Game {
     boolean colorHitRule = false;
     boolean isClosed = false;
     boolean shouldContinue = false;
-    Card playedOut;
-    int index = 9;    
+    Card playedOut, emptyTmpCard;
+    int index = 9;
     int movs = 0;
     int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
@@ -70,6 +70,8 @@ public class Game {
         mqueue.clear();
         mqueue.insert(r.getString(R.string.newgame_starts));
 
+        emptyTmpCard = new Card(-2, c.getApplicationContext());
+
         set = new Card[20];
         for (int i = 0; i < 20; i++) {
             set[i] = new Card(context); //new Card(applet, -1);
@@ -86,6 +88,7 @@ public class Game {
         // computer = new Player(false);
         computer = new Player(false, context);
         computer.points = 0;
+
         mergeCards();
     }
 

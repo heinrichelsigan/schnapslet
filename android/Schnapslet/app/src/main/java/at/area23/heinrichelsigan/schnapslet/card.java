@@ -44,8 +44,7 @@ public class Card {
     int value = -1; // 5 values and 0 for unitialized
     java.lang.String name = new String();  // Human readable classifier
     java.net.URL picture;  // picture 
-	//
-	// java.applet.Applet masterApplet = null;
+
     Resources r;
     Context context;
 
