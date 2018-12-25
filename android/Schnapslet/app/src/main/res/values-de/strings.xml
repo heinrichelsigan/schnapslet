@@ -52,12 +52,12 @@
     <string name="this_is_no_valid_card">Das ist keine gültige Karte !</string>
     <string name="you_must_play_pair_card">Sie muessen eine Karte vom Paar ausspielen !</string>
     <string name="you_must_play_color_hit_force_rules">Farb und Stichzwang muss eingehalten werden !</string>
-    <string name="creating_players">Erzeuge neuer Spieler Instanzen...</string>
-    <string name="merging_cards">Mische Karten...</string>
+    <string name="creating_players">Erzeuge neuer Spieler Instanzen &#8230;</string>
+    <string name="merging_cards">Mische Karten &#8230;</string>
     <string name="atou_is">Atou ist %1$s!</string>
     <string name="best_card_would_be">Beste Karte wäre: %1$s</string>
     <string name="ending_game">Beende das aktuelle Spiel!</string>
-    <string name="help_text">Schnapslet V 0.2 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (heinrich.elsigan@area23.at) Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt und die Karte mit drag and drop auf die Ablage zieht. Zum Atou austauschen kann man den Atou Buben auf die Atou Karte oben ziehen und um ein Paar anzusagen, zieht man die Dame auf den dazugehörigen König oder umgekehrt. "Atou austauschen" oder "Ein Paar Ansagen" können auch über die entsprechenden Buttons gespielt werden; Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch auswählen einer eigenen Karte und ziehen auf die Ablage dann stechen oder draufgeben. Zudrehen wird durch Klick auf die Atou Karte ausgeführt. Die Regeln entsprechen dem oesterreichischen Schnapsen.</string>
+    <string name="help_text">Schnapslet v1.3.4 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (heinrich.elsigan@area23.at) Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt und die Karte mit drag and drop auf die Ablage zieht. Zum Atou austauschen kann man den Atou Buben auf die Atou Karte oben ziehen und um ein Paar anzusagen, zieht man die Dame auf den dazugehörigen König oder umgekehrt. "Atou austauschen" oder "Ein Paar Ansagen" können auch über die entsprechenden Buttons gespielt werden; Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch auswählen einer eigenen Karte und ziehen auf die Ablage dann stechen oder draufgeben. Zudrehen wird durch Klick auf die Atou Karte ausgeführt. Die Regeln entsprechen dem oesterreichischen Schnapsen.</string>
     <string name="build_with">Erzeugt mit Android Studio 3.1.3</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="back_button">Zurück</string>

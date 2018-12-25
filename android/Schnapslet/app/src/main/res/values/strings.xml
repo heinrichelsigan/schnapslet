@@ -52,14 +52,14 @@
     <string name="this_is_no_valid_card">This is no valid card to play!</string>
     <string name="you_must_play_pair_card">You must play out queen or king when marriages!</string>
     <string name="you_must_play_color_hit_force_rules">Follow the suit led stict rules!</string>
-    <string name="creating_players">Creating new players...</string>
-    <string name="merging_cards">Merging cards...</string>
+    <string name="creating_players">Creating new players &#8230;</string>
+    <string name="merging_cards">Merging cards &#8230;</string>
     <string name="atou_is">Atou is %1$s!</string>
     <string name="best_card_would_be">Best card would be: %1$s</string>
     <string name="ending_game">Ending game!</string>
     <string name="landscape_mode">Screen switched to Landscape mode</string>
     <string name="portrait_mode">Screen switched to Portrait mode</string>
-    <string name="help_text">Schnapslet V 0.2 - Card game Schnapsen as an android app by Heinrich Elsigan (heinrich.elsigan@area23.at) The game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. To change atou, drag the atou Jack card to the atou card above. To announce a marriage, drag king or queen to the other card of the pair. "exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; If the computer is on the turn, it plays a card and you can drag one of your own cards to answer. To close the current game, you have to click on atou card. The rules correspond to the Austrian Schnapsen (Sixty-six card game).</string>
+    <string name="help_text">Schnapslet v1.3.4 - Card game Schnapsen as an android app by Heinrich Elsigan (heinrich.elsigan@area23.at) The game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. To change atou, drag the atou Jack card to the atou card above. To announce a marriage, drag king or queen to the other card of the pair. "exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; If the computer is on the turn, it plays a card and you can drag one of your own cards to answer. To close the current game, you have to click on atou card. The rules correspond to the Austrian Schnapsen (Sixty-six card game).</string>
     <string name="build_with">Built with Android Studio 3.1.3</string>
     <string name="learn_more">Learn more</string>
     <string name="back_button">Back</string>
