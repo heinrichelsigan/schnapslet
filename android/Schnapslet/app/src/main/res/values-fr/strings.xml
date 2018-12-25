@@ -62,5 +62,7 @@
     <string name="learn_more">en savoir plus</string>
     <string name="back_button">précédent </string>
     <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
+    <string name="landscape_mode">Screen switched to Landscape mode</string>
+    <string name="portrait_mode">Screen switched to Portrait mode</string>    
 </resources>
 
