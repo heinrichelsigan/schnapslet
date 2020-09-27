@@ -21,6 +21,8 @@ import android.content.res.Resources;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 import java.lang.*;
 import java.io.*;
@@ -287,7 +289,7 @@ public class Card {
     }
 
     /**
-     * setAtou() us to  set czrrebt card as arou
+     * setAtou() us to  set czrrebt card as atou
      */
 	public void setAtou() {
 		this.atou = true;
@@ -355,14 +357,8 @@ public class Card {
         String tmp = this.color + String.valueOf(this.value);
         android.util.TypedValue typVal = new TypedValue();
         typVal.resourceId = this.getResourcesInt();
-
-        Drawable drawble;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Resources.Theme theme =  context.getResources().newTheme();
-            drawble = context.getResources().getDrawable(typVal.resourceId, theme);
-        } else {
-            drawble = context.getResources().getDrawable(typVal.resourceId);
-        }
+        Resources.Theme theme =  context.getResources().newTheme();
+        Drawable drawble = context.getResources().getDrawable(typVal.resourceId, theme);
 
         return drawble;
     }

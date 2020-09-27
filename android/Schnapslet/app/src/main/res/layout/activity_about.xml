@@ -9,12 +9,12 @@
     <TextView
         android:id="@+id/helpTextView"
         android:layout_width="match_parent"
-        android:layout_height="320px"
+        android:layout_height="320dp"
         android:layout_margin="20dp"
         android:maxHeight="320dp"
         android:scrollbars="horizontal"
         android:text="@string/help_text"
-        android:textSize="10sp"
+        android:textSize="12sp"
         tools:maxHeight="320dp" />
 
     <!-- This FrameLayout adds no behavior to the UI, it simply occupies all the extra space which forces the views below down to the bottom of the screen. -->

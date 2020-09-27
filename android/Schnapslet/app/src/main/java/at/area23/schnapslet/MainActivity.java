@@ -23,20 +23,18 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-// import android.content.res.Resources;
+import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 // import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-// import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v13.view.DragAndDropPermissionsCompat;
+import android.support.v13.view.DragStartHelper;
 import android.support.v7.app.AppCompatActivity;
-// import android.support.v7.widget.Toolbar;
 import android.view.DragEvent;
-// import android.view.Gravity;
-// import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String layoutMes = null;
+        String layoutMes;
         if(getResources().getDisplayMetrics().widthPixels > getResources().getDisplayMetrics().heightPixels)
         {
             layoutMes = getString(R.string.landscape_mode);
@@ -324,12 +322,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             //         String.valueOf(aGame.gambler.hand[1].getResourcesInt()) + " ; "+
             //         String.valueOf(aGame.gambler.hand[2].getResourcesInt()) + " ; ";
             // tDbg.setText(myStr);
-            Drawable normalShape;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
-            } else {
-                normalShape = getResources().getDrawable(R.drawable.shape);
-            }
+
+            Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
 
             Card handCard = aGame.emptyTmpCard;
 
@@ -1191,7 +1185,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
 
             // view.startDragAndDrop(data, shadowBuilder, view, 0);
-            view.startDrag(data, shadowBuilder, view, 0);
+            view.startDragAndDrop(data, shadowBuilder, view, 0);
             view.setVisibility(View.INVISIBLE);
             return true;
         } else {
@@ -1208,16 +1202,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     protected boolean layoutView_OnDragHandler(View view, DragEvent dragEvent, int ic) {
 
-        Drawable enterShape;
-        Drawable normalShape;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            enterShape = getResources().getDrawable(R.drawable.shape_droptarget, getApplicationContext().getTheme());
-            normalShape = getResources().getDrawable(R.drawable.shape, getApplicationContext().getTheme());
-        } else {
-            enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
-            normalShape = getResources().getDrawable(R.drawable.shape);
-        }
+        Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget, getApplicationContext().getTheme());
+        Drawable normalShape = getResources().getDrawable(R.drawable.shape, getApplicationContext().getTheme());
 
         if (touchedCard == null)
             return false;

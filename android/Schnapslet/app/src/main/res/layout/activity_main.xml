@@ -14,13 +14,13 @@
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp">
 
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playedCard1">
                 <ImageView
@@ -37,7 +37,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="64dp"
+                android:layout_marginStart="64dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playedCard0">
 
@@ -55,7 +55,7 @@
                 android:contentDescription="@string/imMerge_text"
                 android:layout_width="144dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="176dp"
+                android:layout_marginStart="176dp"
                 android:layout_marginTop="0dp"
                 android:minWidth="144dp"
                 android:minHeight="96dp"
@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="250dp"
+                android:layout_marginStart="250dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/atouCard">
                 <ImageView
@@ -80,7 +80,7 @@
             <LinearLayout
                 android:layout_width="96dp"
                 android:layout_height="72dp"
-                android:layout_marginLeft="176dp"
+                android:layout_marginStart="176dp"
                 android:layout_marginTop="14dp"
                 android:id="@+id/talonCard">
                 <ImageView
@@ -97,14 +97,14 @@
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="100dp">
 
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:id="@+id/playerCard0"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp">
 
                 <ImageView
@@ -120,7 +120,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="60dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard1">
 
@@ -137,7 +137,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="120dp"
+                android:layout_marginStart="120dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard2">
 
@@ -154,7 +154,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="180dp"
+                android:layout_marginStart="180dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard3">
 
@@ -171,7 +171,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginLeft="240dp"
+                android:layout_marginStart="240dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard4">
 
@@ -191,26 +191,24 @@
             android:id="@+id/tMes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="200dp"
             android:minHeight="24dp"
             android:minWidth="340dp"
-            android:layout_x="0dp"
-            android:layout_y="200dp"
             android:text="@string/tMes_text"
             />
 
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="240dp">
 
             <Button
                 android:id="@+id/bContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:enabled="true"
                 android:minHeight="24dp"
@@ -222,7 +220,7 @@
                 android:id="@+id/bChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="24dp"
                 android:enabled="false"
                 android:minHeight="24dp"
@@ -234,7 +232,7 @@
                 android:id="@+id/tRest"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="102dp"
+                android:layout_marginStart="102dp"
                 android:layout_marginTop="4dp"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
@@ -244,7 +242,7 @@
                 android:id="@+id/tPoints"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="150dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginTop="4dp"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
@@ -254,7 +252,7 @@
                 android:id="@+id/b20a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="192dp"
+                android:layout_marginStart="192dp"
                 android:layout_marginTop="0dp"
                 android:minHeight="24dp"
                 android:minWidth="96dp"
@@ -265,7 +263,7 @@
                 android:id="@+id/b20b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="192dp"
+                android:layout_marginStart="192dp"
                 android:layout_marginTop="24dp"
                 android:minHeight="24dp"
                 android:minWidth="96dp"
@@ -278,7 +276,7 @@
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="300dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
@@ -287,7 +285,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="10sp"
-            />
+            android:textSize="10sp"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
