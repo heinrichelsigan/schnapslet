@@ -6,7 +6,7 @@
 *
 */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2021 Heinrich Elsigan
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -37,19 +37,20 @@ public class Game {
     boolean colorHitRule = false;
     boolean isClosed = false;
     boolean shouldContinue = false;
-    Card playedOut, emptyTmpCard;
+    Card playedOut;
+    final Card emptyTmpCard;
     int index = 9;
     int movs = 0;
-    int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    final int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
     Card[] set = new Card[20];
-    MessageQueue mqueue = new MessageQueue();
+    final MessageQueue mqueue = new MessageQueue();
     Player gambler;
     Player computer;
 	// java.applet.Applet masterApplet = null;
     Random random;
-    Resources r;
-    Context context;
+    final Resources r;
+    final Context context;
 
     /**
      * constructor
@@ -81,11 +82,9 @@ public class Game {
         index = 9;
         said = 'n';
         csaid = 'n';
-        // mqueue.insert(r.getString(R.string.creating_players));
-        // gambler = new Player(true);
+        mqueue.insert(r.getString(R.string.creating_players));
         gambler = new Player(true, context);
         gambler.points = 0;
-        // computer = new Player(false);
         computer = new Player(false, context);
         computer.points = 0;
 
@@ -103,7 +102,7 @@ public class Game {
         if (random == null || generate)
             random = new Random();
         if ((rand = random.nextInt()) < 0)
-            rand = 0 - rand;
+            rand = -rand;
 
         modulo = (modulo < 2) ? 20 : modulo;
         rand %= modulo;
@@ -125,7 +124,7 @@ public class Game {
     public void mergeCards() {
     	int i, k, j, l, tmp;
         
-        // mqueue.insert(r.getString(R.string.merging_cards));
+        mqueue.insert(r.getString(R.string.merging_cards));
         k = getRandom(32, true);
 
         for (i = 0; i < k + 20; i++) {
@@ -192,8 +191,7 @@ public class Game {
 	        gambler.hand[i] = new Card(context); // new card(masterApplet, -1);
 	        computer.hand[i] = playedOut;
         }                     
-        // mqueue.insert(context.getResources().getString(R.string.ending_game));
-        
+        mqueue.insert(context.getResources().getString(R.string.ending_game));
 	}
 
     /**
@@ -270,19 +268,6 @@ public class Game {
     /**
      * assignNewCard assigns new cards to both player & computer
      * @return default 0, 1 if game entered colorGitRule; Players now must follow the suit led
-     */
-    /**
-     * @param cidx - number of the played card
-     * @param otherCard - another card
-     * @return true if played card is valid in color hit rule context, otherwise false
-     *
-     * @deprecated  isColorHitValid is marked deprecated<br/>
-     *              {will be removed in next version} <br/>
-     *              use {@link #isInColorHitsContextValid(int nynum, Card aCard)} instead like this:
-     *
-     * <blockquote><pre>
-     * bool isPlayable = isInColorHitsContextValid(mynum, aCard);
-     * </pre></blockquote>
      */
     @Deprecated
 	public int assignNewCard() {
@@ -539,8 +524,8 @@ public class Game {
 	    
 	    public void insert (String mes) {
 	        qcount++;
-	        qbuffer.append(">" + mes + "\n");
-	        // qbuffer.append(qcount + "->" + mes + "\n");
+            // qbuffer.append(">" + mes + "\n");
+	        qbuffer.append(qcount + "->" + mes + "\n");
 	    }
 	    
 	    public String fetch() {

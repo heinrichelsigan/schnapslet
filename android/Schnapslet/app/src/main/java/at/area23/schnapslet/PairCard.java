@@ -29,7 +29,7 @@ public class PairCard {
 	CARDCOLOR cardColor = CARDCOLOR.NONE; // Color of Pair
 	char color = 'n';   // 4 colors and 'n' for unitialized
     int pairValue = 20;      // 5 values and 0 for unitialized
-	Card pairs[] = new Card[2]; // the 2 Cards, that represents the pair
+	final Card[] pairs = new Card[2]; // the 2 Cards, that represents the pair
 
     /**
      * Constructor PairCard()
@@ -81,8 +81,6 @@ public class PairCard {
 			this.atou = true;
 			this.pairValue = 40;
 		}
-		
         return;
     }
-
 }

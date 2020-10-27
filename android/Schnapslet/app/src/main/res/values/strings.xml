@@ -63,6 +63,12 @@
     <string name="build_with">Built with Android Studio 3.1.3</string>
     <string name="learn_more">Learn more</string>
     <string name="back_button">Back</string>
+    <string name="carddeck">carddeck</string>
+    <string name="default_cards">default carddeck</string>
+    <string name="english_cards">english carddeck</string>
+    <string name="german_cards">german carddeck</string>
+    <string name="french_cards">french carddeck</string>
+    <string name="ukraine_cards">ukraine carddeck</string>
     <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
 </resources>
 

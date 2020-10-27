@@ -19,14 +19,15 @@ package at.area23.schnapslet;
 
 import android.content.res.Resources;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
+import java.util.Locale;
 
 /**
  * Card class represents a playing card in Game.
@@ -45,6 +46,9 @@ public class Card {
 
     Resources r;
     Context context;
+    // Calling Application class (see application tag in AndroidManifest.xml)
+    GlobalAppSettings globalVariable;
+    Locale globalAppVarLocale;
 
     /**
      * Constructor Card()
@@ -67,6 +71,7 @@ public class Card {
         this();
         this.context = c;
         r = c.getResources();
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -118,7 +123,7 @@ public class Card {
         this.value = (int)cardValue.getValue();
         this.color = (char)cardColor.getValue();
 
-        this.name = cardColor.toString() + "_" + cardValue.getName();;
+        this.name = cardColor.toString() + "_" + cardValue.getName();
         // System.err.println(namestr);
         this.picture = this.getPictureUrl();
     }
@@ -310,7 +315,7 @@ public class Card {
     public java.net.URL getPictureUrl() {
 		URL url = null;
 		try {
-            url = new URL("http://www.area23.at/cardpics/" + this.color + this.value + ".gif");
+            url = new URL(globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif");
 		} catch (Exception exi) {
             exi.printStackTrace();
             // System.err.println(exi.toString());
@@ -325,10 +330,29 @@ public class Card {
     public android.net.Uri getPictureUri() {
         android.net.Uri uri = null;
         try {
-            String myUri = "http://www.area23.at/cardpics/" + this.color + this.value + ".gif";
+            String myUri = globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif";
             uri = android.net.Uri.parse(myUri);
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return uri;
+    }
+
+    /**
+     * getDrawableFromUrl
+     * @return Drawable Bitmap on the net, that represents custom card deck from a prefix url
+     */
+    protected Drawable getDrawableFromUrl() {
+        Bitmap bmp = null;
+        try {
+            HttpURLConnection connection = (HttpURLConnection) getPictureUrl().openConnection();
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            bmp = BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new BitmapDrawable(context.getResources(), bmp);
     }
 
     /**
@@ -338,13 +362,30 @@ public class Card {
     public int getResourcesInt() {
         String tmp = this.color + String.valueOf(this.value);
 
-        int drawableID = context.getResources().getIdentifier(tmp, "drawable", context.getPackageName());
-
-        if (tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
+        if (this.cardColor == CARDCOLOR.EMPTY || tmp.startsWith("e") ||
+                tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
             return R.drawable.e1;
 
-        if (tmp.equals("n0") || tmp.equals("n"))
+        if (this.cardColor == CARDCOLOR.NONE || tmp.startsWith("n") ||
+                tmp.equals("n0") || tmp.equals("n"))
             return R.drawable.n0;
+
+        int drawableID = context.getResources().getIdentifier(
+                tmp, "drawable", context.getPackageName());
+
+        // Get menu set locale, that is global stored in app context
+        globalAppVarLocale = globalVariable.getLocale();
+        String langLocaleString = globalAppVarLocale.getDisplayName();
+
+
+        if (globalAppVarLocale.equals(new Locale("en")) ||
+            globalAppVarLocale.equals(new Locale("de")) ||
+            globalAppVarLocale.equals(new Locale("fr")) ||
+            globalAppVarLocale.equals(new Locale("uk"))) {
+            // get language country region specific card deck card symbol
+            drawableID = context.getResources().getIdentifier(
+                    tmp, "drawable-" + langLocaleString, context.getPackageName());
+        }
 
         return drawableID;
     }
@@ -354,13 +395,11 @@ public class Card {
      * @return Drawable, that contains card symbol e.g. for heart ace => R.drawable.h11
      */
     public Drawable getDrawable() {
-        String tmp = this.color + String.valueOf(this.value);
         android.util.TypedValue typVal = new TypedValue();
         typVal.resourceId = this.getResourcesInt();
         Resources.Theme theme =  context.getResources().newTheme();
-        Drawable drawble = context.getResources().getDrawable(typVal.resourceId, theme);
 
-        return drawble;
+        return context.getResources().getDrawable(typVal.resourceId, theme);
     }
 
     /**
@@ -388,8 +427,8 @@ public class Card {
 
     /**
      * hitsValue
-     * @param otherCard
-     * @return truem, if card hits value of otherCard
+     * @param otherCard the other card, which my card hits (or not)
+     * @return true, if card hits value of otherCard
      */
     public boolean hitsValue(Card otherCard) {
         if (this.color == otherCard.color) {
@@ -401,14 +440,14 @@ public class Card {
 
     /**
      * hitsCard
-     * @param otherCard
-     * @param active - us card active card, uf no clear rule for hitting otherCard,
+     * @param otherCard the other card, which my card hits (or not)
+     * @param active is current card active card, if no clear rule for hitting otherCard
      * @return true, if current card hits otherCard, false otherwise
      */
     public boolean hitsCard(Card otherCard, boolean active) {
         if (this.color == otherCard.color) {
             if (this.getValue() > otherCard.getValue())
-            return true;
+                return true;
             else
                 return false;
         }

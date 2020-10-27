@@ -24,8 +24,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 /**
  * AboutActivity class implements help text view.
@@ -40,7 +38,7 @@ public class AboutActivity extends AppCompatActivity {
 
     /**
      * Override onCreate
-     * @param savedInstanceState
+     * @param savedInstanceState saved application state of current instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class AboutActivity extends AppCompatActivity {
 
     /**
      * onCreateOptionsMenu
-     * @param menu
+     * @param menu options menu
      * @return true|false
      */
     @Override
@@ -96,31 +94,18 @@ public class AboutActivity extends AppCompatActivity {
      * add listeners on all clickables
      */
     public void addListenerOnClickables() {
-
         backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                backButton_Clicked(arg0);
-            }
-        });
+        backButton.setOnClickListener(arg0 -> backButton_Clicked());
 
         learnMoreButton = (Button) findViewById(R.id.learnMoreButton);
-        learnMoreButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                learnMoreButton_Clicked(arg0);
-            }
-        });
-
+        learnMoreButton.setOnClickListener(arg0 -> learnMoreButton_Clicked());
     }
 
 
     /**
      * backButton_Clicked finish about activity
-     * @param arg0 current View
      */
-    public void backButton_Clicked(View arg0) {
+    public void backButton_Clicked() {
         // finish activity
         finish();
     }
@@ -128,9 +113,8 @@ public class AboutActivity extends AppCompatActivity {
 
     /**
      * learnMoreButton_Clicked_Clicked
-     * @param arg0
      */
-    public void learnMoreButton_Clicked(View arg0) {
+    public void learnMoreButton_Clicked() {
 
         helpTextView.setText(R.string.help_text);
 

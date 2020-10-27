@@ -36,7 +36,7 @@ public enum CARDCOLOR {
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	private CARDCOLOR(char value) {
+	CARDCOLOR(char value) {
 		this.value = value;
 	}
 

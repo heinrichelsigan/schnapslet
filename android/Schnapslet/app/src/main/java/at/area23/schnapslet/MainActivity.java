@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
-// import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,13 +44,11 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-// import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-// import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-// import java.net.URL;
+import java.util.Locale;
 
 /**
  * MainActivity class implements the MainActivity.
@@ -61,8 +58,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements Runnable {
 
     private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
-    // Button bStart, bStop, bHelp,
-    Button b20a, b20b,  bChange, bContinue;
+    Button b20a, b20b,  bChange, bContinue; // bStart, bStop, bHelp;
     ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
     Menu myMenu;
@@ -74,17 +70,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
-    volatile Card touchedCard, draggedCard, assignedCard = null;
+    volatile Card touchedCard;
+    volatile Card draggedCard;
+    final Card assignedCard = null;
     volatile boolean ready = false, droppedCard = false, dragged20 = false;
     volatile byte psaychange = 0;
     boolean pSaid = false; // Said something
     static java.lang.Runtime runtime = null;
-    // URL emptyURL, backURL, talonURL, notURL;
-    // static String emptyJarStr =	"cardpics/e.gif";
-    // static String backJarStr =	"cardpics/verdeckt.gif";
-    // static String notJarStr = 	"cardpics/n0.gif";
-    // static String talonJarStr =	"cardpics/t.gif";
     Game aGame;
+    // Calling Application class (see application tag in AndroidManifest.xml)
+    GlobalAppSettings globalVariable;
 
     /**
      * Override onCreate
@@ -106,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             layoutMes = getString(R.string.portrait_mode);
             setContentView(R.layout.activity_main);
         }
+
+        globalVariable = (GlobalAppSettings) getApplicationContext();
 
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
@@ -132,14 +129,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         imMerge = (ImageView) findViewById(R.id.imMerge);
         imMerge.setBackgroundResource(R.drawable.anim_merge);
-        // animatedGif = (android.graphics.drawable.AnimatedImageDrawable)imMerge.getBackground();
-        // animatedGif.start();
         frameAnimation = (AnimationDrawable)imMerge.getBackground();
         frameAnimation.start();
 
-        // bStart = (Button) findViewById(R.id.bStart);
-        // bStop = (Button) findViewById(R.id.bStop);
-        // bHelp = (Button) findViewById(R.id.bHelp);
+        // bStart = (Button) findViewById(R.id.bStart); bStop = (Button) findViewById(R.id.bStop); bHelp = (Button) findViewById(R.id.bHelp);
         b20a =  (Button) findViewById(R.id.b20a);
         b20b =  (Button) findViewById(R.id.b20b);
         bChange = (Button) findViewById(R.id.bChange);
@@ -151,18 +144,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tRest = (TextView) findViewById(R.id.tRest);
         tDbg = (TextView) findViewById(R.id.tDbg);
         tDbg.setText(layoutMes);
-
         tMes.setVisibility(View.INVISIBLE);
-
-        // bStop.setEnabled(false);
+        // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         bChange.setEnabled(false);
-        // bContinue.setEnabled(false);
-
-        // bStart.setEnabled(true);
-        // bHelp.setEnabled(true);
 
         addListenerOnClickables();
-
         // initURLBase();
         resetButtons(0);
     }
@@ -192,14 +178,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
+        menuResetCheckboxes();
         return true;
     }
 
+    /**
+     * Handles action bar item clicks in option menu.
+     * @param item in options menu, that has been clicked
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_start) {
@@ -216,8 +204,59 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             helpText();
             return true;
         }
+        // reset now all checkboxes for language menu items
+        menuResetCheckboxes();
+
+        if (id == R.id.action_default_cards) {
+            //Sets application locale in GlobalAppSettings from default app locale
+            Locale primaryLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
+            globalVariable.setLocale(primaryLocale);
+            if (myMenu != null) {
+                myMenu.findItem(R.id.action_default_cards).setChecked(true);
+            }
+            return true;
+        }
+        if (id == R.id.action_english_cards) {
+            if (myMenu != null) {
+                myMenu.findItem(R.id.action_english_cards).setChecked(true);
+            }
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale("en");
+            return true;
+        }
+        if (id == R.id.action_german_cards) {
+            item.setChecked(true);
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale("de");
+            return true;
+        }
+        if (id == R.id.action_french_cards) {
+            item.setChecked(true);
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale("fr");
+            return true;
+        }
+        if (id == R.id.action_ukraine_cards) {
+            item.setChecked(true);
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale("uk");
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * reset menu checkboxes from all checkable menu items
+     */
+    protected void menuResetCheckboxes() {
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_default_cards).setChecked(false);
+            myMenu.findItem(R.id.action_english_cards).setChecked(false);
+            myMenu.findItem(R.id.action_german_cards).setChecked(false);
+            myMenu.findItem(R.id.action_french_cards).setChecked(false);
+            myMenu.findItem(R.id.action_ukraine_cards).setChecked(false);
+        }
     }
 
     /**
@@ -273,7 +312,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     /**
      * init all ImageView's with default empty values
      */
-    public  void initURLBase() {
+    @Deprecated
+    public void initURLBase() {
         im0.setImageResource(R.drawable.n0);
         im1.setImageResource(R.drawable.n0);
         im2.setImageResource(R.drawable.n0);
@@ -305,7 +345,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     protected void showAtouCard() {
         try {
-            imAtou.setImageResource(aGame.set[19].getResourcesInt());
+            // imAtou.setImageResource(aGame.set[19].getResourcesInt());
+            imAtou.setImageDrawable(aGame.set[19].getDrawable());
         } catch (Exception exp) {
             this.errHandler(exp);
         }
@@ -316,60 +357,60 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * showPlayersCards
      */
     protected void showPlayersCards() {
-
         try {
-            // String myStr = String.valueOf(aGame.gambler.hand[0].getResourcesInt()) + " ; " +
-            //         String.valueOf(aGame.gambler.hand[1].getResourcesInt()) + " ; "+
-            //         String.valueOf(aGame.gambler.hand[2].getResourcesInt()) + " ; ";
-            // tDbg.setText(myStr);
-
             Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
-
             Card handCard = aGame.emptyTmpCard;
 
-            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[0].isValidCard())
+            if (aGame.gambler != null && aGame.gambler.hand[0].isValidCard())
                 handCard = aGame.gambler.hand[0];
-            im0.setImageResource(handCard.getResourcesInt());
+            // im0.setImageResource(handCard.getResourcesInt());
+            im0.setImageDrawable(handCard.getDrawable());
             im0.setVisibility(View.VISIBLE);
             playerCard0.setVisibility(View.VISIBLE);
             playerCard0.setBackground(normalShape);
             im0.setBackground(normalShape);
 
-            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[1].isValidCard())
+            if (aGame.gambler != null && aGame.gambler.hand[1].isValidCard())
                 handCard = aGame.gambler.hand[1];
             else
                 handCard = aGame.emptyTmpCard;
-            im1.setImageResource(handCard.getResourcesInt());
+            // im1.setImageResource(handCard.getResourcesInt());
+            im1.setImageDrawable(handCard.getDrawable());
             im1.setVisibility(View.VISIBLE);
             playerCard1.setVisibility(View.VISIBLE);
             playerCard1.setBackground(normalShape);
             im1.setBackground(normalShape);
 
-            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[2].isValidCard())
+            if (aGame.gambler != null && aGame.gambler.hand[2].isValidCard())
                 handCard = aGame.gambler.hand[2];
             else
                 handCard = aGame.emptyTmpCard;
-            im2.setImageResource(handCard.getResourcesInt());
+            // im2.setImageResource(handCard.getResourcesInt());
+            im2.setImageDrawable(handCard.getDrawable());
             im2.setVisibility(View.VISIBLE);
             playerCard2.setVisibility(View.VISIBLE);
             playerCard2.setBackground(normalShape);
             im2.setBackground(normalShape);
 
-            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[3].isValidCard())
+            if (aGame.gambler != null && aGame.gambler.hand[3].isValidCard())
                 handCard = aGame.gambler.hand[3];
             else
                 handCard = aGame.emptyTmpCard;
-            im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
+            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
+            // im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
+            im3.setImageDrawable(handCard.getDrawable());
             im3.setVisibility(View.VISIBLE);
             playerCard3.setVisibility(View.VISIBLE);
             playerCard3.setBackground(normalShape);
             im3.setBackground(normalShape);
 
-            if (aGame != null && aGame.gambler != null && aGame.gambler.hand[4].isValidCard())
+            if (aGame.gambler != null && aGame.gambler.hand[4].isValidCard())
                 handCard = aGame.gambler.hand[4];
             else
                 handCard = aGame.emptyTmpCard;
-            im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            // im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
+            im4.setImageDrawable(handCard.getDrawable());
             im4.setVisibility(View.VISIBLE);
             im4.setBackground(normalShape);
             playerCard4.setVisibility(View.VISIBLE);
@@ -394,7 +435,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         // runtime.runFinalization();
         // runtime.gc();
 
-
         aGame = new Game(getApplicationContext());
         tMes.setVisibility(View.INVISIBLE);
 
@@ -403,17 +443,19 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         imMerge.setVisibility(View.INVISIBLE);
 
         try {
-            im0.setImageResource(aGame.gambler.hand[0].getResourcesInt());
+            // im0.setImageResource(aGame.gambler.hand[0].getResourcesInt());
+            im0.setImageDrawable(aGame.gambler.hand[0].getDrawable());
+            // im1.setImageResource(aGame.gambler.hand[1].getResourcesInt());
+            im1.setImageDrawable(aGame.gambler.hand[1].getDrawable());
             Thread.sleep(100);
-            im1.setImageResource(aGame.gambler.hand[1].getResourcesInt());
-            Thread.sleep(100);
-            im2.setImageResource(aGame.gambler.hand[2].getResourcesInt());
-            Thread.sleep(200);
+            // im2.setImageResource(aGame.gambler.hand[2].getResourcesInt());
+            im2.setImageDrawable(aGame.gambler.hand[2].getDrawable());
             imAtou.setVisibility(View.VISIBLE);
             Thread.sleep(100);
-            im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
-            Thread.sleep(100);
-            im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
+            im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
+            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
         } catch (Exception ext) {
             this.errHandler(ext);
         }
@@ -431,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         tPoints.setText(String.valueOf(aGame.gambler.points));
         showAtouCard();
         showTalonCard();
-        // bStop.setEnabled(true);
+
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(true);
         }
@@ -544,15 +586,14 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             tMes.setText(outPutMessage);
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
-                // if (aGame.computer.points > 65)
                 twentyEnough(false);
                 ready = false;
-
                 return;
             }
 
             try {
-                imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
+                // imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
+                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -577,7 +618,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 startGame();
                 return;
             }
-
 
             if (aGame != null)
                 aGame.shouldContinue = false;
@@ -607,10 +647,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 for (xj = 0; xj < 5; xj++) {
                     if (aGame.gambler.hand[xj].color == aGame.said &&
                             aGame.gambler.hand[xj].value == 3)
-                        imOut0.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                        // imOut0.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                        imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
                     if (aGame.gambler.hand[xj].color == aGame.said &&
                             aGame.gambler.hand[xj].value == 4)
-                        imOut1.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                        // imOut1.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                        imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
                 }
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
@@ -626,10 +668,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 for (xj = 0; xj < 5; xj++) {
                     if (aGame.computer.hand[xj].color == aGame.csaid &&
                             aGame.computer.hand[xj].value == 3)
-                        imOut0.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                        // imOut0.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                        imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
                     if (aGame.computer.hand[xj].color == aGame.csaid &&
                             aGame.computer.hand[xj].value == 4)
-                        imOut1.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                        // imOut1.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                        imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
                 }
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
@@ -654,7 +698,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (aGame.playersTurn) {
             ccard = aGame.computersAnswer();
             try {
-                imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
+                // imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
+                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -683,16 +728,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 return;
             }
         }
-
-        // int emptyIndex = -1;
-        // if (!aGame.colorHitRule) {
-        //     for (int idx = 0; idx < 5; idx++) {
-        //        if (!aGame.gambler.hand[idx].isValidCard()) {
-        //            emptyIndex = idx;
-        //            break;
-        //        }
-        //    }
-        // }
 
         // Assign new cards
         if (aGame.assignNextCard(assignedCard)) {
@@ -756,12 +791,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             aGame.shouldContinue = true;
         bContinue.setEnabled(true);
 
-        imTalon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                bContinue_Clicked(arg0);
-            }
-        });
+        imTalon.setOnClickListener(this::bContinue_Clicked);
 
         ready = false;
     }
@@ -771,7 +801,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param levela level of stop
      */
     protected void stopGame(int levela) {
-        // bStop.setEnabled(false);
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(false);
         }
@@ -787,19 +816,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         showPlayersCards();
         aGame.destroyGame();
 
-        // imMerge.setVisibility(View.VISIBLE);
-        // frameAnimation.start();
-
         imTalon.setImageResource(R.drawable.t);
         imTalon.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setImageResource(R.drawable.n0);
-
-        // java.lang.System.runFinalization();
-        // java.lang.System.gc();
-        // await Task.Delay(3000);
     }
 
     /**
@@ -820,19 +842,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void addListenerOnClickables() {
 
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
-        playedCard0.setOnDragListener(new OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                return layoutView_OnDragHandler(view, dragEvent, -2);
-            }
-        });
+        playedCard0.setOnDragListener((view, dragEvent) -> layoutView_OnDragHandler(view, dragEvent, -2));
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
-        playedCard1.setOnDragListener(new OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                return layoutView_OnDragHandler(view, dragEvent, -2);
-            }
-        });
+        playedCard1.setOnDragListener((view, dragEvent) -> layoutView_OnDragHandler(view, dragEvent, -2));
 
         playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
         playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
@@ -842,129 +854,32 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
 
         bChange = (Button) findViewById(R.id.bChange);
-        bChange.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                bChange_Clicked(arg0);
-            }
-        });
+        bChange.setOnClickListener(this::bChange_Clicked);
         b20a = (Button) findViewById(R.id.b20a);
-        b20a.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                b20a_Clicked(arg0);
-            }
-        });
+        b20a.setOnClickListener(this::b20a_Clicked);
 
         b20b = (Button) findViewById(R.id.b20b);
-        b20b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                b20b_Clicked(arg0);
-            }
-        });
+        b20b.setOnClickListener(this::b20b_Clicked);
         bContinue = (Button) findViewById(R.id.bContinue);
-        bContinue.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                bContinue_Clicked(arg0);
-            }
-        });
-
+        bContinue.setOnClickListener(this::bContinue_Clicked);
 
         im0 = (ImageView) findViewById(R.id.im0);
-        // im0.setOnClickListener(new OnClickListener() {
-        //     @Override
-        //     public void onClick(View arg0) {
-        //         imageView_ClickEventHandler(arg0, 0);
-        //     }
-        // });
-        im0.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return image_OnTouchListener(view, motionEvent, 0);
-            }
-        });
+        im0.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 0));
 
         im1 = (ImageView) findViewById(R.id.im1);
-        im1.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return image_OnTouchListener(view, motionEvent, 1);
-            }
-        });
-//        im1.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                imageView_ClickEventHandler(arg0, 1);
-//            }
-//        });
+        im1.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 1));
+
         im2 = (ImageView) findViewById(R.id.im2);
-        im2.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return image_OnTouchListener(view, motionEvent, 2);
-            }
-        });
-//        im2.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                imageView_ClickEventHandler(arg0, 2);
-//            }
-//        });
+        im2.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 2));
+
         im3 = (ImageView) findViewById(R.id.im3);
-        im3.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return image_OnTouchListener(view, motionEvent, 3);
-            }
-        });
-//        im3.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                imageView_ClickEventHandler(arg0, 3);
-//            }
-//        });
+        im3.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 3));
+
         im4 = (ImageView) findViewById(R.id.im4);
-        im4.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return image_OnTouchListener(view, motionEvent, 4);
-            }
-        });
-//        im4.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                imageView_ClickEventHandler(arg0, 4);
-//            }
-//        });
+        im4.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 4));
+
         imAtou = (ImageView) findViewById(R.id.imAtou);
-        imAtou.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                imageView_ClickEventHandler(arg0, 10);
-            }
-        });
-    }
-
-    /**
-     * bStart_Clicked
-     * @param arg0 view that was clicked
-     */
-    public void bStart_Clicked(View arg0) {
-        startGame();
-    }
-
-    /**
-     * bStop_Clicked
-     * @param arg0 view that was clicked
-     */
-    public void bStop_Clicked(View arg0) {
-        try {
-            stopGame(2);
-        } catch (Exception e) {
-            this.errHandler(e);
-        }
+        imAtou.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 10));
     }
 
     /**
@@ -1079,41 +994,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             String tmp;
 
             for (int i = 0; i < 5; i++){
-                tmp = "im" + String.valueOf(i);
+                tmp = "im" + i;
                 int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
                 if (viewId == myID) {
                     touchedCard = aGame.gambler.hand[i];
                     break;
                 }
             }
-//            switch (viewId) {
-//                case R.id.im0:
-//                    touchedCard = aGame.gambler.hand[0];
-//                    break;
-//                case R.id.im1:
-//                    touchedCard = aGame.gambler.hand[1];
-//                    break;
-//                case R.id.im2:
-//                    touchedCard = aGame.gambler.hand[2];
-//                    break;
-//                case R.id.im3:
-//                    touchedCard = aGame.gambler.hand[3];
-//                    break;
-//                case R.id.im4:
-//                    touchedCard = aGame.gambler.hand[4];
-//                    break;
-//                default: // assert(0)
-//                    break;
-//            }
+
             if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid) &&
                     touchedCard.cardValue == CARDVALUE.JACK && touchedCard.isAtou()) {
                 atouCard = (LinearLayout) findViewById(R.id.atouCard);
-                atouCard.setOnDragListener(new OnDragListener() {
-                    @Override
-                    public boolean onDrag(View view, DragEvent dragEvent) {
-                        return layoutView_OnDragHandler(view, dragEvent, -1);
-                    }
-                });
+                atouCard.setOnDragListener((view1, dragEvent) -> layoutView_OnDragHandler(view1, dragEvent, -1));
             }
 
             playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
@@ -1137,44 +1029,19 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
                         switch (idx) {
                             case 0:
-                                playerCard0.setOnDragListener(new OnDragListener() {
-                                    @Override
-                                    public boolean onDrag(View view, DragEvent dragEvent) {
-                                        return layoutView_OnDragHandler(view, dragEvent, 0);
-                                    }
-                                });
+                                playerCard0.setOnDragListener((view12, dragEvent) -> layoutView_OnDragHandler(view12, dragEvent, 0));
                                 break;
                             case 1:
-                                playerCard1.setOnDragListener(new OnDragListener() {
-                                    @Override
-                                    public boolean onDrag(View view, DragEvent dragEvent) {
-                                        return layoutView_OnDragHandler(view, dragEvent, 1);
-                                    }
-                                });
+                                playerCard1.setOnDragListener((view13, dragEvent) -> layoutView_OnDragHandler(view13, dragEvent, 1));
                                 break;
                             case 2:
-                                playerCard2.setOnDragListener(new OnDragListener() {
-                                    @Override
-                                    public boolean onDrag(View view, DragEvent dragEvent) {
-                                        return layoutView_OnDragHandler(view, dragEvent, 2);
-                                    }
-                                });
+                                playerCard2.setOnDragListener((view14, dragEvent) -> layoutView_OnDragHandler(view14, dragEvent, 2));
                                 break;
                             case 3:
-                                playerCard3.setOnDragListener(new OnDragListener() {
-                                    @Override
-                                    public boolean onDrag(View view, DragEvent dragEvent) {
-                                        return layoutView_OnDragHandler(view, dragEvent, 3);
-                                    }
-                                });
+                                playerCard3.setOnDragListener((view15, dragEvent) -> layoutView_OnDragHandler(view15, dragEvent, 3));
                                 break;
                             case 4:
-                                playerCard4.setOnDragListener(new OnDragListener() {
-                                    @Override
-                                    public boolean onDrag(View view, DragEvent dragEvent) {
-                                        return layoutView_OnDragHandler(view, dragEvent, 4);
-                                    }
-                                });
+                                playerCard4.setOnDragListener((view16, dragEvent) -> layoutView_OnDragHandler(view16, dragEvent, 4));
                                 break;
                             default:
                                 break;
@@ -1249,7 +1116,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
                     String tmp;
                     for (int i = 0; i < 5; i++){
-                        tmp = "im" + String.valueOf(i);
+                        tmp = "im" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
                         if (viewID == myID) {
                             imageView_ClickEventHandler(view, i);
@@ -1289,7 +1156,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                     Card dropCard = null;
                     String tmp;
                     for (int i = 0; i < 5; i++){
-                        tmp = "playerCard" + String.valueOf(i);
+                        tmp = "playerCard" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
                         if (lcId == myID) {
                             dropCard = aGame.gambler.hand[i];
@@ -1416,7 +1283,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 if ((aGame.said == aGame.gambler.hand[ic].getColor()) &&
                         (aGame.gambler.hand[ic].getValue() > 2) &&
                         (aGame.gambler.hand[ic].getValue() < 5)) {
-                    ; // we can continue
+                    // we can continue
                 } else {
                     setTextMessage(getString(R.string.you_must_play_pair_card));
                     aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
@@ -1447,7 +1314,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
             aGame.playedOut = aGame.gambler.hand[ic];
             // Besser Cards als Array
-            String tmp = "im" + String.valueOf(ic);
+            String tmp = "im" + ic;
             int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
             ImageView cardPlayed = (ImageView) findViewById(myID);
             cardPlayed.setImageResource(R.drawable.e);
@@ -1471,7 +1338,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 default: tDbg.append("Assertion !");
             }
 
-            imOut0.setImageResource(aGame.gambler.hand[ic].getResourcesInt());
+            // imOut0.setImageResource(aGame.gambler.hand[ic].getResourcesInt());
+            imOut0.setImageDrawable(aGame.gambler.hand[ic].getDrawable());
 
         } catch (Exception e) {
             this.errHandler(e);
@@ -1487,14 +1355,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param text to display
      */
     private void setTextMessage(CharSequence text) {
-
         if (text != null && text != "") {
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-
     }
 
     /**
@@ -1509,31 +1375,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param myErr java.lang.Throwable
      */
     private void errHandler(java.lang.Throwable myErr) {
-        tDbg.append("\nCRITICAL ERROR #" + String.valueOf((++errNum))  + " " + myErr.getMessage());
+        tDbg.append("\nCRITICAL ERROR #" + ++errNum + " " + myErr.getMessage());
         tDbg.append(myErr.toString());
         tDbg.append("\nMessage: "+ myErr.getLocalizedMessage() + "\n");
         myErr.printStackTrace();
     }
 
     /**
-     * bHelp_Clicked(View arg0) fired, when button Help clicked
-     * @param arg0 View arg0
-     */
-    private void bHelp_Clicked(View arg0) {
-        helpText();
-    }
-
-    /**
      * helpText() prints out help text
      */
     public void helpText() {
-        // try {
-        //     Thread.currentThread().sleep(10);
-        // } catch (Exception exInt) {
-        //     errHandler(exInt);
-        // }
-        // tDbg.setText(R.string.help_text);
-
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
