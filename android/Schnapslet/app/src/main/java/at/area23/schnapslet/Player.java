@@ -6,7 +6,7 @@
 *
 */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2021 Heinrich Elsigan
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -28,19 +28,19 @@ import android.content.Context;
  */
 public class Player {
     volatile boolean begins;    // does this Player begin ?
-    Card[] hand = new Card[5];  // Cards in Players Hand
+    final Card[] hand = new Card[5];  // Cards in Players Hand
     // not implemented yet !
     // Card hits[] = new Card[10]; // hits made by this player
 
     boolean hasClosed = false;
     int points = 0;             // points made by this player
     // char pairs[] = {'n', 'n', 'n', 'n'};
-    PairCard[] pairs = new PairCard[2];
-    char[] handpairs = {'n', 'n'};
-    volatile int[] colorHitArray = {0, 0, 0, 0, 0};
+    final PairCard[] pairs = new PairCard[2];
+    final char[] handpairs = {'n', 'n'};
+    final int[] colorHitArray = {0, 0, 0, 0, 0};
     int playerOptions = 0;
-    Resources r;
-    Context context;
+    final Resources r;
+    final Context context;
 
     /**
      * Constructor of Player

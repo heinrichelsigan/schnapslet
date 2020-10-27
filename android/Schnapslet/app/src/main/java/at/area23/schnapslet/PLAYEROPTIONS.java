@@ -34,7 +34,7 @@ public enum PLAYEROPTIONS {
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	private PLAYEROPTIONS(int value) {
+	PLAYEROPTIONS(int value) {
 		this.value = value;
 	}
 
@@ -43,7 +43,7 @@ public enum PLAYEROPTIONS {
 	public int getValue() {
 		return value;
 	}
-};
+}
 
 
 

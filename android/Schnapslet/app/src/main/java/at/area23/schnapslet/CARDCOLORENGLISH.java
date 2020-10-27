@@ -18,8 +18,6 @@
 */
 package at.area23.schnapslet;
 
-import java.lang.*;
-
 public enum CARDCOLORENGLISH {
 
 	EMPTY('e'),
@@ -32,7 +30,7 @@ public enum CARDCOLORENGLISH {
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	private CARDCOLORENGLISH(char value) {
+	CARDCOLORENGLISH(char value) {
 		this.value = value;
 	}
 
@@ -41,7 +39,7 @@ public enum CARDCOLORENGLISH {
 	public char getValue() {
 		return value;
 	}
-};
+}
 
 
 

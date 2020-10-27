@@ -39,7 +39,7 @@ public enum CARDVALUE {
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	private CARDVALUE(int value) {
+	CARDVALUE(int value) {
 		this.value = value;
 	}
 
@@ -48,7 +48,7 @@ public enum CARDVALUE {
 	public String getName() {
 		return this.name();
 	}
-};
+}
 
 
 	
