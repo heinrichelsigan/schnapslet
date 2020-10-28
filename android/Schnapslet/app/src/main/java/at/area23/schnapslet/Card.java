@@ -382,7 +382,6 @@ public class Card {
         globalAppVarLocale = globalVariable.getLocale();
         String langLocaleString = globalAppVarLocale.getDisplayName();
 
-
         if (globalAppVarLocale.equals(new Locale("en")) ||
             globalAppVarLocale.equals(new Locale("de")) ||
             globalAppVarLocale.equals(new Locale("fr")) ||
