@@ -18,8 +18,12 @@
 package at.area23.schnapslet;
 
 import android.app.Application;
+import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.renderscript.ScriptIntrinsicYuvToRGB;
+
 import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
@@ -27,6 +31,31 @@ public class GlobalAppSettings extends Application {
     private String prefixUri = "http://www.area23.at/cardpics/";
     private Uri pictureUri = null;
     Context context;
+
+    private static Application sApplication;
+
+    public static Application getApplication() {
+        return sApplication;
+    }
+
+    public static Context getContext() {
+        return getApplication().getApplicationContext();
+    }
+
+    /**
+     * Called when the application is starting, before any activity, service,
+     * or receiver objects (excluding content providers) have been created.
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sApplication = this;
+    }
+
+    @Override
+    public Context createDeviceProtectedStorageContext() {
+        return super.createDeviceProtectedStorageContext();
+    }
 
     public void setLocale(Locale setLocale) {
         locale = setLocale;
@@ -36,7 +65,7 @@ public class GlobalAppSettings extends Application {
         locale = new Locale(localeString);
     }
 
-    protected void initLocale() {
+    public void initLocale() {
         if (locale == null) {
             try {
                 locale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
@@ -68,7 +97,7 @@ public class GlobalAppSettings extends Application {
         }
     }
 
-    protected void initPictureUrl() {
+    public void initPictureUrl() {
         try {
             if (pictureUri == null)
                 pictureUri = Uri.parse(prefixUri);

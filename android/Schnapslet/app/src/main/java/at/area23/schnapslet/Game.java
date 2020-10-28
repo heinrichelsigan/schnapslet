@@ -41,16 +41,16 @@ public class Game {
     final Card emptyTmpCard;
     int index = 9;
     int movs = 0;
-    final int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
     Card[] set = new Card[20];
-    final MessageQueue mqueue = new MessageQueue();
+    MessageQueue mqueue = new MessageQueue();
     Player gambler;
     Player computer;
 	// java.applet.Applet masterApplet = null;
     Random random;
-    final Resources r;
-    final Context context;
+    Resources r;
+    Context context;
 
     /**
      * constructor

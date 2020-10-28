@@ -137,6 +137,7 @@ public class Card {
         this(num);
         this.context = c;
         r = c.getResources();
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -222,6 +223,7 @@ public class Card {
         this(aCardColor, aCardValue, atoudef);
         this.context = c;
         this.r = c.getResources();
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -248,6 +250,7 @@ public class Card {
         this(aCardColor, aCardValue, atouColor);
         this.context = c;
         this.r = c.getResources();
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -266,6 +269,7 @@ public class Card {
         this.cardColor = aCard.cardColor;
         this.r = aCard.r;
         this.context = aCard.context;
+        this.globalVariable = aCard.globalVariable;
     }
 
     /**
@@ -277,6 +281,7 @@ public class Card {
         this(aCard);
         this.context = c;
         r = c.getResources();
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -384,10 +389,11 @@ public class Card {
             globalAppVarLocale.equals(new Locale("uk"))) {
             // get language country region specific card deck card symbol
             drawableID = context.getResources().getIdentifier(
-                    tmp, "drawable-" + langLocaleString, context.getPackageName());
+                    tmp, "drawable-" + globalAppVarLocale, context.getPackageName());
         }
 
         return drawableID;
+
     }
 
     /**
