@@ -381,16 +381,20 @@ public class Card {
         // Get menu set locale, that is global stored in app context
         globalAppVarLocale = globalVariable.getLocale();
         String langLocaleString = globalAppVarLocale.getDisplayName();
+        String langNoCntry = globalAppVarLocale.getLanguage();
 
-        if (globalAppVarLocale.equals(new Locale("en")) ||
-            globalAppVarLocale.equals(new Locale("de")) ||
-            globalAppVarLocale.equals(new Locale("fr")) ||
-            globalAppVarLocale.equals(new Locale("uk"))) {
+        if (langNoCntry == (new Locale("en")).getLanguage() ||
+            langNoCntry == (new Locale("fr")).getLanguage() ||
+            langNoCntry == (new Locale("de")).getLanguage() ||
+            langNoCntry == (new Locale("uk")).getLanguage()) {
             // get language country region specific card deck card symbol
-            drawableID = context.getResources().getIdentifier(
-                    tmp, "drawable-" + globalAppVarLocale, context.getPackageName());
-        }
+            int drawableLangId = context.getResources().getIdentifier(
+                    langNoCntry + "_" + tmp,
+                    "drawable", context.getPackageName());
+            if (drawableLangId > 0)
+                return drawableLangId;
 
+        }
         return drawableID;
 
     }

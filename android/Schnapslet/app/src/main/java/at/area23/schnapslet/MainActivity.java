@@ -28,6 +28,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v13.view.DragAndDropPermissionsCompat;
@@ -210,40 +211,51 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (id == R.id.action_default_cards) {
             //Sets application locale in GlobalAppSettings from default app locale
             Locale primaryLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            globalVariable.setLocale(primaryLocale);
-            if (myMenu != null) {
-                myMenu.findItem(R.id.action_default_cards).setChecked(true);
-            }
-            return true;
+            return setLocale(primaryLocale, item);
         }
-        if (id == R.id.action_english_cards) {
-            if (myMenu != null) {
-                myMenu.findItem(R.id.action_english_cards).setChecked(true);
-            }
-            //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale("en");
-            return true;
+        if (id == R.id.action_english_cards) { // sets locale in GlobalAppSettings with english
+            return setLanguage("en", item);
         }
-        if (id == R.id.action_german_cards) {
-            item.setChecked(true);
-            //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale("de");
-            return true;
+        if (id == R.id.action_german_cards) { // changes locale in GlobalAppSettings to Deutsch
+            return  setLanguage("de", item);
         }
-        if (id == R.id.action_french_cards) {
-            item.setChecked(true);
-            //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale("fr");
-            return true;
+        if (id == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
+            return setLanguage("fr", item);
         }
-        if (id == R.id.action_ukraine_cards) {
-            item.setChecked(true);
-            //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale("uk");
-            return true;
+        if (id == R.id.action_ukraine_cards) { //  uktainian
+            return setLanguage("uk", item);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * setLanguage
+     * @param language - the langzage
+     * @return true in case of succcess, otherwise false
+     */
+    protected  boolean setLanguage(String language, MenuItem item) {
+        return setLocale(new Locale(language), item);
+    }
+
+    /**
+     * setLanguage
+     * @param aLocale - a locale
+     * @param item - a menu item
+     * @return true in case of succcess, otherwise false
+     */
+    protected  boolean setLocale(Locale aLocale, MenuItem item) {
+        if (item != null) {
+            item.setChecked(true);
+        }
+        if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale(aLocale);
+            showAtouCard();
+            showPlayersCards();
+        }
+        return true;
     }
 
     /**
@@ -359,62 +371,53 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     protected void showPlayersCards() {
         try {
             Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
-            Card handCard = aGame.emptyTmpCard;
 
-            if (aGame.gambler != null && aGame.gambler.hand[0].isValidCard())
-                handCard = aGame.gambler.hand[0];
-            // im0.setImageResource(handCard.getResourcesInt());
-            im0.setImageDrawable(handCard.getDrawable());
-            im0.setVisibility(View.VISIBLE);
+            Card handCard = (aGame.gambler != null && aGame.gambler.hand[0].isValidCard()) ?
+                    aGame.gambler.hand[0] : aGame.emptyTmpCard;
             playerCard0.setVisibility(View.VISIBLE);
             playerCard0.setBackground(normalShape);
-            im0.setBackground(normalShape);
 
-            if (aGame.gambler != null && aGame.gambler.hand[1].isValidCard())
-                handCard = aGame.gambler.hand[1];
-            else
-                handCard = aGame.emptyTmpCard;
-            // im1.setImageResource(handCard.getResourcesInt());
-            im1.setImageDrawable(handCard.getDrawable());
-            im1.setVisibility(View.VISIBLE);
+            im0.setBackground(normalShape);
+            im0.setImageDrawable(handCard.getDrawable());
+            im0.setVisibility(View.VISIBLE);
+
+            handCard =  (aGame.gambler != null && aGame.gambler.hand[1].isValidCard()) ?
+                    aGame.gambler.hand[1] : aGame.emptyTmpCard;
             playerCard1.setVisibility(View.VISIBLE);
             playerCard1.setBackground(normalShape);
-            im1.setBackground(normalShape);
 
-            if (aGame.gambler != null && aGame.gambler.hand[2].isValidCard())
-                handCard = aGame.gambler.hand[2];
-            else
-                handCard = aGame.emptyTmpCard;
-            // im2.setImageResource(handCard.getResourcesInt());
-            im2.setImageDrawable(handCard.getDrawable());
-            im2.setVisibility(View.VISIBLE);
+            im1.setBackground(normalShape);
+            im1.setImageDrawable(handCard.getDrawable());
+            im1.setVisibility(View.VISIBLE);
+
+            handCard = (aGame.gambler != null && aGame.gambler.hand[2].isValidCard()) ?
+                aGame.gambler.hand[2] :  aGame.emptyTmpCard;
             playerCard2.setVisibility(View.VISIBLE);
             playerCard2.setBackground(normalShape);
+            // im2.setImageResource(handCard.getResourcesInt());
             im2.setBackground(normalShape);
+            im2.setImageDrawable(handCard.getDrawable());
+            im2.setVisibility(View.VISIBLE);
 
-            if (aGame.gambler != null && aGame.gambler.hand[3].isValidCard())
-                handCard = aGame.gambler.hand[3];
-            else
-                handCard = aGame.emptyTmpCard;
-            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
-            // im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
-            im3.setImageDrawable(handCard.getDrawable());
-            im3.setVisibility(View.VISIBLE);
+            handCard = (aGame.gambler != null && aGame.gambler.hand[3].isValidCard()) ?
+                    aGame.gambler.hand[3] : aGame.emptyTmpCard;
             playerCard3.setVisibility(View.VISIBLE);
             playerCard3.setBackground(normalShape);
+            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
+            // im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
             im3.setBackground(normalShape);
+            im3.setImageDrawable(handCard.getDrawable());
+            im3.setVisibility(View.VISIBLE);
 
-            if (aGame.gambler != null && aGame.gambler.hand[4].isValidCard())
-                handCard = aGame.gambler.hand[4];
-            else
-                handCard = aGame.emptyTmpCard;
-            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
-            // im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
-            im4.setImageDrawable(handCard.getDrawable());
-            im4.setVisibility(View.VISIBLE);
-            im4.setBackground(normalShape);
+            handCard = (aGame.gambler != null && aGame.gambler.hand[4].isValidCard()) ?
+                 aGame.gambler.hand[4] : aGame.emptyTmpCard;
             playerCard4.setVisibility(View.VISIBLE);
             playerCard4.setBackground(normalShape);
+            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
+            // im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
+            im4.setBackground(normalShape);
+            im4.setImageDrawable(handCard.getDrawable());
+            im4.setVisibility(View.VISIBLE);
 
         } catch (Exception exp) {
             this.errHandler(exp);
@@ -1349,6 +1352,23 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         endTurn();
 
     }
+
+    /*
+     * Future design
+     */
+    protected void SetImageDrawable(ImageView imageView, Card card) {
+        if (aGame != null && card == null)
+            card = aGame.emptyTmpCard;
+
+
+        String tmp = card.color + String.valueOf(card.value);
+        imageView.setImageDrawable(card.getDrawable());
+
+        imageView.setTag(0, tmp);
+        imageView.setTag(1, imageView.getVisibility());
+    }
+
+
 
     /**
      * setTextMessage shows a new Toast dynamic message
