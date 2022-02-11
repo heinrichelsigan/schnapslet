@@ -22,7 +22,10 @@ import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
+/**
+ * Failed imports!
+ * import android.renderscript.ScriptIntrinsicYuvToRGB;
+ */
 
 import java.util.Locale;
 
