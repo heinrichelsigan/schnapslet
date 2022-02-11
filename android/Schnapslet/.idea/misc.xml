@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/heinr/source/schnapslet/android/Schnapslet/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2535" />
+        <entry key="..\:/Users/heinr/source/schnapslet/android/Schnapslet/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2535" />
+        <entry key="..\:/Users/heinr/source/schnapslet/android/Schnapslet/app/src/main/res/drawable/shape.xml" value="0.2535" />
+        <entry key="..\:/Users/heinr/source/schnapslet/android/Schnapslet/app/src/main/res/mipmap-anydpi-v26/ic_launcher_android.xml" value="0.2535" />
+        <entry key="..\:/Users/heinr/source/schnapslet/android/Schnapslet/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_android.xml" value="0.2535" />
+      </map>
+    </option>
+  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/.idea/Javadoc" />
     <option name="OPTION_SCOPE" value="private" />
