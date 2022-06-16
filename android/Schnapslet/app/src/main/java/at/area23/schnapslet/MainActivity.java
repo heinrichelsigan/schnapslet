@@ -49,6 +49,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     volatile byte psaychange = 0;
     boolean pSaid = false; // Said something
     static java.lang.Runtime runtime = null;
+    HashMap<Integer, Drawable> dragNDropMap = new HashMap<>();
+    HashMap<Integer, LinearLayout> toFields = new HashMap<>();
     Game aGame;
     // Calling Application class (see application tag in AndroidManifest.xml)
     GlobalAppSettings globalVariable;
@@ -346,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         try {
             imTalon.setImageResource (R.drawable.t);
         } catch (Exception imTalonEx) {
-            System.err.println(imTalonEx.toString());
+            System.err.println(imTalonEx);
             imTalonEx.printStackTrace();
         }
         imTalon.setVisibility(View.VISIBLE);
@@ -661,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 this.errHandler(jbpvex);
             }
 
-            tsEnds(new String(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points))), 1);
+            tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
 
         } else {
             if (aGame.csaid == aGame.atouInGame) {
@@ -683,7 +687,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
 
             printMes();
-            String tsEndMes1 = new String(andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
             tsEnds(tsEndMes1, 1);
             // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
         }
@@ -1078,15 +1082,35 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (touchedCard == null)
             return false;
 
+        Drawable savedBackground;
         int action = dragEvent.getAction();
         switch (dragEvent.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 // do nothing
+                savedBackground = view.getBackground();
+                if (!dragNDropMap.containsKey(view.getId())) {
+                    dragNDropMap.put(view.getId(), savedBackground);
+                }
+
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
+                savedBackground = view.getBackground();
+                if (!dragNDropMap.containsKey(view.getId())) {
+                    dragNDropMap.put(view.getId(), savedBackground);
+                }
                 view.setBackground(enterShape);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
+
+                if (dragNDropMap.containsKey(view.getId())) {
+                    Drawable dr = dragNDropMap.get(view.getId());
+                    if (dr != null) {
+                        view.setBackground(enterShape);
+                        view.setBackground(dr);
+                        dragNDropMap.remove(view.getId());
+                    }
+                }
+
                 view.setBackground(normalShape);
                 break;
             case DragEvent.ACTION_DROP:
@@ -1246,8 +1270,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 // container.addView(view);
                 view.setVisibility(View.VISIBLE);
                 break;
+            case DragEvent.ACTION_DRAG_LOCATION:
             case DragEvent.ACTION_DRAG_ENDED:
-                view.setBackground(normalShape);
+
+                if (dragNDropMap.containsKey(view.getId())) {
+                    Drawable dr = dragNDropMap.get(view.getId());
+                    if (dr != null) {
+                        view.setBackground(enterShape);
+                        view.setBackground(dr);
+                        dragNDropMap.remove(view.getId());
+                    }
+                }
+
                 if (!dragged20 || !droppedCard)
                     showPlayersCards();
             default:
@@ -1286,7 +1320,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 if ((aGame.said == aGame.gambler.hand[ic].getColor()) &&
                         (aGame.gambler.hand[ic].getValue() > 2) &&
                         (aGame.gambler.hand[ic].getValue() < 5)) {
-                    // we can continue
+                    ; // we can continue
                 } else {
                     setTextMessage(getString(R.string.you_must_play_pair_card));
                     aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
@@ -1352,6 +1386,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         endTurn();
 
     }
+
 
     /*
      * Future design
