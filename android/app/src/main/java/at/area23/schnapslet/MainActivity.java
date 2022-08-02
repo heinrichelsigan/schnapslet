@@ -173,6 +173,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
         menuResetCheckboxes();
+        myMenu.findItem(R.id.action_default_cards).setChecked(true);
         return true;
     }
 

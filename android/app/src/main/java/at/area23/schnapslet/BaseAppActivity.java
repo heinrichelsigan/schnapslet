@@ -316,6 +316,9 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
             if (mItemId == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
                 return setLanguage("fr", item);
             }
+            if (mItemId == R.id.action_polish_cards) {
+                return setLanguage("pl", item);
+            }
             if (mItemId == R.id.action_ukraine_cards) { //  uktainian
                 return setLanguage("uk", item);
             }
@@ -352,6 +355,7 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
             myMenu.findItem(R.id.action_german_cards).setChecked(false);
             myMenu.findItem(R.id.action_french_cards).setChecked(false);
             myMenu.findItem(R.id.action_ukraine_cards).setChecked(false);
+            myMenu.findItem(R.id.action_polish_cards).setChecked(false);
         }
     }
 

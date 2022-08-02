@@ -42,6 +42,7 @@
                 android:orderInCategory="1100"
                 android:title="@string/default_cards"
                 android:checkable="true"
+                android:checked="true"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/action_english_cards"
