@@ -60,6 +60,7 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
     protected volatile int startedDrag = 0;
     protected volatile int finishedDrop = 0;
     protected String tmp = "";
+    protected String parentErrMsg = "";
 
     protected Menu myMenu;
     protected HashMap<Integer, android.view.View> viewMap;
@@ -206,16 +207,16 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
                     resId = (int) field.get(null);
                     reflectedString = this.getResources().getString(resId);
                 } catch (NullPointerException ne) {
-                    showError(ne, true);
+                    showError(ne, false);
                 }
                 catch (Exception e) {
-                    showError(e, true);
+                    showError(e, false);
                 }
 
                 try {
                     objectById = (Object) field.get(rObj);
                 } catch (IllegalAccessException e) {
-                    showError(e,true);
+                    showError(e,false);
                 }
                 /*
                 int nyRUd = getApplicationContext().getResources().getIdentifier(
@@ -226,7 +227,7 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
                 }
             }
         } catch (Exception exf) {
-            showError(exf, true);
+            showError(exf, false);
         }
         return null;
     }
@@ -436,16 +437,21 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
                     throwableExc.getLocalizedMessage() + "\n\t " + throwableExc + "\n";
             if (showMessage)
                 showMessage(errTextMsg);
+            else
+                parentErrMsg += "\r\n" + errTextMsg;
             throwableExc.printStackTrace();
         }
-        return (errTextMsg != null) ? errTextMsg.toString() : null;
+        return (errTextMsg != null) ? errTextMsg.toString() : parentErrMsg;
     }
 
     /**
      * showError simple dummy error handler
      * @param myEx - tje exceütion, that has been thrown
+     * @return - error Text Message from throwableExc
      */
-    public void showException(java.lang.Exception myEx) { showError(myEx, true); }
+    public void showException(java.lang.Exception myEx) {
+        parentErrMsg += "\r\n" + showError(myEx, false);
+    }
 
 
     /**
@@ -508,12 +514,13 @@ public class BaseAppActivity extends AppCompatActivity implements Runnable {
             mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                    Toast.makeText(getApplicationContext(), String.format(Locale.US,
-                            "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
+                    parentErrMsg += "\r\n" + String.format(Locale.US,
+                            "Media error what=%d extra=%d", what, extra);
+                    // Toast.makeText(getApplicationContext(), String.format(Locale.US,
+                    //        "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
                     return false;
                 }
             });
-
 
             // 2. Load using content provider, passing file descriptor.
             ContentResolver resolver = getContentResolver();

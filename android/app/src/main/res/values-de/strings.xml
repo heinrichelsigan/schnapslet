@@ -70,6 +70,7 @@
     <string name="english_cards">Englisches Kartendeck</string>
     <string name="german_cards">Doppeldeutsches Kartendeck</string>
     <string name="french_cards">Französisches Kartendeck</string>
+    <string name="polish_cards">Polnisches Kartendeck</string>
     <string name="ukraine_cards">Ukraine Konfliktdeck</string>
     <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
     <string name="EMPTY">LEER</string>

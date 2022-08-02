@@ -227,6 +227,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (id == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
             return setLanguage("fr", item);
         }
+        if (id == R.id.action_polish_cards) { // Overwrites application locale in GlobalAppSettings with french
+            return setLanguage("pl", item);
+        }
         if (id == R.id.action_ukraine_cards) { //  uktainian
             return setLanguage("uk", item);
         }
@@ -380,7 +383,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         try {
             imTalon.setImageResource (R.drawable.t);
         } catch (Exception imTalonEx) {
-            showError(imTalonEx, true);
+            showException(imTalonEx);
             imTalonEx.printStackTrace();
         }
         imTalon.setVisibility(View.VISIBLE);
@@ -1247,7 +1250,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     touchedCard = null;
 
                     playDropCard();
-                    String tmp;
                     for (int i = 0; i < 5; i++){
                         tmp = "im" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
@@ -1265,7 +1267,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         return false;
                     }
                     Card dropCard = null;
-                    String tmp;
                     for (int i = 0; i < 5; i++){
                         tmp = "playerCard" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
@@ -1432,7 +1433,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             aGame.playedOut = aGame.gambler.hand[ic];
             // Besser Cards als Array
-            String tmp = "im" + ic;
+            tmp = "im" + ic;
             int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
             ImageView cardPlayed = (ImageView) findViewById(myID);
             cardPlayed.setImageResource(R.drawable.e);
@@ -1479,7 +1480,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             card = aGame.emptyTmpCard;
 
 
-        String tmp = card.color + String.valueOf(card.value);
+        tmp = card.color + String.valueOf(card.value);
         imageView.setImageDrawable(card.getDrawable());
 
         imageView.setTag(0, tmp);
@@ -1502,6 +1503,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         CharSequence errTextMsg = showError(throwableExc, false);
         if (errTextMsg != null && errTextMsg != "") {
             tDbg.append(errTextMsg);
+            parentErrMsg = "";
         }
     }
 
@@ -1514,6 +1516,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         CharSequence errTextMsg = showError(anyException, false);
         if (errTextMsg != null && errTextMsg != "") {
             tDbg.append(errTextMsg);
+            parentErrMsg = "";
         }
     }
 
