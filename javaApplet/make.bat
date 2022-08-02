@@ -1,0 +1,29 @@
+@echo on
+
+REM make sure, that java sdk tools are included in %PATH%
+REM and that CLASSPATH is set correctly
+REM or set it manually be commenting out next line:
+REM set CLASSPATH="C:\Program Files\Java\jdk-18.0.2\lib"
+
+set MYCLASSPATH=%CLASSPATH%;.\;.\at\area23\;
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation at\area23\*.java
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation at\area23\schnapslet\*.java
+
+
+set MYCLASSPATH=%CLASSPATH%;.\;.\at\area23;.\at\area23\schnapslet
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation card.java
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation player.java
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation game.java
+javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation schnapslet.java
+
+echo building jar
+jar cvf schnapsen.jar *.class at\area23\schanpslet\*.class at\area23\*.class at\area23\schanpslet\*.java at\area23\*.java *.java cardpics\*.gif
+
+REM 
+REM appletviewer is obsolete
+REM appletviewer appletviewer.exe index.htm
+
+java -classpath %MYCLASSPATH% schnapslet
+
+
+

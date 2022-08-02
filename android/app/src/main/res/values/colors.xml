@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorSecondary">#008577</color>
+    <color name="colorSecondaryVariant">#00574b</color>
+    <color name="colorOnSecondary">#d81b60</color>
+    <color name="colorPrimaryNight">#ef61af</color>
+    <color name="colorPrimaryDarkNight">#ed0c9a</color>
+    <color name="colorAccentNight">#76e1af</color>
+    <color name="colorSecondaryNight">#86b6b1</color>
+    <color name="colorSecondaryVariantNight">#a2d3cc</color>
+    <color name="colorOnSecondaryNight">#c38098</color>
+    <color name="colorSchnapsletBackground">#bfbfff</color>
+    <color name="colorBackgroundSchnapslet">#dfdfff</color>
+    <color name="bgBlack">#7f7f7f</color>
+    <color name="bgBlackLight">#cfcbcb</color>
+    <color name="bgBlackDark">#4f4f4f</color>
+    <color name="bgWhite">#fdfdfd</color>
+
+    <color name="colorGreenOk">#b3e8cc</color>
+    <color name="colorOrangeWarning">#fcd394</color>
+    <color name="colorYellowAlert">#fffd8b </color>
+</resources>

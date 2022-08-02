@@ -1,0 +1,72 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="at.area23.schnapsen.MainActivity">
+    <item
+        android:id="@+id/action_start"
+        android:orderInCategory="100"
+        android:title="@string/action_start"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_stop"
+        android:orderInCategory="200"
+        android:title="@string/action_stop"
+        android:enabled="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="300"
+        android:title="@string/action_help"
+        android:enabled="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_dragNDropCards"
+        android:orderInCategory="400"
+        android:title="@string/dragNDropCards"
+        android:enabled="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_clickOnCard"
+        android:orderInCategory="500"
+        android:title="@string/clickOnCard"
+        android:enabled="true"
+        app:showAsAction="never" />
+    <group android:menuCategory="secondary">
+        <item
+            android:id="@+id/menu_card_deck"
+            android:menuCategory="secondary"
+            android:orderInCategory="1000"
+            android:title="@string/carddeck">
+            <item
+                android:id="@+id/action_default_cards"
+                android:orderInCategory="1100"
+                android:title="@string/default_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_english_cards"
+                android:orderInCategory="1200"
+                android:title="@string/english_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_german_cards"
+                android:orderInCategory="1300"
+                android:title="@string/german_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_french_cards"
+                android:orderInCategory="1400"
+                android:title="@string/french_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_ukraine_cards"
+                android:orderInCategory="1500"
+                android:title="@string/ukraine_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
+        </item>
+    </group>
+</menu>
