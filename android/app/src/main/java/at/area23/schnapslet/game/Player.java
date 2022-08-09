@@ -15,31 +15,32 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
+package at.area23.schnapslet.game;
 
 import android.content.Context;
-import android.content.res.Resources;
+
+import java.util.Locale;
 
 /**
  * Player class represents the player or computer in a game.
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class Player {
+public class Player extends SchnapsAtom {
     volatile boolean begins;    // does this Player begin ?
-    final Card[] hand = new Card[5];  // Cards in Players Hand
+    public final Card[] hand = new Card[5];  // Cards in Players Hand
     // not implemented yet !
     // Card hits[] = new Card[10]; // hits made by this player
 
-    boolean hasClosed = false;
-    int points = 0;             // points made by this player
+    public boolean hasClosed = false;
+    public int points = 0;             // points made by this player
     // char pairs[] = {'n', 'n', 'n', 'n'};
     final PairCard[] pairs = new PairCard[2];
-    final char[] handpairs = {'n', 'n'};
+    public final char[] handpairs = {'n', 'n'};
     final int[] colorHitArray = {0, 0, 0, 0, 0};
-    int playerOptions = 0;
-    final Resources r;
-    final Context context;
+    public int playerOptions = 0;
+    // final Resources r;
+    // final Context context;
 
     /**
      * Constructor of Player
@@ -49,6 +50,7 @@ public class Player {
         super();
         this.context = c;
         this.r = c.getResources();
+        initLocale();
         hasClosed = false;
         for (int i = 0; i < 5; i++) {
             hand[i] = new Card(c);
@@ -73,6 +75,36 @@ public class Player {
         int i;
         for (i = 0; i < 5; i++)
             hand[i] = null;
+    }
+
+    /**
+     * setLocale set current locale
+     * @param loc Locale
+     */
+    @Override
+    public void setLocale(Locale loc) {
+        if (loc.getLanguage() != locale.getLanguage()) {
+            locale = loc;
+
+            if (hand != null) {
+                for (int ihc = 0; ihc < hand.length; ihc++) {
+                    if (hand[ihc] != null) {
+                        hand[ihc].setLocale(loc);
+                    }
+                }
+            }
+            if (pairs != null) {
+                for (int ihp = 0; ihp < pairs.length; ihp++) {
+                    if (pairs[ihp] != null && pairs[ihp].pairs != null) {
+                        for (int ihpc = 0; ihpc < pairs[ihp].pairs.length; ihpc++) {
+                            pairs[ihp].pairs[ihpc].setLocale(loc);
+                        }
+                    }
+                }
+            }
+
+            localeChanged = true;
+        }
     }
 
     /**

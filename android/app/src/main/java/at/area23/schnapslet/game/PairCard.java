@@ -16,7 +16,7 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
+package at.area23.schnapslet.game;
 
 import at.area23.schnapslet.constenum.CARDCOLOR;
 

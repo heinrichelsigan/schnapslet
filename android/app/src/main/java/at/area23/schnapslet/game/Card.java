@@ -15,7 +15,7 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
+package at.area23.schnapslet.game;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -29,9 +29,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Locale;
 
+import at.area23.schnapslet.GlobalAppSettings;
 import at.area23.schnapslet.constenum.CARDCOLOR;
 import at.area23.schnapslet.constenum.CARDVALUE;
 
@@ -40,21 +40,22 @@ import at.area23.schnapslet.constenum.CARDVALUE;
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class Card {
+public class Card  extends SchnapsAtom {
     int intern = -1;    // 20 values for internal representation and (-1) for unitialized
-    CARDVALUE cardValue = CARDVALUE.NONE;
-    CARDCOLOR cardColor = CARDCOLOR.NONE;
-    boolean atou = false;
-    char color = 'n';   // 4 colors and 'n' for unitialized
-    int value = -1; // 5 values and 0 for unitialized
-    java.lang.String name = new String();  // Human readable classifier
-    java.net.URL picture;  // picture 
 
-    Resources r;
-    Context context;
+    public CARDVALUE cardValue = CARDVALUE.NONE;
+    public CARDCOLOR cardColor = CARDCOLOR.NONE;
+    public boolean atou = false;
+    public char color = 'n';   // 4 colors and 'n' for unitialized
+    public int value = -1; // 5 values and 0 for unitialized
+    // java.lang.String name = new String();  // Human readable classifier
+    java.net.URL picture;  // picture
+
+    // Resources r;
+    // Context context;
     // Calling Application class (see application tag in AndroidManifest.xml)
     GlobalAppSettings globalVariable;
-    Locale globalAppVarLocale;
+    // Locale globalAppVarLocale;
 
     /**
      * Constructor Card()
@@ -77,6 +78,7 @@ public class Card {
         this();
         this.context = c;
         r = c.getResources();
+        initLocale();
         globalVariable = (GlobalAppSettings) c;
     }
 
@@ -132,7 +134,7 @@ public class Card {
         // TODO: Multilanguage
         this.name = cardColor.toString() + "_" + cardValue.getName();
         // System.err.println(namestr);
-        this.picture = this.getPictureUrl();
+        this.picture = this.getPictureUrl(this.color, this.value);
     }
 
     /**
@@ -144,6 +146,7 @@ public class Card {
         this(num);
         this.context = c;
         r = c.getResources();
+        initLocale();
         globalVariable = (GlobalAppSettings) c;
     }
 
@@ -170,6 +173,7 @@ public class Card {
         if (this.color == atoudef) {
             this.atou = true;
         }
+        globalVariable = (GlobalAppSettings) c;
     }
 
     /**
@@ -200,7 +204,7 @@ public class Card {
         this.value = aCardValue.getValue();
 
         this.name = cardColor.toString() + "_" + cardValue.getName();
-        this.picture = this.getPictureUrl();
+        this.picture = this.getPictureUrl(this.color, this.value);
     }
 
     /**
@@ -230,6 +234,7 @@ public class Card {
         this(aCardColor, aCardValue, atoudef);
         this.context = c;
         this.r = c.getResources();
+        initLocale();
         globalVariable = (GlobalAppSettings) c;
     }
 
@@ -257,6 +262,7 @@ public class Card {
         this(aCardColor, aCardValue, atouColor);
         this.context = c;
         this.r = c.getResources();
+        initLocale();
         globalVariable = (GlobalAppSettings) c;
     }
 
@@ -276,7 +282,8 @@ public class Card {
         this.cardColor = aCard.cardColor;
         this.r = aCard.r;
         this.context = aCard.context;
-        this.globalVariable = aCard.globalVariable;
+        initLocale();
+        globalVariable = (GlobalAppSettings) this.context;
     }
 
     /**
@@ -288,6 +295,7 @@ public class Card {
         this(aCard);
         this.context = c;
         r = c.getResources();
+        initLocale();
         globalVariable = (GlobalAppSettings) c;
     }
 
@@ -318,105 +326,6 @@ public class Card {
      */
     public int getValue() {
         return (int)cardValue.getValue();
-    }
-
-    /**
-     * getPictureUrl
-     * @return a picture URL to ab image in !WWW
-     */
-    public java.net.URL getPictureUrl() {
-		URL url = null;
-		try {
-            url = new URL(globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif");
-		} catch (Exception exi) {
-            exi.printStackTrace();
-            // System.err.println(exi.toString());
-        }
-		return url;
-    }
-
-    /**
-     * getPictureUri
-     * @return va picture Uri to ab image in !WWW
-     */
-    public android.net.Uri getPictureUri() {
-        android.net.Uri uri = null;
-        try {
-            String myUri = globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif";
-            uri = android.net.Uri.parse(myUri);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return uri;
-    }
-
-    /**
-     * getDrawableFromUrl
-     * @return Drawable Bitmap on the net, that represents custom card deck from a prefix url
-     */
-    protected Drawable getDrawableFromUrl() {
-        Bitmap bmp = null;
-        try {
-            HttpURLConnection connection = (HttpURLConnection) getPictureUrl().openConnection();
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            bmp = BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new BitmapDrawable(context.getResources(), bmp);
-    }
-
-    /**
-     * getResourcesInt
-     * @return the RessourceID drom "drawable" as int for the soecific card
-     */
-    public int getResourcesInt() {
-        String tmp = this.color + String.valueOf(this.value);
-
-        if (this.cardColor == CARDCOLOR.EMPTY || tmp.startsWith("e") ||
-                tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
-            return R.drawable.e1;
-
-        if (this.cardColor == CARDCOLOR.NONE || tmp.startsWith("n") ||
-                tmp.equals("n0") || tmp.equals("n"))
-            return R.drawable.n0;
-
-        int drawableID = context.getResources().getIdentifier(
-                tmp, "drawable", context.getPackageName());
-
-        // Get menu set locale, that is global stored in app context
-        globalAppVarLocale = globalVariable.getLocale();
-        String langLocaleString = globalAppVarLocale.getDisplayName();
-        String langNoCntry = globalAppVarLocale.getLanguage();
-
-        if (langNoCntry.equals((new Locale("en")).getLanguage()) ||
-            langNoCntry.equals((new Locale("fr")).getLanguage()) ||
-            langNoCntry.equals((new Locale("de")).getLanguage()) ||
-            langNoCntry.equals((new Locale("pl")).getLanguage()) ||
-            langNoCntry.equals((new Locale("uk")).getLanguage())) {
-            // get language country region specific card deck card symbol
-            int drawableLangId = context.getResources().getIdentifier(
-                    langNoCntry + "_" + tmp,
-                    "drawable", context.getPackageName());
-            if (drawableLangId > 0)
-                return drawableLangId;
-
-        }
-        return drawableID;
-
-    }
-
-    /**
-     * getDrawable
-     * @return Drawable, that contains card symbol e.g. for heart ace => R.drawable.h11
-     */
-    public Drawable getDrawable() {
-        android.util.TypedValue typVal = new TypedValue();
-        typVal.resourceId = this.getResourcesInt();
-        Resources.Theme theme =  context.getResources().newTheme();
-
-        return context.getResources().getDrawable(typVal.resourceId, theme);
     }
 
     /**
@@ -476,6 +385,79 @@ public class Card {
 		}
         return active;
     }
+
+
+     /* getDrawableFromUrl
+     * @return Drawable Bitmap on the net, that represents custom card deck from a prefix url
+     */
+    protected Drawable getDrawableFromUrl() {
+        Bitmap bmp = null;
+        try {
+            HttpURLConnection connection = (HttpURLConnection) getPictureUrl(this.color, this.value).openConnection();
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            bmp = BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new BitmapDrawable(context.getResources(), bmp);
+    }
+
+    /**
+     * getResourcesInt
+     * @return the RessourceID drom "drawable" as int for the soecific card
+     */
+    public int getResourcesInt() {
+        String tmp = this.color + String.valueOf(this.value);
+
+        if (this.cardColor == CARDCOLOR.EMPTY || tmp.startsWith("e") ||
+                tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
+            return at.area23.schnapslet.R.drawable.e1;
+
+        if (this.cardColor == CARDCOLOR.NONE || tmp.startsWith("n") ||
+                tmp.equals("n0") || tmp.equals("n"))
+            return at.area23.schnapslet.R.drawable.n0;
+
+        int drawableID = context.getResources().getIdentifier(
+                tmp, "drawable", context.getPackageName());
+
+        // Get menu set locale, that is global stored in app context
+        if (getLocaleString() != globalVariable.getLocale().getDisplayName()) {
+            setLocale(globalVariable.getLocale());
+        }
+
+        locale = getLocale();
+        String langLocaleString = getLocaleString();
+        String langNoCntry = getLocaleLanguage();
+
+        if (langNoCntry.equals((new Locale("en")).getLanguage()) ||
+                langNoCntry.equals((new Locale("fr")).getLanguage()) ||
+                langNoCntry.equals((new Locale("de")).getLanguage()) ||
+                langNoCntry.equals((new Locale("pl")).getLanguage()) ||
+                langNoCntry.equals((new Locale("uk")).getLanguage())) {
+            // get language country region specific card deck card symbol
+            int drawableLangId = context.getResources().getIdentifier(
+                    langNoCntry + "_" + tmp,
+                    "drawable", context.getPackageName());
+            if (drawableLangId > 0)
+                return drawableLangId;
+
+        }
+        return drawableID;
+    }
+
+    /**
+     * getDrawable
+     * @return Drawable, that contains card symbol e.g. for heart ace => R.drawable.h11
+     */
+    public Drawable getDrawable() {
+        android.util.TypedValue typVal = new TypedValue();
+        typVal.resourceId = this.getResourcesInt();
+        Resources.Theme theme =  context.getResources().newTheme();
+
+        return context.getResources().getDrawable(typVal.resourceId, theme);
+    }
+
 
     /**
      * getBytes get bytes of drawable ressource

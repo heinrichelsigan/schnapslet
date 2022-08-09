@@ -43,6 +43,8 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.HashMap;
 import java.util.Locale;
 
+import at.area23.schnapslet.game.Game;
+import at.area23.schnapslet.game.Card;
 import at.area23.schnapslet.constenum.CARDVALUE;
 import at.area23.schnapslet.constenum.PLAYEROPTIONS;
 
@@ -257,7 +259,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     @Override
     protected  boolean setLocale(Locale aLocale, MenuItem item) {
         super.setLocale(aLocale, item);
-        if (globalVariable.hasChanged()) {
+        aGame.setLocale(aLocale);
+        if (aGame.localeChanged) {
             showAtouCard();
             showPlayersCards();
             showPlayedOutCards();

@@ -15,11 +15,11 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
+package at.area23.schnapslet.game;
 
 import android.content.Context;
-import android.content.res.Resources;
 
+import java.util.Locale;
 import java.util.Random;
 
 import at.area23.schnapslet.constenum.CARDVALUE;
@@ -30,34 +30,34 @@ import at.area23.schnapslet.constenum.PLAYEROPTIONS;
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class Game {
-    volatile boolean isGame = false;   // a Game is running
-    boolean atouChanged = false;      // Atou allready changed
-    boolean playersTurn = true;      // Who's playing
-    boolean colorHitRule = false;       // Farb und Stichzwang
-    boolean isClosed = false;           // game is closed
-    boolean shouldContinue = false;     // should continue the game
+public class Game extends SchnapsAtom {
+    public volatile boolean isGame = false;   // a Game is running
+    public boolean atouChanged = false;      // Atou allready changed
+    public boolean playersTurn = true;      // Who's playing
+    public boolean colorHitRule = false;       // Farb und Stichzwang
+    public boolean isClosed = false;           // game is closed
+    public boolean shouldContinue = false;     // should continue the game
 
-    char atouInGame = 'n';             // color that is atou in this game
-    char said = 'n';                   // player said pair char
-    char csaid = 'n';                  // computer said pair char
+    public char atouInGame = 'n';             // color that is atou in this game
+    public char said = 'n';                   // player said pair char
+    public char csaid = 'n';                  // computer said pair char
 
-    int index = 9;
-    int movs = 0;
-    int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    public int index = 9;
+    public int movs = 0;
+    public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
 
-    final Card emptyTmpCard, noneCard;
-    Card[] set = new Card[20];
-    Card playedOut;
+    public final Card emptyTmpCard, noneCard;
+    public Card[] set = new Card[20];
+    public Card playedOut;
 
-    Player gambler, computer;
+    public Player gambler, computer;
 	// java.applet.Applet masterApplet = null;
     Random random;
-    Resources r;
-    Context context;
+    // Resources r;
+    // Context context;
 
-    MessageQueue mqueue = new MessageQueue();
+    public MessageQueue mqueue = new MessageQueue();
 
     /**
      * constructor
@@ -74,9 +74,10 @@ public class Game {
 
         this.context = c;
         this.r = c.getResources();
+        initLocale();
 
         mqueue.clear();
-        mqueue.insert(r.getString(R.string.newgame_starts));
+        mqueue.insert(r.getString(at.area23.schnapslet.R.string.newgame_starts));
 
         emptyTmpCard = new Card(-2, c.getApplicationContext());
         noneCard = new Card(-1, c.getApplicationContext());
@@ -90,7 +91,7 @@ public class Game {
         index = 9;
         said = 'n';
         csaid = 'n';
-        mqueue.insert(r.getString(R.string.creating_players));
+        mqueue.insert(r.getString(at.area23.schnapslet.R.string.creating_players));
         gambler = new Player(true, context);
         gambler.points = 0;
         computer = new Player(false, context);
@@ -132,7 +133,7 @@ public class Game {
     public void mergeCards() {
     	int i, k, j, l, tmp;
         
-        mqueue.insert(r.getString(R.string.merging_cards));
+        mqueue.insert(r.getString(at.area23.schnapslet.R.string.merging_cards));
         k = getRandom(32, true);
 
         for (i = 0; i < k + 20; i++) {
@@ -153,7 +154,7 @@ public class Game {
 
         set[19] = new Card(inGame[19], context);
         set[19].setAtou();
-        mqueue.insert(r.getString(R.string.atou_is, set[19].getName()));
+        mqueue.insert(r.getString(at.area23.schnapslet.R.string.atou_is, set[19].getName()));
         this.atouInGame = set[19].getColor();
 
         for (i = 0; i < 19; i++) {
@@ -199,7 +200,7 @@ public class Game {
 	        gambler.hand[i] = new Card(context); // new card(masterApplet, -1);
 	        computer.hand[i] = playedOut;
         }                     
-        mqueue.insert(context.getResources().getString(R.string.ending_game));
+        mqueue.insert(context.getResources().getString(at.area23.schnapslet.R.string.ending_game));
 	}
 
     /**
@@ -242,14 +243,14 @@ public class Game {
                 playersTurn = true;
                 tmppoints = playedOut.value + computer.hand[ccard].value;
                 gambler.points += tmppoints;
-                mqueue.insert(r.getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+                mqueue.insert(r.getString(at.area23.schnapslet.R.string.your_hit_points, String.valueOf(tmppoints)));
 
                 return tmppoints;
             } else {
                 playersTurn = false;
                 tmppoints = playedOut.value + computer.hand[ccard].value;
                 computer.points += tmppoints;
-                mqueue.insert(r.getString(R.string.computer_hit_points, String.valueOf(tmppoints)));
+                mqueue.insert(r.getString(at.area23.schnapslet.R.string.computer_hit_points, String.valueOf(tmppoints)));
 
                 return (-tmppoints);
             }
@@ -258,14 +259,14 @@ public class Game {
                 playersTurn = false;
                 tmppoints = playedOut.value + computer.hand[ccard].value;
                 computer.points += tmppoints;
-                mqueue.insert(r.getString(R.string.computer_hit_points,String.valueOf(tmppoints)));
+                mqueue.insert(r.getString(at.area23.schnapslet.R.string.computer_hit_points,String.valueOf(tmppoints)));
 
                 return (-tmppoints);
             } else {
                 playersTurn = true;
                 tmppoints = playedOut.value + computer.hand[ccard].value;
                 gambler.points += tmppoints;
-                mqueue.insert(r.getString(R.string.your_hit_points,String.valueOf(tmppoints)));
+                mqueue.insert(r.getString(at.area23.schnapslet.R.string.your_hit_points,String.valueOf(tmppoints)));
 
                 return tmppoints;
             }            
@@ -346,7 +347,7 @@ public class Game {
         //region changeAtoi
         if (atouIsChangable(computer)) {
             changeAtou(computer);
-            mqueue.insert(r.getString(R.string.computer_changes_atou));
+            mqueue.insert(r.getString(at.area23.schnapslet.R.string.computer_changes_atou));
         }
         //endregion
 
@@ -362,7 +363,7 @@ public class Game {
 
                     computer.playerOptions += PLAYEROPTIONS.SAYPAIR.getValue();
                     csaid = computer.handpairs[mark];
-                    mqueue.insert(r.getString(R.string.computer_says_pair, printColor(csaid)));
+                    mqueue.insert(r.getString(at.area23.schnapslet.R.string.computer_says_pair, printColor(csaid)));
 
                     if (computer.hand[j].isAtou())
                         computer.points += 40;
@@ -370,13 +371,15 @@ public class Game {
                         computer.points += 20;
 
                     if (computer.points > 65) {
-                        String andEnough = r.getString(R.string.twenty_and_enough);
+                        String andEnough = r.getString(at.area23.schnapslet.R.string.twenty_and_enough);
                         if (computer.hand[j].isAtou()) {
-                            andEnough = r.getString(R.string.fourty_and_enough);
+                            andEnough = r.getString(at.area23.schnapslet.R.string.fourty_and_enough);
                         }
 
                         computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.getValue();
-                        mqueue.insert(andEnough +  " " + r.getString(R.string.computer_has_won_points, String.valueOf(computer.points)));
+                        mqueue.insert(andEnough +  " " + r.getString(
+                                at.area23.schnapslet.R.string.computer_has_won_points,
+                                String.valueOf(computer.points)));
                     } else {
                         computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.getValue();
                     }
@@ -396,7 +399,8 @@ public class Game {
             for (i = 0; i < 5; i++) {
                 if (computer.hand[i].isValidCard()) {
 
-                    if (!computer.hand[i].isAtou() && computer.hand[i].cardValue.getValue() >= CARDVALUE.TEN.getValue()) {
+                    if (!computer.hand[i].isAtou() &&
+                            computer.hand[i].cardValue.getValue() >= CARDVALUE.TEN.getValue()) {
 
                         int bestIdx = gambler.bestInColorHitsContext(computer.hand[i]);
 
@@ -510,11 +514,44 @@ public class Game {
         return "NoColor";
     }
 
+
+
+    /**
+     *  setLocale set current locale
+     * @param loc Locale
+     */
+    @Override
+    public void setLocale(Locale loc) {
+        if (loc.getLanguage() != locale.getLanguage()) {
+            locale = loc;
+
+            if (gambler != null)
+                gambler.setLocale(loc);
+            if (computer != null)
+                computer.setLocale(loc);
+
+            if (emptyTmpCard != null)
+                emptyTmpCard.setLocale(loc);
+            if (noneCard != null)
+                noneCard.setLocale(loc);
+            if (playedOut != null)
+                playedOut.setLocale(loc);
+            for (int icl = 0; icl < set.length; icl++) {
+                if (set[icl] != null) {
+                    set[icl].setLocale(loc);
+                }
+            }
+
+            localeChanged = true;
+        }
+
+    }
+
     /**
      * inner class MessageQueue
      */
-    class MessageQueue {
-	    StringBuffer qbuffer;
+    public class MessageQueue {
+        public StringBuffer qbuffer;
 	    int qindex;
 	    int qcount;
 	    
