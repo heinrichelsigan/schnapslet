@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="at.area23.schnapslet">
 
     <!-- uses-sdk android:targetSdkVersion="16" /-->
@@ -19,7 +20,7 @@
             android:name="com.google.cloud.translate.Translate"
             android:required="false" />
 
-        <activity android:name=".MainActivity">
+        <activity  android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

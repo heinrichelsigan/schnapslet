@@ -22,17 +22,13 @@ import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-/**
- * Failed imports!
- * import android.renderscript.ScriptIntrinsicYuvToRGB;
- */
-
 import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
     private Locale locale;
     private String prefixUri = "http://www.area23.at/cardpics/";
     private Uri pictureUri = null;
+    private Game game = null;
     Context context;
 
     private static Application sApplication;
@@ -117,5 +113,13 @@ public class GlobalAppSettings extends Application {
     public Uri getPictureUri() {
         initPictureUrl();
         return this.pictureUri;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game aGame) {
+        game = aGame;
     }
 }

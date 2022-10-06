@@ -28,27 +28,27 @@ import android.content.Context;
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
 public class Game {
-    volatile boolean isGame = false;   // a Game is running
-    boolean atouChanged = false;      // Atou allready changed
-    boolean playersTurn = true;      // Who's playing
-    boolean colorHitRule = false;       // Farb und Stichzwang
-    boolean isClosed = false;           // game is closed
-    boolean shouldContinue = false;     // should continue the game
+    public volatile boolean isGame = false;   // a Game is running
+    public boolean atouChanged = false;      // Atou allready changed
+    public boolean playersTurn = true;      // Who's playing
+    public boolean colorHitRule = false;       // Farb und Stichzwang
+    public boolean isClosed = false;           // game is closed
+    public boolean shouldContinue = false;     // should continue the game
 
-    char atouInGame = 'n';             // color that is atou in this game
-    char said = 'n';                   // player said pair char
-    char csaid = 'n';                  // computer said pair char
+    public char atouInGame = 'n';             // color that is atou in this game
+    public char said = 'n';                   // player said pair char
+    public char csaid = 'n';                  // computer said pair char
 
-    int index = 9;
-    int movs = 0;
-    int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    public int index = 9;
+    public int movs = 0;
+    public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
 
-    final Card emptyTmpCard, noneCard;
-    Card[] set = new Card[20];
-    Card playedOut;
+    public final Card emptyTmpCard, noneCard;
+    public Card[] set = new Card[20];
+    public Card playedOut;
 
-    Player gambler, computer;
+    public Player gambler, computer;
 	// java.applet.Applet masterApplet = null;
     Random random;
     Resources r;
@@ -306,7 +306,7 @@ public class Game {
      */
 	public boolean assignNextCard(Card assignedCard) {
         boolean lastCard = false;
-        if (colorHitRule == false) {
+        if (!colorHitRule) {
             if (playersTurn) {
                 assignedCard = set[++index];
                 gambler.assignCard(assignedCard);
