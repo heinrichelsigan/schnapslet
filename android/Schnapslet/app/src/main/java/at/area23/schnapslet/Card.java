@@ -28,6 +28,7 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.Locale;
+import at.area23.schnapslet.enums.*;
 
 /**
  * Card class represents a playing card in Game.
@@ -320,7 +321,7 @@ public class Card {
     public java.net.URL getPictureUrl() {
 		URL url = null;
 		try {
-            url = new URL(globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif");
+            url = new URL(globalVariable.getPictureUrl() + this.color + this.value + ".gif");
 		} catch (Exception exi) {
             exi.printStackTrace();
             // System.err.println(exi.toString());
@@ -335,7 +336,7 @@ public class Card {
     public android.net.Uri getPictureUri() {
         android.net.Uri uri = null;
         try {
-            String myUri = globalVariable.getPictureUrlPrefix() + this.color + this.value + ".gif";
+            String myUri = globalVariable.getPictureUrl() + this.color + this.value + ".gif";
             uri = android.net.Uri.parse(myUri);
         } catch (Exception e) {
             e.printStackTrace();

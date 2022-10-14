@@ -26,7 +26,9 @@ import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
     private Locale locale;
-    private String prefixUri = "http://www.area23.at/cardpics/";
+    private String prefixUrl = "https://area23.at/schnapselt/";
+	private String pictureUrl = "https://area23.at/schnapselt/cardpics/";
+	private Uri prefixUri = null;
     private Uri pictureUri = null;
     private Game game = null;
     Context context;
@@ -90,29 +92,49 @@ public class GlobalAppSettings extends Application {
     public void setPictureUri(String baseUri) {
         try {
             this.pictureUri = Uri.parse(baseUri);
-            this.prefixUri = baseUri;
+            this.pictureUrl = baseUri;
         } catch (Exception exi) {
             exi.printStackTrace();
         }
     }
+	
+    public void initPrefixUrl() {
+        try {
+            if (prefixUri == null)
+                prefixUri = Uri.parse(prefixUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }	
 
     public void initPictureUrl() {
         try {
             if (pictureUri == null)
-                pictureUri = Uri.parse(prefixUri);
+                pictureUri = Uri.parse(pictureUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String getPictureUrlPrefix() {
+    public String getPictureUrl() {
         initPictureUrl();
-        return this.prefixUri;
+        return this.pictureUrl;
     }
+	
 
     public Uri getPictureUri() {
         initPictureUrl();
         return this.pictureUri;
+    }
+
+	public String getPrefixUrl() {
+        initPrefixUrl();
+        return this.prefixUrl;
+    }
+	
+	public Uri getPrefixUri() {
+        initPrefixUrl();
+        return this.prefixUri;
     }
 
     public Game getGame() {

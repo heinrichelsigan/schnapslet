@@ -1,12 +1,13 @@
 /*
 *
 * @author           Heinrich Elsigan
-* @version          V 1.3.4
+* @version          V 0.2
 * @since            JDK 1.2.1
 *
+
 */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2002 Heinrich Elsigan
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -15,32 +16,27 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
+package at.area23.schnapslet.enums;
 
-/**
- * PLAYEROPTIONS enum represents possible options of playing.
- *
- * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
- */
-public enum PLAYEROPTIONS {
+public enum CARDCOLORENGLISH {
 
-	CHANGEATOU(1),
-	CLOSESGAME(2),
-	SAYPAIR(4),
-	PLAYSCARD(8),
-	HITSCARD(16),
-	ANDENOUGH(32);
+	EMPTY('e'),
+	NONE('n'),
+	HEARTS('h'),
+	SPADES('p'),
+	DIAMONDS('k'),
+	CLUBS('t');
 
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	PLAYEROPTIONS(int value) {
+	CARDCOLORENGLISH(char value) {
 		this.value = value;
 	}
 
-	private final int value;
+	private final char value;
 
-	public int getValue() {
+	public char getValue() {
 		return value;
 	}
 }

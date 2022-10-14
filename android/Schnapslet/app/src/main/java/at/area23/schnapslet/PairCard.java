@@ -18,6 +18,8 @@
 */
 package at.area23.schnapslet;
 
+import at.area23.schnapslet.enums.*;
+
 /**
  * PairCard class represents a pair (marriage) of cards.
  *

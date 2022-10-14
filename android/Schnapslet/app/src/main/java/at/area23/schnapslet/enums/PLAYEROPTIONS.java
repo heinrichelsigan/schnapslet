@@ -15,37 +15,38 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapslet;
-
-import java.lang.String;
+package at.area23.schnapslet.enums;
 
 /**
- * CARDCOLOR enum represents the color of a card.
+ * PLAYEROPTIONS enum represents possible options of playing.
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public enum CARDCOLOR {
+public enum PLAYEROPTIONS {
 
-	EMPTY('e'),
-	NONE('n'),
-	HEARTS('h'),
-	SPADES('p'),
-	DIAMONDS('k'),
-	CLUBS('t');
+	CHANGEATOU(1),
+	CLOSESGAME(2),
+	SAYPAIR(4),
+	PLAYSCARD(8),
+	HITSCARD(16),
+	ANDENOUGH(32);
 
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	CARDCOLOR(char value) {
+	PLAYEROPTIONS(int value) {
 		this.value = value;
 	}
 
-	private final char value;
+	private final int value;
 
-	public char getValue() {
+	public int getValue() {
 		return value;
 	}
-
-	public String getName() { return this.name(); }
 }
+
+
+
+	
+
 

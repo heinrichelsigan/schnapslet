@@ -66,19 +66,21 @@ import androidx.fragment.app.DialogFragment;
 import java.util.HashMap;
 import java.util.Locale;
 
+import at.area23.schnapslet.enums.*;
+
 /**
  * MainActivity class implements the MainActivity.
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class MainActivity extends AppCompatActivity implements Runnable {
+public class MainActivity extends BaseAppActivity implements Runnable {
 
     private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
     Button b20a, b20b,  bChange, bContinue; // bStart, bStop, bHelp;
     ImageView im0,im1,im2, im3, im4,
             imageCOut0, imageCOut1, imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
-    Menu myMenu;
+    // Menu myMenu;
 
     AnimationDrawable frameAnimation;
     AnimatedImageDrawable animatedGif;
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     LinearLayout playerCard0, playerCard1, playerCard2, playerCard3, playerCard4,
         linearLayoutCCard0, linearLayoutCCard1, playedCard0, playedCard1, atouCard, talonCard;
 
-    long errNum = 0; // Errors Ticker
+    // long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
     volatile Card touchedCard;
     volatile Card draggedCard;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     HashMap<Integer, LinearLayout> toFields = new HashMap<>();
     Game aGame;
     // Calling Application class (see application tag in AndroidManifest.xml)
-    GlobalAppSettings globalVariable;
+    // GlobalAppSettings globalVariable;
 
     private final static Handler resetBackgroundHandler = new Handler(Looper.getMainLooper());
 
@@ -230,44 +232,21 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        int mItemId = (item != null) ?  item.getItemId() : -1;
 
-        if (id == R.id.action_start) {
+        if (mItemId == R.id.action_start) {
             if (aGame == null || !aGame.isGame)
                 startGame();
             return true;
         }
-        if (id == R.id.action_stop) {
+        if (mItemId == R.id.action_stop) {
             if (aGame != null && aGame.isGame)
                 stopGame(2);
             return true;
         }
-        if (id == R.id.action_help) {
+        if (mItemId == R.id.action_help) {
             helpText();
             return true;
-        }
-        // reset now all checkboxes for language menu items
-        menuResetCheckboxes();
-
-        if (id == R.id.action_default_cards) {
-            //Sets application locale in GlobalAppSettings from default app locale
-            Locale primaryLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            return setLocale(primaryLocale, item);
-        }
-        if (id == R.id.action_english_cards) { // sets locale in GlobalAppSettings with english
-            return setLanguage("en", item);
-        }
-        if (id == R.id.action_german_cards) { // changes locale in GlobalAppSettings to Deutsch
-            return  setLanguage("de", item);
-        }
-        if (id == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
-            return setLanguage("fr", item);
-        }
-        if (id == R.id.action_ukraine_cards) { //  uktainian
-            return setLanguage("uk", item);
-        }
-        if (id == R.id.action_polish_cards) { // Overwrites application locale in GlobalAppSettings with french
-            return setLanguage("pl", item);
         }
 
         return super.onOptionsItemSelected(item);
@@ -276,19 +255,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     /**
      * setLanguage
-     * @param language - the langzage
-     * @return true in case of succcess, otherwise false
-     */
-    protected  boolean setLanguage(String language, MenuItem item) {
-        return setLocale(new Locale(language), item);
-    }
-
-    /**
-     * setLanguage
      * @param aLocale - a locale
      * @param item - a menu item
      * @return true in case of succcess, otherwise false
      */
+    @Override
     protected  boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
             item.setChecked(true);
@@ -302,19 +273,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         return true;
     }
 
-    /**
-     * reset menu checkboxes from all checkable menu items
-     */
-    protected void menuResetCheckboxes() {
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_default_cards).setChecked(false);
-            myMenu.findItem(R.id.action_english_cards).setChecked(false);
-            myMenu.findItem(R.id.action_german_cards).setChecked(false);
-            myMenu.findItem(R.id.action_french_cards).setChecked(false);
-            myMenu.findItem(R.id.action_ukraine_cards).setChecked(false);
-            myMenu.findItem(R.id.action_polish_cards).setChecked(false);
-        }
-    }
 
     /**
      * implements Runnable
@@ -404,8 +362,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             } catch (Exception exCraw) {
                 this.errHandler(exCraw);
             }
-            if (animatedGif != null)
+            if (animatedGif != null) {
                 animatedGif.start();
+                saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, SCHNAPSOUNDS.MERGE_CARDS.saySpeach());
+            }
         }
         if (!startMergeAnim) {
             if (animatedGif != null)
@@ -570,8 +530,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             return;
         }
         tMes.setVisibility(View.VISIBLE);
+        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, SCHNAPSOUNDS.GAME_CLOSE.saySpeach());
         setTextMessage(getString(R.string.player_closed_game));
-        tMes.setText(R.string.player_closed_game);
+        // tMes.setText(R.string.player_closed_game);
 
         try {
             imTalon.setImageResource(R.drawable.t);
@@ -900,6 +861,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         imAtou.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setImageResource(R.drawable.n0);
+        saySchnapser(SCHNAPSOUNDS.GAME_END, SCHNAPSOUNDS.GAME_END.saySpeach());
 
         mergeCardAnim(true);
     }
@@ -1483,11 +1445,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * @param text to display
      */
     private void setTextMessage(CharSequence text) {
-        if (text != null && text != "") {
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+		if (text != null && text != "") {
+			Context context = getApplicationContext();
+			tMes.setText(text);            
         }
     }
 
@@ -1513,8 +1473,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
      * helpText() prints out help text
      */
     public void helpText() {
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
+        showHelp();
     }
 
 }

@@ -21,6 +21,7 @@ import java.lang.*;
 import java.util.Random;
 import android.content.res.Resources;
 import android.content.Context;
+import at.area23.schnapslet.enums.*;
 
 /**
  * Game class represents a single game.
