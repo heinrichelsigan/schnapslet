@@ -16,7 +16,9 @@
     <string name="bChange_text">échanger atou</string>
     <string name="tMes_text">info-bulle</string>
     <string name="tPoints_text">0</string>
+    <string name="sPoints">points</string>
     <string name="tRest_text">0</string>
+    <string name="sRest">rest</string>
     <string name="tDbg_text"></string>
     <string name="imOut0_text">carte à jouer</string>
     <string name="imOut1_text">carte de réponse</string>
@@ -69,5 +71,6 @@
     <string name="german_cards">cartes de Suisse</string>
     <string name="french_cards">cartes de France royale</string>
     <string name="ukraine_cards">cartes de Minsk</string>
+    <string name="polish_cards">cartes de Bologne</string>
     <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
 </resources>

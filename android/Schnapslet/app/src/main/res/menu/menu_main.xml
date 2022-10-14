@@ -55,6 +55,12 @@
                 android:title="@string/ukraine_cards"
                 android:checkable="true"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/action_polish_cards"
+                android:orderInCategory="1600"
+                android:title="@string/polish_cards"
+                android:checkable="true"
+                app:showAsAction="never" />
         </item>
     </group>
 </menu>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +9,63 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        tools:ignore="MissingConstraints">
 
-        <RelativeLayout
-            android:layout_width="340dp"
-            android:layout_height="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp">
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:id="@+id/linearLayoutCCard1">
+                <ImageView
+                    android:id="@+id/imageCOut1"
+                    android:contentDescription="@string/imOut1_text"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/e"
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="0dp"
+                android:id="@+id/linearLayoutCCard0">
+
+                <ImageView
+                    android:id="@+id/imageCOut0"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imOut0_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/e" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="108dp">
 
             <LinearLayout
                 android:layout_width="72dp"
@@ -37,7 +87,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="64dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playedCard0">
 
@@ -55,7 +105,7 @@
                 android:contentDescription="@string/imMerge_text"
                 android:layout_width="144dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="176dp"
+                android:layout_marginStart="160dp"
                 android:layout_marginTop="0dp"
                 android:minWidth="144dp"
                 android:minHeight="96dp"
@@ -64,7 +114,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="240dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/atouCard">
                 <ImageView
@@ -80,7 +130,7 @@
             <LinearLayout
                 android:layout_width="96dp"
                 android:layout_height="72dp"
-                android:layout_marginStart="176dp"
+                android:layout_marginStart="172dp"
                 android:layout_marginTop="14dp"
                 android:id="@+id/talonCard">
                 <ImageView
@@ -95,10 +145,10 @@
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_width="340dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="100dp">
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="216dp">
 
             <LinearLayout
                 android:layout_width="72dp"
@@ -120,7 +170,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard1">
 
@@ -137,7 +187,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="144dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard2">
 
@@ -154,7 +204,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="180dp"
+                android:layout_marginStart="216dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard3">
 
@@ -171,7 +221,7 @@
             <LinearLayout
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="240dp"
+                android:layout_marginStart="288dp"
                 android:layout_marginTop="0dp"
                 android:id="@+id/playerCard4">
 
@@ -190,19 +240,20 @@
         <TextView
             android:id="@+id/tMes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="200dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="320dp"
             android:minHeight="24dp"
-            android:minWidth="340dp"
+            android:minWidth="360dp"
+            android:textSize="11sp"
             android:text="@string/tMes_text"
             />
 
         <RelativeLayout
-            android:layout_width="340dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="240dp">
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="348dp">
 
             <Button
                 android:id="@+id/bContinue"
@@ -236,6 +287,7 @@
                 android:layout_marginTop="4dp"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
+                android:tooltipText="@string/sRest"
                 android:text="@string/tRest_text" />
 
             <TextView
@@ -246,6 +298,7 @@
                 android:layout_marginTop="4dp"
                 android:minHeight="24dp"
                 android:minWidth="32dp"
+                android:tooltipText="@string/sPoints"
                 android:text="@string/tPoints_text" />
 
             <Button
@@ -276,8 +329,10 @@
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="300dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="428dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
             android:text="@string/tDbg_text"
@@ -285,6 +340,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
