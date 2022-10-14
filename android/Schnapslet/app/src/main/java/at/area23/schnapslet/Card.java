@@ -386,7 +386,8 @@ public class Card {
         if (langNoCntry == (new Locale("en")).getLanguage() ||
             langNoCntry == (new Locale("fr")).getLanguage() ||
             langNoCntry == (new Locale("de")).getLanguage() ||
-            langNoCntry == (new Locale("uk")).getLanguage()) {
+            langNoCntry.equals((new Locale("pl")).getLanguage()) ||
+            langNoCntry.equals((new Locale("uk")).getLanguage())) {
             // get language country region specific card deck card symbol
             int drawableLangId = context.getResources().getIdentifier(
                     langNoCntry + "_" + tmp,
