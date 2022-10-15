@@ -1,4 +1,4 @@
-/**
+/*
  * @author           <a href="mailto:heinrich.elsigan@area23.at">Heinrich Elsigan</a>
  * @version          V 1.0.1
  * @since            API 27 Oreo 8.1
@@ -208,7 +208,6 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param  item - the menu item, that has been selected
 	 * @return false to allow normal menu processing to proceed, true to consume it here.
      */
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {        
 
         int mItemId = (item != null) ?  item.getItemId() : -1;
@@ -266,15 +265,8 @@ public class BaseAppActivity extends AppCompatActivity {
      * @return true in case of succcess, otherwise false
      */
     protected  boolean setLanguage(String language, MenuItem item) {
-		if (item != null) {
-            item.setChecked(true);
-        }
 		Locale newLocale = new Locale(language);
-        if (globalVariable.getLocale().getLanguage() != newLocale.getLanguage()) {
-            //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale(newLocale);
-		}
-		return true;
+        return setLocale(newLocale, item);
     }
 
  
@@ -436,8 +428,11 @@ public class BaseAppActivity extends AppCompatActivity {
 
 
     public void saySchnapser(SCHNAPSOUNDS schnapserl, String text2Say) {
-        text2Speach.speak(text2Say, TextToSpeech.QUEUE_FLUSH, null, null);
-                // .speak(text2Say, TextToSpeech.QUEUE_FLUSH, null);
+        String sayPhrase = (text2Say != null) ? text2Say : schnapserl.saySpeach(getApplicationContext());
+        if (sayPhrase != null) {
+            text2Speach.speak(sayPhrase, TextToSpeech.QUEUE_FLUSH, null);
+            // .speak(text2Say, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
 }

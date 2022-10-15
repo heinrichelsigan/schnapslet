@@ -30,14 +30,21 @@
     <string translatable="true" name="im2_text">Player card 3</string>
     <string translatable="true" name="im3_text">Player card 4</string>
     <string translatable="true" name="im4_text">Player card 5</string>
+    <string translatable="true" name="color_h">hearts</string>
+    <string translatable="true" name="color_k">diamonds</string>
+    <string translatable="true" name="color_p">spades</string>
+    <string translatable="true" name="color_t">clubs</string>
     <string translatable="true" name="newgame_starts">Start a new game &#8230;</string>
     <string translatable="true" name="nogame_started">No game has been started!</string>
+    <string translatable="true" name="close_game">closes game</string>
     <string translatable="true" name="player_closed_game">Player closes game!</string>
     <string translatable="true" name="say_pair">say pair</string>
     <string translatable="true" name="no_second_pair">no second pair</string>
     <string translatable="true" name="toplayout_clickon_card">Click on card symbol to play out that card.</string>
-    <string translatable="true" name="twenty_and_enough">20 and enough !</string>
-    <string translatable="true" name="fourty_and_enough">40 and enough !</string>
+    <string translatable="true" name="twenty_in_color">Twenty in</string>
+    <string translatable="true" name="fourty_in_color">Fourty in</string>
+    <string translatable="true" name="twenty_and_enough">Twenty and enough !</string>
+    <string translatable="true" name="fourty_and_enough">Fourty and enough !</string>
     <string translatable="true" name="you_have_won_points">You win with %1$s points!</string>
     <string translatable="true" name="computer_has_won_points">Computer won with %1$s points!</string>
     <string translatable="true" name="your_hit_points">Your hit with %1$s points.</string>
@@ -47,7 +54,7 @@
     <string translatable="true" name="closing_failed">You failed to close this game, computer wins !</string>
     <string translatable="true" name="color_hit_force_mode">No more cards in talon -> follow the suit led otherwise must trump (if possible) !</string>
     <string translatable="true" name="last_hit_you_have_won">Last trick: you win!</string>
-    <string translatable="true" name="computer_wins_last_hit">Last trick:: computer wins  !</string>
+    <string translatable="true" name="computer_wins_last_hit">Last trick: computer wins  !</string>
     <string translatable="true" name="you_say_pair">Thou announce a marriages in color %1$s!</string>
     <string translatable="true" name="computer_changes_atou">computer changes Atou card.</string>
     <string translatable="true" name="computer_says_pair">computer announces  a marriages in color %1$s!</string>
@@ -66,11 +73,11 @@
     <string translatable="true" name="learn_more">Learn more</string>
     <string translatable="true" name="back_button">Back</string>
     <string translatable="true" name="carddeck">carddeck</string>
-    <string translatable="true" name="default_cards">default carddeck</string>
-    <string translatable="true" name="english_cards">english carddeck</string>
-    <string translatable="true" name="german_cards">german carddeck</string>
-    <string translatable="true" name="french_cards">french carddeck</string>
-    <string translatable="true" name="ukraine_cards">ukraine carddeck</string>
+    <string translatable="true" name="default_cards">default cards</string>
+    <string translatable="true" name="english_cards">english cards</string>
+    <string translatable="true" name="german_cards">german cards</string>
+    <string translatable="true" name="french_cards">french cards</string>
+    <string translatable="true" name="ukraine_cards">ukraine cardsetk</string>
     <string translatable="true" name="polish_cards">polish cardset</string>
     <string translatable="true" name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
 </resources>

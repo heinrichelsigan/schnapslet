@@ -112,7 +112,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         @Override
         // @SuppressLint("InlinedApi")
         public void run() {
-            mergeCardAnim(true);
+            saySchnapser(SCHNAPSOUNDS.NONE, "Runnable");
         }
     };
 
@@ -145,6 +145,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         linearLayoutCCard1 = (LinearLayout) findViewById(R.id.linearLayoutCCard1);
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
+        linearLayoutCCard0.setVisibility(View.INVISIBLE);
+        linearLayoutCCard1.setVisibility(View.INVISIBLE);
         atouCard = (LinearLayout) findViewById(R.id.atouCard);
         talonCard = (LinearLayout) findViewById(R.id.talonCard);
         playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
@@ -188,7 +190,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         bChange.setEnabled(false);
 
         mergeCardAnim(true);
-
         frameAnimation = (AnimationDrawable)imMerge.getBackground();
         frameAnimation.start();
 
@@ -350,26 +351,30 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (startMergeAnim) {
             // animatedGif = null;
             imMerge.setVisibility(View.VISIBLE);
-            try {
-                ImageDecoder.Source source =
-                        ImageDecoder.createSource(getResources(), R.drawable.anim_merge);
-                Drawable animDraw = ImageDecoder.decodeDrawable(source);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                try {
+                    ImageDecoder.Source source =
+                            ImageDecoder.createSource(getResources(), R.drawable.anim_merge);
+                    Drawable animDraw = ImageDecoder.decodeDrawable(source);
 
-                imMerge.setImageDrawable(animDraw);
-                if (animDraw instanceof AnimatedImageDrawable) {
-                    animatedGif = ((AnimatedImageDrawable) animDraw);
+                    imMerge.setImageDrawable(animDraw);
+                    if (animDraw instanceof AnimatedImageDrawable) {
+                        animatedGif = ((AnimatedImageDrawable) animDraw);
+                    }
+                } catch (Exception exCraw) {
+                    this.errHandler(exCraw);
                 }
-            } catch (Exception exCraw) {
-                this.errHandler(exCraw);
-            }
-            if (animatedGif != null) {
-                animatedGif.start();
-                saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, SCHNAPSOUNDS.MERGE_CARDS.saySpeach());
+                if (animatedGif != null) {
+                    animatedGif.start();
+                    saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
+                }
             }
         }
         if (!startMergeAnim) {
-            if (animatedGif != null)
-                animatedGif.stop();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (animatedGif != null)
+                    animatedGif.stop();
+            }
             imMerge.setVisibility(View.INVISIBLE);
         }
     }
@@ -524,15 +529,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     protected void closeGame() { //	Implementierung des Zudrehens
         if (!aGame.isGame || aGame.gambler == null) {
-            tMes.setVisibility(View.VISIBLE);
-
-            tMes.setText(R.string.nogame_started);
+            setTextMessage(getString(R.string.nogame_started));
             return;
         }
-        tMes.setVisibility(View.VISIBLE);
-        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, SCHNAPSOUNDS.GAME_CLOSE.saySpeach());
         setTextMessage(getString(R.string.player_closed_game));
-        // tMes.setText(R.string.player_closed_game);
+        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
 
         try {
             imTalon.setImageResource(R.drawable.t);
@@ -600,8 +601,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 }
             }
             // Info
-            tMes.setVisibility(View.VISIBLE);
-            tMes.setText(R.string.toplayout_clickon_card);
+            setTextMessage(getString(R.string.toplayout_clickon_card));
         } else {
             // COMPUTERS TURN IMPLEMENTIEREN
             String outPutMessage = "";
@@ -611,18 +611,17 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
                 this.showAtouCard();
-                setTextMessage(getString(R.string.computer_changes_atou));
                 outPutMessage += getString(R.string.computer_changes_atou);
+                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
-                setTextMessage(getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid)));
-                outPutMessage = outPutMessage + getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                saySchnapser(SCHNAPSOUNDS.NONE, computerSaysPair);
+                outPutMessage = outPutMessage + " " + computerSaysPair;
             }
-
-            tMes.setVisibility(View.VISIBLE);
-            tMes.setText(outPutMessage);
+            setTextMessage(outPutMessage);
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
@@ -749,19 +748,19 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         tPoints.setText(String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
-            tMes.setVisibility(View.VISIBLE);
             msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            tMes.setText(msgText);
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 tsEnds(getString(R.string.computer_closing_failed), 1);
                 return;
             }
         } else {
-            tMes.setVisibility(View.VISIBLE);
             msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            tMes.setText(msgText);
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 tsEnds(getString(R.string.closing_failed), 1);
                 return;
@@ -780,9 +779,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-            tMes.setVisibility(View.VISIBLE);
+
             setTextMessage(getString(R.string.color_hit_force_mode));
-            tMes.setText(getString(R.string.color_hit_force_mode));
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.color_hit_force_mode));
         }
         tRest.setText(String.valueOf((19-aGame.index)));
         printMes();
@@ -861,7 +860,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imAtou.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setImageResource(R.drawable.n0);
-        saySchnapser(SCHNAPSOUNDS.GAME_END, SCHNAPSOUNDS.GAME_END.saySpeach());
+
+        saySchnapser(SCHNAPSOUNDS.GAME_END, getString(R.string.bStop_text));
 
         mergeCardAnim(true);
     }
@@ -872,9 +872,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @param ix level
      */
     private void tsEnds(String endMessage, int ix) {
-        tMes.setText(endMessage);
         setTextMessage(endMessage);
-        tMes.setVisibility(View.VISIBLE);
+        saySchnapser(SCHNAPSOUNDS.NONE, endMessage);
         stopGame(ix);
     }
 
@@ -931,6 +930,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     public void bChange_Clicked(View arg0) {
         try {
             aGame.changeAtou(aGame.gambler);
+            saySchnapser(SCHNAPSOUNDS.CHANGE_ATOU, getString(R.string.bChange_text));
+
             bChange.setEnabled(false);
             showAtouCard();
             showPlayersCards();
@@ -949,19 +950,30 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) {
                 return;
             }
+            String sayPair;
+            aGame.said = aGame.gambler.handpairs[0];
             if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
                 aGame.gambler.points += 40;
+                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             } else {
                 aGame.gambler.points += 20;
+                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
             pSaid = true;
             resetButtons(0);
-            aGame.said = aGame.gambler.handpairs[0];
+
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
+
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
+                if (aGame.gambler.handpairs[0] == aGame.atouInGame)
+                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
+                else
+                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                 twentyEnough(true);
             }
         } catch (Exception e) {
@@ -978,20 +990,31 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((pSaid) || (aGame.gambler.handpairs[1]=='n')) {
                 return;
             }
+            String sayPair;
+            aGame.said = aGame.gambler.handpairs[1];
             if (aGame.gambler.handpairs[1] == aGame.atouInGame) {
                 aGame.gambler.points += 40;
+                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             }
             else {
                 aGame.gambler.points += 20;
+                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
             pSaid = true;
             resetButtons(0);
-            aGame.said = aGame.gambler.handpairs[1];
+
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
+
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
+                if (aGame.gambler.handpairs[1] == aGame.atouInGame)
+                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
+                else
+                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                 twentyEnough(true);
             }
         } catch (Exception e) {
@@ -1255,11 +1278,19 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         pSaid = true;
                         resetButtons(0);
                         aGame.said = dropCard.getColor();
-                        setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
-                        aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+
+                        String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
+                        setTextMessage(sayMarriage);
+                        saySchnapser(SCHNAPSOUNDS.NONE, sayMarriage);
+                        aGame.mqueue.insert(sayMarriage);
                         printMes();
+
                         tPoints.setText(String.valueOf(aGame.gambler.points));
                         if (aGame.gambler.points > 65) {
+                            if (dropCard.isAtou())
+                                saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
+                            else
+                                saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                             twentyEnough(true);
                         }
 
@@ -1447,6 +1478,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     private void setTextMessage(CharSequence text) {
 		if (text != null && text != "") {
 			Context context = getApplicationContext();
+            tMes.setVisibility(View.VISIBLE);
 			tMes.setText(text);            
         }
     }

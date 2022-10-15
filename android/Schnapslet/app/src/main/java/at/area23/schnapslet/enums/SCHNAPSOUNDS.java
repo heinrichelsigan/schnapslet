@@ -11,6 +11,11 @@
 
 package at.area23.schnapslet.enums;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import at.area23.schnapslet.R;
+
+
 /**
  * BOARDCOL represents the enumerator for columns of the board
  */
@@ -50,23 +55,23 @@ public enum SCHNAPSOUNDS {
      * saySpeach
      * @return upper letter {@link String} or NONE
      */
-    public String saySpeach() {
+    public String saySpeach(Context c) {
         switch (this.getValue()) {
-            case 1:     return "merging cards for new game";
-            case 2:     return "Game started.";
-            case 3:     return "changed Jack against Atou";
-            case 4:     return "twenty";
-            case 5:     return "fourty atou marriage";
-            case 6:     return "game closed now";
-            case 7:     return "color hit rule";
+            case 1:     return c.getString(R.string.merging_cards);
+            case 2:     return c.getString(R.string.newgame_starts);
+            case 3:     return c.getString(R.string.bChange_text);
+            case 4:     return c.getString(R.string.twenty_in_color);
+            case 5:     return c.getString(R.string.fourty_in_color);
+            case 6:     return c.getString(R.string.close_game);
+            case 7:     return c.getString(R.string.color_hit_force_mode);
             case 8:     break;
             case 9:     break;
             case 10:    break;
-            case 11:    return "Player beats!";
-            case 12:    return "Computer beats!";
-            case 13:    return "Player wins!";
-            case 14:    return "Computer wins!";
-            case 15:    return "Game ended";
+            case 11:    return c.getString(R.string.your_hit_points);
+            case 12:    return c.getString(R.string.computer_hit_points);
+            case 13:    return c.getString(R.string.you_have_won_points);
+            case 14:    return c.getString(R.string.computer_has_won_points);
+            case 15:    return c.getString(R.string.nogame_started);
             default:    break;
         }
         return null;

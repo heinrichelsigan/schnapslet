@@ -500,10 +500,10 @@ public class Game {
      */
     public String printColor(char ch) {
         switch(ch) {
-            case 'k': return "Diamond";
-            case 'h': return "Heart";
-            case 't': return "Club";
-            case 'p': return "Spade";
+            case 'k': return context.getString(R.string.color_k);
+            case 'h': return context.getString(R.string.color_h);
+            case 't': return context.getString(R.string.color_t);
+            case 'p': return context.getString(R.string.color_p);
             default: break;
         }
         return "NoColor";
