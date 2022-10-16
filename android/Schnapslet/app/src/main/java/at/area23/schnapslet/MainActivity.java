@@ -41,6 +41,7 @@ import android.os.Message;
 // import android.support.v13.view.DragAndDropPermissionsCompat;
 // import android.support.v13.view.DragStartHelper;
 // import android.support.v7.app.AppCompatActivity;
+import android.speech.tts.TextToSpeech;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,8 +91,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
     // long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
-    volatile Card touchedCard;
-    volatile Card draggedCard;
+    volatile Card touchedCard, draggedCard, playedOutCard0, playedOutCard1;
     final Card assignedCard = null;
     volatile boolean ready = false, droppedCard = false, dragged20 = false;
     volatile byte psaychange = 0;
@@ -103,16 +103,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     // Calling Application class (see application tag in AndroidManifest.xml)
     // GlobalAppSettings globalVariable;
 
-    private final static Handler resetBackgroundHandler = new Handler(Looper.getMainLooper());
+    private final static Handler setComputerPairHandler = new Handler(Looper.getMainLooper());
 
     /**
-     * runResetBackground new Runnable() -> { resetBackground(); }
+     * setComputerPair new Runnable() -> { reSetComputerPair(); }
      */
-    private final Runnable runResetBackground = new Runnable() {
+    private final Runnable setComputerPair = new Runnable() {
         @Override
         // @SuppressLint("InlinedApi")
         public void run() {
-            saySchnapser(SCHNAPSOUNDS.NONE, "Runnable");
+            reSetComputerPair();
         }
     };
 
@@ -261,15 +261,18 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @return true in case of succcess, otherwise false
      */
     @Override
-    protected  boolean setLocale(Locale aLocale, MenuItem item) {
+    protected boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
             item.setChecked(true);
         }
         if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
             //Overwrites application locale in GlobalAppSettings with english
             globalVariable.setLocale(aLocale);
+            // Adjust language for text to speach
+            text2Speach.setLanguage(globalVariable.getLocale());
             showAtouCard();
             showPlayersCards();
+            showPlayedOutCards();
         }
         return true;
     }
@@ -319,6 +322,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             try {
                 imOut0.setImageResource(R.drawable.e);
                 imOut1.setImageResource(R.drawable.e);
+                playedOutCard0 = null;
+                playedOutCard1 = null;
             } catch (Exception ex) {
                 this.errHandler(ex);
             }
@@ -339,8 +344,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imTalon.setImageResource(R.drawable.t);
         imOut0.setImageResource(R.drawable.e);
         imOut1.setImageResource(R.drawable.e);
+        imageCOut0.setImageResource(R.drawable.e);
+        imageCOut0.setImageResource(R.drawable.e);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
+        playedOutCard0 = null;
+        playedOutCard1 = null;
     }
 
     /**
@@ -354,18 +363,19 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 try {
                     ImageDecoder.Source source =
-                            ImageDecoder.createSource(getResources(), R.drawable.anim_merge);
-                    Drawable animDraw = ImageDecoder.decodeDrawable(source);
+                            ImageDecoder.createSource(getResources(), R.drawable.mergecards);
+                    Drawable animDrawable = ImageDecoder.decodeDrawable(source);
+                    imMerge.setImageDrawable(animDrawable);
 
-                    imMerge.setImageDrawable(animDraw);
-                    if (animDraw instanceof AnimatedImageDrawable) {
-                        animatedGif = ((AnimatedImageDrawable) animDraw);
+                    if (animDrawable instanceof AnimatedImageDrawable) {
+                        animatedGif = ((AnimatedImageDrawable)animDrawable);
+                        // ((AnimatedImageDrawable) animDrawable).start();
+                        ((AnimatedImageDrawable)animatedGif).start();
                     }
                 } catch (Exception exCraw) {
                     this.errHandler(exCraw);
                 }
                 if (animatedGif != null) {
-                    animatedGif.start();
                     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
                 }
             }
@@ -381,7 +391,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
 
     /**
-     * showTalonCard
+     * showTalonCard - shows current talon card
      */
     protected void showTalonCard() {
         try {
@@ -394,7 +404,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     }
 
     /**
-     * showAtouCard
+     * showAtouCard - shows current atou card => needed when changing locale and card set
      */
     protected void showAtouCard() {
         try {
@@ -404,6 +414,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             this.errHandler(exp);
         }
 
+    }
+
+    /**
+     * showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
+     */
+    protected  void showPlayedOutCards() {
+        if (playedOutCard0 != null)
+            imOut0.setImageDrawable(playedOutCard0.getDrawable());
+        if (playedOutCard1 != null)
+            imOut1.setImageDrawable(playedOutCard1.getDrawable());
     }
 
     /**
@@ -463,6 +483,46 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         } catch (Exception exp) {
             this.errHandler(exp);
         }
+    }
+
+    /**
+     * reSetComputerPair resets computer pair images and linear layout placeholder
+     */
+    protected void reSetComputerPair() {
+        linearLayoutCCard0.setVisibility(View.INVISIBLE);
+        linearLayoutCCard1.setVisibility(View.INVISIBLE);
+        imageCOut0.setImageResource(R.drawable.e);
+        imageCOut0.setImageResource(R.drawable.e);
+
+        imOut1.setImageDrawable(playedOutCard1.getDrawable());
+    }
+
+    /**
+     * showComputer20 shows computer pair, when computer has 20 or 40
+     *
+     * @param computerPlayedOut
+     */
+    protected void showComputer20(Card computerPlayedOut) {
+        linearLayoutCCard0.setVisibility(View.VISIBLE);
+        linearLayoutCCard1.setVisibility(View.VISIBLE);
+
+        imageCOut1.setImageDrawable(computerPlayedOut.getDrawable());
+        for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
+            if (computerPlayedOut.getValue() == 3 &&
+                    aGame.computer.hand[ci].getColor() == computerPlayedOut.getColor() &&
+                    aGame.computer.hand[ci].getValue() == 4) {
+                imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                break;
+            }
+            if (computerPlayedOut.getValue() == 4 &&
+                    aGame.computer.hand[ci].getColor() == computerPlayedOut.getColor() &&
+                    aGame.computer.hand[ci].getValue() == 3) {
+                imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                break;
+            }
+        }
+
+        setComputerPairHandler.postDelayed(setComputerPair, 750);
     }
 
     /**
@@ -567,6 +627,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             try {
                 imOut0.setImageResource(R.drawable.e1);
                 imOut1.setImageResource(R.drawable.e1);
+                playedOutCard0 = null;
+                playedOutCard1 = null;
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -616,7 +678,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
+            boolean computerSaid20 = false;
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
+                computerSaid20 = true;
                 String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
                 saySchnapser(SCHNAPSOUNDS.NONE, computerSaysPair);
                 outPutMessage = outPutMessage + " " + computerSaysPair;
@@ -630,8 +694,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
 
             try {
-                // imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
-                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
+                playedOutCard1 = aGame.computer.hand[ccard];
+                if (computerSaid20)
+                    showComputer20(playedOutCard1);
+                else
+                    imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -684,13 +751,15 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             try {
                 for (xj = 0; xj < 5; xj++) {
                     if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 3)
-                        // imOut0.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                            aGame.gambler.hand[xj].value == 3) {
+                        playedOutCard0 = aGame.gambler.hand[xj];
                         imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
                     if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 4)
-                        // imOut1.setImageResource(aGame.gambler.hand[xj].getResourcesInt());
+                            aGame.gambler.hand[xj].value == 4) {
+                        playedOutCard1 = aGame.gambler.hand[xj];
                         imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
                 }
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
@@ -705,13 +774,15 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             try {
                 for (xj = 0; xj < 5; xj++) {
                     if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 3)
-                        // imOut0.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                            aGame.computer.hand[xj].value == 3) {
+                        playedOutCard0 = aGame.computer.hand[xj];
                         imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
                     if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 4)
-                        // imOut1.setImageResource(aGame.computer.hand[xj].getResourcesInt());
+                            aGame.computer.hand[xj].value == 4) {
+                        playedOutCard1 = aGame.computer.hand[xj];
                         imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
                 }
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
@@ -736,7 +807,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.playersTurn) {
             ccard = aGame.computersAnswer();
             try {
-                // imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
+                playedOutCard1 = aGame.computer.hand[ccard];
                 imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
@@ -828,9 +899,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame != null)
             aGame.shouldContinue = true;
         bContinue.setEnabled(true);
-
         imTalon.setOnClickListener(this::bContinue_Clicked);
-
         ready = false;
     }
 
@@ -1441,7 +1510,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 default: tDbg.append("Assertion !");
             }
 
-            // imOut0.setImageResource(aGame.gambler.hand[ic].getResourcesInt());
+            playedOutCard0 = aGame.gambler.hand[ic];
             imOut0.setImageDrawable(aGame.gambler.hand[ic].getDrawable());
 
         } catch (Exception e) {

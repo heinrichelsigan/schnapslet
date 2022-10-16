@@ -30,10 +30,19 @@
     <string translatable="true" name="im2_text">Player card 3</string>
     <string translatable="true" name="im3_text">Player card 4</string>
     <string translatable="true" name="im4_text">Player card 5</string>
+    <string translatable="true" name="cardval_2">Jack</string>
+    <string translatable="true" name="cardval_3">Queen</string>
+    <string translatable="true" name="cardval_4">King</string>
+    <string translatable="true" name="cardval_9">Nine</string>
+    <string translatable="true" name="cardval_10">Ten</string>
+    <string translatable="true" name="cardval_11">Ace</string>
+    <string translatable="true" name="colorDelimiter"> of </string>
     <string translatable="true" name="color_h">hearts</string>
     <string translatable="true" name="color_k">diamonds</string>
     <string translatable="true" name="color_p">spades</string>
     <string translatable="true" name="color_t">clubs</string>
+    <string translatable="true" name="color_e">empty card</string>
+    <string translatable="true" name="color_n">nocolor</string>
     <string translatable="true" name="newgame_starts">Start a new game &#8230;</string>
     <string translatable="true" name="nogame_started">No game has been started!</string>
     <string translatable="true" name="close_game">closes game</string>

@@ -34,6 +34,15 @@
     <string name="color_k">carreau</string>
     <string name="color_p">pique</string>
     <string name="color_t">trèfle</string>
+    <string name="color_e">carte vide</string>
+    <string name="color_n">sans couleur</string>
+    <string name="colorDelimiter"> de </string>
+    <string name="cardval_2">valet</string>
+    <string name="cardval_3">reine</string>
+    <string name="cardval_4">roi</string>
+    <string name="cardval_9">neuf</string>
+    <string name="cardval_10">dix</string>
+    <string name="cardval_11">as</string>
     <string name="newgame_starts">nouvelle partie a commencé &#8230;</string>
     <string name="nogame_started">aucune partie commencée!!</string>
     <string name="close_game">on annonce la clôture</string>

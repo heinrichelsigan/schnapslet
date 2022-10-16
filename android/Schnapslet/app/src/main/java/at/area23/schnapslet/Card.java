@@ -24,6 +24,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
+import org.intellij.lang.annotations.Language;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
@@ -125,8 +126,6 @@ public class Card {
         this.color = (char)cardColor.getValue();
 
         this.name = cardColor.toString() + "_" + cardValue.getName();
-        // System.err.println(namestr);
-        this.picture = this.getPictureUrl();
     }
 
     /**
@@ -139,6 +138,7 @@ public class Card {
         this.context = c;
         r = c.getResources();
         globalVariable = (GlobalAppSettings) c;
+        this.picture = this.getPictureUrl();
     }
 
     /**
@@ -220,7 +220,7 @@ public class Card {
      * @param atoudef char of atoudef
      * @param c us context of android app
      */
-    public  Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef, Context c) {
+    public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef, Context c) {
         this(aCardColor, aCardValue, atoudef);
         this.context = c;
         this.r = c.getResources();
@@ -315,16 +315,97 @@ public class Card {
     }
 
     /**
+     * getFullName
+     * @param aColor char aCpöpr
+     * @param aValue int aValue
+     * @return full card name identitfier
+     */
+    public String getFullName(char aColor, int aValue)  {
+        String colorName = "";
+        switch(aColor) {
+            case 'k':
+                colorName = context.getString(R.string.color_k);
+                break;
+            case 'h':
+                colorName = context.getString(R.string.color_h);
+                break;
+            case 't':
+                colorName = context.getString(R.string.color_t);
+                break;
+            case 'p':
+                colorName = context.getString(R.string.color_p);
+                break;
+            case 'n':
+                colorName = context.getString(R.string.color_n);
+                break;
+            case 'e':
+                colorName = context.getString(R.string.color_e);
+                break;
+            default:
+                break;
+        }
+        String cardName = "";
+        switch(aValue) {
+            case 2:
+                cardName = context.getString(R.string.cardval_2);
+                break;
+            case 3:
+                cardName = context.getString(R.string.cardval_3);
+                break;
+            case 4:
+                cardName = context.getString(R.string.cardval_4);
+                break;
+            case 9:
+                cardName = context.getString(R.string.cardval_9);
+                break;
+            case 10:
+                cardName = context.getString(R.string.cardval_10);
+                break;
+            case 11:
+                cardName = context.getString(R.string.cardval_11);
+                break;
+            case -2:
+                cardName = context.getString(R.string.color_e);
+                break;
+            case -1:
+                cardName = context.getString(R.string.color_n);
+                break;
+            default:
+                break;
+        }
+        if (aValue < 2)
+            return cardName;
+
+        String colorDelimString = context.getString(R.string.colorDelimiter);
+
+        globalVariable = (GlobalAppSettings) context.getApplicationContext();
+        return (globalVariable.getLocale().getLanguage() == (new Locale("de")).getLanguage()) ?
+                (colorName + colorDelimString + cardName) :
+                (cardName + colorDelimString + colorName);
+    }
+
+    /**
+     * getFullName
+     * @return full card name identitfier
+     */
+    public String getFullName() {
+        return this.getFullName((char)cardColor.getValue(), cardValue.getValue());
+    }
+
+    /**
      * getPictureUrl
      * @return a picture URL to ab image in !WWW
      */
     public java.net.URL getPictureUrl() {
 		URL url = null;
 		try {
-            url = new URL(globalVariable.getPictureUrl() + this.color + this.value + ".gif");
+            url = new URL(globalVariable.getPictureUrl() +
+                    this.color + this.value + ".gif");
 		} catch (Exception exi) {
             exi.printStackTrace();
-            // System.err.println(exi.toString());
+            System.err.println("Wrong card: " + this.getName() + " => " +
+                    globalVariable.getPictureUrl() +
+                    this.color + this.value + ".gif");
         }
 		return url;
     }
@@ -340,6 +421,10 @@ public class Card {
             uri = android.net.Uri.parse(myUri);
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Wrong card \'" + this.getName() +
+                    "\' => " + this.getFullName() + " => " +
+                    globalVariable.getPictureUrl() +
+                    this.color + this.value + ".gif");
         }
         return uri;
     }

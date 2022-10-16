@@ -34,6 +34,15 @@
     <string name="color_k">Karo</string>
     <string name="color_p">Pik</string>
     <string name="color_t">Treff</string>
+    <string name="color_e">Leerkarte</string>
+    <string name="color_n">keine Farbe</string>
+    <string name="colorDelimiter">-</string>
+    <string name="cardval_2">Bube</string>
+    <string name="cardval_3">Dame</string>
+    <string name="cardval_4">König</string>
+    <string name="cardval_9">Neun</string>
+    <string name="cardval_10">Zehn</string>
+    <string name="cardval_11">Ass</string>
     <string name="newgame_starts">Neues Spiel started &#8230;</string>
     <string name="nogame_started">Kein Spiel gestartet!</string>
     <string name="close_game">Zudrehen</string>

@@ -36,11 +36,10 @@ import androidx.fragment.app.DialogFragment;
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseAppActivity {
 
     Button backButton, learnMoreButton;
     TextView helpTextView, builtWithTextView;
-    Menu myMenu;
 
     /**
      * Override onCreate

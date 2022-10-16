@@ -34,6 +34,15 @@
     <string name="color_k">diamonds</string>
     <string name="color_p">spades</string>
     <string name="color_t">clubs</string>
+    <string name="color_e">empty card</string>
+    <string name="color_n">nocolor</string>
+    <string name="colorDelimiter"> </string>
+    <string name="cardval_2">Jack</string>
+    <string name="cardval_3">Queen</string>
+    <string name="cardval_4">King</string>
+    <string name="cardval_9">Nine</string>
+    <string name="cardval_10">Ten</string>
+    <string name="cardval_11">Ace</string>
     <string name="newgame_starts">Start a new game &#8230;</string>
     <string name="nogame_started">No game has been started!</string>
     <string name="close_game">closes game</string>

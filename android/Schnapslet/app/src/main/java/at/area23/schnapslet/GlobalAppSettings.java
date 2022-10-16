@@ -26,8 +26,8 @@ import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
     private Locale locale;
-    private String prefixUrl = "https://area23.at/schnapselt/";
-	private String pictureUrl = "https://area23.at/schnapselt/cardpics/";
+    private String prefixUrl = "https://area23.at/schnapsen/";
+	private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
 	private Uri prefixUri = null;
     private Uri pictureUri = null;
     private Game game = null;
