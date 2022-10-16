@@ -13,13 +13,17 @@ package at.area23.schnapslet;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import android.speech.tts.Voice;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +53,6 @@ import at.area23.schnapslet.enums.*;
  */
 public class BaseAppActivity extends AppCompatActivity {
 
-    volatile boolean endRecursion = false;
     protected volatile boolean started = false;
     protected volatile int startedTimes = 0;
     protected volatile int errNum = 0;
@@ -58,21 +61,25 @@ public class BaseAppActivity extends AppCompatActivity {
     protected String tmp = "";
 
     protected Menu myMenu;
-    protected TextToSpeech text2Speach;
+
     protected HashMap<Integer, android.view.View> viewMap;
     protected android.view.View rootView = null;
     // Calling Application class (see application tag in AndroidManifest.xml)
+    protected android.speech.tts.TextToSpeech text2Speach = null;
+    protected String speakCallbackId;
     protected GlobalAppSettings globalVariable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        globalVariable = (GlobalAppSettings) getApplicationContext();
+
         text2Speach = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    text2Speach.setLanguage(globalVariable.getLocale());
+                    text2Speach.setLanguage(globalVariable.geSystemLLocale());
                 }
             }
         });
@@ -189,6 +196,61 @@ public class BaseAppActivity extends AppCompatActivity {
     }
 
     /**
+     * speak - say some text
+     *
+     * @param text
+     * @param locLang Locale    - Locale for speak language
+     * @param rate float        - floating point rate  (default 1)
+     * @param pitch float       - floating point pitch (default 1)
+     * @param volume float      - floating point speaker volume
+     * @param callbackId String - speaker callback identifier as String
+     */
+    public void speak(String text, Locale locLang, float rate, float pitch, float volume, String callbackId) {
+        text2Speach.stop();
+        text2Speach.setOnUtteranceProgressListener(
+                new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+                        showMessage("speak: UtteranceProgressListener.Done: " + utteranceId, false);
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+                        OperationApplicationException opAppEx =
+                                new OperationApplicationException("speak: UtteranceProgressListener.Error: " + utteranceId);
+                        showException(opAppEx);
+                        // showMessage("speak: UtteranceProgressListener.Error: " + utteranceId, false);
+                    }
+                }
+        );
+
+        if (locLang == null)
+            locLang = globalVariable.geSystemLLocale();
+        text2Speach.setLanguage(locLang);
+
+        text2Speach.setSpeechRate(rate);
+        text2Speach.setPitch(pitch);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Bundle ttsParams = new Bundle();
+            ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
+            ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+
+            text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams, callbackId);
+        } else {
+            HashMap<String, String> ttsParams = new HashMap<>();
+            ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
+            ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, Float.toString(volume));
+
+            text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams);
+        }
+    }
+
+    /**
      * saySchnapser text 2 speach
      * @param schnapserl default enum
      * @param text2Say special text to say
@@ -196,7 +258,12 @@ public class BaseAppActivity extends AppCompatActivity {
     public void saySchnapser(SCHNAPSOUNDS schnapserl, String text2Say) {
         String sayPhrase = (text2Say != null) ? text2Say : schnapserl.saySpeach(getApplicationContext());
         if (sayPhrase != null) {
-            text2Speach.speak(sayPhrase, TextToSpeech.QUEUE_FLUSH, null);
+            // text2Speach.speak(sayPhrase, TextToSpeech.QUEUE_FLUSH, null);
+            float floatRate = Float.parseFloat("1.15");
+            float floatPitch = (float)(Math.E / 2);
+            float floatVolume =  (float)Math.sqrt(Math.PI);
+
+            speak(sayPhrase, globalVariable.geSystemLLocale(), floatRate, floatPitch, floatVolume, speakCallbackId);
             // .speak(text2Say, TextToSpeech.QUEUE_FLUSH, null);
         }
     }

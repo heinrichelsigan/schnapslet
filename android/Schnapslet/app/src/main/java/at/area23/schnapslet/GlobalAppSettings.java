@@ -25,7 +25,7 @@ import android.os.Build;
 import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
-    private Locale locale;
+    private Locale systemLocale, locale;
     private String prefixUrl = "https://area23.at/schnapsen/";
 	private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
 	private Uri prefixUri = null;
@@ -67,11 +67,18 @@ public class GlobalAppSettings extends Application {
     }
 
     public void initLocale() {
+        if (systemLocale == null) {
+            try {
+                systemLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
+            } catch (Exception e) {
+                systemLocale = new Locale("en");
+            }
+        }
         if (locale == null) {
             try {
                 locale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
             } catch (Exception e) {
-                locale = new Locale("en");
+                locale = new Locale(systemLocale.getLanguage());
             }
         }
     }
@@ -79,6 +86,11 @@ public class GlobalAppSettings extends Application {
     public Locale getLocale() {
         initLocale();
         return locale;
+    }
+
+    public Locale geSystemLLocale() {
+        initLocale();
+        return systemLocale;
     }
 
     public String getLocaleString() {
