@@ -170,9 +170,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
 
-        imMerge = (ImageView) findViewById(R.id.imMerge);
-        imMerge.setBackgroundResource(R.drawable.anim_merge);
-
         // bStart = (Button) findViewById(R.id.bStart); bStop = (Button) findViewById(R.id.bStop); bHelp = (Button) findViewById(R.id.bHelp);
         b20a =  (Button) findViewById(R.id.b20a);
         b20b =  (Button) findViewById(R.id.b20b);
@@ -189,9 +186,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         bChange.setEnabled(false);
 
+        imMerge = (ImageView) findViewById(R.id.imMerge);
+        imMerge.setBackgroundResource(R.drawable.anim_merge);
         mergeCardAnim(true);
-        frameAnimation = (AnimationDrawable)imMerge.getBackground();
-        frameAnimation.start();
 
         addListenerOnClickables();
         // initURLBase();
@@ -359,6 +356,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     protected void mergeCardAnim(boolean startMergeAnim) {
         if (startMergeAnim) {
             // animatedGif = null;
+            imTalon.setVisibility(View.INVISIBLE);
+            imAtou.setVisibility(View.INVISIBLE);
+            talonCard.setVisibility(View.INVISIBLE);
+            atouCard.setVisibility(View.INVISIBLE);
             imMerge.setVisibility(View.VISIBLE);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 try {
@@ -379,12 +380,19 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
                 }
             }
+            frameAnimation = (AnimationDrawable)imMerge.getBackground();
+            frameAnimation.start();
         }
         if (!startMergeAnim) {
+            frameAnimation.stop();
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 if (animatedGif != null)
                     animatedGif.stop();
             }
+            imTalon.setVisibility(View.VISIBLE);
+            imAtou.setVisibility(View.VISIBLE);
+            talonCard.setVisibility(View.VISIBLE);
+            atouCard.setVisibility(View.VISIBLE);
             imMerge.setVisibility(View.INVISIBLE);
         }
     }
@@ -542,7 +550,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         aGame = new Game(getApplicationContext());
         tMes.setVisibility(View.INVISIBLE);
 
-        frameAnimation.stop();
         mergeCardAnim(false);
 
         try {
@@ -564,6 +571,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         }
 
         atouCard.setVisibility(View.VISIBLE);
+        talonCard.setVisibility(View.VISIBLE);
         imAtou.setVisibility(View.VISIBLE);
         imTalon.setVisibility(View.VISIBLE);
 
@@ -925,13 +933,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         imTalon.setImageResource(R.drawable.t);
         imTalon.setVisibility(View.VISIBLE);
-        atouCard.setVisibility(View.VISIBLE);
         imAtou.setVisibility(View.VISIBLE);
         atouCard.setVisibility(View.VISIBLE);
         imAtou.setImageResource(R.drawable.n0);
-
-        saySchnapser(SCHNAPSOUNDS.GAME_END, getString(R.string.bStop_text));
-
         mergeCardAnim(true);
     }
 
@@ -1545,10 +1549,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @param text to display
      */
     private void setTextMessage(CharSequence text) {
+        Context context = getApplicationContext();
 		if (text != null && text != "") {
-			Context context = getApplicationContext();
+            tMes.setText(text);
             tMes.setVisibility(View.VISIBLE);
-			tMes.setText(text);            
         }
     }
 
