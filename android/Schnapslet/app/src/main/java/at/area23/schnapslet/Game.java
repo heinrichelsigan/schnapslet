@@ -35,8 +35,10 @@ public class Game {
     public boolean colorHitRule = false;       // Farb und Stichzwang
     public boolean isClosed = false;           // game is closed
     public boolean shouldContinue = false;     // should continue the game
+    public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
 
-    public char atouInGame = 'n';             // color that is atou in this game
+    public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
+    // public char atouInGame = 'n';
     public char said = 'n';                   // player said pair char
     public char csaid = 'n';                  // computer said pair char
 
@@ -72,7 +74,7 @@ public class Game {
 
         this.context = c;
         this.r = c.getResources();
-
+        this.schnapState = SCHNAPSTATE.GAME_START;
         mqueue.clear();
         mqueue.insert(r.getString(R.string.newgame_starts));
 
@@ -152,10 +154,10 @@ public class Game {
         set[19] = new Card(inGame[19], context);
         set[19].setAtou();
         mqueue.insert(r.getString(R.string.atou_is, set[19].getName()));
-        this.atouInGame = set[19].getColor();
+        this.atouColor = set[19].getCardColor();  // set[19].getCharColor();
 
         for (i = 0; i < 19; i++) {
-            set[i] = new Card(inGame[i], this.atouInGame, context);
+            set[i] = new Card(inGame[i], this.atouInGame(), context);
             if (i < 5) {
                 gambler.assignCard(set[i]);
             } else if (i < 10) {
@@ -165,6 +167,7 @@ public class Game {
 
         gambler.sortHand();
         computer.sortHand();
+        schnapState = SCHNAPSTATE.GAME_STARTED;
 	}
 
     /**
@@ -176,7 +179,8 @@ public class Game {
         gambler.stop();
         gambler = null;
         computer = null;
-        playedOut = null;        
+        playedOut = null;
+        schnapState = SCHNAPSTATE.MERGING_CARDS;
         for (int i = 0; i < 20; i++) {
 	        set[i] = null;
 	        inGame[i] = i;
@@ -188,7 +192,7 @@ public class Game {
      */
     public void stopGame() {
         isGame = false;
-        atouInGame = 'n';
+        atouColor = CARDCOLOR.NONE;
        
         colorHitRule = false;
         isClosed = false;
@@ -196,7 +200,8 @@ public class Game {
         for (int i = 0; i < 5; i++) {
 	        gambler.hand[i] = new Card(context); // new card(masterApplet, -1);
 	        computer.hand[i] = playedOut;
-        }                     
+        }
+        schnapState = SCHNAPSTATE.NONE;
         mqueue.insert(context.getResources().getString(R.string.ending_game));
 	}
 
@@ -317,9 +322,12 @@ public class Game {
                 assignedCard = set[++index];
                 gambler.assignCard(assignedCard);
             }
-            if (index == 17)
+            if (index == 17) {
+                schnapState = SCHNAPSTATE.TALON_ONE_REMAINS;
                 atouChanged = true;
+            }
             if (index == 19) {
+                schnapState = SCHNAPSTATE.TALON_CONSUMED;
                 lastCard = true;
                 colorHitRule = true;
             }
@@ -349,11 +357,36 @@ public class Game {
         }
         //endregion
 
+        int cBestCloseCard = -1;
         //region has20_has40
         if ((i = computer.has20()) > 0) {
             // if ((i > 1) && (computer.pairs[1] != null && computer.pairs[1].atou))
-            if ((i > 1) && (computer.handpairs[1] == this.atouInGame))
+            if ((i > 1) && (computer.handpairs[1] == this.atouInGame()))
                 mark = 1;
+
+            // TODO: Computer closes game
+            int addPoints = (computer.handpairs[mark] == this.atouInGame()) ? 52 : 33;
+            if (!this.isClosed && !this.colorHitRule && schnapState == SCHNAPSTATE.GAME_STARTED &&
+                (computer.points + addPoints >= 66)) {
+                for (i = 0; i < 5; i++) {
+                    if (!computer.hand[i].isValidCard())
+                        continue;
+                    else if (computer.hand[i].cardValue.getValue() >= CARDVALUE.TEN.getValue()) {
+                        int bestIdx = gambler.bestInColorHitsContext(computer.hand[i]);
+                        if (gambler.hand[bestIdx].isValidCard() &&
+                                gambler.hand[bestIdx].getCardColor() == computer.hand[i].getCardColor() &&
+                                gambler.hand[bestIdx].getValue() < computer.hand[i].getValue()) {
+                            cBestCloseCard = i;
+                            break;
+                        }
+                    }
+                }
+                if (cBestCloseCard > -1) {
+                    computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.getValue();
+                    computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.getValue();
+                    return cBestCloseCard;
+                }
+            }
 
             for (j = 0; j < 5; j++) {
                 if ((computer.hand[j].color == computer.handpairs[mark]) &&
@@ -387,6 +420,27 @@ public class Game {
         //endregion
 
         computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.getValue();
+        // TODO: Computer closes game
+        if (!this.isClosed && !this.colorHitRule && (computer.points + 12 >= 66) &&
+                schnapState == SCHNAPSTATE.GAME_STARTED) {
+            for (i = 0; i < 5; i++) {
+                if (!computer.hand[i].isValidCard())
+                    continue;
+                else if (computer.hand[i].cardValue.getValue() >= CARDVALUE.TEN.getValue()) {
+                    int bestIdx = gambler.bestInColorHitsContext(computer.hand[i]);
+                    if (gambler.hand[bestIdx].isValidCard() &&
+                            gambler.hand[bestIdx].getCardColor() == computer.hand[i].getCardColor() &&
+                            gambler.hand[bestIdx].getValue() < computer.hand[i].getValue()) {
+                        cBestCloseCard = i;
+                        break;
+                    }
+                }
+            }
+            if (cBestCloseCard > -1) {
+                computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.getValue();
+                return cBestCloseCard;
+            }
+        }
 
         //region colorHitRule
         if (colorHitRule) {
@@ -400,7 +454,7 @@ public class Game {
                         int bestIdx = gambler.bestInColorHitsContext(computer.hand[i]);
 
                         if (gambler.hand[bestIdx].isValidCard() && !gambler.hand[bestIdx].isAtou() &&
-                                gambler.hand[bestIdx].getColor() == computer.hand[i].getColor() &&
+                                gambler.hand[bestIdx].getCardColor() == computer.hand[i].getCardColor() &&
                                 gambler.hand[bestIdx].getValue() < computer.hand[i].getValue()) {
                             return i;
                         }
@@ -414,7 +468,7 @@ public class Game {
                     int bestIdx = gambler.bestInColorHitsContext(computer.hand[i]);
 
                     if (gambler.hand[bestIdx].isValidCard() &&
-                            gambler.hand[bestIdx].getColor() == computer.hand[i].getColor() &&
+                            gambler.hand[bestIdx].getCharColor() == computer.hand[i].getCharColor() &&
                             gambler.hand[bestIdx].getValue() < computer.hand[i].getValue()) {
                         return i;
                     }
@@ -507,6 +561,14 @@ public class Game {
             default: break;
         }
         return "NoColor";
+    }
+
+    /**
+     * atouInGame
+     * @return char for CARDCOLOR of atou in game
+     */
+    public char atouInGame() {
+        return (char)atouColor.getValue();
     }
 
     /**

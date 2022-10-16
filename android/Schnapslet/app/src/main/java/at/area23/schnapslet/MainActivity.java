@@ -267,7 +267,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             globalVariable.setLocale(aLocale);
             // Adjust language for text to speach
             // text2Speach.setLanguage(globalVariable.getLocale());
-            showAtouCard();
+            showAtouCard(aGame.schnapState);
             showPlayersCards();
             showPlayedOutCards();
         }
@@ -304,15 +304,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 aGame.shouldContinue = false;
             bContinue.setEnabled(false);
 
-            if (imTalon.getVisibility() != View.VISIBLE)
-                imTalon.setVisibility(View.VISIBLE);
-
-            try {
-                imTalon.setImageResource(R.drawable.t);
-                imAtou.setImageResource(R.drawable.n0);
-            } catch (Exception ex) {
-                this.errHandler(ex);
-            }
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
         }
 
         if (level >= 2) {
@@ -356,10 +349,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     protected void mergeCardAnim(boolean startMergeAnim) {
         if (startMergeAnim) {
             // animatedGif = null;
-            imTalon.setVisibility(View.INVISIBLE);
-            imAtou.setVisibility(View.INVISIBLE);
-            talonCard.setVisibility(View.INVISIBLE);
-            atouCard.setVisibility(View.INVISIBLE);
+            showAtouCard(SCHNAPSTATE.MERGING_CARDS);
+            showTalonCard(SCHNAPSTATE.MERGING_CARDS);
             imMerge.setVisibility(View.VISIBLE);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 try {
@@ -376,9 +367,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 } catch (Exception exCraw) {
                     this.errHandler(exCraw);
                 }
-                if (animatedGif != null) {
-                    saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
-                }
+                // if (animatedGif != null)
+                //     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
             }
             frameAnimation = (AnimationDrawable)imMerge.getBackground();
             frameAnimation.start();
@@ -389,10 +379,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 if (animatedGif != null)
                     animatedGif.stop();
             }
-            imTalon.setVisibility(View.VISIBLE);
-            imAtou.setVisibility(View.VISIBLE);
-            talonCard.setVisibility(View.VISIBLE);
-            atouCard.setVisibility(View.VISIBLE);
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
             imMerge.setVisibility(View.INVISIBLE);
         }
     }
@@ -401,27 +389,44 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     /**
      * showTalonCard - shows current talon card
      */
-    protected void showTalonCard() {
+    protected void showTalonCard(SCHNAPSTATE gameState) {
         try {
-            imTalon.setImageResource (R.drawable.t);
+            if (gameState.getValue() < 6) {
+                imTalon.setImageResource(R.drawable.t);
+                imTalon.setVisibility(View.VISIBLE);
+                talonCard.setVisibility(View.VISIBLE);
+            }
+            else  {
+                imTalon.setImageResource(R.drawable.e1);
+                imTalon.setVisibility(View.INVISIBLE);
+                talonCard.setVisibility(View.INVISIBLE);
+            }
         } catch (Exception imTalonEx) {
-            System.err.println(imTalonEx);
-            imTalonEx.printStackTrace();
+            this.errHandler(imTalonEx);
         }
-        imTalon.setVisibility(View.VISIBLE);
     }
 
     /**
      * showAtouCard - shows current atou card => needed when changing locale and card set
      */
-    protected void showAtouCard() {
+    protected void showAtouCard(SCHNAPSTATE gameState) {
         try {
-            // imAtou.setImageResource(aGame.set[19].getResourcesInt());
-            imAtou.setImageDrawable(aGame.set[19].getDrawable());
+            if (gameState.getValue() < 6) {
+                if (gameState == SCHNAPSTATE.GAME_CLOSED ||
+                        gameState == SCHNAPSTATE.GAME_START)
+                    imAtou.setImageResource(R.drawable.n1);
+                else
+                    imAtou.setImageDrawable(aGame.set[19].getDrawable());
+                imAtou.setVisibility(View.VISIBLE);
+                atouCard.setVisibility(View.VISIBLE);
+            } else {
+                imAtou.setImageResource(R.drawable.e1);
+                imAtou.setVisibility(View.INVISIBLE);
+                atouCard.setVisibility(View.INVISIBLE);
+            }
         } catch (Exception exp) {
             this.errHandler(exp);
         }
-
     }
 
     /**
@@ -445,7 +450,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     aGame.gambler.hand[0] : aGame.emptyTmpCard;
             playerCard0.setVisibility(View.VISIBLE);
             playerCard0.setBackground(normalShape);
-
             im0.setBackground(normalShape);
             im0.setImageDrawable(handCard.getDrawable());
             im0.setVisibility(View.VISIBLE);
@@ -454,7 +458,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     aGame.gambler.hand[1] : aGame.emptyTmpCard;
             playerCard1.setVisibility(View.VISIBLE);
             playerCard1.setBackground(normalShape);
-
             im1.setBackground(normalShape);
             im1.setImageDrawable(handCard.getDrawable());
             im1.setVisibility(View.VISIBLE);
@@ -463,7 +466,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 aGame.gambler.hand[2] :  aGame.emptyTmpCard;
             playerCard2.setVisibility(View.VISIBLE);
             playerCard2.setBackground(normalShape);
-            // im2.setImageResource(handCard.getResourcesInt());
             im2.setBackground(normalShape);
             im2.setImageDrawable(handCard.getDrawable());
             im2.setVisibility(View.VISIBLE);
@@ -472,8 +474,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     aGame.gambler.hand[3] : aGame.emptyTmpCard;
             playerCard3.setVisibility(View.VISIBLE);
             playerCard3.setBackground(normalShape);
-            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
-            // im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
             im3.setBackground(normalShape);
             im3.setImageDrawable(handCard.getDrawable());
             im3.setVisibility(View.VISIBLE);
@@ -482,8 +482,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                  aGame.gambler.hand[4] : aGame.emptyTmpCard;
             playerCard4.setVisibility(View.VISIBLE);
             playerCard4.setBackground(normalShape);
-            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
-            // im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
             im4.setBackground(normalShape);
             im4.setImageDrawable(handCard.getDrawable());
             im4.setVisibility(View.VISIBLE);
@@ -517,13 +515,13 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imageCOut1.setImageDrawable(computerPlayedOut.getDrawable());
         for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
             if (computerPlayedOut.getValue() == 3 &&
-                    aGame.computer.hand[ci].getColor() == computerPlayedOut.getColor() &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
                     aGame.computer.hand[ci].getValue() == 4) {
                 imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
                 break;
             }
             if (computerPlayedOut.getValue() == 4 &&
-                    aGame.computer.hand[ci].getColor() == computerPlayedOut.getColor() &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
                     aGame.computer.hand[ci].getValue() == 3) {
                 imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
                 break;
@@ -552,29 +550,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         mergeCardAnim(false);
 
-        try {
-            // im0.setImageResource(aGame.gambler.hand[0].getResourcesInt());
-            im0.setImageDrawable(aGame.gambler.hand[0].getDrawable());
-            // im1.setImageResource(aGame.gambler.hand[1].getResourcesInt());
-            im1.setImageDrawable(aGame.gambler.hand[1].getDrawable());
-            Thread.sleep(100);
-            // im2.setImageResource(aGame.gambler.hand[2].getResourcesInt());
-            im2.setImageDrawable(aGame.gambler.hand[2].getDrawable());
-            imAtou.setVisibility(View.VISIBLE);
-            Thread.sleep(100);
-            // im3.setImageResource(aGame.gambler.hand[3].getResourcesInt());
-            im3.setImageDrawable(aGame.gambler.hand[3].getDrawable());
-            // im4.setImageResource(aGame.gambler.hand[4].getResourcesInt());
-            im4.setImageDrawable(aGame.gambler.hand[4].getDrawable());
-        } catch (Exception ext) {
-            this.errHandler(ext);
-        }
-
-        atouCard.setVisibility(View.VISIBLE);
-        talonCard.setVisibility(View.VISIBLE);
-        imAtou.setVisibility(View.VISIBLE);
-        imTalon.setVisibility(View.VISIBLE);
-
+        showPlayersCards();
         resetButtons(1);
 
         tDbg.setText("");
@@ -582,8 +558,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
         tPoints.setText(String.valueOf(aGame.gambler.points));
-        showAtouCard();
-        showTalonCard();
+        showAtouCard(aGame.schnapState);
+        showTalonCard(aGame.schnapState);
 
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(true);
@@ -592,39 +568,41 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         gameTurn(0);
     }
 
+
     /**
      * close that game
+     *
+     * @param who boolean - true for player, false for computer
      */
-    protected void closeGame() { //	Implementierung des Zudrehens
+    protected void closeGame(boolean who) { //	Implementierung des Zudrehens
         if (!aGame.isGame || aGame.gambler == null) {
             setTextMessage(getString(R.string.nogame_started));
             return;
         }
-        setTextMessage(getString(R.string.player_closed_game));
-        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
 
-        try {
-            imTalon.setImageResource(R.drawable.t);
-            imTalon.setVisibility(View.VISIBLE);
-        } catch (Exception jbpvex) {
-            this.errHandler(jbpvex);
-        }
-
-        try {
-            imAtou.setImageResource(R.drawable.n0);
-        } catch (Exception jbpvex) {
-            this.errHandler(jbpvex);
-        }
-
+        aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
         aGame.colorHitRule = true;
         aGame.isClosed = true;
-        aGame.gambler.hasClosed = true;
-
         if (!aGame.atouChanged) {
             aGame.atouChanged = true;
         }
-        gameTurn(0);
+        if (who) {
+            setTextMessage(getString(R.string.player_closed_game));
+            saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
+            aGame.gambler.hasClosed = true;
+        } else {
+            setTextMessage(getString(R.string.computer_closed_game));
+            aGame.computer.hasClosed = true;
+        }
+
+        showTalonCard(aGame.schnapState);
+        showAtouCard(aGame.schnapState);
+
+        if (who) {
+            gameTurn(0);
+        }
     }
+
 
     /**
      * a turn in game
@@ -680,9 +658,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             ccard = aGame.computerStarts();
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
-                this.showAtouCard();
+                this.showAtouCard(aGame.schnapState);
                 outPutMessage += getString(R.string.computer_changes_atou);
-                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
@@ -690,15 +667,23 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
                 computerSaid20 = true;
                 String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
-                saySchnapser(SCHNAPSOUNDS.NONE, computerSaysPair);
                 outPutMessage = outPutMessage + " " + computerSaysPair;
             }
             setTextMessage(outPutMessage);
+            saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
                 ready = false;
                 return;
+            }
+
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CLOSESGAME.getValue()) == PLAYEROPTIONS.CLOSESGAME.getValue()) {
+                aGame.isClosed = true;
+                outPutMessage += getString(R.string.computer_closed_game);
+                setTextMessage(outPutMessage);
+                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+                closeGame(false);
             }
 
             try {
@@ -753,7 +738,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         ready = false;
 
         if (who) {
-            if (aGame.said == aGame.atouInGame) {
+            if (aGame.said == aGame.atouInGame()) {
                 andEnough = getString(R.string.fourty_and_enough);
             }
             try {
@@ -776,7 +761,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
 
         } else {
-            if (aGame.csaid == aGame.atouInGame) {
+            if (aGame.csaid == aGame.atouInGame()) {
                 andEnough = getString(R.string.fourty_and_enough);
             }
             try {
@@ -850,11 +835,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.assignNextCard(assignedCard)) {
             /* NOW WE HAVE NO MORE TALON */
             try {
-                imTalon.setImageResource(R.drawable.e1);
-                imTalon.setVisibility(View.INVISIBLE);
-                imAtou.setImageResource(R.drawable.e1);
-                atouCard.setVisibility(View.INVISIBLE);
-                imAtou.setVisibility(View.INVISIBLE);
+                showTalonCard(aGame.schnapState);
+                showAtouCard(aGame.schnapState);
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -931,11 +913,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         showPlayersCards();
         aGame.destroyGame();
 
-        imTalon.setImageResource(R.drawable.t);
-        imTalon.setVisibility(View.VISIBLE);
-        imAtou.setVisibility(View.VISIBLE);
-        atouCard.setVisibility(View.VISIBLE);
-        imAtou.setImageResource(R.drawable.n0);
         mergeCardAnim(true);
     }
 
@@ -1006,7 +983,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             saySchnapser(SCHNAPSOUNDS.CHANGE_ATOU, getString(R.string.bChange_text));
 
             bChange.setEnabled(false);
-            showAtouCard();
+            showAtouCard(aGame.schnapState);
             showPlayersCards();
             gameTurn(1);
         } catch (Exception e) {
@@ -1025,7 +1002,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             String sayPair;
             aGame.said = aGame.gambler.handpairs[0];
-            if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
+            if (aGame.gambler.handpairs[0] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
                 sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             } else {
@@ -1043,10 +1020,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
-                if (aGame.gambler.handpairs[0] == aGame.atouInGame)
-                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
-                else
-                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                 twentyEnough(true);
             }
         } catch (Exception e) {
@@ -1065,7 +1038,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             String sayPair;
             aGame.said = aGame.gambler.handpairs[1];
-            if (aGame.gambler.handpairs[1] == aGame.atouInGame) {
+            if (aGame.gambler.handpairs[1] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
                 sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             }
@@ -1084,10 +1057,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
-                if (aGame.gambler.handpairs[1] == aGame.atouInGame)
-                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
-                else
-                    saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                 twentyEnough(true);
             }
         } catch (Exception e) {
@@ -1350,7 +1319,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         }
                         pSaid = true;
                         resetButtons(0);
-                        aGame.said = dropCard.getColor();
+                        aGame.said = dropCard.getCharColor();
 
                         String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
                         setTextMessage(sayMarriage);
@@ -1360,10 +1329,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
                         tPoints.setText(String.valueOf(aGame.gambler.points));
                         if (aGame.gambler.points > 65) {
-                            if (dropCard.isAtou())
-                                saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.fourty_and_enough));
-                            else
-                                saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.twenty_and_enough));
                             twentyEnough(true);
                         }
 
@@ -1445,7 +1410,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             if (ic == 10) {
                 if (aGame.playersTurn && (!aGame.isClosed) &&  (!pSaid) && (aGame.index < 16)) {
-                    closeGame();
+                    closeGame(true);
                 }
                 return;
             }
@@ -1456,7 +1421,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 return;
             }
             if (pSaid) {
-                if ((aGame.said == aGame.gambler.hand[ic].getColor()) &&
+                if ((aGame.said == aGame.gambler.hand[ic].getCharColor()) &&
                         (aGame.gambler.hand[ic].getValue() > 2) &&
                         (aGame.gambler.hand[ic].getValue() < 5)) {
                     ; // we can continue

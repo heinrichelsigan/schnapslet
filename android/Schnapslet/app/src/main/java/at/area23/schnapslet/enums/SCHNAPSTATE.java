@@ -17,24 +17,33 @@
 */
 package at.area23.schnapslet.enums;
 
+import java.lang.String;
+
 /**
- * PLAYEROPTIONS enum represents possible options of playing.
+ * SCHNAPSTATE enum represents game state in schnapsen
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public enum PLAYEROPTIONS {
+public enum SCHNAPSTATE {
 
-	CHANGEATOU(1),
-	CLOSESGAME(2),
-	SAYPAIR(4),
-	PLAYSCARD(8),
-	HITSCARD(16),
-	ANDENOUGH(32);
-	
+	GAME_START(0),
+	GAME_STARTED(1),
+	COLOR_HIT_RULE(2),
+	GAME_CLOSED(3),
+	TALON_ONE_REMAINS(5),
+	TALON_CONSUMED(7),
+	GAME_STOP(8),
+	MERGING_CARDS(16),
+	MERGE_PLAYER(32),
+	MERGE_COMPUTER(64),
+	STARTS_SPLIT_TALON(256),
+	STARTS_FIST_TALON(512),
+	NONE(1023);
+
 	/**
 	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
 	 */
-	PLAYEROPTIONS(int value) {
+	SCHNAPSTATE(int value) {
 		this.value = value;
 	}
 
@@ -43,10 +52,7 @@ public enum PLAYEROPTIONS {
 	public int getValue() {
 		return value;
 	}
+
+	public String getName() { return this.name(); }
 }
-
-
-
-	
-
 

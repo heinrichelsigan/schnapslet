@@ -47,6 +47,7 @@
     <string name="nogame_started">Kein Spiel gestartet!</string>
     <string name="close_game">Zudrehen</string>
     <string name="player_closed_game">Spieler dreht zu !</string>
+    <string name="computer_closed_game">Computer dreht zu !</string>
     <string name="say_pair">ansagen</string>
     <string name="no_second_pair">kein 2. Paar</string>
     <string name="toplayout_clickon_card">Zum Auspielen einfach auf die entsprechende Karte klicken</string>

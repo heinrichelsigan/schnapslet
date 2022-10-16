@@ -47,6 +47,7 @@
     <string name="nogame_started">No game has been started!</string>
     <string name="close_game">closes game</string>
     <string name="player_closed_game">Player closes game!</string>
+    <string name="computer_closed_game">Computer closes game !</string>
     <string name="say_pair">say pair</string>
     <string name="no_second_pair">no second pair</string>
     <string name="toplayout_clickon_card">Click on card symbol to play out that card.</string>

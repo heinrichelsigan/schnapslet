@@ -47,6 +47,7 @@
     <string translatable="true" name="nogame_started">No game has been started!</string>
     <string translatable="true" name="close_game">closes game</string>
     <string translatable="true" name="player_closed_game">Player closes game!</string>
+    <string translatable="true" name="computer_closed_game">Computer closes game !</string>
     <string translatable="true" name="say_pair">say pair</string>
     <string translatable="true" name="no_second_pair">no second pair</string>
     <string translatable="true" name="toplayout_clickon_card">Click on card symbol to play out that card.</string>

@@ -291,12 +291,21 @@ public class Card {
     public String getName() {
         return this.name;
     }
- 
+
     /**
-     * liefert die Farbe der Karte
+     * getCharColor
+     * @return char of cardColor
      */
-    public char getColor() {
+    public char getCharColor() {
         return (char)cardColor.getValue();
+    }
+
+    /**
+     * getCardColor
+     * @return CARDCOLOR
+     */
+    public CARDCOLOR getCardColor() {
+        return cardColor;
     }
 
     /**

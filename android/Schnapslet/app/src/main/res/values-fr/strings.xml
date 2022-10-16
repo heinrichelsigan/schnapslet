@@ -47,6 +47,7 @@
     <string name="nogame_started">aucune partie commencée!!</string>
     <string name="close_game">on annonce la clôture</string>
     <string name="player_closed_game">joueur annonce la clôture!</string>
+    <string name="computer_closed_game">l\'ordinateur  annonce la clôture!</string>
     <string name="say_pair">annonce mariage</string>
     <string name="no_second_pair">pas de 2ème paire</string>
     <string name="toplayout_clickon_card">pour jouer, il vous suffit de cliquer sur la carte appropriée</string>

@@ -297,7 +297,7 @@ public class Player {
 
         for (i = 0; i < 5; i++) {
             if (hand[i].isValidCard()) {
-                if (hand[i].getColor() == otherCard.getColor())
+                if (hand[i].getCardColor() == otherCard.getCardColor())
                     return false;
             }
         }
