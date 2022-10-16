@@ -269,7 +269,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             //Overwrites application locale in GlobalAppSettings with english
             globalVariable.setLocale(aLocale);
             // Adjust language for text to speach
-            text2Speach.setLanguage(globalVariable.getLocale());
+            // text2Speach.setLanguage(globalVariable.getLocale());
             showAtouCard();
             showPlayersCards();
             showPlayedOutCards();
