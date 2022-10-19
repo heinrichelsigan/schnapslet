@@ -22,6 +22,11 @@
     <string name="tDbg_text"></string>
     <string name="imOut0_text">Ausspiel Karte</string>
     <string name="imOut1_text">Antwort Karte</string>
+    <string name="imgCOut0_text">Compute4karte 0</string>
+    <string name="imgCOut1_text">Compute4karte 1</string>
+    <string name="imgCOut2_text">Compute4karte 2</string>
+    <string name="imgCOut3_text">Compute4karte 3</string>
+    <string name="imgCOut4_text">Compute4karte 4</string>
     <string name="imAtou_text">Atou Karte</string>
     <string name="imTalon_text">Talon Karte</string>
     <string name="imMerge_text">Mischen Animation</string>

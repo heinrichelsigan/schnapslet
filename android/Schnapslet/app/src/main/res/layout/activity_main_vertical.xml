@@ -24,101 +24,111 @@
             android:minHeight="96dp">
 
             <LinearLayout
-                android:id="@+id/linearLayoutCCard1"
+                android:id="@+id/linLayoutCard0"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp">
-
                 <ImageView
-                    android:id="@+id/imageCOut1"
+                    android:id="@+id/imgCCut0"
+                    android:contentDescription="@string/imgCOut0_text"
+                    android:src="@drawable/e"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
-                    android:contentDescription="@string/imOut1_text"
-                    android:minWidth="72dp"
                     android:minHeight="96dp"
-                    android:src="@drawable/e"
-                    android:visibility="visible" />
+                    android:minWidth="72dp"
+                    android:visibility="visible"
+                    />
             </LinearLayout>
-
             <LinearLayout
-                android:id="@+id/linearLayoutCCard0"
+                android:id="@+id/linLayoutCard1"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="72dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginTop="0dp">
-
                 <ImageView
-                    android:id="@+id/imageCOut0"
+                    android:id="@+id/imgCCut1"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
-                    android:contentDescription="@string/imOut0_text"
+                    android:contentDescription="@string/imgCOut1_text"
                     android:minWidth="72dp"
                     android:minHeight="96dp"
                     android:src="@drawable/e" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutCard2"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="0dp">
+                <ImageView
+                    android:id="@+id/imgCCut2"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/e" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutCard3"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="180dp"
+                android:layout_marginTop="0dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imgCCut3"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minWidth="72dp"
+                    android:minHeight="96dp"
+                    android:src="@drawable/e" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutCard4"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="240dp"
+                android:layout_marginTop="0dp"
+                android:visibility="invisible">
+                <ImageView
+                    android:id="@+id/imgCCut4"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/e"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/bContinue"
                 android:layout_width="120dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="172dp"
+                android:layout_marginStart="298dp"
                 android:layout_marginTop="12dp"
                 android:enabled="true"
-                android:minWidth="96dp"
+                android:minWidth="108dp"
                 android:minHeight="32dp"
                 android:text="@string/bContinue_text"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tRest"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="200dp"
-                android:layout_marginTop="54dp"
-                android:minWidth="32dp"
-                android:minHeight="32dp"
-                android:text="@string/tRest_text"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:tooltipText="@string/sRest" />
-
-            <TextView
-                android:id="@+id/tPoints"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="240dp"
-                android:layout_marginTop="54dp"
-                android:minWidth="32dp"
-                android:minHeight="32dp"
-                android:text="@string/tPoints_text"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:tooltipText="@string/sPoints" />
-
             <Button
-                android:id="@+id/b20a"
+                android:id="@+id/bChange"
                 android:layout_width="120dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="296dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="298dp"
+                android:layout_marginTop="48dp"
                 android:enabled="false"
-                android:minWidth="96dp"
+                android:minWidth="108dp"
                 android:minHeight="32dp"
-                android:text="@string/b20a_text"
+                android:text="@string/bChange_text"
                 android:textSize="11sp" />
 
-            <Button
-                android:id="@+id/b20b"
-                android:layout_width="120dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="296dp"
-                android:layout_marginTop="54dp"
-                android:enabled="false"
-                android:minWidth="120dp"
-                android:minHeight="32dp"
-                android:text="@string/b20b_text"
-                android:textSize="11sp" />
 
 
 
@@ -128,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="86dp"
             android:minWidth="300dp"
             android:minHeight="96dp">
 
@@ -136,7 +146,7 @@
                 android:id="@+id/playedCard1"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="1dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/imOut1"
@@ -152,7 +162,7 @@
                 android:id="@+id/playedCard0"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="74dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/imOut0"
@@ -168,7 +178,7 @@
                 android:id="@+id/imMerge"
                 android:layout_width="144dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="148dp"
+                android:layout_marginStart="144dp"
                 android:layout_marginTop="0dp"
                 android:contentDescription="@string/imMerge_text"
                 android:minWidth="144dp"
@@ -180,7 +190,7 @@
                 android:id="@+id/atouCard"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="224dp"
+                android:layout_marginStart="216dp"
                 android:layout_marginTop="0dp">
 
                 <ImageView
@@ -198,8 +208,8 @@
                 android:id="@+id/talonCard"
                 android:layout_width="96dp"
                 android:layout_height="72dp"
-                android:layout_marginStart="160dp"
-                android:layout_marginTop="14dp">
+                android:layout_marginStart="148dp"
+                android:layout_marginTop="12dp">
 
                 <ImageView
                     android:id="@+id/imTalon"
@@ -212,24 +222,65 @@
                     android:visibility="invisible" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tRest"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="296dp"
+                android:layout_marginTop="0dp"
+                android:minWidth="48dp"
+                android:minHeight="36dp"
+                android:text="@string/tRest_text"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:tooltipText="@string/sRest" />
+
+            <TextView
+                android:id="@+id/tPoints"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="344dp"
+                android:layout_marginTop="0dp"
+                android:minHeight="36dp"
+                android:minWidth="48dp"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:tooltipText="@string/sPoints"
+                android:text="@string/tPoints_text" />
+
             <Button
-                android:id="@+id/bChange"
+                android:id="@+id/b20a"
                 android:layout_width="120dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="298dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginStart="296dp"
+                android:layout_marginTop="35dp"
                 android:enabled="false"
-                android:minWidth="96dp"
+                android:minWidth="108dp"
                 android:minHeight="32dp"
-                android:text="@string/bChange_text"
+                android:text="@string/b20a_text"
                 android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/b20b"
+                android:layout_width="120dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="296dp"
+                android:layout_marginTop="64dp"
+                android:enabled="false"
+                android:minWidth="108dp"
+                android:minHeight="32dp"
+                android:text="@string/b20b_text"
+                android:textSize="11sp" />
+
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginTop="184dp"
             android:minWidth="380dp"
             android:minHeight="96dp">
@@ -254,7 +305,7 @@
                 android:id="@+id/playerCard1"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="72dp"
+                android:layout_marginStart="68dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/im1"
@@ -270,7 +321,7 @@
                 android:id="@+id/playerCard2"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="144dp"
+                android:layout_marginStart="136dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/im2"
@@ -286,7 +337,7 @@
                 android:id="@+id/playerCard3"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="216dp"
+                android:layout_marginStart="204dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/im3"
@@ -302,7 +353,7 @@
                 android:id="@+id/playerCard4"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="288dp"
+                android:layout_marginStart="272dp"
                 android:layout_marginTop="0dp">
                 <ImageView
                     android:id="@+id/im4"
@@ -319,21 +370,21 @@
         <TextView
             android:id="@+id/tMes"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginTop="282dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginTop="284dp"
             android:minWidth="320dp"
             android:minHeight="32dp"
             android:text="@string/tMes_text"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="324dp"
             android:minWidth="340dp"
             android:minHeight="192dp"
             android:textSize="12sp"

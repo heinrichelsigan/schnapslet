@@ -22,6 +22,11 @@
     <string name="tDbg_text"></string>
     <string name="imOut0_text">carte à jouer</string>
     <string name="imOut1_text">carte de réponse</string>
+    <string name="imgCOut0_text">carte d\'ordinateur 0</string>
+    <string name="imgCOut1_text">carte d\'ordinateur 1</string>
+    <string name="imgCOut2_text">carte d\'ordinateur 2</string>
+    <string name="imgCOut3_text">carte d\'ordinateur 3</string>
+    <string name="imgCOut4_text">carte d\'ordinateur 4</string>
     <string name="imAtou_text">carte d\'atou</string>
     <string name="imTalon_text">carte de talon</string>
     <string name="imMerge_text">animation de fusion</string>

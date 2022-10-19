@@ -22,6 +22,11 @@
     <string name="tDbg_text"></string>
     <string name="imOut0_text">Playout card</string>
     <string name="imOut1_text">Answer card</string>
+    <string name="imgCOut0_text">Computer card 0</string>
+    <string name="imgCOut1_text">Computer card 1</string>
+    <string name="imgCOut2_text">Computer card 2</string>
+    <string name="imgCOut3_text">Computer card 3</string>
+    <string name="imgCOut4_text">Computer card 4</string>
     <string name="imAtou_text">Atou card</string>
     <string name="imTalon_text">Talon card</string>
     <string name="imMerge_text">Merging animation</string>

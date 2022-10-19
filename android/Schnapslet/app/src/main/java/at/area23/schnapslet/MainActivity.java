@@ -79,7 +79,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
     Button b20a, b20b,  bChange, bContinue; // bStart, bStop, bHelp;
     ImageView im0,im1,im2, im3, im4,
-            imageCOut0, imageCOut1, imOut0, imOut1, imAtou, imTalon, imMerge;
+            imgCOut0, imgCOut1, imgCOut2, imgCOut3, imgCOut4,
+            imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
     // Menu myMenu;
 
@@ -87,9 +88,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     AnimatedImageDrawable animatedGif;
 
     LinearLayout playerCard0, playerCard1, playerCard2, playerCard3, playerCard4,
-        linearLayoutCCard0, linearLayoutCCard1, playedCard0, playedCard1, atouCard, talonCard;
+        linLayoutCard0, linLayoutCard1, linLayoutCard2, linLayoutCard3, linLayoutCard4,
+            playedCard0, playedCard1, atouCard, talonCard;
 
-    // long errNum = 0; // Errors Ticker
+    volatile int aStage = 4; // Errors Ticker
     int ccard; // Computers Card played
     volatile Card touchedCard, draggedCard, playedOutCard0, playedOutCard1;
     final Card assignedCard = null;
@@ -104,6 +106,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     // GlobalAppSettings globalVariable;
 
     private final static Handler setComputerPairHandler = new Handler(Looper.getMainLooper());
+    private final static Handler showComputer20Handler = new Handler(Looper.getMainLooper());
 
     /**
      * setComputerPair new Runnable() -> { reSetComputerPair(); }
@@ -113,6 +116,18 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         // @SuppressLint("InlinedApi")
         public void run() {
             reSetComputerPair();
+        }
+    };
+
+    /**
+     * rShowComputer20 new Runnable() -> { showComputer20(playedOutCard1, aStage); }
+     */
+    private final Runnable rShowComputer20 = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() {
+            aStage = (aStage < 0) ? 4 : aStage;
+            showComputer20(playedOutCard1, aStage);
         }
     };
 
@@ -141,12 +156,18 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         globalVariable = (GlobalAppSettings) getApplicationContext();
 
-        linearLayoutCCard0 = (LinearLayout) findViewById(R.id.linearLayoutCCard0);
-        linearLayoutCCard1 = (LinearLayout) findViewById(R.id.linearLayoutCCard1);
+        linLayoutCard0 = (LinearLayout) findViewById(R.id.linLayoutCard0);
+        linLayoutCard1 = (LinearLayout) findViewById(R.id.linLayoutCard1);
+        linLayoutCard2 = (LinearLayout) findViewById(R.id.linLayoutCard2);
+        linLayoutCard3 = (LinearLayout) findViewById(R.id.linLayoutCard3);
+        linLayoutCard4 = (LinearLayout) findViewById(R.id.linLayoutCard4);
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
-        linearLayoutCCard0.setVisibility(View.INVISIBLE);
-        linearLayoutCCard1.setVisibility(View.INVISIBLE);
         atouCard = (LinearLayout) findViewById(R.id.atouCard);
         talonCard = (LinearLayout) findViewById(R.id.talonCard);
         playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
@@ -161,8 +182,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         im3 = (ImageView) findViewById(R.id.im3);
         im4 = (ImageView) findViewById(R.id.im4);
 
-        imageCOut0 = (ImageView) findViewById(R.id.imageCOut0);
-        imageCOut1 = (ImageView) findViewById(R.id.imageCOut1);
+        imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
+        imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
+        imgCOut2 = (ImageView) findViewById(R.id.imgCOut2);
+        imgCOut3 = (ImageView) findViewById(R.id.imgCOut3);
+        imgCOut4 = (ImageView) findViewById(R.id.imgCOut4);
         imOut0 = (ImageView) findViewById(R.id.imOut0);
         imOut1 = (ImageView) findViewById(R.id.imOut1);
         imTalon = (ImageView) findViewById(R.id.imTalon);
@@ -334,12 +358,23 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imTalon.setImageResource(R.drawable.t);
         imOut0.setImageResource(R.drawable.e);
         imOut1.setImageResource(R.drawable.e);
-        imageCOut0.setImageResource(R.drawable.e);
-        imageCOut0.setImageResource(R.drawable.e);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
+        imgCOut2.setImageResource(R.drawable.e);
+        imgCOut3.setImageResource(R.drawable.e);
+        imgCOut4.setImageResource(R.drawable.e);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
         playedOutCard0 = null;
         playedOutCard1 = null;
+    }
+
+    /**
+     * gameStartAnimation - starts game with animation of splitting or knocking
+     * @param splitKnock - boolean true for split, false for knock
+     */
+    protected void gameStartAnimation(boolean splitKnock) {
+        startGame();
     }
 
     /**
@@ -384,7 +419,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             imMerge.setVisibility(View.INVISIBLE);
         }
     }
-
 
     /**
      * showTalonCard - shows current talon card
@@ -495,40 +529,91 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * reSetComputerPair resets computer pair images and linear layout placeholder
      */
     protected void reSetComputerPair() {
-        linearLayoutCCard0.setVisibility(View.INVISIBLE);
-        linearLayoutCCard1.setVisibility(View.INVISIBLE);
-        imageCOut0.setImageResource(R.drawable.e);
-        imageCOut0.setImageResource(R.drawable.e);
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
 
         imOut1.setImageDrawable(playedOutCard1.getDrawable());
     }
+
 
     /**
      * showComputer20 shows computer pair, when computer has 20 or 40
      *
      * @param computerPlayedOut
+     * @param stage - int stage
      */
-    protected void showComputer20(Card computerPlayedOut) {
-        linearLayoutCCard0.setVisibility(View.VISIBLE);
-        linearLayoutCCard1.setVisibility(View.VISIBLE);
+    protected void showComputer20(Card computerPlayedOut, int stage) {
+        aStage = (stage >= 0) ? stage : aStage;
+        if (computerPlayedOut == null)
+            computerPlayedOut = playedOutCard1;
+        ImageView imCOut0 = imgCOut0;
+        ImageView imCOut1 = imgCOut1;
 
-        imageCOut1.setImageDrawable(computerPlayedOut.getDrawable());
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+
+        switch (aStage) {
+            case 0:
+            case 1:
+                linLayoutCard0.setVisibility(View.VISIBLE);
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut0;
+                imCOut1 = imgCOut1;
+                break;
+            case 2:
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut1;
+                imCOut1 = imgCOut2;
+                break;
+            case 3:
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut2;
+                imCOut1 = imgCOut3;
+                break;
+            case 4:
+            default:
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                linLayoutCard4.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut3;
+                imCOut1 = imgCOut4;
+                break;
+        }
+
         for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
             if (computerPlayedOut.getValue() == 3 &&
                     aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
                     aGame.computer.hand[ci].getValue() == 4) {
-                imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                imCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                imCOut1.setImageDrawable(computerPlayedOut.getDrawable());
                 break;
             }
             if (computerPlayedOut.getValue() == 4 &&
                     aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
                     aGame.computer.hand[ci].getValue() == 3) {
-                imageCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                imCOut0.setImageDrawable(computerPlayedOut.getDrawable());
+                imCOut1.setImageDrawable(aGame.computer.hand[ci].getDrawable());
                 break;
             }
         }
 
-        setComputerPairHandler.postDelayed(setComputerPair, 750);
+        aStage--;
+        if (aStage >= 0) {
+            showComputer20Handler.postDelayed(rShowComputer20, 800);
+        }
+        else {
+            imOut1.setImageDrawable(computerPlayedOut.getDrawable());
+            setComputerPairHandler.postDelayed(setComputerPair, 750);
+        }
     }
 
     /**
@@ -689,7 +774,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             try {
                 playedOutCard1 = aGame.computer.hand[ccard];
                 if (computerSaid20)
-                    showComputer20(playedOutCard1);
+                    showComputer20(playedOutCard1, 4);
                 else
                     imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
@@ -901,7 +986,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(false);
         }
-        aGame.stopGame();
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.stopGame();
 
         resetButtons(levela);
 
@@ -911,7 +997,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         }
 
         showPlayersCards();
-        aGame.destroyGame();
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.destroyGame();
 
         mergeCardAnim(true);
     }
@@ -943,7 +1030,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
         playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
 
-
         bChange = (Button) findViewById(R.id.bChange);
         bChange.setOnClickListener(this::bChange_Clicked);
         b20a = (Button) findViewById(R.id.b20a);
@@ -971,6 +1057,43 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         imAtou = (ImageView) findViewById(R.id.imAtou);
         imAtou.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 10));
+
+        imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
+        imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
+        imOut0 = (ImageView) findViewById(R.id.imOut0);
+        imOut0.setOnClickListener(argß -> imOut_Click(argß));
+        imOut1 = (ImageView) findViewById(R.id.imOut1);
+        imOut1.setOnClickListener(argß -> imOut_Click(argß));
+        imMerge = (ImageView) findViewById(R.id.imMerge);
+        imMerge.setOnClickListener(argß -> imMerge_Click(argß));
+    }
+
+    /**
+     * imOut_Click at reset game
+     * @param arg0 View
+     */
+    public void imOut_Click(View arg0) {
+        if (arg0 == null || arg0.getVisibility() == View.INVISIBLE)
+            return;
+        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut0 || arg0.getTag() == "imOut0_tag")) {
+            if (!bContinue.isEnabled())
+                stopGame(2);
+        }
+
+        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut1 || arg0.getTag() == "imOut1_tag")) {
+            stopGame(2);
+            if (!bContinue.isEnabled())
+                stopGame(2);
+        }
+    }
+
+    /**
+     * imMerge_Click
+     * @param arg0 view that was clicked
+     */
+    public void imMerge_Click(View arg0) {
+        if (arg0 == null && arg0.getVisibility() == View.VISIBLE)
+            gameStartAnimation(true);
     }
 
     /**

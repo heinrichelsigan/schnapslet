@@ -22,6 +22,11 @@
     <string translatable="true" name="tDbg_text"></string>
     <string translatable="true" name="imOut0_text">Playout card</string>
     <string translatable="true" name="imOut1_text">Answer card</string>
+    <string translatable="true" name="imgCOut0_text">Computer card 0</string>
+    <string translatable="true" name="imgCOut1_text">Computer card 1</string>
+    <string translatable="true" name="imgCOut2_text">Computer card 2</string>
+    <string translatable="true" name="imgCOut3_text">Computer card 3</string>
+    <string translatable="true" name="imgCOut4_text">Computer card 4</string>
     <string translatable="true" name="imAtou_text">Atou card</string>
     <string translatable="true" name="imTalon_text">Talon card</string>
     <string translatable="true" name="imMerge_text">Merging animation</string>

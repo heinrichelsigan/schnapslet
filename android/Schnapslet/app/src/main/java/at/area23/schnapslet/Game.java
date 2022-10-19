@@ -198,8 +198,10 @@ public class Game {
         isClosed = false;
         playedOut = new Card(context); // new Card(masterApplet, -1);
         for (int i = 0; i < 5; i++) {
-	        gambler.hand[i] = new Card(context); // new card(masterApplet, -1);
-	        computer.hand[i] = playedOut;
+            if (gambler != null && gambler.hand != null)
+	            gambler.hand[i] = new Card(context); // new card(masterApplet, -1);
+            if (computer != null && computer.hand != null)
+                computer.hand[i] = playedOut;
         }
         schnapState = SCHNAPSTATE.NONE;
         mqueue.insert(context.getResources().getString(R.string.ending_game));
