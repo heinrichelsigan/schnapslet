@@ -10,7 +10,12 @@ gradle
 /.idea/assetWizardSettings.xml
 /.idea/shelf/
 .DS_Store
-/build
+/app/build/generated
+/app/build/intermediates
+/app/build/tmp
+/app/build/outputs/logs
+/app/build/outputs/mapping
+/app/build/outputs/sdk-dependencies
 /captures
 .externalNativeBuild
 

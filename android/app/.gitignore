@@ -1,1 +1,7 @@
-/build
+/build/generated
+/build/intermediates
+/build/tmp
+/build/outputs/logs
+/build/outputs/mapping
+/build/outputs/sdk-dependencies
+

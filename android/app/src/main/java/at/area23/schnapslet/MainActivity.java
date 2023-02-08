@@ -1,13 +1,12 @@
 /*
-*
-* @author           Heinrich Elsigan
-* @version          V 1.3.4
-* @since            JDK 1.2.1
-*
-
-*/
+ *
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
+ *
+ */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -18,35 +17,57 @@
 */
 package at.area23.schnapslet;
 
+// import android.app.Activity;
 import android.content.ClipData;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.ImageDecoder;
-import android.graphics.drawable.AnimatedImageDrawable;
+import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.AnimatedImageDrawable;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+// import android.support.annotation.DrawableRes;
+// import android.support.v4.content.ContextCompat;
+// import android.support.v4.content.res.ResourcesCompat;
+// import android.support.v13.view.DragAndDropPermissionsCompat;
+// import android.support.v13.view.DragStartHelper;
+// import android.support.v7.app.AppCompatActivity;
+import android.speech.tts.TextToSpeech;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.DragShadowBuilder;
+import android.view.View.OnDragListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.*;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.HashMap;
 import java.util.Locale;
 
-import at.area23.schnapslet.game.Game;
-import at.area23.schnapslet.game.Card;
-import at.area23.schnapslet.constenum.CARDVALUE;
-import at.area23.schnapslet.constenum.PLAYEROPTIONS;
+import at.area23.schnapslet.constenum.SCHNAPSTATE;
+import at.area23.schnapslet.constenum.*;
 
 /**
  * MainActivity class implements the MainActivity.
@@ -55,17 +76,24 @@ import at.area23.schnapslet.constenum.PLAYEROPTIONS;
  */
 public class MainActivity extends BaseAppActivity implements Runnable {
 
+    private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
     Button b20a, b20b,  bChange, bContinue; // bStart, bStop, bHelp;
-    ImageView im0,im1,im2, im3, im4, imOut0, imOut1, imTalon, imAtou, imMerge;
+    ImageView im0,im1,im2, im3, im4,
+            imgCOut0, imgCOut1, imgCOut2, imgCOut3, imgCOut4,
+            imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
-    LinearLayout playedCard0, playedCard1, atouCard, talonCard, playerCard0, playerCard1, playerCard2, playerCard3, playerCard4;
-    // android.graphics.drawable.AnimatedImageDrawable animatedGif;
+    // Menu myMenu;
 
-    long errNum = 0; // Errors Ticker
+    AnimationDrawable frameAnimation;
+    AnimatedImageDrawable animatedGif;
+
+    LinearLayout playerCard0, playerCard1, playerCard2, playerCard3, playerCard4,
+        linLayoutCard0, linLayoutCard1, linLayoutCard2, linLayoutCard3, linLayoutCard4,
+            playedCard0, playedCard1, atouCard, talonCard;
+
+    volatile int aStage = 4; // Errors Ticker
     int ccard; // Computers Card played
-    volatile Card touchedCard;
-    volatile Card draggedCard;
-    volatile Card playedOutCard0, playedOutCard1;
+    volatile Card touchedCard, draggedCard, playedOutCard0, playedOutCard1;
     final Card assignedCard = null;
     volatile boolean ready = false, droppedCard = false, dragged20 = false;
     volatile byte psaychange = 0;
@@ -73,12 +101,35 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     static java.lang.Runtime runtime = null;
     HashMap<Integer, Drawable> dragNDropMap = new HashMap<>();
     HashMap<Integer, LinearLayout> toFields = new HashMap<>();
-    AnimatedImageDrawable animImgDraw;
-    ImageDecoder.Source imgDecoderSrc;
-    Drawable decodedAnimation;
-    Drawable playedOut0, playedOut1;
     Game aGame;
     // Calling Application class (see application tag in AndroidManifest.xml)
+    // GlobalAppSettings globalVariable;
+
+    private final static Handler setComputerPairHandler = new Handler(Looper.getMainLooper());
+    private final static Handler showComputer20Handler = new Handler(Looper.getMainLooper());
+
+    /**
+     * setComputerPair new Runnable() -> { reSetComputerPair(); }
+     */
+    private final Runnable setComputerPair = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() {
+            reSetComputerPair();
+        }
+    };
+
+    /**
+     * rShowComputer20 new Runnable() -> { showComputer20(playedOutCard1, aStage); }
+     */
+    private final Runnable rShowComputer20 = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() {
+            aStage = (aStage < 0) ? 4 : aStage;
+            showComputer20(playedOutCard1, aStage);
+        }
+    };
 
     /**
      * Override onCreate
@@ -87,22 +138,34 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+        }
+
         setContentView(R.layout.activity_main);
 
         String layoutMes;
-        if(getResources().getDisplayMetrics().widthPixels > getResources().getDisplayMetrics().heightPixels)
-        {
+        if (getResources().getDisplayMetrics().widthPixels > getResources().getDisplayMetrics().heightPixels) {
             layoutMes = getString(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
-        }
-        else
-        {
+        } else {
             layoutMes = getString(R.string.portrait_mode);
             setContentView(R.layout.activity_main);
         }
 
         globalVariable = (GlobalAppSettings) getApplicationContext();
 
+        linLayoutCard0 = (LinearLayout) findViewById(R.id.linLayoutCard0);
+        linLayoutCard1 = (LinearLayout) findViewById(R.id.linLayoutCard1);
+        linLayoutCard2 = (LinearLayout) findViewById(R.id.linLayoutCard2);
+        linLayoutCard3 = (LinearLayout) findViewById(R.id.linLayoutCard3);
+        linLayoutCard4 = (LinearLayout) findViewById(R.id.linLayoutCard4);
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
         atouCard = (LinearLayout) findViewById(R.id.atouCard);
@@ -119,10 +182,15 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         im3 = (ImageView) findViewById(R.id.im3);
         im4 = (ImageView) findViewById(R.id.im4);
 
-        imOut0 =  (ImageView) findViewById(R.id.imOut0);
-        imOut1 =  (ImageView) findViewById(R.id.imOut1);
-        imTalon =  (ImageView) findViewById(R.id.imTalon);
-        imAtou =  (ImageView) findViewById(R.id.imAtou);
+        imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
+        imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
+        imgCOut2 = (ImageView) findViewById(R.id.imgCOut2);
+        imgCOut3 = (ImageView) findViewById(R.id.imgCOut3);
+        imgCOut4 = (ImageView) findViewById(R.id.imgCOut4);
+        imOut0 = (ImageView) findViewById(R.id.imOut0);
+        imOut1 = (ImageView) findViewById(R.id.imOut1);
+        imTalon = (ImageView) findViewById(R.id.imTalon);
+        imAtou = (ImageView) findViewById(R.id.imAtou);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
 
@@ -142,9 +210,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         bChange.setEnabled(false);
 
-        addListenerOnClickables();
+        imMerge = (ImageView) findViewById(R.id.imMerge);
+        imMerge.setBackgroundResource(R.drawable.anim_merge);
+        mergeCardAnim(true);
 
-        mergeCardsAnimation(true, true);
+        addListenerOnClickables();
         // initURLBase();
         resetButtons(0);
     }
@@ -154,7 +224,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @param newConfig the new configuration
      */
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
@@ -175,7 +245,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
         menuResetCheckboxes();
-        myMenu.findItem(R.id.action_default_cards).setChecked(true);
         return true;
     }
 
@@ -185,70 +254,26 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        int mItemId = (item != null) ?  item.getItemId() : -1;
 
-        if (id == R.id.action_start) {
+        if (mItemId == R.id.action_start) {
             if (aGame == null || !aGame.isGame)
                 startGame();
             return true;
         }
-        if (id == R.id.action_stop) {
+        if (mItemId == R.id.action_stop) {
             if (aGame != null && aGame.isGame)
-                stopGame(true);
+                stopGame(0);
             return true;
         }
-        if (id == R.id.action_help) {
+        if (mItemId == R.id.action_help) {
             helpText();
             return true;
-        }
-        if (id == R.id.menu_dragNDropCards) {
-            myMenu.findItem(R.id.menu_clickOnCard).setEnabled(true);
-            item.setEnabled(false);
-            addDragOrClickListeners(true);
-            return true;
-        }
-        if (id == R.id.menu_clickOnCard) {
-            myMenu.findItem(R.id.menu_dragNDropCards).setEnabled(true);
-            item.setEnabled(false);
-            addDragOrClickListeners(false);
-            return true;
-        }
-        // reset now all checkboxes for language menu items
-        menuResetCheckboxes();
-
-        if (id == R.id.action_default_cards) {
-            //Sets application locale in GlobalAppSettings from default app locale
-            Locale primaryLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            return setLocale(primaryLocale, item);
-        }
-        if (id == R.id.action_english_cards) { // sets locale in GlobalAppSettings with english
-            return setLanguage("en", item);
-        }
-        if (id == R.id.action_german_cards) { // changes locale in GlobalAppSettings to Deutsch
-            return  setLanguage("de", item);
-        }
-        if (id == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
-            return setLanguage("fr", item);
-        }
-        if (id == R.id.action_polish_cards) { // Overwrites application locale in GlobalAppSettings with french
-            return setLanguage("pl", item);
-        }
-        if (id == R.id.action_ukraine_cards) { //  uktainian
-            return setLanguage("uk", item);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * setLanguage
-     * @param language - the langzage
-     * @return true in case of succcess, otherwise false
-     */
-    @Override
-    protected  boolean setLanguage(String language, MenuItem item) {
-        return setLocale(new Locale(language), item);
-    }
 
     /**
      * setLanguage
@@ -257,11 +282,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @return true in case of succcess, otherwise false
      */
     @Override
-    protected  boolean setLocale(Locale aLocale, MenuItem item) {
-        super.setLocale(aLocale, item);
-        aGame.setLocale(aLocale);
-        if (aGame.localeChanged) {
-            showAtouCard();
+    protected boolean setLocale(Locale aLocale, MenuItem item) {
+        if (item != null) {
+            item.setChecked(true);
+        }
+        if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
+            //Overwrites application locale in GlobalAppSettings with english
+            globalVariable.setLocale(aLocale);
+            // Adjust language for text to speach
+            // text2Speach.setLanguage(globalVariable.getLocale());
+            showAtouCard(aGame.schnapState);
             showPlayersCards();
             showPlayedOutCards();
         }
@@ -275,53 +305,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     public void run() {
 
     }
-
-
-    /**
-     * mergeAnimation - shows merge card animation
-     * @param startStop true for start, false for stop
-     * @param showFullAnimation true for full animation, false for little image
-     */
-    protected void mergeCardsAnimation(boolean startStop, boolean showFullAnimation) {
-        imMerge = (ImageView) findViewById(R.id.imMerge); // ImageView animMerge from layout
-        if (startStop) {
-            imMerge.setVisibility(View.VISIBLE);
-            imTalon.setVisibility(View.INVISIBLE);
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && showFullAnimation) {
-                try {
-                    imgDecoderSrc = ImageDecoder.createSource(getResources(), R.drawable.mergecards); // create AnimatedDrawable
-                    decodedAnimation = ImageDecoder.decodeDrawable(imgDecoderSrc);
-                    imMerge.setImageDrawable(decodedAnimation); // set the drawble as image source of ImageView
-                    if (decodedAnimation != null) { // play the animation
-                        animImgDraw = (AnimatedImageDrawable) decodedAnimation;
-                        animImgDraw.start();
-                    }
-                } catch (Exception exc) {
-                    showException(exc);
-                }
-            }
-            else {
-                imMerge.setImageDrawable(getDrawable(R.drawable.merge0));
-                decodedAnimation = null;
-                animImgDraw = null;
-            }
-        }
-        else {
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                try {
-                    if (decodedAnimation != null && animImgDraw != null) { // play the animation
-                        animImgDraw.stop();
-                    }
-                } catch (Exception exc) {
-                    showException(exc);
-                }
-            }
-            playMergeCards();
-            imMerge.setVisibility(View.INVISIBLE);
-            imTalon.setVisibility(View.VISIBLE);
-        }
-    }
-
 
     /**
      * reset Buttons
@@ -345,22 +328,21 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 aGame.shouldContinue = false;
             bContinue.setEnabled(false);
 
-            if (imTalon.getVisibility() != View.VISIBLE)
-                imTalon.setVisibility(View.VISIBLE);
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
+        }
 
+        if (level >= 2) {
             try {
-                imTalon.setImageResource(R.drawable.t);
-                imAtou.setImageResource(R.drawable.n0);
+                imOut0.setImageResource(R.drawable.e);
+                imOut1.setImageResource(R.drawable.e);
+                playedOutCard0 = null;
+                playedOutCard1 = null;
             } catch (Exception ex) {
                 this.errHandler(ex);
             }
         }
-
-        if (level >= 2) {
-            clearPlayedOutCards();
-        }
     }
-
 
     /**
      * init all ImageView's with default empty values
@@ -374,36 +356,107 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         im4.setImageResource(R.drawable.n0);
         imAtou.setImageResource(R.drawable.n0);
         imTalon.setImageResource(R.drawable.t);
-        clearPlayedOutCards();
+        imOut0.setImageResource(R.drawable.e);
+        imOut1.setImageResource(R.drawable.e);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
+        imgCOut2.setImageResource(R.drawable.e);
+        imgCOut3.setImageResource(R.drawable.e);
+        imgCOut4.setImageResource(R.drawable.e);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
+        playedOutCard0 = null;
+        playedOutCard1 = null;
     }
 
+    /**
+     * gameStartAnimation - starts game with animation of splitting or knocking
+     * @param splitKnock - boolean true for split, false for knock
+     */
+    protected void gameStartAnimation(boolean splitKnock) {
+        startGame();
+    }
 
     /**
-     * showTalonCard
+     * mergeCardAnim
+     * @param startMergeAnim true to start merge anim, false to stop
      */
-    protected void showTalonCard() {
+    protected void mergeCardAnim(boolean startMergeAnim) {
+        if (startMergeAnim) {
+            // animatedGif = null;
+            showAtouCard(SCHNAPSTATE.MERGING_CARDS);
+            showTalonCard(SCHNAPSTATE.MERGING_CARDS);
+            imMerge.setVisibility(View.VISIBLE);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                try {
+                    ImageDecoder.Source source =
+                            ImageDecoder.createSource(getResources(), R.drawable.mergecards);
+                    Drawable animDrawable = ImageDecoder.decodeDrawable(source);
+                    imMerge.setImageDrawable(animDrawable);
+
+                    if (animDrawable instanceof AnimatedImageDrawable) {
+                        animatedGif = ((AnimatedImageDrawable)animDrawable);
+                        // ((AnimatedImageDrawable) animDrawable).start();
+                        ((AnimatedImageDrawable)animatedGif).start();
+                    }
+                } catch (Exception exCraw) {
+                    this.errHandler(exCraw);
+                }
+                // if (animatedGif != null)
+                //     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
+            }
+            frameAnimation = (AnimationDrawable)imMerge.getBackground();
+            frameAnimation.start();
+        }
+        if (!startMergeAnim) {
+            frameAnimation.stop();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (animatedGif != null)
+                    animatedGif.stop();
+            }
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
+            imMerge.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * showTalonCard - shows current talon card
+     */
+    protected void showTalonCard(SCHNAPSTATE gameState) {
         try {
-            imTalon.setImageResource (R.drawable.t);
+            if (gameState.getValue() < 6) {
+                imTalon.setImageResource(R.drawable.t);
+                imTalon.setVisibility(View.VISIBLE);
+                talonCard.setVisibility(View.VISIBLE);
+            }
+            else  {
+                imTalon.setImageResource(R.drawable.e1);
+                imTalon.setVisibility(View.INVISIBLE);
+                talonCard.setVisibility(View.INVISIBLE);
+            }
         } catch (Exception imTalonEx) {
-            showException(imTalonEx);
-            imTalonEx.printStackTrace();
+            this.errHandler(imTalonEx);
         }
-        imTalon.setVisibility(View.VISIBLE);
     }
 
     /**
-     * showAtouCard
+     * showAtouCard - shows current atou card => needed when changing locale and card set
      */
-    protected void showAtouCard() {
+    protected void showAtouCard(SCHNAPSTATE gameState) {
         try {
-            // imAtou.setImageResource(aGame.set[19].getResourcesInt());
-            if (aGame.isClosed) {
-                imAtou.setImageResource(R.drawable.n0);
-            }
-            else if (!aGame.colorHitRule) {
-                imAtou.setImageDrawable(aGame.set[19].getDrawable());
+            if (gameState.getValue() < 6) {
+                if (gameState == SCHNAPSTATE.GAME_CLOSED ||
+                        gameState == SCHNAPSTATE.GAME_START)
+                    imAtou.setImageResource(R.drawable.n1);
+                else
+                    imAtou.setImageDrawable(aGame.set[19].getDrawable());
+                imAtou.setVisibility(View.VISIBLE);
+                atouCard.setVisibility(View.VISIBLE);
+            } else {
+                imAtou.setImageResource(R.drawable.e1);
+                imAtou.setVisibility(View.INVISIBLE);
+                atouCard.setVisibility(View.INVISIBLE);
             }
         } catch (Exception exp) {
             this.errHandler(exp);
@@ -411,34 +464,13 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     }
 
     /**
-     * showPlayedOutCards - shows played out cards from played out card cache
+     * showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
      */
-    protected void showPlayedOutCards() {
-        try {
-            playedOut0 = (playedOutCard0 != null) ?  playedOutCard0.getDrawable() :  getDrawable(R.drawable.e);
-            playedOut1 = (playedOutCard1 != null) ? playedOutCard1.getDrawable() :  getDrawable(R.drawable.e);
-
-            imOut0.setImageDrawable(playedOut0);
-            imOut1.setImageDrawable(playedOut1);
-        } catch (Exception exp) {
-            this.errHandler(exp);
-        }
-    }
-
-    /**
-     * clearPlayedOutCards - clears played out card cache and set played out images to empty image
-     */
-    protected void clearPlayedOutCards() {
-        try {
-            playedOutCard0 = null;
-            playedOutCard1 = null;
-            playedOut0 = getDrawable(R.drawable.e);
-            playedOut1 = getDrawable(R.drawable.e);
-            imOut0.setImageDrawable(playedOut0);
-            imOut1.setImageDrawable(playedOut1);
-        } catch (Exception ex) {
-            this.errHandler(ex);
-        }
+    protected  void showPlayedOutCards() {
+        if (playedOutCard0 != null)
+            imOut0.setImageDrawable(playedOutCard0.getDrawable());
+        if (playedOutCard1 != null)
+            imOut1.setImageDrawable(playedOutCard1.getDrawable());
     }
 
     /**
@@ -452,7 +484,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     aGame.gambler.hand[0] : aGame.emptyTmpCard;
             playerCard0.setVisibility(View.VISIBLE);
             playerCard0.setBackground(normalShape);
-
             im0.setBackground(normalShape);
             im0.setImageDrawable(handCard.getDrawable());
             im0.setVisibility(View.VISIBLE);
@@ -461,7 +492,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     aGame.gambler.hand[1] : aGame.emptyTmpCard;
             playerCard1.setVisibility(View.VISIBLE);
             playerCard1.setBackground(normalShape);
-
             im1.setBackground(normalShape);
             im1.setImageDrawable(handCard.getDrawable());
             im1.setVisibility(View.VISIBLE);
@@ -495,6 +525,96 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         }
     }
 
+    /**
+     * reSetComputerPair resets computer pair images and linear layout placeholder
+     */
+    protected void reSetComputerPair() {
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
+
+        imOut1.setImageDrawable(playedOutCard1.getDrawable());
+    }
+
+
+    /**
+     * showComputer20 shows computer pair, when computer has 20 or 40
+     *
+     * @param computerPlayedOut
+     * @param stage - int stage
+     */
+    protected void showComputer20(Card computerPlayedOut, int stage) {
+        aStage = (stage >= 0) ? stage : aStage;
+        if (computerPlayedOut == null)
+            computerPlayedOut = playedOutCard1;
+        ImageView imCOut0 = imgCOut0;
+        ImageView imCOut1 = imgCOut1;
+
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+
+        switch (aStage) {
+            case 0:
+            case 1:
+                linLayoutCard0.setVisibility(View.VISIBLE);
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut0;
+                imCOut1 = imgCOut1;
+                break;
+            case 2:
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut1;
+                imCOut1 = imgCOut2;
+                break;
+            case 3:
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut2;
+                imCOut1 = imgCOut3;
+                break;
+            case 4:
+            default:
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                linLayoutCard4.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut3;
+                imCOut1 = imgCOut4;
+                break;
+        }
+
+        for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
+            if (computerPlayedOut.getValue() == 3 &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
+                    aGame.computer.hand[ci].getValue() == 4) {
+                imCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                imCOut1.setImageDrawable(computerPlayedOut.getDrawable());
+                break;
+            }
+            if (computerPlayedOut.getValue() == 4 &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
+                    aGame.computer.hand[ci].getValue() == 3) {
+                imCOut0.setImageDrawable(computerPlayedOut.getDrawable());
+                imCOut1.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                break;
+            }
+        }
+
+        aStage--;
+        if (aStage >= 0) {
+            showComputer20Handler.postDelayed(rShowComputer20, 800);
+        }
+        else {
+            imOut1.setImageDrawable(computerPlayedOut.getDrawable());
+            setComputerPairHandler.postDelayed(setComputerPair, 750);
+        }
+    }
 
     /**
      * start game
@@ -513,14 +633,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         aGame = new Game(getApplicationContext());
         tMes.setVisibility(View.INVISIBLE);
 
-        mergeCardsAnimation(false, true);
+        mergeCardAnim(false);
 
         showPlayersCards();
-
-        atouCard.setVisibility(View.VISIBLE);
-        imAtou.setVisibility(View.VISIBLE);
-        imTalon.setVisibility(View.VISIBLE);
-
         resetButtons(1);
 
         tDbg.setText("");
@@ -528,8 +643,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
         tPoints.setText(String.valueOf(aGame.gambler.points));
-        showAtouCard();
-        showTalonCard();
+        showAtouCard(aGame.schnapState);
+        showTalonCard(aGame.schnapState);
 
         if (myMenu != null) {
             myMenu.findItem(R.id.action_stop).setEnabled(true);
@@ -538,36 +653,41 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         gameTurn(0);
     }
 
+
     /**
-     * stop current game
-     * @param fullStop true, for full stop (aborting game), false for game ends with winner
+     * close that game
+     *
+     * @param who boolean - true for player, false for computer
      */
-    protected void stopGame(boolean fullStop) {
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_stop).setEnabled(false);
-        }
-        aGame.stopGame();
-
-        resetButtons((fullStop) ? 2 : 1);
-
-        bContinue.setEnabled(true);
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_start).setEnabled(true);
+    protected void closeGame(boolean who) { //	Implementierung des Zudrehens
+        if (!aGame.isGame || aGame.gambler == null) {
+            setTextMessage(getString(R.string.nogame_started));
+            return;
         }
 
-        showPlayersCards();
-        aGame.destroyGame();
-        if (fullStop)
-            clearPlayedOutCards();
+        aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
+        aGame.colorHitRule = true;
+        aGame.isClosed = true;
+        if (!aGame.atouChanged) {
+            aGame.atouChanged = true;
+        }
+        if (who) {
+            setTextMessage(getString(R.string.player_closed_game));
+            saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
+            aGame.gambler.hasClosed = true;
+        } else {
+            setTextMessage(getString(R.string.computer_closed_game));
+            aGame.computer.hasClosed = true;
+        }
 
-        imTalon.setImageResource(R.drawable.t);
-        imTalon.setVisibility(View.VISIBLE);
-        atouCard.setVisibility(View.VISIBLE);
-        imAtou.setVisibility(View.VISIBLE);
-        atouCard.setVisibility(View.VISIBLE);
-        imAtou.setImageResource(R.drawable.n0);
-        mergeCardsAnimation(true, fullStop);
+        showTalonCard(aGame.schnapState);
+        showAtouCard(aGame.schnapState);
+
+        if (who) {
+            gameTurn(0);
+        }
     }
+
 
     /**
      * a turn in game
@@ -575,7 +695,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     protected void gameTurn(int ixlevel) {
         if (ixlevel < 1) {
-            clearPlayedOutCards();
+            try {
+                imOut0.setImageResource(R.drawable.e1);
+                imOut1.setImageResource(R.drawable.e1);
+                playedOutCard0 = null;
+                playedOutCard1 = null;
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
             showPlayersCards();
             pSaid = false;
             aGame.said = 'n';
@@ -607,8 +734,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 }
             }
             // Info
-            tMes.setVisibility(View.VISIBLE);
-            tMes.setText(R.string.toplayout_clickon_card);
+            setTextMessage(getString(R.string.toplayout_clickon_card));
         } else {
             // COMPUTERS TURN IMPLEMENTIEREN
             String outPutMessage = "";
@@ -617,21 +743,19 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             ccard = aGame.computerStarts();
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
-                this.showAtouCard();
-                setTextMessage(getString(R.string.computer_changes_atou));
+                this.showAtouCard(aGame.schnapState);
                 outPutMessage += getString(R.string.computer_changes_atou);
-                playChangeAtou();
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
+            boolean computerSaid20 = false;
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
-                setTextMessage(getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid)));
-                outPutMessage = outPutMessage + getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
-                playSay20();
+                computerSaid20 = true;
+                String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                outPutMessage = outPutMessage + " " + computerSaysPair;
             }
-
-            tMes.setVisibility(View.VISIBLE);
-            tMes.setText(outPutMessage);
+            setTextMessage(outPutMessage);
+            saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
@@ -639,13 +763,25 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 return;
             }
 
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CLOSESGAME.getValue()) == PLAYEROPTIONS.CLOSESGAME.getValue()) {
+                aGame.isClosed = true;
+                outPutMessage += getString(R.string.computer_closed_game);
+                setTextMessage(outPutMessage);
+                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+                closeGame(false);
+            }
+
             try {
                 playedOutCard1 = aGame.computer.hand[ccard];
-                playedOut1 = playedOutCard1.getDrawable();
-                imOut1.setImageDrawable(playedOut1);
+                if (computerSaid20)
+                    showComputer20(playedOutCard1, 4);
+                else
+                    imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
+            // tMes.setVisibility(View.VISIBLE);
+            // tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
         }
 
         ready = true;
@@ -678,6 +814,67 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     }
 
     /**
+     * say 20 or 40 and enough to finish game
+     * @param who player or computer
+     */
+    protected void twentyEnough(boolean who) {
+        int xj = 0;
+        String andEnough = getString(R.string.twenty_and_enough);
+        ready = false;
+
+        if (who) {
+            if (aGame.said == aGame.atouInGame()) {
+                andEnough = getString(R.string.fourty_and_enough);
+            }
+            try {
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.gambler.hand[xj].color == aGame.said &&
+                            aGame.gambler.hand[xj].value == 3) {
+                        playedOutCard0 = aGame.gambler.hand[xj];
+                        imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
+                    if (aGame.gambler.hand[xj].color == aGame.said &&
+                            aGame.gambler.hand[xj].value == 4) {
+                        playedOutCard1 = aGame.gambler.hand[xj];
+                        imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
+                }
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+
+            tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 2);
+
+        } else {
+            if (aGame.csaid == aGame.atouInGame()) {
+                andEnough = getString(R.string.fourty_and_enough);
+            }
+            try {
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.computer.hand[xj].color == aGame.csaid &&
+                            aGame.computer.hand[xj].value == 3) {
+                        playedOutCard0 = aGame.computer.hand[xj];
+                        imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
+                    if (aGame.computer.hand[xj].color == aGame.csaid &&
+                            aGame.computer.hand[xj].value == 4) {
+                        playedOutCard1 = aGame.computer.hand[xj];
+                        imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
+                }
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+
+            printMes();
+            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+            tsEnds(tsEndMes1, 2);
+            // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
+        }
+        return;
+    }
+
+    /**
      * end current turn in game
      */
     protected void endTurn() {
@@ -688,10 +885,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.playersTurn) {
             ccard = aGame.computersAnswer();
             try {
-                // imOut1.setImageResource(aGame.computer.hand[ccard].getResourcesInt());
                 playedOutCard1 = aGame.computer.hand[ccard];
-                playedOut1 = aGame.computer.hand[ccard].getDrawable();
-                imOut1.setImageDrawable(playedOut1);
+                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -702,23 +897,21 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         tPoints.setText(String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
-            tMes.setVisibility(View.VISIBLE);
             msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            tMes.setText(msgText);
-            playPlayerHits();
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
-                gameEnds(getString(R.string.computer_closing_failed), true, 1);
+                tsEnds(getString(R.string.computer_closing_failed), 1);
                 return;
             }
         } else {
-            tMes.setVisibility(View.VISIBLE);
             msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            tMes.setText(msgText);
-            playComputerHits();
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
-                gameEnds(getString(R.string.closing_failed), false,1);
+                tsEnds(getString(R.string.closing_failed), 1);
                 return;
             }
         }
@@ -727,18 +920,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.assignNextCard(assignedCard)) {
             /* NOW WE HAVE NO MORE TALON */
             try {
-                imTalon.setImageResource(R.drawable.e1);
-                imTalon.setVisibility(View.INVISIBLE);
-                imAtou.setImageResource(R.drawable.e1);
-                atouCard.setVisibility(View.INVISIBLE);
-                imAtou.setVisibility(View.INVISIBLE);
+                showTalonCard(aGame.schnapState);
+                showAtouCard(aGame.schnapState);
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-            tMes.setVisibility(View.VISIBLE);
+
             setTextMessage(getString(R.string.color_hit_force_mode));
-            tMes.setText(getString(R.string.color_hit_force_mode));
-            playColorHitRule();
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.color_hit_force_mode));
         }
         tRest.setText(String.valueOf((19-aGame.index)));
         printMes();
@@ -749,12 +938,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
-                gameEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), true,1);
+                tsEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
-                gameEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), false,1);
+                tsEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), 1);
                 return;
             }
         }
@@ -762,11 +951,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.movs >= 5) {
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
-                    gameEnds(getString(R.string.closing_failed), false,1);
+                    tsEnds(getString(R.string.closing_failed), 1);
                 }
                 try {
                     if (aGame.computer.hasClosed) {
-                        gameEnds(getString(R.string.computer_closing_failed), true,1);
+                        tsEnds(getString(R.string.computer_closing_failed), 1);
                     }
                 } catch (Exception jbpvex) {
                     this.errHandler(jbpvex);
@@ -774,9 +963,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 return ;
             } else {
                 if (tmppoints > 0) {
-                    gameEnds(getString(R.string.last_hit_you_have_won), true,1);
+                    tsEnds(getString(R.string.last_hit_you_have_won), 1);
                 } else {
-                    gameEnds(getString(R.string.computer_wins_last_hit), false, 1);
+                    tsEnds(getString(R.string.computer_wins_last_hit), 1);
                 }
                 return;
             }
@@ -785,137 +974,47 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame != null)
             aGame.shouldContinue = true;
         bContinue.setEnabled(true);
-
         imTalon.setOnClickListener(this::bContinue_Clicked);
-
         ready = false;
     }
 
     /**
-     * gameEnds method for ending the current game
+     * stop current game
+     * @param levela level of stop
+     */
+    protected void stopGame(int levela) {
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_stop).setEnabled(false);
+        }
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.stopGame();
+
+        resetButtons(levela);
+
+        bContinue.setEnabled(true);
+        if (myMenu != null) {
+            myMenu.findItem(R.id.action_start).setEnabled(true);
+        }
+
+        showPlayersCards();
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.destroyGame();
+
+        if (levela <= 0) {
+            mergeCardAnim(true);
+        }
+    }
+
+    /**
+     * tsEnds method for ending the current game
      * @param endMessage ending game message
-     * @param playerWins true, if player wins, false if computer wins
      * @param ix level
      */
-    private void gameEnds(String endMessage, boolean playerWins, int ix) {
-        tMes.setText(endMessage);
+    private void tsEnds(String endMessage, int ix) {
         setTextMessage(endMessage);
-        tMes.setVisibility(View.VISIBLE);
-        if (playerWins)
-            playPlayerWin();
-        else
-            playComputerWin();
-
-        stopGame(false);
+        saySchnapser(SCHNAPSOUNDS.NONE, endMessage);
+        stopGame(ix);
     }
-
-
-    /**
-     * close that game
-     */
-    protected void closeGame() { //	Implementierung des Zudrehens
-        if (!aGame.isGame || aGame.gambler == null) {
-            tMes.setVisibility(View.VISIBLE);
-
-            tMes.setText(R.string.nogame_started);
-            return;
-        }
-        tMes.setVisibility(View.VISIBLE);
-        setTextMessage(getString(R.string.player_closed_game));
-        tMes.setText(R.string.player_closed_game);
-
-        playCloseGame();
-
-        try {
-            imTalon.setImageResource(R.drawable.t);
-            imTalon.setVisibility(View.VISIBLE);
-        } catch (Exception jbpvex) {
-            this.errHandler(jbpvex);
-        }
-
-        try {
-            imAtou.setImageResource(R.drawable.n0);
-        } catch (Exception jbpvex) {
-            this.errHandler(jbpvex);
-        }
-
-        aGame.colorHitRule = true;
-        aGame.isClosed = true;
-        aGame.gambler.hasClosed = true;
-
-        if (!aGame.atouChanged) {
-            aGame.atouChanged = true;
-        }
-        gameTurn(0);
-    }
-
-    /**
-     * say 20 or 40 and enough to finish game
-     * @param who player or computer
-     */
-    protected void twentyEnough(boolean who) {
-        int xj = 0;
-        String andEnough = getString(R.string.twenty_and_enough);
-        ready = false;
-
-        if (who) {
-            if (aGame.said == aGame.atouInGame) {
-                andEnough = getString(R.string.fourty_and_enough);
-            }
-            try {
-                for (xj = 0; xj < 5; xj++) {
-                    if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 3) {
-                        playedOutCard0 = aGame.gambler.hand[xj];
-                        playedOut0 = aGame.gambler.hand[xj].getDrawable();
-                        imOut0.setImageDrawable(playedOut0);
-                    }
-                    if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 4) {
-                        playedOutCard1 = aGame.gambler.hand[xj];
-                        playedOut1 = aGame.gambler.hand[xj].getDrawable();
-                        imOut1.setImageDrawable(playedOut1);
-                    }
-                }
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-
-            gameEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), true,1);
-
-        } else {
-            if (aGame.csaid == aGame.atouInGame) {
-                andEnough = getString(R.string.fourty_and_enough);
-            }
-            try {
-                for (xj = 0; xj < 5; xj++) {
-                    if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 3) {
-                        playedOutCard0 = aGame.computer.hand[xj];
-                        playedOut0 = aGame.computer.hand[xj].getDrawable();
-                        imOut0.setImageDrawable(playedOut0);
-                    }
-                    if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 4) {
-                        playedOutCard1 = aGame.computer.hand[xj];
-                        playedOut1 = aGame.computer.hand[xj].getDrawable();
-                        imOut1.setImageDrawable(playedOut1);
-                    }
-                }
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-
-            playAndEnough();
-
-            printMes();
-            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
-            gameEnds(tsEndMes1, false, 1);
-            // gameEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
-        }
-        return;
-    }
-
 
     /**
      * add listeners on all clickables
@@ -927,6 +1026,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
         playedCard1.setOnDragListener((view, dragEvent) -> layoutView_OnDragHandler(view, dragEvent, -2));
 
+        playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
+        playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
+        playerCard2 = (LinearLayout) findViewById(R.id.playerCard2);
+        playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
+        playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
+
         bChange = (Button) findViewById(R.id.bChange);
         bChange.setOnClickListener(this::bChange_Clicked);
         b20a = (Button) findViewById(R.id.b20a);
@@ -937,61 +1042,60 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         bContinue = (Button) findViewById(R.id.bContinue);
         bContinue.setOnClickListener(this::bContinue_Clicked);
 
+        im0 = (ImageView) findViewById(R.id.im0);
+        im0.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 0));
+
+        im1 = (ImageView) findViewById(R.id.im1);
+        im1.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 1));
+
+        im2 = (ImageView) findViewById(R.id.im2);
+        im2.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 2));
+
+        im3 = (ImageView) findViewById(R.id.im3);
+        im3.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 3));
+
+        im4 = (ImageView) findViewById(R.id.im4);
+        im4.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 4));
+
         imAtou = (ImageView) findViewById(R.id.imAtou);
         imAtou.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 10));
 
-        addDragOrClickListeners(true);
+        imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
+        imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
+        imOut0 = (ImageView) findViewById(R.id.imOut0);
+        imOut0.setOnClickListener(argß -> imOut_Click(argß));
+        imOut1 = (ImageView) findViewById(R.id.imOut1);
+        imOut1.setOnClickListener(argß -> imOut_Click(argß));
+        imMerge = (ImageView) findViewById(R.id.imMerge);
+        imMerge.setOnClickListener(argß -> imMerge_Click(argß));
     }
 
     /**
-     * add listeners for drag m drop or click
-     * @param dragNoClick true for dragNDrop mode, false for simple single click mode to play card
+     * imOut_Click at reset game
+     * @param arg0 View
      */
-    public void addDragOrClickListeners(boolean  dragNoClick) {
-
-
-        playerCard0 = (LinearLayout) findViewById(R.id.playerCard0);
-        playerCard0.setOnDragListener(null);
-        playerCard1 = (LinearLayout) findViewById(R.id.playerCard1);
-        playerCard1.setOnDragListener(null);
-        playerCard2 = (LinearLayout) findViewById(R.id.playerCard2);
-        playerCard2.setOnDragListener(null);
-        playerCard3 = (LinearLayout) findViewById(R.id.playerCard3);
-        playerCard3.setOnDragListener(null);
-        playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
-        playerCard4.setOnDragListener(null);
-
-        im0 = (ImageView) findViewById(R.id.im0);
-        im1 = (ImageView) findViewById(R.id.im1);
-        im2 = (ImageView) findViewById(R.id.im2);
-        im3 = (ImageView) findViewById(R.id.im3);
-        im4 = (ImageView) findViewById(R.id.im4);
-
-        if (!dragNoClick) {
-            im0.setOnTouchListener(null);
-            im1.setOnTouchListener(null);
-            im2.setOnTouchListener(null);
-            im3.setOnTouchListener(null);
-            im4.setOnTouchListener(null);
-
-            im0.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 0));
-            im1.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 1));
-            im2.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 2));
-            im3.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 3));
-            im4.setOnClickListener(arg0 -> imageView_ClickEventHandler(arg0, 4));
-        } else {
-            im0.setOnClickListener(null);
-            im1.setOnClickListener(null);
-            im2.setOnClickListener(null);
-            im3.setOnClickListener(null);
-            im4.setOnClickListener(null);
-
-            im0.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 0));
-            im1.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 1));
-            im2.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 2));
-            im3.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 3));
-            im4.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 4));
+    public void imOut_Click(View arg0) {
+        if (arg0 == null || arg0.getVisibility() == View.INVISIBLE)
+            return;
+        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut0 || arg0.getTag() == "imOut0_tag")) {
+            if (!bContinue.isEnabled())
+                stopGame(0);
         }
+
+        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut1 || arg0.getTag() == "imOut1_tag")) {
+            stopGame(0);
+            if (!bContinue.isEnabled())
+                stopGame(0);
+        }
+    }
+
+    /**
+     * imMerge_Click
+     * @param arg0 view that was clicked
+     */
+    public void imMerge_Click(View arg0) {
+        if (arg0 == null && arg0.getVisibility() == View.VISIBLE)
+            gameStartAnimation(true);
     }
 
     /**
@@ -1001,8 +1105,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     public void bChange_Clicked(View arg0) {
         try {
             aGame.changeAtou(aGame.gambler);
+            saySchnapser(SCHNAPSOUNDS.CHANGE_ATOU, getString(R.string.bChange_text));
+
             bChange.setEnabled(false);
-            showAtouCard();
+            showAtouCard(aGame.schnapState);
             showPlayersCards();
             gameTurn(1);
         } catch (Exception e) {
@@ -1019,20 +1125,24 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) {
                 return;
             }
-            if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
+            String sayPair;
+            aGame.said = aGame.gambler.handpairs[0];
+            if (aGame.gambler.handpairs[0] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
-                playSay40();
+                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             } else {
                 aGame.gambler.points += 20;
-                playSay20();
+                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
-
             pSaid = true;
             resetButtons(0);
-            aGame.said = aGame.gambler.handpairs[0];
+
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
+
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
                 twentyEnough(true);
@@ -1051,20 +1161,25 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((pSaid) || (aGame.gambler.handpairs[1]=='n')) {
                 return;
             }
-            if (aGame.gambler.handpairs[1] == aGame.atouInGame) {
+            String sayPair;
+            aGame.said = aGame.gambler.handpairs[1];
+            if (aGame.gambler.handpairs[1] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
-                playSay40();
+                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             }
             else {
                 aGame.gambler.points += 20;
-                playSay20();
+                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
             pSaid = true;
             resetButtons(0);
-            aGame.said = aGame.gambler.handpairs[1];
+
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+
             aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
+
             tPoints.setText(String.valueOf(aGame.gambler.points));
             if (aGame.gambler.points > 65) {
                 twentyEnough(true);
@@ -1109,8 +1224,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             int viewId = view.getId();
             String tmp;
-
-            playDragCard();
 
             for (int i = 0; i < 5; i++){
                 tmp = "im" + i;
@@ -1253,7 +1366,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                     draggedCard = touchedCard;
                     touchedCard = null;
 
-                    playDropCard();
+                    String tmp;
                     for (int i = 0; i < 5; i++){
                         tmp = "im" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
@@ -1262,6 +1375,28 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                             return true;
                         }
                     }
+
+//                    switch (viewID) {
+//                        case R.id.im0:
+//                            imageView_ClickEventHandler(view, 0);
+//                            break;
+//                        case R.id.im1:
+//                            imageView_ClickEventHandler(view, 1);
+//                            break;
+//                        case R.id.im2:
+//                            imageView_ClickEventHandler(view, 2);
+//                            break;
+//                        case R.id.im3:
+//                            imageView_ClickEventHandler(view, 3);
+//                            break;
+//                        case R.id.im4:
+//                            imageView_ClickEventHandler(view, 4);
+//                            break;
+//                        default:
+//                            // assert(0);
+//                            break;
+//                    }
+//                    return true;
                 }
 
                 if (lcId == R.id.playerCard0 || lcId == R.id.playerCard1 || lcId == R.id.playerCard2 ||
@@ -1271,6 +1406,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         return false;
                     }
                     Card dropCard = null;
+                    String tmp;
                     for (int i = 0; i < 5; i++){
                         tmp = "playerCard" + i;
                         int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
@@ -1308,10 +1444,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         }
                         pSaid = true;
                         resetButtons(0);
-                        aGame.said = dropCard.getColor();
-                        setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
-                        aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+                        aGame.said = dropCard.getCharColor();
+
+                        String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
+                        setTextMessage(sayMarriage);
+                        saySchnapser(SCHNAPSOUNDS.NONE, sayMarriage);
+                        aGame.mqueue.insert(sayMarriage);
                         printMes();
+
                         tPoints.setText(String.valueOf(aGame.gambler.points));
                         if (aGame.gambler.points > 65) {
                             twentyEnough(true);
@@ -1395,7 +1535,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             if (ic == 10) {
                 if (aGame.playersTurn && (!aGame.isClosed) &&  (!pSaid) && (aGame.index < 16)) {
-                    closeGame();
+                    closeGame(true);
                 }
                 return;
             }
@@ -1405,14 +1545,17 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 printMes();
                 return;
             }
-            if ((pSaid) &&
-                    ((aGame.said != aGame.gambler.hand[ic].getColor()) ||
-                        ((aGame.gambler.hand[ic].getValue() < 3) ||
-                            (aGame.gambler.hand[ic].getValue() > 5)))) {
-                setTextMessage(getString(R.string.you_must_play_pair_card));
-                aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
-                printMes();
-                return;
+            if (pSaid) {
+                if ((aGame.said == aGame.gambler.hand[ic].getCharColor()) &&
+                        (aGame.gambler.hand[ic].getValue() > 2) &&
+                        (aGame.gambler.hand[ic].getValue() < 5)) {
+                    ; // we can continue
+                } else {
+                    setTextMessage(getString(R.string.you_must_play_pair_card));
+                    aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
+                    printMes();
+                    return ;
+                }
             }
             if (aGame.colorHitRule && (!aGame.playersTurn)) {
                 // CORRECT WAY ?
@@ -1437,7 +1580,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             aGame.playedOut = aGame.gambler.hand[ic];
             // Besser Cards als Array
-            tmp = "im" + ic;
+            String tmp = "im" + ic;
             int myID = getApplicationContext().getResources().getIdentifier(tmp, "id", getApplicationContext().getPackageName());
             ImageView cardPlayed = (ImageView) findViewById(myID);
             cardPlayed.setImageResource(R.drawable.e);
@@ -1461,10 +1604,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 default: tDbg.append("Assertion !");
             }
 
-            // imOut0.setImageResource(aGame.gambler.hand[ic].getResourcesInt());
             playedOutCard0 = aGame.gambler.hand[ic];
-            playedOut0 = aGame.gambler.hand[ic].getDrawable();
-            imOut0.setImageDrawable(playedOut0);
+            imOut0.setImageDrawable(aGame.gambler.hand[ic].getDrawable());
 
         } catch (Exception e) {
             this.errHandler(e);
@@ -1484,13 +1625,26 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             card = aGame.emptyTmpCard;
 
 
-        tmp = card.color + String.valueOf(card.value);
+        String tmp = card.color + String.valueOf(card.value);
         imageView.setImageDrawable(card.getDrawable());
 
         imageView.setTag(0, tmp);
         imageView.setTag(1, imageView.getVisibility());
     }
 
+
+
+    /**
+     * setTextMessage shows a new Toast dynamic message
+     * @param text to display
+     */
+    private void setTextMessage(CharSequence text) {
+        Context context = getApplicationContext();
+		if (text != null && text != "") {
+            tMes.setText(text);
+            tMes.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * print message queue
@@ -1501,27 +1655,20 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
     /**
      * Error handler
-     * @param throwableExc java.lang.Throwable
+     * @param myErr java.lang.Throwable
      */
-    private void errHandler(java.lang.Throwable throwableExc) {
-        CharSequence errTextMsg = showError(throwableExc, false);
-        if (errTextMsg != null && errTextMsg != "") {
-            tDbg.append(errTextMsg);
-            parentErrMsg = "";
-        }
+    private void errHandler(java.lang.Throwable myErr) {
+        tDbg.append("\nCRITICAL ERROR #" + ++errNum + " " + myErr.getMessage());
+        tDbg.append(myErr.toString());
+        tDbg.append("\nMessage: "+ myErr.getLocalizedMessage() + "\n");
+        myErr.printStackTrace();
     }
 
     /**
-     * showError simple dummy error handler
-     * @param anyException - any Exception, that has been thrown
+     * helpText() prints out help text
      */
-    @Override
-    public void showException(java.lang.Exception anyException) {
-        CharSequence errTextMsg = showError(anyException, false);
-        if (errTextMsg != null && errTextMsg != "") {
-            tDbg.append(errTextMsg);
-            parentErrMsg = "";
-        }
+    public void helpText() {
+        showHelp();
     }
 
 }

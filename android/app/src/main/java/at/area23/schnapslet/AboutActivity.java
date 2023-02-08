@@ -1,12 +1,12 @@
 /*
-*
-* @author           Heinrich Elsigan
-* @version          V 1.3.4
-* @since            JDK 1.2.1
-*
-*/
+ *
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
+ *
+ */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -17,25 +17,28 @@
 */
 package at.area23.schnapslet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.content.Intent;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.*;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * AboutActivity class implements help text view.
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseAppActivity {
 
     Button backButton, learnMoreButton;
     TextView helpTextView, builtWithTextView;
-    Menu myMenu;
 
     /**
      * Override onCreate

@@ -1,12 +1,12 @@
 /*
-*
-* @author           Heinrich Elsigan
-* @version          V 1.3.4
-* @since            JDK 1.2.1
-*
-*/
+ *
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
+ *
+ */
 /*
-   Copyright (C) 2000 - 2021 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -239,7 +239,7 @@ public class Game extends SchnapsAtom {
 	public int checkPoints(int ccard) {
 	    int tmppoints;
 	    if (playersTurn) {
-            if (playedOut.hitsCard(computer.hand[ccard],true) == true) {
+            if (playedOut.hitsCard(computer.hand[ccard],true)) { //  == true
                 playersTurn = true;
                 tmppoints = playedOut.value + computer.hand[ccard].value;
                 gambler.points += tmppoints;
@@ -280,7 +280,7 @@ public class Game extends SchnapsAtom {
     @Deprecated
 	public int assignNewCard() {
 	    int retval = 0;
-	    if (colorHitRule == false) {
+	    if (!colorHitRule) { // (colorHitRule == false)
             if (playersTurn) { 
                 gambler.assignCard(set[++index]);                
                 computer.assignCard(set[++index]);                 
@@ -309,7 +309,7 @@ public class Game extends SchnapsAtom {
      */
 	public boolean assignNextCard(Card assignedCard) {
         boolean lastCard = false;
-        if (colorHitRule == false) {
+        if (!colorHitRule) { // (colorHitRule == false)
             if (playersTurn) {
                 assignedCard = set[++index];
                 gambler.assignCard(assignedCard);
@@ -550,7 +550,7 @@ public class Game extends SchnapsAtom {
     /**
      * inner class MessageQueue
      */
-    public class MessageQueue {
+    public static class MessageQueue {
         public StringBuffer qbuffer;
 	    int qindex;
 	    int qcount;

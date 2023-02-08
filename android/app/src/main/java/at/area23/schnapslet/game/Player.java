@@ -1,12 +1,12 @@
 /*
-*
-* @author           Heinrich Elsigan
-* @version          V 1.3.4
-* @since            JDK 1.2.1
-*
-*/
+ *
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
+ *
+ */
 /*
-   Copyright (C) 2000 - 2021 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -113,8 +113,10 @@ public class Player extends SchnapsAtom {
      */
     public String showHand() {
         String retVal = "";
-        for (int j = 0; j < 5; j++)
-            retVal = retVal + hand[j].getName() + " ";
+        for (int j = 0; j < 5; j++) {
+            retVal = String.valueOf(retVal) +  hand[j].getName() + " ";
+            // retVal = retVal + hand[j].getName() + " ";
+        }
         return retVal;
     }
 
@@ -214,7 +216,7 @@ public class Player extends SchnapsAtom {
                 // ich hab gleich Farbe -> PRI 2
                 if ((hand[i].color) != aCard.color) {
                     // ich kann mit Atou stechen -> PRI 1
-                    if ((aCard.isAtou() == false) && (hand[i].isAtou())) {
+                    if ((!aCard.isAtou()) && (hand[i].isAtou())) { // aCard.isAtou() == false
                         colorHitArray[i] = 1;
                         if (max < 1) max = 1;
                     }

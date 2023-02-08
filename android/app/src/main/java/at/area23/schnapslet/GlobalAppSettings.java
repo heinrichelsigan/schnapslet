@@ -1,12 +1,12 @@
 /*
  *
- * @author           Heinrich Elsigan
- * @version          V 1.3.4
- * @since            JDK 1.2.1
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
  *
  */
 /*
-   Copyright (C) 2000 - 2021 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -18,16 +18,19 @@
 package at.area23.schnapslet;
 
 import android.app.Application;
+import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
-
+import android.os.Build;
 import java.util.Locale;
 
 public class GlobalAppSettings extends Application {
-    private Locale locale;
-    private String prefixUri = "http://www.area23.at/cardpics/";
+    private Locale systemLocale, locale;
+    private final String prefixUrl = "https://area23.at/schnapsen/";
+	private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
+	private Uri prefixUri = null;
     private Uri pictureUri = null;
-    private boolean appSetsChanged = false;
+    private Game game = null;
     Context context;
 
     private static Application sApplication;
@@ -48,7 +51,6 @@ public class GlobalAppSettings extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-        appSetsChanged = true;
     }
 
     @Override
@@ -58,19 +60,25 @@ public class GlobalAppSettings extends Application {
 
     public void setLocale(Locale setLocale) {
         locale = setLocale;
-        appSetsChanged = true;
     }
 
     public void setLocale(String localeString) {
-        setLocale(new Locale(localeString));
+        locale = new Locale(localeString);
     }
 
     public void initLocale() {
+        if (systemLocale == null) {
+            try {
+                systemLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
+            } catch (Exception e) {
+                systemLocale = new Locale("en");
+            }
+        }
         if (locale == null) {
             try {
                 locale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
             } catch (Exception e) {
-                locale = new Locale("en");
+                locale = new Locale(systemLocale.getLanguage());
             }
         }
     }
@@ -78,6 +86,11 @@ public class GlobalAppSettings extends Application {
     public Locale getLocale() {
         initLocale();
         return locale;
+    }
+
+    public Locale geSystemLLocale() {
+        initLocale();
+        return systemLocale;
     }
 
     public String getLocaleString() {
@@ -91,41 +104,56 @@ public class GlobalAppSettings extends Application {
     public void setPictureUri(String baseUri) {
         try {
             this.pictureUri = Uri.parse(baseUri);
-            this.prefixUri = baseUri;
-            appSetsChanged = true;
+            this.pictureUrl = baseUri;
         } catch (Exception exi) {
             exi.printStackTrace();
         }
     }
+	
+    public void initPrefixUrl() {
+        try {
+            if (prefixUri == null)
+                prefixUri = Uri.parse(prefixUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }	
 
     public void initPictureUrl() {
         try {
             if (pictureUri == null)
-                pictureUri = Uri.parse(prefixUri);
+                pictureUri = Uri.parse(pictureUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String getPictureUrlPrefix() {
+    public String getPictureUrl() {
         initPictureUrl();
-        return this.prefixUri;
+        return this.pictureUrl;
     }
+	
 
     public Uri getPictureUri() {
         initPictureUrl();
         return this.pictureUri;
     }
 
-    /**
-     * hasChanged - GlobalAppSettings has changed
-     * @return true in case of uncommitted change on GlobalAppSettings, otherwise false
-     */
-    public boolean hasChanged() {
-        if (appSetsChanged) {
-            appSetsChanged = false;
-            return true;
-        }
-        return false;
+	public String getPrefixUrl() {
+        initPrefixUrl();
+        return this.prefixUrl;
+    }
+	
+	public Uri getPrefixUri() {
+        initPrefixUrl();
+        return this.prefixUri;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game aGame) {
+        game = aGame;
     }
 }

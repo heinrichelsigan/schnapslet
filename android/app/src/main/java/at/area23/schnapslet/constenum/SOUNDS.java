@@ -1,12 +1,20 @@
 /*
- * @author           <a href="mailto:heinrich.elsigan@area23.at">Heinrich Elsigan</a>
- * @version          V 1.0.1
- * @since            API 27 Oreo 8.1
  *
- * based on austrian card game Schnapsen 66.</p>
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
  *
- * <P>Coded 2021 by <a href="mailto:heinrich.elsigan@area23.at">Heinrich Elsigan</a>
  */
+/*
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
+
+   Schnapslet java applet is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
+   See the GNU Library General Public License for more details.
+
+*/
 
 package at.area23.schnapslet.constenum;
 

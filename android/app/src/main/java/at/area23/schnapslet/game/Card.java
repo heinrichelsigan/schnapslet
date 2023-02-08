@@ -1,12 +1,12 @@
 /*
-*
-* @author           Heinrich Elsigan
-* @version          V 1.3.4
-* @since            JDK 1.2.1
-*
-*/
+ *
+ * @author           Heinrich Elsigan root@darkstar.work
+ * @version          V 1.6.9
+ * @since            API 26 Android Oreo 8.1
+ *
+ */
 /*
-   Copyright (C) 2000 - 2018 Heinrich Elsigan
+   Copyright (C) 2000 - 2023 Heinrich Elsigan root@darkstar.work
 
    Schnapslet java applet is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -422,7 +422,7 @@ public class Card  extends SchnapsAtom {
                 tmp, "drawable", context.getPackageName());
 
         // Get menu set locale, that is global stored in app context
-        if (getLocaleString() != globalVariable.getLocale().getDisplayName()) {
+        if (!getLocaleString().equals(globalVariable.getLocale().getDisplayName())) {
             setLocale(globalVariable.getLocale());
         }
 
