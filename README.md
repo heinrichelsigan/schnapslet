@@ -29,6 +29,8 @@ launch schnapslet schnapsen card game as java application:
 use appletviewer to test schnapslet as old style deprecated java applet
 > appletviewer index.html
 
+YouTube Video: https://youtu.be/7Fw7-R2quvE
+
 ## schnapslet sources for android 
 
 Sources for android using Abdroid Studio are located under 
