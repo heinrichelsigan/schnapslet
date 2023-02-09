@@ -12,7 +12,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId "at.area23.schnapslet"
-        minSdkVersion 26
+        minSdkVersion 25
         targetSdkVersion 33
         versionName '1.6.9'
         signingConfig signingConfigs.config
