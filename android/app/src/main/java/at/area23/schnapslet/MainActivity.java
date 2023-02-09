@@ -216,7 +216,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         tMes.setVisibility(View.INVISIBLE);
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         bChange.setEnabled(false);
-        aGame.bChange = false;
+        // aGame.bChange = false;
 
         imMerge = (ImageView) findViewById(R.id.imMerge);
         imMerge.setBackgroundResource(R.drawable.anim_merge);
@@ -224,14 +224,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         addListenerOnClickables();
         // initURLBase();
-        resetButtons(0);
 
         Game bGame = globalVariable.getGame();
-        if (bGame != null &&
+        if (bGame != null && bGame.isGame &&
             bGame.phoneDirection != phoneDirection)
         {
             aGame = bGame;
             aGame.phoneDirection = phoneDirection;
+            mergeCardAnim(false);
+            resetButtons(0);
+
             tPoints.setText(String.valueOf(aGame.gambler.points));
             tDbg.setText("Reload current game on onConfigurationChanged\n");
             if (aGame.shouldContinue)
@@ -242,6 +244,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             playedOutCard1 = aGame.playedOut1;
             showPlayersCards();
             showPlayedOutCards();
+            globalVariable.setGame(aGame);
+        }
+        else {
+            resetButtons(0);
         }
     }
 
@@ -346,8 +352,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (level >= 0 ) {
             b20a.setText(R.string.b20a_text);
             b20a.setEnabled(false);
-            aGame.a20 = false;
-            aGame.b20 = false;
+            if (aGame != null) {
+                aGame.a20 = false;
+                aGame.b20 = false;
+                aGame.bChange = false;
+            }
             b20b.setText(R.string.b20b_text);
             b20b.setEnabled(false);
             bChange.setEnabled(false);
@@ -373,8 +382,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             } catch (Exception ex) {
                 this.errHandler(ex);
             }
-            globalVariable.setGame(aGame);
         }
+        globalVariable.setGame(aGame);
     }
 
     /**
@@ -573,7 +582,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         imOut1.setImageDrawable(playedOutCard1.getDrawable());
     }
 
-
     /**
      * showComputer20 shows computer pair, when computer has 20 or 40
      *
@@ -687,7 +695,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         gameTurn(0);
     }
 
-
     /**
      * close that game
      *
@@ -722,7 +729,6 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             gameTurn(0);
         }
     }
-
 
     /**
      * a turn in game
@@ -776,7 +782,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             // Info
             setTextMessage(getString(R.string.toplayout_clickon_card));
-        } else {
+        }
+        else {
             // COMPUTERS TURN IMPLEMENTIEREN
             String outPutMessage = "";
             // boolean atouNowChanged = aGame.atouChanged;
@@ -801,6 +808,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
                 ready = false;
+                globalVariable.setGame(aGame);
                 return;
             }
 
@@ -850,11 +858,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             bContinue.setEnabled(false);
 
             tMes.setVisibility(View.INVISIBLE);
+
+            globalVariable.setGame(aGame);
             gameTurn(0);
         } catch (Exception e) {
             this.errHandler(e);
         }
-        globalVariable.setGame(aGame);
     }
 
     /**
@@ -954,6 +963,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
 
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
+                globalVariable.setGame(aGame);
                 tsEnds(getString(R.string.computer_closing_failed), 1);
                 return;
             }
@@ -963,6 +973,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
+                globalVariable.setGame(aGame);
                 tsEnds(getString(R.string.closing_failed), 1);
                 return;
             }
@@ -990,11 +1001,13 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
+                globalVariable.setGame(aGame);
                 tsEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
+                globalVariable.setGame(aGame);
                 tsEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), 1);
                 return;
             }
@@ -1003,10 +1016,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.movs >= 5) {
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
+                    globalVariable.setGame(aGame);
                     tsEnds(getString(R.string.closing_failed), 1);
                 }
                 try {
                     if (aGame.computer.hasClosed) {
+                        globalVariable.setGame(aGame);
                         tsEnds(getString(R.string.computer_closing_failed), 1);
                     }
                 } catch (Exception jbpvex) {
@@ -1015,8 +1030,10 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 return ;
             } else {
                 if (tmppoints > 0) {
+                    globalVariable.setGame(aGame);
                     tsEnds(getString(R.string.last_hit_you_have_won), 1);
                 } else {
+                    globalVariable.setGame(aGame);
                     tsEnds(getString(R.string.computer_wins_last_hit), 1);
                 }
                 return;
@@ -1053,10 +1070,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.destroyGame();
 
+        globalVariable.setGame(aGame);
+
         if (levela <= 0) {
             mergeCardAnim(true);
         }
-        globalVariable.setGame(aGame);
     }
 
     /**
@@ -1166,6 +1184,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             aGame.bChange = false;
             showAtouCard(aGame.schnapState);
             showPlayersCards();
+
+            globalVariable.setGame(aGame);
             gameTurn(1);
         } catch (Exception e) {
             this.errHandler(e);

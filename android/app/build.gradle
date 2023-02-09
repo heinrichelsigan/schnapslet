@@ -53,7 +53,7 @@ android {
     }
     dexOptions {
     }
-    buildToolsVersion '33.0.0'
+    buildToolsVersion '33.0.1'
     lint {
         abortOnError true
         checkReleaseBuilds true
