@@ -38,6 +38,9 @@ public class Game {
     public boolean colorHitRule = false;       // Farb und Stichzwang
     public boolean isClosed = false;           // game is closed
     public boolean shouldContinue = false;     // should continue the game
+    public boolean a20 = false;
+    public boolean b20 = false;
+    public boolean bChange = false;
     public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
 
     public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
@@ -47,12 +50,13 @@ public class Game {
 
     public int index = 9;
     public int movs = 0;
+    public int phoneDirection = -1;
     public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
 
     public final Card emptyTmpCard, noneCard;
     public Card[] set = new Card[20];
-    public Card playedOut;
+    public Card playedOut, playedOut0, playedOut1;
 
     public Player gambler, computer;
 	// java.applet.Applet masterApplet = null;
