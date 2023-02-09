@@ -90,7 +90,7 @@ class card {
 		}
 		
 		try {
-        	tmpstr = new String("http://www.area23.at/" + "cardpics/" + this.color + this.value + ".gif");
+        	tmpstr = new String("https://area23.at/schnapsen/cardpics/" + this.color + this.value + ".gif");
          	System.err.println(tmpstr); 
 			this.picture = new java.net.URL(tmpstr);
         } catch (java.net.MalformedURLException murle) { 
@@ -159,7 +159,7 @@ class card {
         //return (picture);
 		URL xy = null; 
 		try {
-			xy = new URL("http://www.area23.at/cardpics/" + this.color + this.value + ".gif");
+			xy = new URL("https://area23.at/schnapsen/cardpics/" + this.color + this.value + ".gif");
 		} catch (Exception e) { }
 		return xy;
     }

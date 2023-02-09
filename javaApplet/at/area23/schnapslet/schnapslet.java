@@ -30,8 +30,8 @@ import java.beans.*;
 
 public class schnapslet extends Applet implements Runnable
 {
-    final static String PROTO = "http";
-    final static String HOST  = "^www.area23.at";
+    final static String PROTO = "https";
+    final static String HOST  = "area23.at";
     final static int    PORT  = 80;
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
@@ -41,10 +41,10 @@ public class schnapslet extends Applet implements Runnable
     boolean pSaid = false; // Said something
     static java.lang.Runtime runtime = null;
     URL emptyURL, backURL, talonURL, notURL;
-	static String emptyJarStr =	"cardpics/e.gif";
-	static String backJarStr =	"cardpics/verdeckt.gif";
-	static String notJarStr = 	"cardpics/n0.gif";
-	static String talonJarStr =	"cardpics/t.gif";
+	static String emptyJarStr =	"/schnapsen/cardpics/e.gif";
+	static String backJarStr =	"/schnapsen/cardpics/verdeckt.gif";
+	static String notJarStr = 	"/schnapsen/cardpics/n0.gif";
+	static String talonJarStr =	"/schnapsen/cardpics/t.gif";
     game aGame;
 	java.awt.Font schnapsFont;
     Thread t0;
@@ -78,11 +78,11 @@ public class schnapslet extends Applet implements Runnable
 	
 	protected void initURLBase() {
 		try { 
-			notURL =   new URL("http://www.area23.at/" + "cardpics/n0.gif");
-		    emptyURL = new URL("http://www.area23.at/" + "cardpics/e.gif");
-		    backURL =  new URL("http://www.area23.at/" + "cardpics/verdeckt.gif");
-			// backURL =  new URL(this.getCodeBase() + "cardpics/verdeckt.gif");
-		    talonURL = new URL("http://www.area23.at/" + "cardpics/t.gif");
+			notURL =   new URL("https://area23.at/" + "schnapsen/cardpics/n0.gif");
+		    emptyURL = new URL("https://area23.at/" + "schnapsen/cardpics/e.gif");
+		    backURL =  new URL("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
+			// backURL =  new URL(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
+		    talonURL = new URL("https://area23.at/" + "schnapsen/cardpics/t.gif");
 		} catch (Exception error) { 
 		}
 	}
@@ -507,17 +507,35 @@ public class schnapslet extends Applet implements Runnable
         
     
     void twentyEnough(boolean who) {
-        int xj = 0;
+        int xking = 0;
+		int xqueen = 0;
+		boolean xfinished = false;
         String andEnough = "20 und genug !";
         ready = false;
         if (who) {
             try {
-                while(aGame.gambler.hand[xj++].color != aGame.said) ;
-				while(aGame.gambler.hand[xj++].getValue() < 3) ;
-				// imOut0.setImage(aGame.gambler.hand[xj-1].getImage());
-                imOut0.setImageURL(aGame.gambler.hand[xj-1].getPictureUrl());
-                // imOut1.setImage(aGame.gambler.hand[xj].getImage());
-				imOut1.setImageURL(aGame.gambler.hand[xj].getPictureUrl());				
+                while((xqueen < 5) && !xfinished)  {					
+					if ((aGame.gambler.hand[xqueen] != null) && 
+						(aGame.gambler.hand[xqueen].color == aGame.said) && 
+						(aGame.gambler.hand[xqueen].getValue() == 3 ||
+							aGame.gambler.hand[xqueen].getValue() == 4))
+					{
+						URL enoughQueenUrl = new URL(
+							"https://area23.at/schnapsen/cardpics/" + aGame.said + "3.gif");
+						// imOut0.setImage(aGame.gambler.hand[xqueen].getImage());
+						// imOut0.setImageURL(aGame.gambler.hand[xqueen].getPictureUrl());
+						imOut0.setImageURL(enoughQueenUrl);
+						URL enoughKingUrl = new URL(
+							"https://area23.at/schnapsen/cardpics/" + aGame.said + "4.gif");
+						// imOut1.setImage(aGame.gambler.hand[xqueen + 1].getImage());
+						// imOut1.setImageURL(aGame.gambler.hand[xking].getPictureUrl());
+						imOut1.setImageURL(enoughKingUrl);
+						xfinished = true;
+						break;
+ 					}	
+					xqueen++;					
+				}					
+						
                 if (aGame.said == aGame.atouInGame) {
 					andEnough = "40 und genug !";
 				}
@@ -527,12 +545,28 @@ public class schnapslet extends Applet implements Runnable
             tsEnds(new String(andEnough+" Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !"), 1);       
         } else {
             try {
-                while(aGame.computer.hand[xj++].color != aGame.csaid) ;
-				while(aGame.computer.hand[xj++].getValue() < 3) ;
-				// imOut0.setImage(aGame.computer.hand[xj-1].getImage());
-                imOut0.setImageURL(aGame.computer.hand[xj-1].getPictureUrl());
-				// imOut1.setImage(aGame.computer.hand[xj].getImage());				
-				imOut1.setImageURL(aGame.computer.hand[xj].getPictureUrl());
+				xqueen = 0;
+				xfinished = false;	
+                while((xqueen < 5) && !xfinished)  {						
+					if ((aGame.computer.hand[xqueen] != null) && 
+						(aGame.computer.hand[xqueen].color == aGame.csaid) && 
+						(aGame.computer.hand[xqueen].getValue() == 3 ||
+							aGame.computer.hand[xqueen].getValue() == 4))
+					{
+						URL enoughCQueenUrl = new URL(
+							"https://area23.at/schnapsen/cardpics/" +  aGame.csaid + "3.gif");
+						// imOut0.setImage(aGame.gambler.hand[xqueen].getImage());
+						imOut0.setImageURL(enoughCQueenUrl);
+						URL enoughCKingUrl = new URL(
+							"https://area23.at/schnapsen/cardpics/" +  aGame.csaid + "4.gif");
+						imOut1.setImageURL(enoughCKingUrl);
+						// imOut1.setImage(aGame.computer.hand[xqueen + 1].getImage());
+						xfinished = true;
+						break;
+ 					}			
+					xqueen++;
+				}				
+			
                 if (aGame.csaid == aGame.atouInGame) { 
 					andEnough="40 und genug !";
 				}
@@ -545,6 +579,7 @@ public class schnapslet extends Applet implements Runnable
         return;        
     }
     
+	
     void endTurn() {
         int tmppoints;
         /* IMPLEMENT COMPUTERS STRATEGIE HERE */
