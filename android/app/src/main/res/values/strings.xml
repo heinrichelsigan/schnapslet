@@ -3,7 +3,7 @@
     <string translatable="true" name="version_name">v1.6.9</string>
     <string translatable="true" name="action_settings">Settings</string>
     <string translatable="true" name="action_start">Start</string>
-    <string translatable="true" name="action_stop">Stop</string>
+    <string translatable="true" name="action_stop">ReStart</string>
     <string translatable="true" name="action_options">Options</string>
     <string translatable="true" name="action_help">Help</string>
     <string translatable="true" name="action_continue">Continue</string>

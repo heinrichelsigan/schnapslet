@@ -11,7 +11,7 @@
         android:id="@+id/action_stop"
         android:orderInCategory="200"
         android:title="@string/action_stop"
-        android:enabled="false"
+        android:enabled="true"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_help"

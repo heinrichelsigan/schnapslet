@@ -1054,7 +1054,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     protected void stopGame(int levela) {
         if (myMenu != null) {
-            myMenu.findItem(R.id.action_stop).setEnabled(false);
+            myMenu.findItem(R.id.action_stop).setEnabled(true);
         }
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.stopGame();

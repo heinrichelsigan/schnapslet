@@ -3,7 +3,7 @@
     <string name="version_name">v1.6.9</string>
     <string name="action_settings">paramètres</string>
     <string name="action_start">début</string>
-    <string name="action_stop">fin</string>
+    <string name="action_stop">replay</string>
     <string name="action_options">options</string>
     <string name="action_help">aide</string>
     <string name="action_continue">continuer</string>
