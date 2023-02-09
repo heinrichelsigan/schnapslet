@@ -5,7 +5,7 @@ Austrian card game Schnapsen as either Java Applet or Java Application or Androi
 Documentation of Schnapsen a.k.a. 66 (sixty-six) card game can be found at Wikipedia:
 https://en.wikipedia.org/wiki/Sixty-six_(card_game) 
 
-## schnapslet java application or applet
+# schnapslet java application or applet
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.
 
@@ -31,10 +31,16 @@ use appletviewer to test schnapslet as old style deprecated java applet
 
 YouTube Video: https://youtu.be/7Fw7-R2quvE
 
-## schnapslet sources for android 
+# schnapslet sources for android 
 
 Sources for android using Abdroid Studio are located under 
 > schnapslet/android/Schnapslet
+
+###  android APK packages
+Release build:
+https://github.com/heinrichelsigan/schnapslet/blob/master/android/app/build/outputs/apk/release/app-release.apk
+Latest debug build:
+https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outputs/apk/debug
 
 ## Schnapslet Schnapsen Wiki 
 
