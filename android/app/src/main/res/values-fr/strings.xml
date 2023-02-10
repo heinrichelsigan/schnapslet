@@ -19,7 +19,6 @@
     <string name="sPoints">points</string>
     <string name="tRest_text">0</string>
     <string name="sRest">rest</string>
-    <string name="tDbg_text"> </string>
     <string name="imOut0_text">carte à jouer</string>
     <string name="imOut1_text">carte de réponse</string>
     <string name="imgCOut0_text">carte d\'ordinateur 0</string>

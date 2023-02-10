@@ -33,18 +33,26 @@ public enum CARDCOLOR {
 	CLUBS('t');
 
 	/**
-	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
+	 * Enum CARDCOLOR constructor
+	 * must have private or package scope. You can not use the public access modifier.
 	 */
-	CARDCOLOR(char value) {
-		this.value = value;
+	CARDCOLOR(char colorCh) {
+		this.colorChar = colorCh;
 	}
 
-	private final char value;
+	private final char colorChar;
 
-	public char getValue() {
-		return value;
-	}
+	/**
+	 * getChar()
+	 * @return char colorChar
+	 */
+	public char getChar() { return colorChar; }
 
+	/**
+	 * getName()
+	 * @return String this.name
+	 */
 	public String getName() { return this.name(); }
+
 }
 

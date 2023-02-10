@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -275,6 +276,105 @@ public class BaseAppActivity extends AppCompatActivity {
             // .speak(text2Say, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+
+    /**
+     * toggleEnabled - sets any TextView to enabled or disabled
+     *
+     * @param anytTextView TextView to change
+     * @param enabled boolean => sets special enabled or not enabled state
+     * @param text2Set String => replaces text of TextView with text2Set String
+     * @param toolTip String => replaces toolTip of TextView with text2Set String
+     *
+     * @throws NullPointerException when anytTextView is null
+     * */
+    public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) {
+
+        if (anytTextView != null) {
+
+            if (text2Set != null && text2Set.length() > 0) {
+                anytTextView.setText(text2Set);
+                String toolTip2Set = (toolTip != null) ? toolTip : text2Set;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && toolTip2Set.length() > 1) {
+                    anytTextView.setTooltipText(toolTip2Set);
+                }
+            }
+
+            if (anytTextView.getVisibility() != View.VISIBLE)
+                anytTextView.setVisibility(View.VISIBLE);
+
+            anytTextView.setEnabled(enabled);
+
+            if (enabled)
+                anytTextView.setTypeface(anytTextView.getTypeface(), Typeface.BOLD);
+            else
+                anytTextView.setTypeface(anytTextView.getTypeface(), Typeface.ITALIC);
+
+            return ;
+        }
+        else
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
+    }
+
+    /**
+     * toggleEnabled - sets any TextView to enabled or disabled
+     *
+     * @param anytTextView TextView to change
+     * @param enabled boolean => sets special enabled or not enabled state
+     * @param text2Set String => replaces text of TextView with text2Set String
+     */
+    public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set) {
+        toggleEnabled(anytTextView, enabled, text2Set, text2Set);
+    }
+
+  /**
+   * toggleEnabled - sets any View to enabled or disabled
+   *
+   * @param anyView View to change
+   * @param enabled boolean => sets special enabled or not enabled state
+   *
+   * @throws NullPointerException when anyView is null
+   */
+    public void toggleEnabled(View anyView, boolean enabled) {
+        if (anyView != null) {
+            if (anyView instanceof TextView)
+                toggleEnabled(((TextView) anyView), enabled, null);
+            else
+                anyView.setEnabled(enabled);
+            return;
+        }
+        else
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_any_view));
+    }
+
+    /**
+     * toggleMenuItem - sets a MenuItem to enabled or disabled
+     *
+     * @param aMenuItem MenuItem to change
+     * @param enabled boolean => sets special enabled or not enabled state
+     *
+     * @throws NullPointerException when aMenuItem is null
+     */
+    public void toggleMenuItem(MenuItem aMenuItem, boolean enabled) {
+        if (aMenuItem != null) {
+            aMenuItem.setEnabled(enabled);
+            return;
+        }
+        else
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_menu_item));
+    }
+
+    /**
+     * toggleMenuItem - sets a MenuItem to enabled or disabled
+     * @param aMenu Menu to find item
+     * @param itemId MenuItem id
+     * @param enabled boolean => sets special enabled or not enabled state
+     */
+    public void toggleMenuItem(Menu aMenu, int itemId, boolean enabled) {
+        if (aMenu != null && aMenu.findItem(itemId) != null) {
+            aMenu.findItem(itemId).setEnabled(enabled);
+        }
+    }
+
 
     /**
      * showHelp() prints out help text

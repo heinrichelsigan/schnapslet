@@ -32,7 +32,8 @@ public enum PLAYEROPTIONS {
 	ANDENOUGH(32);
 
 	/**
-	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
+	 * Enum PLAYEROPTIONS constructor
+	 *  must have private or package scope. You can not use the public access modifier.
 	 */
 	PLAYEROPTIONS(int value) {
 		this.value = value;
@@ -40,6 +41,10 @@ public enum PLAYEROPTIONS {
 
 	private final int value;
 
+	/**
+	 * getValue()
+	 * @return int value
+	 */
 	public int getValue() {
 		return value;
 	}

@@ -22,9 +22,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import at.area23.schnapslet.R;
 
-
 /**
- * BOARDCOL represents the enumerator for columns of the board
+ * enum BOARDCOL represents the enumerator for columns of the board
  */
 public enum SCHNAPSOUNDS {
     MERGE_CARDS(1),

@@ -21,7 +21,7 @@ package at.area23.schnapslet.constenum;
 import java.lang.String;
 
 /**
- * SCHNAPSTATE enum represents game state in schnapsen
+ * enum SCHNAPSTATE enum represents game state in schnapsen
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
@@ -42,7 +42,8 @@ public enum SCHNAPSTATE {
 	NONE(1023);
 
 	/**
-	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
+	 *  Enum SCHNAPSTATE constructor
+	 *   must have private or package scope. You can not use the public access modifier.
 	 */
 	SCHNAPSTATE(int value) {
 		this.value = value;
@@ -50,10 +51,16 @@ public enum SCHNAPSTATE {
 
 	private final int value;
 
-	public int getValue() {
-		return value;
-	}
+	/**
+	 * getValue()
+	 * @return int value
+	 */
+	public int getValue() { return value; }
 
+	/**
+	 * getName()
+	 * @return int this.name()
+	 */
 	public String getName() { return this.name(); }
 }
 

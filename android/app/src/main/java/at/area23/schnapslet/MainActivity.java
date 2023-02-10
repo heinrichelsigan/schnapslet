@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.AnimatedImageDrawable;
@@ -68,6 +69,8 @@ import java.util.Locale;
 
 import at.area23.schnapslet.constenum.SCHNAPSTATE;
 import at.area23.schnapslet.constenum.*;
+import at.area23.schnapslet.models.Card;
+import at.area23.schnapslet.models.Game;
 
 /**
  * MainActivity class implements the MainActivity.
@@ -215,7 +218,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         tDbg.setText(layoutMes);
         tMes.setVisibility(View.INVISIBLE);
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
-        bChange.setEnabled(false);
+        toggleEnabled(bChange, false);
         // aGame.bChange = false;
 
         imMerge = (ImageView) findViewById(R.id.imMerge);
@@ -235,9 +238,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             resetButtons(0);
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
-            tDbg.setText("Reload current game on onConfigurationChanged\n");
-            if (aGame.shouldContinue)
-                bContinue.setEnabled(true);
+            tRest.setText(String.valueOf((19-aGame.index)));
+            toggleEnabled(bContinue, aGame.shouldContinue);
+            toggleEnabled(bChange, aGame.bChange);
+            toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20);
+            toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40);
+            setTextMessage(aGame.textMsg);
+            printMes();
+
             showTalonCard(aGame.schnapState);
             showAtouCard(aGame.schnapState);
             playedOutCard0 = aGame.playedOut0;
@@ -350,22 +358,20 @@ public class MainActivity extends BaseAppActivity implements Runnable {
     protected void resetButtons(int level) {
 
         if (level >= 0 ) {
-            b20a.setText(R.string.b20a_text);
-            b20a.setEnabled(false);
+            toggleEnabled(b20a, false, getString(R.string.b20a_text));
             if (aGame != null) {
                 aGame.a20 = false;
                 aGame.b20 = false;
                 aGame.bChange = false;
             }
-            b20b.setText(R.string.b20b_text);
-            b20b.setEnabled(false);
-            bChange.setEnabled(false);
+            toggleEnabled(b20b, false, getString(R.string.b20b_text));
+            toggleEnabled(bChange, false);
         }
 
         if (level >= 1) {
             if (aGame != null)
                 aGame.shouldContinue = false;
-            bContinue.setEnabled(false);
+            toggleEnabled(bContinue, false);
 
             showAtouCard(SCHNAPSTATE.GAME_START);
             showTalonCard(SCHNAPSTATE.GAME_START);
@@ -631,16 +637,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         }
 
         for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
-            if (computerPlayedOut.getValue() == 3 &&
+            if (computerPlayedOut.getCardValue().getValue() == 3 &&
                     aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
-                    aGame.computer.hand[ci].getValue() == 4) {
+                    aGame.computer.hand[ci].getCardValue().getValue() == 4) {
                 imCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
                 imCOut1.setImageDrawable(computerPlayedOut.getDrawable());
                 break;
             }
-            if (computerPlayedOut.getValue() == 4 &&
+            if (computerPlayedOut.getCardValue().getValue() == 4 &&
                     aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
-                    aGame.computer.hand[ci].getValue() == 3) {
+                    aGame.computer.hand[ci].getCardValue().getValue() == 3) {
                 imCOut0.setImageDrawable(computerPlayedOut.getDrawable());
                 imCOut1.setImageDrawable(aGame.computer.hand[ci].getDrawable());
                 break;
@@ -662,9 +668,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     protected void startGame() {
 
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_start).setEnabled(false);
-        }
+        toggleMenuItem(myMenu, R.id.action_start, false);
         aGame = null;
 
         // runtime = java.lang.Runtime.getRuntime();
@@ -687,9 +691,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
         showAtouCard(aGame.schnapState);
         showTalonCard(aGame.schnapState);
 
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_stop).setEnabled(true);
-        }
+        toggleMenuItem(myMenu, R.id.action_stop, true);
 
         globalVariable.setGame(aGame);
         gameTurn(0);
@@ -753,33 +755,36 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             aGame.csaid = 'n';
         }
 
+        aGame.bChange = false;
+        aGame.a20 = false;
+        aGame.b20 = false;
+        aGame.sayMarriage20= getString(R.string.b20a_text);
+        aGame.sayMarriage40 = getString(R.string.b20a_text);
+
         if (aGame.playersTurn) {
             // Wann kann man austauschen ?
-            if (ixlevel < 1)
+            if (ixlevel < 1) {
                 if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
                     psaychange += 1;
                     aGame.bChange = true;
-                    bChange.setEnabled(true);
                 }
+                toggleEnabled(bChange, aGame.bChange);
+            }
             // Gibts was zum Ansagen ?
             int a20 = aGame.gambler.has20();
-
             if (a20 > 0) {
                 psaychange += 2;
-                String sayText = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
-                b20a.setText(sayText);
-                aGame.b20 = true;
-                b20a.setEnabled(true);
+                aGame.a20 = true;
+                aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
 
                 if (a20 > 1) {
-                    sayText = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
-                    b20b.setText(sayText);
                     aGame.b20 = true;
-                    b20b.setEnabled(true);
-                } else {
-                    b20b.setText(R.string.no_second_pair);
+                    aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
                 }
             }
+
+            toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20);
+            toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40);
             // Info
             setTextMessage(getString(R.string.toplayout_clickon_card));
         }
@@ -855,7 +860,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             if (aGame != null)
                 aGame.shouldContinue = false;
-            bContinue.setEnabled(false);
+            toggleEnabled(bContinue, false);
 
             tMes.setVisibility(View.INVISIBLE);
 
@@ -881,14 +886,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             try {
                 for (xj = 0; xj < 5; xj++) {
-                    if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 3) {
+                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
+                            aGame.gambler.hand[xj].getCardValue().getValue() == 3) {
                         playedOutCard0 = aGame.gambler.hand[xj];
                         aGame.playedOut0 = playedOutCard0;
                         imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
                     }
-                    if (aGame.gambler.hand[xj].color == aGame.said &&
-                            aGame.gambler.hand[xj].value == 4) {
+                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
+                            aGame.gambler.hand[xj].getCardValue().getValue() == 4) {
                         playedOutCard1 = aGame.gambler.hand[xj];
                         aGame.playedOut1 = playedOutCard1;
                         imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
@@ -907,14 +912,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             try {
                 for (xj = 0; xj < 5; xj++) {
-                    if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 3) {
+                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
+                            aGame.computer.hand[xj].getCardValue().getValue() == 3) {
                         playedOutCard0 = aGame.computer.hand[xj];
                         aGame.playedOut0 = playedOutCard0;
                         imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
                     }
-                    if (aGame.computer.hand[xj].color == aGame.csaid &&
-                            aGame.computer.hand[xj].value == 4) {
+                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
+                            aGame.computer.hand[xj].getCardValue().getValue() == 4) {
                         playedOutCard1 = aGame.computer.hand[xj];
                         aGame.playedOut1 = playedOutCard1;
                         imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
@@ -1042,7 +1047,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
         if (aGame != null)
             aGame.shouldContinue = true;
-        bContinue.setEnabled(true);
+        toggleEnabled(bContinue, true);
         imTalon.setOnClickListener(this::bContinue_Clicked);
         ready = false;
         globalVariable.setGame(aGame);
@@ -1053,18 +1058,16 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      * @param levela level of stop
      */
     protected void stopGame(int levela) {
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_stop).setEnabled(true);
-        }
+
+        toggleMenuItem(myMenu, R.id.action_stop, true);
+
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.stopGame();
 
         resetButtons(levela);
 
-        bContinue.setEnabled(true);
-        if (myMenu != null) {
-            myMenu.findItem(R.id.action_start).setEnabled(true);
-        }
+        toggleEnabled(bContinue, true);
+        toggleMenuItem(myMenu, R.id.action_start, true);
 
         showPlayersCards();
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
@@ -1180,8 +1183,9 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             aGame.changeAtou(aGame.gambler);
             saySchnapser(SCHNAPSOUNDS.CHANGE_ATOU, getString(R.string.bChange_text));
 
-            bChange.setEnabled(false);
             aGame.bChange = false;
+            toggleEnabled(bChange, aGame.bChange);
+
             showAtouCard(aGame.schnapState);
             showPlayersCards();
 
@@ -1216,7 +1220,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
 
-            aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -1253,7 +1257,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
 
-            aGame.mqueue.insert(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -1287,7 +1291,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
             if (!aGame.gambler.hand[ic].isValidCard()) {
                 setTextMessage(getString(R.string.this_is_no_valid_card));
-                aGame.mqueue.insert(getString(R.string.this_is_no_valid_card));
+                aGame.insertMsg(getString(R.string.this_is_no_valid_card));
                 printMes();
                 return false;
             }
@@ -1311,7 +1315,7 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
 
             if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid) &&
-                    touchedCard.cardValue == CARDVALUE.JACK && touchedCard.isAtou()) {
+                    touchedCard.getCardValue() == CARDVALUE.JACK && touchedCard.isAtou()) {
                 atouCard = (LinearLayout) findViewById(R.id.atouCard);
                 atouCard.setOnDragListener((view1, dragEvent) -> layoutView_OnDragHandler(view1, dragEvent, -1));
             }
@@ -1327,13 +1331,15 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             playerCard4 = (LinearLayout) findViewById(R.id.playerCard4);
             playerCard4.setOnDragListener(null);
 
-            if (touchedCard.cardValue == CARDVALUE.QUEEN || touchedCard.cardValue == CARDVALUE.KING) {
+            if (touchedCard.getCardValue() == CARDVALUE.QUEEN ||
+                    touchedCard.getCardValue() == CARDVALUE.KING) {
 
                 for (int idx = 0; idx < 5; idx++) {
                     Card dropCard = aGame.gambler.hand[idx];
                     if (dropCard.isValidCard() &&
-                            (dropCard.cardColor == touchedCard.cardColor) &&
-                            (dropCard.getValue() + touchedCard.getValue() == 7)) {
+                            (dropCard.getCardColor() == touchedCard.getCardColor()) &&
+                            (dropCard.getCardValue().getValue() + touchedCard.getCardValue().getValue()
+                                    == 7)) {
 
                         switch (idx) {
                             case 0:
@@ -1477,7 +1483,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
 
                 if (lcId == R.id.playerCard0 || lcId == R.id.playerCard1 || lcId == R.id.playerCard2 ||
                         lcId == R.id.playerCard3 || lcId == R.id.playerCard4) {
-                    if (touchedCard.cardValue != CARDVALUE.QUEEN && touchedCard.cardValue != CARDVALUE.KING) {
+                    if (touchedCard.getCardValue() != CARDVALUE.QUEEN &&
+                            touchedCard.getCardValue() != CARDVALUE.KING) {
                         view.setVisibility(View.VISIBLE);
                         return false;
                     }
@@ -1509,8 +1516,11 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         default:
                             break;
                     }
-                    if ((dropCard.cardColor == touchedCard.cardColor) &&
-                            (dropCard.getValue() + touchedCard.getValue() == 7)) {
+                    if ((dropCard.getCardColor().getChar()
+                            == touchedCard.getCardColor().getChar()) &&
+                        (dropCard.getCardValue().getValue() +
+                                touchedCard.getCardValue().getValue()
+                                    == 7)) {
 
                         if (dropCard.isAtou()) {
                         // if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
@@ -1520,12 +1530,12 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                         }
                         pSaid = true;
                         resetButtons(0);
-                        aGame.said = dropCard.getCharColor();
+                        aGame.said = dropCard.getCardColor().getChar();
 
                         String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
                         setTextMessage(sayMarriage);
                         saySchnapser(SCHNAPSOUNDS.NONE, sayMarriage);
-                        aGame.mqueue.insert(sayMarriage);
+                        aGame.insertMsg(sayMarriage);
                         printMes();
 
                         tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -1617,18 +1627,18 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             }
             if (!aGame.gambler.hand[ic].isValidCard()) {
                 setTextMessage(getString(R.string.this_is_no_valid_card));
-                aGame.mqueue.insert(getString(R.string.this_is_no_valid_card));
+                aGame.insertMsg(getString(R.string.this_is_no_valid_card));
                 printMes();
                 return;
             }
             if (pSaid) {
-                if ((aGame.said == aGame.gambler.hand[ic].getCharColor()) &&
-                        (aGame.gambler.hand[ic].getValue() > 2) &&
-                        (aGame.gambler.hand[ic].getValue() < 5)) {
+                if ((aGame.said == aGame.gambler.hand[ic].getCardColor().getChar()) &&
+                        (aGame.gambler.hand[ic].getCardValue().getValue() > 2) &&
+                        (aGame.gambler.hand[ic].getCardValue().getValue() < 5)) {
                     ; // we can continue
                 } else {
                     setTextMessage(getString(R.string.you_must_play_pair_card));
-                    aGame.mqueue.insert(getString(R.string.you_must_play_pair_card));
+                    aGame.insertMsg(getString(R.string.you_must_play_pair_card));
                     printMes();
                     return ;
                 }
@@ -1637,14 +1647,14 @@ public class MainActivity extends BaseAppActivity implements Runnable {
                 // CORRECT WAY ?
                 if ((!aGame.gambler.isInColorHitsContextValid(ic,aGame.computer.hand[ccard]))) {
                     setTextMessage(getString(R.string.you_must_play_color_hit_force_rules));
-                    aGame.mqueue.insert(getString(R.string.you_must_play_color_hit_force_rules));
+                    aGame.insertMsg(getString(R.string.you_must_play_color_hit_force_rules));
                     int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
                     // for (j = 0; j < 5; j++) {
                     //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
                     // }
                     // aGame.mqueue.insert(c_array);
 
-                    aGame.mqueue.insert(getString(R.string.best_card_would_be, aGame.gambler.hand[tmpint].getName()));
+                    aGame.insertMsg(getString(R.string.best_card_would_be, aGame.gambler.hand[tmpint].getName()));
                     printMes();
                     showPlayersCards();
                     return ;
@@ -1702,7 +1712,8 @@ public class MainActivity extends BaseAppActivity implements Runnable {
             card = aGame.emptyTmpCard;
 
 
-        String tmp = card.color + String.valueOf(card.value);
+        String tmp = card.getCardColor().getChar() +
+                String.valueOf(card.getCardValue().getValue());
         imageView.setImageDrawable(card.getDrawable());
 
         imageView.setTag(0, tmp);
@@ -1715,17 +1726,21 @@ public class MainActivity extends BaseAppActivity implements Runnable {
      */
     private void setTextMessage(CharSequence text) {
         Context context = getApplicationContext();
-		if (text != null && text != "") {
-            tMes.setText(text);
-            tMes.setVisibility(View.VISIBLE);
-        }
+        String textMsg = (text != null && text.length() > 2) ?
+                String.valueOf(text) : getString(R.string.tDbg_text);
+
+        if (aGame != null)
+            aGame.textMsg = textMsg;
+
+        boolean tMesEna = (!textMsg.isEmpty() && textMsg.length() > 2);
+        toggleEnabled(tMes, tMesEna, textMsg);
     }
 
     /**
      * print message queue
      */
     private void printMes() {
-        tDbg.append(aGame.mqueue.fetch());
+        tDbg.append(aGame.fetchMsg());
     }
 
     /**

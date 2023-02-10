@@ -24,6 +24,10 @@ import android.net.Uri;
 import android.os.Build;
 import java.util.Locale;
 
+import at.area23.schnapslet.*;
+import at.area23.schnapslet.models.*;
+import at.area23.schnapslet.constenum.*;
+
 public class GlobalAppSettings extends Application {
     private Locale systemLocale, locale;
     private final String prefixUrl = "https://area23.at/schnapsen/";

@@ -30,6 +30,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.*;
 import androidx.fragment.app.DialogFragment;
 
+import at.area23.schnapslet.models.Game;
+
 /**
  * AboutActivity class implements help text view.
  *
@@ -47,6 +49,7 @@ public class AboutActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        globalVariable = (GlobalAppSettings) getApplicationContext();
         setContentView(R.layout.activity_about);
 
         backButton = (Button) findViewById(R.id.backButton);
@@ -55,6 +58,10 @@ public class AboutActivity extends BaseAppActivity {
         builtWithTextView = (TextView) findViewById(R.id.builtWithTextView);
 
         addListenerOnClickables();
+
+        Game thatGame = globalVariable.getGame();
+        if (thatGame != null) // TODO: replace with constant
+            thatGame.phoneDirection = 255;
 
     }
 

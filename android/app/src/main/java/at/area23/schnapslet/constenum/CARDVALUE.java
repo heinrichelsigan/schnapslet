@@ -18,7 +18,7 @@
 package at.area23.schnapslet.constenum;
 
 /**
- * CARDVALUE enum represents the value of a card.
+ * enum CARDVALUE enum represents the value of a card.
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
@@ -35,14 +35,24 @@ public enum CARDVALUE {
 	private final int value;
 
 	/**
-	 * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
+	 * Enum CARDVALUE constructor
+	 *  must have private or package scope. You can not use the public access modifier.
 	 */
 	CARDVALUE(int value) {
 		this.value = value;
 	}
 
+
+	/**
+	 * getValue()
+	 * @return int value
+	 */
 	public int getValue() { return value; }
 
+	/**
+	 * getName()
+	 * @return int this.name()
+	 */
 	public String getName() {
 		return this.name();
 	}

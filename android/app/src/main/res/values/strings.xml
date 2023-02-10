@@ -19,7 +19,6 @@
     <string translatable="true" name="sPoints">points</string>
     <string translatable="true" name="tRest_text">10</string>
     <string translatable="true" name="sRest">Rest</string>
-    <string translatable="true" name="tDbg_text"> </string>
     <string translatable="true" name="imOut0_text">Playout card</string>
     <string translatable="true" name="imOut1_text">Answer card</string>
     <string translatable="true" name="imgCOut0_text">Computer card 0</string>
@@ -94,6 +93,11 @@
     <string translatable="true" name="french_cards">french cards</string>
     <string translatable="true" name="ukraine_cards">ukraine cardsetk</string>
     <string translatable="true" name="polish_cards">polish cardset</string>
-    <string translatable="true" name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
+
+    <string translatable="false" name="tDbg_text" formatted="false"> </string>
+    <string translatable="false" name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
+    <string translatable="false" name="msg_null_pointer_toggle_text_view">public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) { ... }  => anytTextView is null!</string>
+    <string translatable="false" name="msg_null_pointer_toggle_any_view">public void toggleEnabled(View anyView, boolean enabled) { ... }  => anyView is null!</string>
+    <string translatable="false" name="msg_null_pointer_toggle_menu_item">public void toggleMenuItem(MenuItem aMenuItem, boolean enabled) { ... }  => aMenuItem is null!</string>
 </resources>
 

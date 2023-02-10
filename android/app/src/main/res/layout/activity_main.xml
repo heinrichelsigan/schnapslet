@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
@@ -283,6 +284,8 @@
                 android:layout_height="36dp"
                 android:minHeight="32dp"
                 android:minWidth="360dp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:text="@string/tMes_text"
@@ -298,6 +301,9 @@
                 android:minHeight="36dp"
                 android:minWidth="120dp"
                 android:text="@string/bContinue_text"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
+                android:textStyle="bold"
                 android:textSize="12sp" />
 
             <Button
@@ -310,6 +316,9 @@
                 android:minHeight="36dp"
                 android:minWidth="120dp"
                 android:text="@string/bChange_text"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
+                android:textStyle="italic"
                 android:textSize="12sp" />
 
             <TextView
@@ -322,7 +331,10 @@
                 android:minHeight="36dp"
                 android:text="@string/tRest_text"
                 android:textAlignment="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:tooltipText="@string/sRest" />
 
             <TextView
@@ -334,6 +346,8 @@
                 android:minHeight="36dp"
                 android:minWidth="48dp"
                 android:textAlignment="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:tooltipText="@string/sPoints"
@@ -347,7 +361,10 @@
                 android:layout_marginTop="48dp"
                 android:minHeight="36dp"
                 android:minWidth="120dp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
                 android:text="@string/b20a_text"
+                android:textStyle="italic"
                 android:textSize="12sp" />
 
             <Button
@@ -359,6 +376,9 @@
                 android:minHeight="36dp"
                 android:minWidth="120dp"
                 android:text="@string/b20b_text"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorBackLight"
+                android:textStyle="italic"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -373,6 +393,7 @@
             android:layout_marginTop="436dp"
             android:minWidth="340dp"
             android:minHeight="108dp"
+            android:textStyle="italic"
             android:text="@string/tDbg_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
