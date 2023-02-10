@@ -1,6 +1,4 @@
 <resources>
-    <string translatable="true" name="app_name">Schnapslet</string>
-    <string translatable="true" name="version_name">v1.6.9</string>
     <string translatable="true" name="action_settings">Settings</string>
     <string translatable="true" name="action_start">Start</string>
     <string translatable="true" name="action_stop">ReStart</string>
@@ -94,6 +92,8 @@
     <string translatable="true" name="ukraine_cards">ukraine cardsetk</string>
     <string translatable="true" name="polish_cards">polish cardset</string>
 
+    <string translatable="false" name="app_name">Schnapslet</string>
+    <string translatable="false" name="version_name">v2.2.2</string>
     <string translatable="false" name="tDbg_text" formatted="false"> </string>
     <string translatable="false" name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
     <string translatable="false" name="msg_null_pointer_toggle_text_view">public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) { ... }  => anytTextView is null!</string>

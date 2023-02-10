@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Schnapslet</string>
-    <string name="version_name">v1.6.9</string>
     <string name="action_settings">paramètres</string>
     <string name="action_start">début</string>
     <string name="action_stop">replay</string>

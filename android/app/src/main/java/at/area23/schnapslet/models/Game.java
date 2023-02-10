@@ -32,15 +32,16 @@ import at.area23.schnapslet.constenum.*;
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
 public class Game {
-    public volatile boolean isGame = false;   // a Game is running
-    public boolean atouChanged = false;      // Atou allready changed
-    public boolean playersTurn = true;      // Who's playing
-    public boolean colorHitRule = false;       // Farb und Stichzwang
-    public boolean isClosed = false;           // game is closed
-    public boolean shouldContinue = false;     // should continue the game
-    public boolean a20 = false;
-    public boolean b20 = false;
-    public boolean bChange = false;
+    public volatile boolean isGame = false;     // a Game is running
+    public boolean atouChanged = false;         // Atou allready changed
+    public boolean playersTurn = true;          // Who's playing
+    public boolean colorHitRule = false;        // Farb und Stichzwang
+    public boolean isClosed = false;            // game is closed
+    public boolean isReady = false;              // is ready to play out
+    public boolean shouldContinue = false;      // should continue the game
+    public boolean a20 = false;                 // can player announce 1st pair
+    public boolean b20 = false;                 // can player announce 2nd pair
+    public boolean bChange = false;             // can player change atou
 
     public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
     public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
