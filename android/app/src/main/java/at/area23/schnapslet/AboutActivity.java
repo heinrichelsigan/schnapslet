@@ -68,7 +68,7 @@ public class AboutActivity extends BaseAppActivity {
     /**
      * onCreateOptionsMenu
      * @param menu options menu
-     * @return true|false
+     * @return always (boolean) true for overridden member function
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
