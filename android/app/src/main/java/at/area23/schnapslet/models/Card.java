@@ -24,15 +24,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
-import org.intellij.lang.annotations.Language;
+
 import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.Locale;
 
 import at.area23.schnapslet.*;
-import at.area23.schnapslet.models.*;
-import at.area23.schnapslet.constenum.*;
+import at.area23.schnapslet.constenum.CARDCOLOR;
+import at.area23.schnapslet.constenum.CARDVALUE;
 
 /**
  * Card class represents a playing card in Game.
@@ -487,6 +487,15 @@ public class Card {
     }
 
 
+    /*
+     * getColorValue
+     * @return String combined of card color + value
+     */
+    public String getColorValue() {
+        String colorValue = String.valueOf(getCardColor().getChar()) +
+            String.valueOf(this.getCardValue().getValue());
+        return colorValue;
+    }
 
     /**
      * getPictureUrl

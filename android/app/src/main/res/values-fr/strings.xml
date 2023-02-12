@@ -4,6 +4,7 @@
     <string name="action_stop">replay</string>
     <string name="action_options">options</string>
     <string name="action_help">aide</string>
+    <string name="action_about">information</string>
     <string name="action_continue">continuer</string>
     <string name="bStart_text">début</string>
     <string name="bStop_text">fin</string>

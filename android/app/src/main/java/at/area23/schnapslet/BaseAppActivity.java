@@ -17,42 +17,27 @@
 */
 package at.area23.schnapslet;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.speech.tts.Voice;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
-import at.area23.schnapslet.constenum.*;
 
 /**
  * BaseAppActivity extends AppCompatActivity
@@ -291,6 +276,11 @@ public class BaseAppActivity extends AppCompatActivity {
 
         if (anytTextView != null) {
 
+            if (anytTextView.getVisibility() != View.VISIBLE)
+                anytTextView.setVisibility(View.VISIBLE);
+
+            anytTextView.setEnabled(enabled);
+
             if (text2Set != null && text2Set.length() > 0) {
                 anytTextView.setText(text2Set);
                 String toolTip2Set = (toolTip != null) ? toolTip : text2Set;
@@ -299,15 +289,62 @@ public class BaseAppActivity extends AppCompatActivity {
                 }
             }
 
-            if (anytTextView.getVisibility() != View.VISIBLE)
-                anytTextView.setVisibility(View.VISIBLE);
-
-            anytTextView.setEnabled(enabled);
-
-            if (enabled)
+            if (enabled) {
+                anytTextView.setTextColor(getColor(R.color.colorDark));
                 anytTextView.setTypeface(anytTextView.getTypeface(), Typeface.BOLD);
-            else
+                anytTextView.setBackgroundColor(getColor(R.color.colorBackLight));
+
+            }
+            else {
+                anytTextView.setTextColor(getColor(R.color.colorLighter));
                 anytTextView.setTypeface(anytTextView.getTypeface(), Typeface.ITALIC);
+                anytTextView.setBackgroundColor(getColor(R.color.colorBackButton));
+            }
+
+            return ;
+        }
+        else
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
+    }
+
+
+    /**
+     * toggleEnabled - sets any Button to enabled or disabled
+     *
+     * @param aButton Button to change
+     * @param enabled boolean => sets special enabled or not enabled state
+     * @param text2Set String => replaces text of TextView with text2Set String
+     * @param toolTip String => replaces toolTip of TextView with text2Set String
+     *
+     * @throws NullPointerException when anytTextView is null
+     * */
+    public void toggleEnabled(Button aButton, boolean enabled, String text2Set, String toolTip) {
+
+        if (aButton != null) {
+
+            if (aButton.getVisibility() != View.VISIBLE)
+                aButton.setVisibility(View.VISIBLE);
+
+            aButton.setEnabled(enabled);
+
+            if (text2Set != null && text2Set.length() > 0) {
+                aButton.setText(text2Set);
+                String toolTip2Set = (toolTip != null) ? toolTip : text2Set;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && toolTip2Set.length() > 1) {
+                    aButton.setTooltipText(toolTip2Set);
+                }
+            }
+
+            if (enabled) {
+                aButton.setTextColor(getColor(R.color.colorDark));
+                aButton.setTypeface(aButton.getTypeface(), Typeface.BOLD);
+                aButton.setBackgroundColor(getColor(R.color.colorBackLight));
+            }
+            else {
+                aButton.setTextColor(getColor(R.color.colorLighter));
+                aButton.setTypeface(aButton.getTypeface(), Typeface.ITALIC);
+                aButton.setBackgroundColor(getColor(R.color.colorBackButton));
+            }
 
             return ;
         }
@@ -338,9 +375,16 @@ public class BaseAppActivity extends AppCompatActivity {
         if (anyView != null) {
             if (anyView instanceof TextView)
                 toggleEnabled(((TextView) anyView), enabled, null);
-            else
+            else if (anyView instanceof Button)
+                toggleEnabled(((Button) anyView), enabled, null, null);
+            else {
                 anyView.setEnabled(enabled);
-            return;
+                if (enabled)
+                    anyView.setBackgroundColor(getColor(R.color.colorBackLight));
+                else
+                    anyView.setBackgroundColor(getColor(R.color.colorBackButton));
+            }
+            return ;
         }
         else
             throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_any_view));
@@ -377,7 +421,8 @@ public class BaseAppActivity extends AppCompatActivity {
 
 
     /**
-     * showHelp() prints out help text
+     * showHelp
+     * prints out help text
      */
     public void showHelp() {
         // try {
@@ -387,6 +432,18 @@ public class BaseAppActivity extends AppCompatActivity {
         // }
         // tDbg.setText(R.string.help_text);
         Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * openUrl
+     * opens https://github.com/heinrichelsigan/schnapslet/wiki
+     */
+    public void openUrl() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        String github = getString(R.string.github_uri);
+        intent.setData(android.net.Uri.parse(github));
         startActivity(intent);
     }
 

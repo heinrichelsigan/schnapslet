@@ -18,22 +18,23 @@
 package at.area23.schnapslet;
 
 import android.app.Application;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
+
 import java.util.Locale;
 
-import at.area23.schnapslet.*;
 import at.area23.schnapslet.models.*;
-import at.area23.schnapslet.constenum.*;
+import at.area23.schnapslet.constenum.DIALOGS;
 
 public class GlobalAppSettings extends Application {
-    private Locale systemLocale, locale;
-    private final String prefixUrl = "https://area23.at/schnapsen/";
-	private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
+    private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
+    private final String prefixUrl = "https://area23.at/schnapsen/cardpics/";
 	private Uri prefixUri = null;
     private Uri pictureUri = null;
+    private Locale systemLocale, locale;
+    private DIALOGS dialogOpened = DIALOGS.None;
+    private Card emptyCard = null;
+    private Card noneCard = null;
     private Game game = null;
     Context context;
 
@@ -160,4 +161,26 @@ public class GlobalAppSettings extends Application {
     public void setGame(Game aGame) {
         game = aGame;
     }
+
+
+    public Card cardEmpty() {
+        if (emptyCard == null)
+            emptyCard = new Card(-2, getApplication().getApplicationContext());
+        return emptyCard;
+    }
+
+    public Card carNone() {
+        if (noneCard == null)
+            noneCard = new Card(-1, getApplication().getApplicationContext());
+        return noneCard;
+    }
+
+    public DIALOGS getDialog() {
+        return dialogOpened;
+    }
+
+    public void setDialog(DIALOGS dia) {
+        dialogOpened = dia;
+    }
+
 }

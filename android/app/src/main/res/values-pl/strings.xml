@@ -4,6 +4,7 @@
     <string name="action_stop">Restart</string>
     <string name="action_options">Options</string>
     <string name="action_help">Help</string>
+    <string name="action_about">About</string>
     <string name="action_continue">Continue</string>
     <string name="bStart_text">Start</string>
     <string name="bStop_text">Stop</string>

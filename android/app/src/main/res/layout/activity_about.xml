@@ -8,53 +8,57 @@
     tools:context=".AboutActivity">
 
     <TextView
-        android:id="@+id/helpTextView"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_margin="20dp"
-        android:maxHeight="320dp"
-        android:scrollbars="horizontal"
-        android:text="@string/help_text"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        tools:maxHeight="320dp" />
-
-    <!-- This FrameLayout adds no behavior to the UI, it simply occupies all the extra space which forces the views below down to the bottom of the screen. -->
+        android:id 					="@+id/helpTextView"
+        android:layout_width 		="match_parent"
+        android:layout_height 		="284dp"
+        android:layout_margin 		="16dp"
+        android:maxHeight 			="320dp"
+        android:scrollbars 			="horizontal"
+        android:background          ="@color/colorBackLight"
+        android:text 				="@string/help_text"
+        android:textSize 			="12sp"
+        android:textStyle 			="bold"
+        tools:maxHeight 			="320dp" />
 
     <TextView
-        android:id                ="@+id/builtWithTextView"
-        android:layout_width      ="match_parent"
-        android:layout_height     ="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorBackLight"
-        android:text              ="@string/build_with" />
+        android:id                	="@+id/builtWithTextView"
+        android:layout_width      	="match_parent"
+        android:layout_height     	="wrap_content"
+        android:layout_marginLeft 	="16dp"
+        android:layout_marginRight 	="16dp"
+        android:layout_marginTop 	="4dp"
+        android:layout_marginBottom	="4dp"
+        android:textColor           ="@color/colorDark"
+        android:background          ="@color/colorBackLight"
+        android:textSize 			="13sp"
+        android:textStyle           ="normal"
+        android:text              	="@string/build_with" />
 
     <Button
-        android:id           ="@+id/learnMoreButton"
-        android:layout_width ="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorBackLight"
-        android:text         ="@string/learn_more" />
+        android:id                  ="@+id/learnMoreButton"
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginLeft 	="16dp"
+        android:layout_marginRight 	="16dp"
+        android:layout_marginTop 	="4dp"
+        android:layout_marginBottom ="4dp"
+        android:background          ="@color/colorPrimaryDark"
+        android:textColor 			="@color/colorBackLight"
+        android:textStyle           ="bold"
+        android:textSize            ="14sp"
+        android:text                ="@string/learn_more" />
     <Button
-        android:id           ="@+id/backButton"
-        android:layout_width ="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorBackLight"
-        android:text         ="@string/back_button" />
-
+        android:id                  ="@+id/backButton"
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginLeft 	="16dp"
+        android:layout_marginRight 	="16dp"
+        android:layout_marginTop 	="4dp"
+        android:layout_marginBottom ="4dp"
+        android:background          ="@color/colorPrimaryDark"
+        android:textColor 			="@color/colorBackLight"
+        android:textStyle           ="bold"
+        android:textSize            ="14sp"
+        android:text                ="@string/back_button" />
 
 </LinearLayout>

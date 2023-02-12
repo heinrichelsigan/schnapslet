@@ -127,13 +127,13 @@ public class AboutActivity extends BaseAppActivity {
      */
     public void learnMoreButton_Clicked() {
 
-        helpTextView.setText(R.string.help_text);
-
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         String github = getString(R.string.github_uri);
         intent.setData(android.net.Uri.parse(github));
         startActivity(intent);
+
     }
+
 
 }

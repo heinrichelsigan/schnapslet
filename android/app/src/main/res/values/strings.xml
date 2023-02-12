@@ -4,6 +4,7 @@
     <string translatable="true" name="action_stop">ReStart</string>
     <string translatable="true" name="action_options">Options</string>
     <string translatable="true" name="action_help">Help</string>
+    <string translatable="true" name="action_about">About</string>
     <string translatable="true" name="action_continue">Continue</string>
     <string translatable="true" name="bStart_text">Start</string>
     <string translatable="true" name="bStop_text">Stop</string>
@@ -94,6 +95,8 @@
 
     <string translatable="false" name="app_name">Schnapslet</string>
     <string translatable="false" name="version_name">v2.2.2</string>
+    <string translatable="false" name="param1_index">Index</string>
+    <string translatable="false" name="param2_points">Points</string>
     <string translatable="false" name="tDbg_text" formatted="false"> </string>
     <string translatable="false" name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
     <string translatable="false" name="msg_null_pointer_toggle_text_view">public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) { ... }  => anytTextView is null!</string>

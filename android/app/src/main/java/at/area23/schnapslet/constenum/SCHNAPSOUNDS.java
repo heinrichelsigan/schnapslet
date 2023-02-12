@@ -19,11 +19,11 @@
 package at.area23.schnapslet.constenum;
 
 import android.content.Context;
-import android.content.ContextWrapper;
+
 import at.area23.schnapslet.R;
 
 /**
- * enum BOARDCOL represents the enumerator for columns of the board
+ * enum SCHNAPSOUNDS represents the enumerator for columns of the board
  */
 public enum SCHNAPSOUNDS {
     MERGE_CARDS(1),
@@ -42,7 +42,8 @@ public enum SCHNAPSOUNDS {
     NONE((int)Byte.MAX_VALUE);
 
     /**
-     * NOTE: Enum constructor must have private or package scope. You can not use the public access modifier.
+     * Enum SCHNAPSOUNDS constructor
+     * must have private or package scope. You can not use the public access modifier.
      */
     SCHNAPSOUNDS(int value) {
         this.value = value;

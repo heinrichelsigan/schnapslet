@@ -17,9 +17,7 @@
 */
 package at.area23.schnapslet.models;
 
-import at.area23.schnapslet.*;
-import at.area23.schnapslet.models.*;
-import at.area23.schnapslet.constenum.*;
+import at.area23.schnapslet.constenum.CARDCOLOR;
 
 /**
  * PairCard class represents a pair (marriage) of cards.

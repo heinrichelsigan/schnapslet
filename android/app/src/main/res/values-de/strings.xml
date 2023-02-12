@@ -4,6 +4,7 @@
     <string name="action_stop">Neustart</string>
     <string name="action_options">Optionen</string>
     <string name="action_help">Hilfe</string>
+    <string name="action_about">Info</string>
     <string name="action_continue">Weiter</string>
     <string name="bStart_text">Start</string>
     <string name="bStop_text">Ende</string>

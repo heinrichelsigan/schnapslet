@@ -23,8 +23,10 @@ import android.content.res.Resources;
 import android.content.Context;
 
 import at.area23.schnapslet.*;
-import at.area23.schnapslet.models.*;
-import at.area23.schnapslet.constenum.*;
+import at.area23.schnapslet.constenum.CARDCOLOR;
+import at.area23.schnapslet.constenum.CARDVALUE;
+import at.area23.schnapslet.constenum.PLAYEROPTIONS;
+import at.area23.schnapslet.constenum.SCHNAPSTATE;
 
 /**
  * Game class represents a single game.
@@ -57,7 +59,7 @@ public class Game {
 
     public String sayMarriage20, sayMarriage40, textMsg;
 
-    public final Card emptyTmpCard, noneCard;
+    public GlobalAppSettings globalAppSettings;
     public Card[] set = new Card[20];
     public Card playedOut, playedOut0, playedOut1;
 
@@ -75,6 +77,7 @@ public class Game {
      */
     public Game(Context c) {
         super();
+        globalAppSettings = (GlobalAppSettings) c;
         isGame = true;
         atouChanged = false;
         playersTurn = true;
@@ -88,8 +91,8 @@ public class Game {
         mqueue.clear();
         mqueue.insert(r.getString(R.string.newgame_starts));
 
-        emptyTmpCard = new Card(-2, c.getApplicationContext());
-        noneCard = new Card(-1, c.getApplicationContext());
+        playedOut0 = globalAppSettings.cardEmpty();
+        playedOut1 = globalAppSettings.cardEmpty();;
 
         set = new Card[20];
         for (int i = 0; i < 20; i++) {
@@ -195,6 +198,8 @@ public class Game {
         gambler = null;
         computer = null;
         playedOut = null;
+        playedOut0 = globalAppSettings.cardEmpty();
+        playedOut1 = globalAppSettings.cardEmpty();;
         schnapState = SCHNAPSTATE.MERGING_CARDS;
         for (int i = 0; i < 20; i++) {
 	        set[i] = null;
