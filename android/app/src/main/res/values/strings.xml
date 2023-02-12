@@ -94,7 +94,7 @@
     <string translatable="true" name="polish_cards">polish cardset</string>
 
     <string translatable="false" name="app_name">Schnapslet</string>
-    <string translatable="false" name="version_name">v2.2.2</string>
+    <string translatable="false" name="version_name">v2.2.3</string>
     <string translatable="false" name="param1_index">Index</string>
     <string translatable="false" name="param2_points">Points</string>
     <string translatable="false" name="tDbg_text" formatted="false"> </string>
