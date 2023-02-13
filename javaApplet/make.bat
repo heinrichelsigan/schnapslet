@@ -12,7 +12,7 @@ echo set CLASSPATH=\"C:\Program Files\Java\jdk-18.0.2\lib\"
 REM set CLASSPATH="C:\Program Files\Java\jdk-18.0.2\lib"
 
 echo 
-echo set MYCLASSPATH=%CLASSPATH%;.\;.\at\area23\;
+echo set MYCLASSPATH=%CLASSPATH%;.\;.\at\area23\; 
 set MYCLASSPATH=%CLASSPATH%;.\;.\at\area23\;
 echo 
 echo compiling with javac ...

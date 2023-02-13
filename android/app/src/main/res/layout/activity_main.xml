@@ -179,7 +179,7 @@
                     android:minWidth="96dp"
                     android:minHeight="72dp"
                     android:visibility="invisible"
-                    />
+                    android:src="@drawable/t" />
             </LinearLayout>
         </RelativeLayout>
 

@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>Schnapslet</title>
+		<meta name="description" content="Schnapslet - Java Applet Kartenspiel Schnapsen">
+		<meta name="author" content="Heinrich Elsigan">
+		<meta name="keywords" content="Schnapsen Java Applet awt code Kartenspiel Implementierung">
+		<meta name="generator" content="vi">
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	</head>
+	<body>
+		<div align="center"><img src="cardpics/schapslet3.gif" border="0"></div>
+		<div align="center">
+			Schnapslet V 0.21 - Schnapsen in Appletform von <a href="mailto:heinrich.elsigan@area23.at">Heinrich Elsigan</a>
+		</div>
+		<br />
+		<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">Github Schnapslet</a> [ <a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">github.com/heinrichelsigan/schnapslet</a> ] 
+		<ul>
+			<li><a href="https://github.com/heinrichelsigan/schnapslet/tree/master/javaApplet" target="_blank">Classic java applet or java application (coded year 2000)</a>
+			<br /><a href="https://github.com/heinrichelsigan/schnapslet/wiki/Editing-Austrian-Card-Game-Schnpasen-as-Java-Applet" target="_blank">Schnapsen Wiki</a>
+			<br /><a href="https://youtu.be/UCpr-T8wjkI" target="_blank">schnapsen as classic java application on YouTube</a></li>
+			<li><a href="https://github.com/heinrichelsigan/schnapslet/tree/master/android" target="_blank">Ported classic code to android (year 2017)</a>
+			<br />
+			<a href="https://youtube.com/shorts/EVGrT9lAdZQ" target="_blank">Schnaplet as android application on YouTube</a>
+			</li>
+		</ul>
+		<hr>
+
+		<APPLET CODE="schnapslet.class" archive="schnapslet.jar" WIDTH=504 HEIGHT=420></APPLET>
+
+		<hr>
+		<div align="justified">
+			Implementierung des Kartenspiel Schnapsen als einfaches java.awt.Applet 
+			<br>
+			Implementierungszeitraum: Juni 2000 - 15. November 2002 
+			Arbeitsaufwand: 4 reale Tage -> soviel hatte ich Freizeit in den letzten 2 Jahren Zeit
+			<br>
+			<pre>^^^^zum Gl&uuml;ck bin ich nicht mehr so krankhaft ehrgeizig mit dem Alter^^^^</pre>
+			<br>
+			<a href="schnapslet.java.html">Implementierung der &quot;main classes&quot;</a>: <a href="schnapslet.java">schnapslet.java</a> 
+			<a href="game.java">game.java</a> <a href="player.java">player.java</a> <a href="card.java">card.java</a> 
+		</div>
+		<p align="justified">Funktionsweise:<br>
+			Das Schnapslet ist Zweier-Schnapsen, wobei ein Spieler gegen den Computer spielt.<br>
+		</p>
+		<p align="justified">Buttons haben folgende Funktionen:</p>
+		<p align="justified"> 
+			&quot;Start&quot; beginnt ein neues Spiel.<br>
+			&quot;Ende&quot; beendet ein laufendes Spiel.<br>
+			&quot;Hilfe&quot; bietet Kurzhilfe.<br>
+			&quot;Atou austauschen&quot; tauscht den eigenen Atou-Buben gegen das Atou aus dem Stapel.
+			<br>
+			&quot;[Farbe] Ansagen&quot; sagt einen 20er oder 40er in der [Farbe] an.
+			<br>
+			&quot;WEITER&quot; erscheint zum Weiterklicken nach jedem Zug.
+		</p>
+		<p align="justified">Andere Anklickbare Komponenten:</p>
+		<p align="justified">
+			&quot;Jedes Kartensymbol der 5 unteren Karten&quot;:
+			<br>
+			Spielt die Karte aus. Ausgespielte Karte k&ouml;nnen nicht r&uuml;ckg&auml;ngig gemacht werden.
+			<br>
+			Atou Austauschen und Paare ansagen muss vor dem Ausspielen erfolgen!
+		</p>
+		<p align="justified">
+			&quot;Atou Kartensymbol beim Talon (oben rechts)&quot;:
+			<br>
+			Zudrehen vom Spieler aus. Atou-Austausch muss vor dem Zudrehen erfolgen,
+			<br>
+			Ansagen m&uuml;ssen nach dem Zudrehen erfolgen.
+		</p>
+		<p align="justified">Spielverlauf:</p>
+		<p align="justified">
+			Anfangs ist der Spieler am Zug, danach immer der, der als Letzter gestochen hat.<br>
+			Wenn der Computer am Zug ist sieht man schon seine Karte auf einen der beiden<br>
+			linken oberen Feldern liegen. Der Spieler muss dann nur entscheiden mit welcher<br>
+			Karte er erwidert.</p>
+		<p align="justified">
+			Am Ende eines Zuges kann sieht man, wer gestochen hat und wieviel Punkte der<br>
+			Stich gebracht hat. Danach wird einem (je ob man gestochen hat) auch die<br>
+			n&auml;chste oder &uuml;bern&auml;chste Karte vom Talon (Stapel) zugewiesen. 
+		</p>
+		<p align="justified">
+			Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt es bei der Implementierung<br>
+			des Farb- und Stichzwangs noch einen kleinen Bug! </p>
+		<p align="justified">Vorschl&auml;ge, Verbesserungen bitte nicht mehr f&uuml;r diese Uralttestsoftware liefern! Sonst an <a href="mailto:heinrich.elsigan@area23.at">heinrich.elsigan@area23.at</a></p>
+		<p align="left">&nbsp;</p>
+	</body>
+</html>
