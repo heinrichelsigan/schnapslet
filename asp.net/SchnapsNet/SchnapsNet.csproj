@@ -265,9 +265,14 @@
     <Content Include="OctalDump.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstEnum\CARDCOLOR.cs" />
+    <Compile Include="ConstEnum\CARDVALUE.cs" />
+    <Compile Include="ConstEnum\PLAYEROPTIONS.cs" />
+    <Compile Include="ConstEnum\SCHNAPSTATE.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
