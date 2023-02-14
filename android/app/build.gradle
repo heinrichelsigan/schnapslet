@@ -14,7 +14,7 @@ android {
         applicationId "at.area23.schnapslet"
         minSdkVersion 25
         targetSdkVersion 33
-        versionName '2.2.3'
+        versionName '2.2.4'
         signingConfig signingConfigs.config
     }
     buildTypes {
@@ -53,7 +53,7 @@ android {
     }
     dexOptions {
     }
-    buildToolsVersion '33.0.1'
+    buildToolsVersion '33.0.2'
     lint {
         abortOnError true
         checkReleaseBuilds true
