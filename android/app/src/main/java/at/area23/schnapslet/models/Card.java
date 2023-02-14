@@ -204,7 +204,7 @@ public class Card {
      * another Constructor of Card
      * @param aCardColor the current Card Color
      * @param aCardValue the current Card Value
-     * @param atoudef char of atoude
+     * @param atoudef char of atou
      */
     public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef) {
         this(aCardColor, aCardValue);
@@ -290,7 +290,8 @@ public class Card {
 
 
     /**
-     * setAtou() us to  set czrrebt card as atou
+     * setAtou
+     * is to set current card as atou
      */
 	public void setAtou() {
 		this.atou = true;
@@ -298,7 +299,7 @@ public class Card {
 
     /**
      * isAtou
-     * @return true, uf current card is currently ab Atou in that game
+     * @return true, if current card is currently an Atou in that game
      */
     public boolean isAtou() { return this.atou; }
 
@@ -376,13 +377,13 @@ public class Card {
 
     /**
      * getFullName
-     * @param aColor char aCpöpr
-     * @param aValue int aValue
+     * @param aColor CARDVALUE for color
+     * @param aValue CARDVALUE
      * @return full card name identitfier
      */
-    public String getFullName(char aColor, int aValue)  {
-        String colorName = "";
-        switch(aColor) {
+    public String getFullName(CARDCOLOR aColor, CARDVALUE aValue)  {
+        String colorName = aColor.getName();
+        switch(aColor.getChar()) {
             case 'k':
                 colorName = context.getString(R.string.color_k);
                 break;
@@ -404,8 +405,8 @@ public class Card {
             default:
                 break;
         }
-        String cardName = "";
-        switch(aValue) {
+        String cardName = aValue.getName();
+        switch(aValue.getValue()) {
             case 2:
                 cardName = context.getString(R.string.cardval_2);
                 break;
@@ -433,7 +434,7 @@ public class Card {
             default:
                 break;
         }
-        if (aValue < 2)
+        if (aValue.getValue() < 2)
             return cardName;
 
         String colorDelimString = context.getString(R.string.colorDelimiter);
@@ -450,7 +451,7 @@ public class Card {
      * @return full card name identitfier
      */
     public String getFullName() {
-        return this.getFullName((char)cardColor.getChar(), cardValue.getValue());
+        return this.getFullName(cardColor, cardValue);
     }
 
     /**

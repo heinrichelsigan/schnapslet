@@ -120,7 +120,7 @@ public class Player {
      */
     public int canChangeAtou() {
         for (int i = 0; i < 5; i++)
-            if ((hand[i].isAtou()) && (hand[i].getValue() == 2)) {
+            if ((hand[i].isAtou()) && (hand[i].cardValue == CARDVALUE.JACK)) {
                 return i;
             }
         return (-1);
@@ -220,7 +220,8 @@ public class Player {
         for (i = 0; i < 5; i++) {
             if (!hand[i].isValidCard()) {
                 colorHitArray[i] = (-1);
-            } else if (hand[i].isValidCard()) {
+            }
+            else if (hand[i].isValidCard()) {
 
                 colorHitArray[i] = 0;
                 if (max < 0) max = 0;
@@ -232,14 +233,17 @@ public class Player {
                         colorHitArray[i] = 1;
                         if (max < 1) max = 1;
                     }
-                } else if ((hand[i].color) == (aCard.color)) {
-                    // same colors
-                    colorHitArray[i] = 2;
-                    if (max < 2) max = 2;
+                }
+                else {
+                    if (hand[i].cardColor.getChar() == aCard.cardColor.getChar()) {
+                        // same colors
+                        colorHitArray[i] = 2;
+                        if (max < 2) max = 2;
 
-                    if ((hand[i].getValue()) > (aCard.getValue())) {
-                        colorHitArray[i] = 3;
-                        if (max < 3) max = 3;
+                        if ((hand[i].getValue()) > (aCard.getValue())) {
+                            colorHitArray[i] = 3;
+                            if (max < 3) max = 3;
+                        }
                     }
                 }
             }

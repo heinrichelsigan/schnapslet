@@ -17,7 +17,7 @@ namespace SchnapsNet.Models
     /// </summary>
     public class Card
     {
-        int intern = -1;    // 20 values for internal representation and (-1) for unitialized
+        internal int intern = -1;    // 20 values for internal representation and (-1) for unitialized
         CARDVALUE cardValue = CARDVALUE.NONE;
         CARDCOLOR cardColor = CARDCOLOR.NONE;
         bool atou = false;
@@ -30,6 +30,69 @@ namespace SchnapsNet.Models
         Context context;
         // GlobalAppSettings globalVariable;
         // Locale globalAppVarLocale;
+
+        #region properties
+
+        /// <summary>
+        /// isAtou => true, uf current card is currently ab Atou in that game
+        /// </summary>
+        public bool isAtou { get => this.atou; }
+        
+        /// <summary>
+        /// isValidCard => true, if the current card is valid, false, if ut's av enory ir none reference
+        /// </summary>
+        public bool isValidCard
+        {
+            get
+            {
+                char c1 = this.color;
+                int v1 = this.value;
+                int i1 = this.intern;
+                if ((i1 < 0) || (i1 >= 20)) return false;
+                if ((c1 == 'h') || (c1 == 'p') || (c1 == 't') || (c1 == 'k'))
+                {
+                    if (((v1 >= 2) && (v1 <= 4)) || (v1 == 10) || (v1 == 11))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// FullName => full card name identitfier
+        /// </summary>
+        public String FullName { get => this.getFullName(cardColor, cardValue); }
+
+        /// <summary>
+        /// CardColor => returns cardColor of Card
+        /// </summary>
+        public CARDCOLOR CardColor { get => cardColor; }
+
+        /// <summary>
+        /// CardValue => CARDVALUE value of current card
+        /// </summary>
+        public CARDVALUE CardValue { get => cardValue; }
+
+        /// <summary>
+        /// CharColor => return char of cardColor
+        /// </summary>
+        protected char CharColor { get => (char)cardColor.GetChar(); }
+
+        /// <summary>
+        /// getValue => returns points value of current card
+        /// </summary>
+        protected int GetValue { get => cardValue.GetValue(); }
+
+        /// <summary>
+        /// ColorValue => returns String combined of card color + value
+        /// </summary>
+        public String ColorValue { get => CardColor.GetChar() + CardValue.GetValue().ToString(); }
+
+        #endregion properties
+
+        #region ctor
 
         /// <summary>
         /// Card() default parameterless constructor 
@@ -274,7 +337,8 @@ namespace SchnapsNet.Models
             // r = c.getResources();
             // globalVariable = (GlobalAppSettings)c;
         }
-
+        
+        #endregion ctor
 
         /// <summary>
         /// setAtou() us to  set correct card as atou
@@ -282,34 +346,6 @@ namespace SchnapsNet.Models
         public void setAtou()
         {
             this.atou = true;
-        }
-
-        /// <summary>
-        /// isAtou => true, uf current card is currently ab Atou in that game
-        /// </summary>
-        public bool isAtou { get => this.atou; }
-
-
-        /// <summary>
-        /// isValidCard => true, if the current card is valid, false, if ut's av enory ir none reference
-        /// </summary>
-        public bool isValidCard
-        {
-            get
-            {
-                char c1 = this.color;
-                int v1 = this.value;
-                int i1 = this.intern;
-                if ((i1 < 0) || (i1 >= 20)) return false;
-                if ((c1 == 'h') || (c1 == 'p') || (c1 == 't') || (c1 == 'k'))
-                {
-                    if (((v1 >= 2) && (v1 <= 4)) || (v1 == 10) || (v1 == 11))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
         }
 
         /// <summary>
@@ -326,7 +362,6 @@ namespace SchnapsNet.Models
             }
             return false;
         }
-
 
         /// <summary>
         /// hitsCard
@@ -376,120 +411,23 @@ namespace SchnapsNet.Models
         {
             return this.name;
         }
-
-        /**
-         * getFullName
-         * @param aColor char aCpöpr
-         * @param aValue int aValue
-         * @return full card name identitfier
-        
-            public String getFullName(char aColor, int aValue)
-            {
-                String colorName = "";
-                switch (aColor)
-                {
-                    case 'k':
-                        colorName = context.getString(R.string.color_k);
-                        break;
-                    case 'h':
-                        colorName = context.getString(R.string.color_h);
-                        break;
-                    case 't':
-                        colorName = context.getString(R.string.color_t);
-                        break;
-                    case 'p':
-                        colorName = context.getString(R.string.color_p);
-                        break;
-                    case 'n':
-                        colorName = context.getString(R.string.color_n);
-                        break;
-                    case 'e':
-                        colorName = context.getString(R.string.color_e);
-                        break;
-                    default:
-                        break;
-                }
-                String cardName = "";
-                switch (aValue)
-                {
-                    case 2:
-                        cardName = context.getString(R.string.cardval_2);
-                        break;
-                    case 3:
-                        cardName = context.getString(R.string.cardval_3);
-                        break;
-                    case 4:
-                        cardName = context.getString(R.string.cardval_4);
-                        break;
-                    case 9:
-                        cardName = context.getString(R.string.cardval_9);
-                        break;
-                    case 10:
-                        cardName = context.getString(R.string.cardval_10);
-                        break;
-                    case 11:
-                        cardName = context.getString(R.string.cardval_11);
-                        break;
-                    case -2:
-                        cardName = context.getString(R.string.color_e);
-                        break;
-                    case -1:
-                        cardName = context.getString(R.string.color_n);
-                        break;
-                    default:
-                        break;
-                }
-                if (aValue < 2)
-                    return cardName;
-
-                String colorDelimString = context.getString(R.string.colorDelimiter);
-
-                globalVariable = (GlobalAppSettings)context.getApplicationContext();
-                return (globalVariable.getLocale().getLanguage().equals(
-                        new Locale("de").getLanguage())) ?
-                        (colorName + colorDelimString + cardName) :
-                        (cardName + colorDelimString + colorName);
-            }
-         */
-
-        /**
-         * getFullName
-         * @return full card name identitfier
-        
-            public String getFullName()
-            {
-                return this.getFullName((char)cardColor.getChar(), cardValue.getValue());
-            }
-         */
-
-
+      
         /// <summary>
-        /// CardColor => returns cardColor of Card
+        /// getFullName        
         /// </summary>
-        public CARDCOLOR CardColor { get => cardColor; }
+        /// <param name="aColor">CARDCOLOR aColor</param>
+        /// <param name="aValue">CARDVALUE aValue</param>
+        /// <returns>full card name identitfier</returns>
+        public String getFullName(CARDCOLOR aColor, CARDVALUE aValue)
+        {
+            String colorName = Enum.GetName(typeof(CARDCOLOR), aColor);
+            // String colorName = Card.ParseColorChar(aColor.GetChar().ToString();
+            String cardName = Enum.GetName(typeof(CARDVALUE), aValue);
+            // String cardName = aValue.ToString();
 
-
-        /// <summary>
-        /// CardValue => CARDVALUE value of current card
-        /// </summary>
-        public CARDVALUE CardValue { get => cardValue; }
-
-
-
-        /// <summary>
-        /// CharColor => return char of cardColor
-        /// </summary>
-        protected char CharColor {  get => (char)cardColor.GetChar(); }
-
-        /// <summary>
-        /// getValue => returns points value of current card
-        /// </summary>
-        protected int GetValue { get => cardValue.GetValue(); }
-
-        /// <summary>
-        /// ColorValue => returns String combined of card color + value
-        /// </summary>
-        public String ColorValue { get => CardColor.GetChar() + CardValue.GetValue().ToString(); }
+            return (aValue.GetValue() < 2) ? 
+                cardName : (colorName + Constants.OFDELIM + cardName);
+        }
 
         /// <summary>
         /// getPictureUrl 
@@ -500,12 +438,12 @@ namespace SchnapsNet.Models
             Url url = null;
             try
             {
-                url = new Url("https://area23.at/schnapsen/cardpics/" + this.color + this.value + ".gif");
+                url = new Url(Constants.URLPREFIX + this.color + this.value + ".gif");
             }
             catch (Exception exi)
             {
                 System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                    "https://area23.at/schnapsen/cardpics/" + this.color + this.value + ".gif" +
+                    Constants.URLPREFIX + this.color + this.value + ".gif" +
                     "\r\n" + exi.StackTrace.ToString());
             }
             return url;
@@ -520,13 +458,13 @@ namespace SchnapsNet.Models
             Uri uri = null;
             try
             {
-                string myUri = "https://area23.at/schnapsen/cardpics/"  + this.color + this.value + ".gif";
+                string myUri = Constants.URLPREFIX + this.color + this.value + ".gif";
                 uri = new Uri(myUri);
             }
             catch (Exception exi)
             {
                 System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                    "https://area23.at/schnapsen/cardpics/" + this.color + this.value + ".gif" +
+                    Constants.URLPREFIX + this.color + this.value + ".gif" +
                     "\r\n" + exi.StackTrace.ToString());
             }
             return uri;
@@ -637,5 +575,48 @@ namespace SchnapsNet.Models
                 return byBuf;
             }
         */
+
+        /// <summary>
+        /// ParseValue
+        /// </summary>
+        /// <param name="val">int value of Card</param>
+        /// <returns><CARDVALUE/returns>
+        [Obsolete("ParseIntCardValue is obsolete", false)]
+        public static CARDVALUE ParseIntCardValue(int val)
+        {
+            switch (val)
+            {
+                case -1: return CARDVALUE.NONE;
+                case 2: return CARDVALUE.JACK;
+                case 3: return CARDVALUE.QUEEN;
+                case 4: return CARDVALUE.KING;
+                case 10: return CARDVALUE.TEN;
+                case 11: return CARDVALUE.ACE;
+                case -2:
+                default: return CARDVALUE.EMPTY;
+            }
+        }
+
+        /// <summary>
+        /// ParseColorChar
+        /// </summary>
+        /// <param name="colorChar">char for <see cref="CARDCOLOR">enum CARDCOLOR</see></param>
+        /// <returns><see cref="CARDCOLOR"/></returns>
+        [Obsolete("ParseColorChar(char colorChar) is obsolete", false)]
+        public static CARDCOLOR ParseColorChar(char colorChar)
+        {
+            switch (colorChar)
+            {
+                case 'n': return CARDCOLOR.NONE;
+                case 'h': return CARDCOLOR.HEARTS;
+                case 'd': return CARDCOLOR.DIAMONDS;
+                case 't': return CARDCOLOR.CLUBS;
+                case 'p': return CARDCOLOR.SPADES;
+                case 'e': return CARDCOLOR.EMPTY;
+                default: break;
+            }
+            return CARDCOLOR.EMPTY;
+        }
+
     }
 }

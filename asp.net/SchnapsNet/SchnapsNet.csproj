@@ -259,6 +259,10 @@
     <Content Include="Default.aspx" />
     <Content Include="Fortune.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Properties\strings-de.xml" />
+    <Content Include="Properties\strings-en.xml" />
+    <Content Include="Properties\strings-fr.xml" />
+    <Content Include="Properties\strings.xml" />
     <Content Include="SchnapNet.aspx" />
     <Content Include="SchnapsApplet.html" />
     <Content Include="Web.config" />
@@ -267,13 +271,23 @@
   <ItemGroup>
     <Compile Include="ConstEnum\CARDCOLOR.cs" />
     <Compile Include="ConstEnum\CARDVALUE.cs" />
+    <Compile Include="ConstEnum\Constants.cs" />
+    <Compile Include="ConstEnum\JavaResReader.cs" />
     <Compile Include="ConstEnum\PLAYEROPTIONS.cs" />
     <Compile Include="ConstEnum\SCHNAPSTATE.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\PairCard.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -286,6 +300,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

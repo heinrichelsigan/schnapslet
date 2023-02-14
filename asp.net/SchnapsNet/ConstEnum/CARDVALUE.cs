@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchnapsNet.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,9 +19,9 @@ namespace SchnapsNet.ConstEnum
     
     public static class CARDVALUE_Extensions
     {
-        public static int GetValue(this CARDVALUE cardColor)
+        public static int GetValue(this CARDVALUE cardVal)
         {
-            switch(cardColor)
+            switch(cardVal)
             {
                 case CARDVALUE.EMPTY: return -2;
                 case CARDVALUE.NONE: return -1;
@@ -32,5 +33,6 @@ namespace SchnapsNet.ConstEnum
             }
             return -2;
         }
+        
     }
 }

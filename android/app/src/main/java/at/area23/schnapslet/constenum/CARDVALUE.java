@@ -54,7 +54,7 @@ public enum CARDVALUE {
 	 * @return int this.name()
 	 */
 	public String getName() {
-		return this.name();
+			return this.name();
 	}
 }
 

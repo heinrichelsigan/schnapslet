@@ -617,24 +617,36 @@ public class Game {
 	    StringBuffer qbuffer;
 	    int qindex;
 	    int qcount;
-	    
+
+        /**
+         * constructor of inner MessageQueue
+         */
 	    public MessageQueue() {
             super();
             clear();
 	    }
-	    
+
+        /**
+         * clear messages in inner MessageQueue
+         */
 	    public void clear() {
 	        qbuffer = new StringBuffer();
 	        qindex = 0;
 	        qcount = 0;
 	    }
-	    
+
+        /**
+         * insert message into inner MessageQueue
+         */
 	    public void insert (String mes) {
 	        qcount++;
             // qbuffer.append(">" + mes + "\n");
 	        qbuffer.append(qcount + "->" + mes + "\n");
 	    }
-	    
+
+        /**
+         * fetch messages from inner MessageQueue
+         */
 	    public String fetch() {
 	        String retVal = qbuffer.toString().substring(qindex);
 	        qindex = qbuffer.length();

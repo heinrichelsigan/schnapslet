@@ -185,7 +185,7 @@
                 {
                     compiler.StartInfo.FileName = "fortune";
                     string argTrys = (!string.IsNullOrWhiteSpace(args)) ? args : "";
-                    compiler.StartInfo.Arguments = argTrys";
+                    compiler.StartInfo.Arguments = argTrys;
                     compiler.StartInfo.UseShellExecute = false;
                     compiler.StartInfo.RedirectStandardOutput = true;
                     compiler.Start();
