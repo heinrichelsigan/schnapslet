@@ -231,6 +231,29 @@ public class MainActivity
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
             tRest.setText(String.valueOf((19-aGame.index)));
+            if (aGame.playersTurn) {
+
+                if (aGame.index < 18) {
+                    if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
+                        psaychange += 1;
+                        aGame.bChange = true;
+                    }
+                    toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
+                            getString(R.string.bChange_text));
+                }
+                // Gibts was zum Ansagen ?
+                int a20 = aGame.gambler.has20();
+                if (a20 > 0) {
+                    psaychange += 2;
+                    aGame.a20 = true;
+                    aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
+
+                    if (a20 > 1) {
+                        aGame.b20 = true;
+                        aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
+                    }
+                }
+            }
             toggleEnabled(bContinue, aGame.shouldContinue, getString(R.string.bContinue_text),
                     getString(R.string.bContinue_text));
             toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
@@ -803,6 +826,7 @@ public class MainActivity
 
             toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20, aGame.sayMarriage20);
             toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
+
             // Info
             setTextMessage(getString(R.string.toplayout_clickon_card));
         }
