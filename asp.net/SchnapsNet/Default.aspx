@@ -16,7 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Octal Dump Mono WebApi</title>
+    <title>Schnaps.Net</title>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
         <script>
