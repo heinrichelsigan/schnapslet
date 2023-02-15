@@ -46,5 +46,26 @@ namespace SchnapsNet.ConstEnum
             }
             return 0;
         }
+
+        public static int StateValue(SCHNAPSTATE schnapState)
+        {
+            switch (schnapState)
+            {
+                case SCHNAPSTATE.GAME_START: return 0;
+                case SCHNAPSTATE.GAME_STARTED: return 1;
+                case SCHNAPSTATE.COLOR_HIT_RULE: return 2;
+                case SCHNAPSTATE.GAME_CLOSED: return 3;
+                case SCHNAPSTATE.TALON_ONE_REMAINS: return 5;
+                case SCHNAPSTATE.TALON_CONSUMED: return 7;
+                case SCHNAPSTATE.GAME_STOP: return 8;
+                case SCHNAPSTATE.MERGING_CARDS: return 16;
+                case SCHNAPSTATE.MERGE_PLAYER: return 32;
+                case SCHNAPSTATE.MERGE_COMPUTER: return 64;
+                case SCHNAPSTATE.STARTS_SPLIT_TALON: return 256;
+                case SCHNAPSTATE.STARTS_FIST_TALON: return 512;
+                case SCHNAPSTATE.NONE: return 1023;
+            }
+            return 0;
+        }
     }
 }

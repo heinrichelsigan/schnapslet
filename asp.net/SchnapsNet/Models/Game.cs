@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
@@ -16,7 +17,7 @@ namespace SchnapsNet.Models
 	/// Port of class Game
 	/// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
 	/// </summary>
-	public class Game
+	public class Game : IDisposable
 	{
 		public volatile bool isGame = false;     // a Game is running
 		public bool atouChanged = false;         // Atou allready changed
@@ -43,26 +44,32 @@ namespace SchnapsNet.Models
 
 		public String sayMarriage20, sayMarriage40, textMsg;
 
-		// public GlobalAppSettings globalAppSettings;
+		public GlobalAppSettings globalAppSettings;
 		public Card[] set = new Card[20];
 		public Card playedOut, playedOut0, playedOut1;
 
 		public Player gambler, computer;
 		// java.applet.Applet masterApplet = null;
 		Random random;
-		// Resources r;
-		Context context;
+        // Resources r;
+        HttpContext context;
 
-		// MessageQueue mqueue = new MessageQueue();
+		Queue<string> mqueue = new Queue<string>();
 
-		/**
-		 * constructor
-		 * @param c current context
-		 */
-		public Game(Context c)
+
+        /// <summary>
+        /// atouInGame => char for CARDCOLOR of atou in game
+        /// </summary>       
+        public char AtouInGame { get => (char)atouColor.GetChar(); }
+
+        /// <summary>
+        /// Constructor of Card
+        /// </summary>
+        /// <param name="c">current context</param>
+        public Game(HttpContext c)
 		{
 			// super();
-			// globalAppSettings = (GlobalAppSettings) c;
+			globalAppSettings = (GlobalAppSettings)c.Session[Constants.APPNAME];
 			isGame = true;
 			atouChanged = false;
 			playersTurn = true;
@@ -73,11 +80,11 @@ namespace SchnapsNet.Models
 			this.context = c;
 			// this.r = c.getResources();
 			this.schnapState = SCHNAPSTATE.GAME_START;
-			// mqueue.clear();
-			// mqueue.insert(r.getString(R.string.newgame_starts));
-
-			// playedOut0 = globalAppSettings.cardEmpty();
-			// playedOut1 = globalAppSettings.cardEmpty();;
+			ClearMsg();
+			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.TwoLetterISOLanguageName));
+            
+			playedOut0 = globalAppSettings.CardEmpty;
+			playedOut1 = globalAppSettings.CardEmpty;
 
 			set = new Card[20];
 			for (int i = 0; i < 20; i++)
@@ -94,22 +101,23 @@ namespace SchnapsNet.Models
 			sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", "");
 			sayMarriage40 = JavaResReader.GetValueFromKey("b20b_text", "");
 
-			// mqueue.insert(r.getString(R.string.creating_players));
-			gambler = new Player(true, context);
+			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.TwoLetterISOLanguageName));
+
+            gambler = new Player(true, context);
 			gambler.points = 0;
 			computer = new Player(false, context);
 			computer.points = 0;
 
 			mergeCards();
-		}
+        }
 
-		/**
-		 * gets a positive random number
-		 * @param modulo modulo %
-		 * @param generate true for generate a new Random, false for use existing one
-		 * @return random as int
-		 */
-		int getRandom(int modulo, bool generate)
+		/// <summary>
+		/// gets a positive random number
+        /// </summary>
+        /// <param name="modulo">modulo modulo %</param>
+        /// <param name="generate">true for generate a new Random, false for use existing one</param>
+        /// <returns>random as int</returns>
+        int getRandom(int modulo, bool generate)
 		{
 			int rand = 0;
 			if (random == null || generate)
@@ -121,26 +129,26 @@ namespace SchnapsNet.Models
 			rand %= modulo;
 
 			return rand;
-		}
+        }
 
-		/**
-		 * gets a random number modulo 20
-		 * @return random as int
-		 */
-		int getRandom()
+		/// <summary>
+		/// gets a random number modulo 20
+        /// </summary>
+        /// <returns>random as int</returns>
+        int getRandom()
 		{
 			return getRandom(20, false);
 		}
 
-		/**
-		 * mergeCards - function for merging cards
-		 */
-		public void mergeCards()
+        /// <summary>
+        /// mergeCards - function for merging cards
+        /// </summary>
+        public void mergeCards()
 		{
 			int i, k, j, l, tmp;
-
-			// mqueue.insert(r.getString(R.string.merging_cards));
-			k = getRandom(32, true);
+            
+            InsertMsg(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.TwoLetterISOLanguageName));
+            k = getRandom(32, true);
 
 			for (i = 0; i < k + 20; i++)
 			{
@@ -162,12 +170,12 @@ namespace SchnapsNet.Models
 
 			set[19] = new Card(inGame[19], context);
 			set[19].setAtou();
-			// mqueue.insert(r.getString(R.string.atou_is, set[19].getName()));
+			InsertFormated(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.TwoLetterISOLanguageName), set[19].FullName);			
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
 
 			for (i = 0; i < 19; i++)
 			{
-				set[i] = new Card(inGame[i], this.atouInGame(), context);
+				set[i] = new Card(inGame[i], this.AtouInGame, context);
 				if (i < 5)
 				{
 					gambler.assignCard(set[i]);
@@ -183,10 +191,11 @@ namespace SchnapsNet.Models
 			schnapState = SCHNAPSTATE.GAME_STARTED;
 		}
 
-		/**
-		 * destructor  it really destroys a game
-		 */
-		public void destroyGame()
+        /// <summary>
+        /// destructor Dispose, it really destroys a game
+		/// originally destroyGame in Java => realized by implementing IDisposible
+        /// </summary>
+        public void Dispose()
 		{
 			isGame = false;
 			computer.stop();
@@ -204,10 +213,10 @@ namespace SchnapsNet.Models
 			}
 		}
 
-		/**
-		 * stopGame - stops softley a game
-		 */
-		public void stopGame()
+        /// <summary>
+        /// stopGame - stops softley a game
+        /// </summary>
+        public void stopGame()
 		{
 			isGame = false;
 			atouColor = CARDCOLOR.NONE;
@@ -222,15 +231,15 @@ namespace SchnapsNet.Models
 				if (computer != null && computer.hand != null)
 					computer.hand[i] = playedOut;
 			}
-			schnapState = SCHNAPSTATE.NONE;
-			// mqueue.insert(context.getResources().getString(R.string.ending_game));
-		}
+			schnapState = SCHNAPSTATE.NONE;            
+            InsertMsg(JavaResReader.GetValueFromKey("ending_game", globalAppSettings.TwoLetterISOLanguageName));
+        }
 
-		/**
-		 * change Atou Card in game
-		 * @param aPlayer player, that changes Atou Card
-		 */
-		public void changeAtou(Player aPlayer)
+		/// <summary>
+		/// change Atou Card in game
+        /// </summary>
+        /// <param name="aPlayer">player, that changes Atou Card</param>
+        public void changeAtou(Player aPlayer)
 		{
 			int cardidx;
 			Card tmpCard;
@@ -243,26 +252,26 @@ namespace SchnapsNet.Models
 			computer.playerOptions += PLAYEROPTIONS.CHANGEATOU.GetValue();
 			aPlayer.sortHand();
 			atouChanged = true;
-		}
+        }
 
-		/**
-		 * Checks, if a player can change Atou Card
-		 * @param aPlayer player, that should change Atou
-		 * @return true, if player can change, otherwise false
-		 */
-		public bool atouIsChangable(Player aPlayer)
+		/// <summary>
+		/// Checks, if a player can change Atou Card
+        /// </summary>
+        /// <param name="aPlayer">player, that should change Atou</param>
+        /// <returns>true, if player can change, otherwise false</returns>
+        public bool atouIsChangable(Player aPlayer)
 		{
 			if (atouChanged) return false;
 			if (aPlayer.canChangeAtou() >= 0) return true;
 			return false;
-		}
+        }
 
-		/**
-		 * checkPoints
-		 * @param ccard undex of computer habd
-		 * @return points from the current hit, players points a positive vvalue, computer pinnts as negative value
-		 */
-		public int checkPoints(int ccard)
+		/// <summary>
+		/// checkPoints
+        /// </summary>
+        /// <param name="ccard">index of computer card</param>
+        /// <returns>points from the current hit, players points a positive vvalue, computer pinnts as negative value</returns>
+        public int checkPoints(int ccard)
 		{
 			int tmppoints;
 			if (playersTurn)
@@ -273,18 +282,20 @@ namespace SchnapsNet.Models
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 
 					gambler.points += tmppoints;
-					// mqueue.insert(r.getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+					InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+						tmppoints.ToString());
 
-					return tmppoints;
+                    return tmppoints;
 				}
 				else
 				{
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-					// mqueue.insert(r.getString(R.string.computer_hit_points, String.valueOf(tmppoints)));
+                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                        tmppoints.ToString());
 
-					return (-tmppoints);
+                    return (-tmppoints);
 				}
 			}
 			else
@@ -294,27 +305,29 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-					// mqueue.insert(r.getString(R.string.computer_hit_points,String.valueOf(tmppoints)));
+                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                        tmppoints.ToString());
 
-					return (-tmppoints);
+                    return (-tmppoints);
 				}
 				else
 				{
 					playersTurn = true;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					gambler.points += tmppoints;
-					// mqueue.insert(r.getString(R.string.your_hit_points,String.valueOf(tmppoints)));
+                    InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                        tmppoints.ToString());
 
-					return tmppoints;
+                    return tmppoints;
 				}
 			}
-		}
+        }
 
-		/**
-		 * assignNewCard assigns new cards to both player & computer
-		 * @return default 0, 1 if game entered colorGitRule; Players now must follow the suit led
-		 */
-		[Obsolete("assignNewCard is obsolete", false)]
+        /// <summary>
+        /// assignNewCard [Obsolete] assigns new cards to both player & computer		
+        /// </summary>
+        /// <returns>default 0, 1 if game entered colorGitRule; Players now must follow the suit led</returns>
+        [Obsolete("assignNewCard is obsolete", false)]
 		public int assignNewCard()
 		{
 			int retval = 0;
@@ -346,13 +359,14 @@ namespace SchnapsNet.Models
 			gambler.sortHand();
 
 			return retval;
-		}
+        }
 
-		/**
-		 * assignNextCard assigns the next card
-		 * @return true, if the last card in talon has been assigned, otherwise false
-		 */
-		public bool assignNextCard(Card assignedCard)
+        /// <summary>
+        /// assignNextCard assigns the next card
+        /// </summary>
+        /// <param name="assignedCard">Card to be assigned (from game stack)</param>
+        /// <returns>true, if the last card in talon has been assigned, otherwise false</returns>
+        public bool assignNextCard(Card assignedCard)
 		{
 			bool lastCard = false;
 			if (!colorHitRule)
@@ -390,13 +404,13 @@ namespace SchnapsNet.Models
 			gambler.sortHand();
 
 			return lastCard;
-		}
+        }
 
-		/**
-		 * computerStarts() implementation of a move, where computer sraers (that move)
-		 * @return card index of computer hand, tgar opebs the current move
-		 */
-		public int computerStarts()
+        /// <summary>
+        /// computerStarts() implementation of a move, where computer sraers (that move)
+        /// </summary>
+        /// <returns>card index of computer hand, tgar opebs the current move</returns>
+        public int computerStarts()
 		{
 
 			computer.playerOptions = 0;
@@ -406,8 +420,8 @@ namespace SchnapsNet.Models
 			if (atouIsChangable(computer))
 			{
 				changeAtou(computer);
-				// mqueue.insert(r.getString(R.string.computer_changes_atou));
-			}
+				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.TwoLetterISOLanguageName));
+            }
 			//endregion
 
 			int cBestCloseCard = -1;
@@ -415,11 +429,11 @@ namespace SchnapsNet.Models
 			if ((i = computer.has20()) > 0)
 			{
 				// if ((i > 1) && (computer.pairs[1] != null && computer.pairs[1].atou))
-				if ((i > 1) && (computer.handpairs[1] == this.atouInGame()))
+				if ((i > 1) && (computer.handpairs[1] == this.AtouInGame))
 					mark = 1;
 
 				// TODO: Computer closes game
-				int addPoints = (computer.handpairs[mark] == this.atouInGame()) ? 52 : 33;
+				int addPoints = (computer.handpairs[mark] == this.AtouInGame) ? 52 : 33;
 				if (!this.isClosed && !this.colorHitRule && schnapState == SCHNAPSTATE.GAME_STARTED &&
 					(computer.points + addPoints >= 66))
 				{
@@ -457,27 +471,28 @@ namespace SchnapsNet.Models
 
 						computer.playerOptions += PLAYEROPTIONS.SAYPAIR.GetValue();
 						csaid = computer.handpairs[mark];
-						// mqueue.insert(r.getString(R.string.computer_says_pair, printColor(csaid)));
+						InsertFormated(JavaResReader.GetValueFromKey("computer_says_pair", globalAppSettings.TwoLetterISOLanguageName),
+							 printColor(csaid));
 
-						if (computer.hand[j].isAtou)
+                        if (computer.hand[j].isAtou)
 							computer.points += 40;
 						else
 							computer.points += 20;
 
 						if (computer.points > 65)
 						{
-							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", "");
+							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
 							if (computer.hand[j].isAtou)
 							{
-								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough");
-
+								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
 							}
 
 							computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.GetValue();
-							// mqueue.insert(andEnough + " " + JavaResReader.GetValueFromKey("computer_has_won_points", "") + computer.points);
+							InsertMsg(andEnough + " " + string.Format(JavaResReader.GetValueFromKey("computer_has_won_points", globalAppSettings.TwoLetterISOLanguageName),
+								computer.points.ToString()));
 
-						}
-						else
+                        }
+                        else
 						{
 							computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
 						}
@@ -585,12 +600,12 @@ namespace SchnapsNet.Models
 			}
 
 			return c_idx;
-		}
+        }
 
-		/**
-		 * computersAnswer implementation of computer answr  move)
-		 * @return card index of computer hand, that was played for answering
-		 */
+		/// <summary>
+		/// computersAnswer implementation of computer answr  move)
+		/// </summary>
+		/// <returns>card index of computer hand, that was played for answering</returns>
 		public int computersAnswer()
 		{
 
@@ -642,14 +657,15 @@ namespace SchnapsNet.Models
 			}
 
 			return c_idx;
-		}
+        }
 
-		/**
-		 * printColor prinrs tbe full bame og color
-		 * @param ch cgar color
-		 * @return printed name
-		 */
-		public String printColor(char ch)
+		/// <summary>
+		/// printColor prinrs tbe full name of color from xml file 
+		///  at https://area23.at/mono/SchnapsNet/
+        /// </summary>
+        /// <param name="ch">char color</param>
+        /// <returns>printed color name</returns>
+        public String printColor(char ch)
 		{
 			switch (ch)
 			{
@@ -660,70 +676,66 @@ namespace SchnapsNet.Models
 				default: break;
 			}
 			return "NoColor";
-		}
+        }
 
-		/**
-		 * atouInGame
-		 * @return char for CARDCOLOR of atou in game
-		 */
-		public char atouInGame()
+        #region internalMessageQueue
+
+        /// <summary>
+        /// InsertMsg - inserts msg into internal message queue
+        /// </summary>
+        /// <param name="msg">string to insert</param>
+        public void InsertMsg(String msg) 
 		{
-			return (char)atouColor.GetChar();
-		}
+			mqueue.Enqueue(msg);
+        }
 
+        /// <summary>
+        /// InsertFormated - inserts a multipart string in msg queue
+        /// </summary>
+        /// <param name="msg">formated string with one placeholder to insert</param>
+        /// <param name="prmArg0">parameter argument for placeholder</param>
+        public void InsertFormated(string fMsg, string prmArg0)
+		{
+            mqueue.Enqueue(string.Format(fMsg, prmArg0));
+        }
 
-		/**
-		 * insertMsg - inserts msg into internal message queue
-		 * @param msg String to insert
-		 *
-		public void  insertMsg(String msg) {
-			mqueue.insert(msg);
-		}
+        /// <summary>
+        /// InsertFormated - inserts a multipart string in msg queue
+        /// </summary>
+        /// <param name="msg">pre formated string with placeholders to insert</param>
+        /// <param name="prmArgs">parameter arguments for placeholders</param>
+        public void InsertFormated(string fMsg, string prmArg0, string[] prmArgs)
+        {
+            mqueue.Enqueue(string.Format(fMsg, prmArgs));
+        }
 
-		/**
-		 * fetchMsg - fetches msg from internal message queue,
-		 * @return String fetched message
-		 *
-		public String fetchMsg() {
-			return mqueue.fetch();
-		}
+        /// <summary>
+        /// FetchMsg - fetches msg from internal message queue
+        /// </summary>
+        /// <returns>String fetched messages</returns>
+        public String FetchMsg() 
+		{
+			string retMsg = "";
+			if (mqueue != null && mqueue.Count > 0) 
+			{
+				foreach (string mesg in mqueue)
+				{
+					retMsg += mesg + "\r\n";
 
-		/**
-		 * inner class MessageQueue
-		 *
-		static class MessageQueue {
-			StringBuffer qbuffer;
-			int qindex;
-			int qcount;
-			
-			public MessageQueue() {
-				super();
-				clear();
+                }
 			}
-			
-			public void clear() {
-				qbuffer = new StringBuffer();
-				qindex = 0;
-				qcount = 0;
-			}
-			
-			public void insert (String mes) {
-				qcount++;
-				// qbuffer.append(">" + mes + "\n");
-				qbuffer.append(qcount + "->" + mes + "\n");
-			}
-			
-			public String fetch() {
-				String retVal = qbuffer.toString().substring(qindex);
-				qindex = qbuffer.length();
-				return retVal;
-			}
-			
-			public String history() {
-				return (qbuffer.toString());
-			}
-		}
-	 */
-	}
+			return retMsg;
+        }
+
+		/// <summary>
+		/// Clears internal message queue
+		/// </summary>
+		public void ClearMsg()
+		{
+			mqueue.Clear();
+        }
+
+        #endregion internalMessageQueue
+    }
 
 }

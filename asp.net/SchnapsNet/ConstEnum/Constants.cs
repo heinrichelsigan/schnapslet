@@ -12,8 +12,9 @@ namespace SchnapsNet.ConstEnum
         public const string GITURL = ">https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL = ">https://github.com/heinrichelsigan/schnapslet/wiki";
         public const string URLPREFIX = "https://area23.at/schnapsen/cardpics/";
+        public const string URLPIC = "https://area23.at/mono/Schnaps.Net/cardpics/";
         public const string URLXML = "https://area23.at/mono/Schnaps.Net/Properties/strings";
-        // "http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml
+        
         public const string COLOR_K = "DIAMONDS";
         public const string COLOR_H = "HEARTS";
         public const string COLOR_P = "SPADES";
@@ -23,6 +24,7 @@ namespace SchnapsNet.ConstEnum
 
         public const string OFDELIM = " of ";
 
+        // "http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml
 
 
 

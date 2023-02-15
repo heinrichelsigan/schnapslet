@@ -30,5 +30,19 @@ namespace SchnapsNet.ConstEnum
             }
             return 'e';
         }
+
+        public static char ColorChar(CARDCOLOR cardColor)
+        {
+            switch (cardColor)
+            {
+                case CARDCOLOR.EMPTY: return 'e';
+                case CARDCOLOR.NONE: return 'n';
+                case CARDCOLOR.HEARTS: return 'h';
+                case CARDCOLOR.SPADES: return 't';
+                case CARDCOLOR.DIAMONDS: return 'k';
+                case CARDCOLOR.CLUBS: return 'p';
+            }
+            return 'e';
+        }
     }
 }

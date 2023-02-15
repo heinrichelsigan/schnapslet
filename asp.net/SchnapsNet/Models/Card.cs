@@ -27,8 +27,8 @@ namespace SchnapsNet.Models
         Url picture;  // picture        
 
         // Resources r;
-        Context context;
-        // GlobalAppSettings globalVariable;
+        HttpContext context;
+        GlobalAppSettings globalVariable;
         // Locale globalAppVarLocale;
 
         #region properties
@@ -110,12 +110,12 @@ namespace SchnapsNet.Models
         /// <summary>
         /// Card(Context c) constructor with Context c as parameter
         /// </summary>
-        /// <param name="c">Context</param>
-        public Card(Context c) : this()
+        /// <param name="c">HttpContext</param>
+        public Card(HttpContext c) : this()
         {            
             this.context = c;
             // r = c.getResources();
-            // globalVariable = (GlobalAppSettings)c;
+            globalVariable = (GlobalAppSettings)c.Session[Constants.APPNAME];
         }
 
         /// <summary>
@@ -176,11 +176,11 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
-        ///  Card(int num, Context c) 
+        ///  Card(int num, HttpContext c) 
         /// </summary>
         /// <param name="num">numerical identifier of Card</param>
-        /// <param name="c">Context c</param>
-        public Card(int num, Context c) : this(num)
+        /// <param name="c">HttpContext c</param>
+        public Card(int num, HttpContext c) : this(num)
         {
             this.context = c;
             // r = c.getResources();
@@ -206,8 +206,8 @@ namespace SchnapsNet.Models
         /// </summary>
         /// <param name="numv">numerical identifier of Card</param>
         /// <param name="atoudef">atoudef</param>
-        /// <param name="c">Context c</param>
-        public Card(int numv, char atoudef, Context c) : this(numv, c)
+        /// <param name="c">HttpContext c</param>
+        public Card(int numv, char atoudef, HttpContext c) : this(numv, c)
         {
             if (this.color == atoudef)
             {
@@ -271,8 +271,8 @@ namespace SchnapsNet.Models
         /// <param name="aCardColor">current Card Color</param>
         /// <param name="aCardValue">current Card Value</param>
         /// <param name="atoudef">char of atou</param>
-        /// <param name="c">context of app</param>
-        public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef, Context c) : this(aCardColor, aCardValue, atoudef)
+        /// <param name="c">HttpContext of app</param>
+        public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef, HttpContext c) : this(aCardColor, aCardValue, atoudef)
         {            
             this.context = c;
             // this.r = c.getResources();
@@ -299,8 +299,8 @@ namespace SchnapsNet.Models
         /// <param name="aCardColor">current Card Color</param>
         /// <param name="aCardValue">current Card Value</param>
         /// <param name="atouColor">atou Card Color</param>
-        /// <param name="c">context of app</param>
-        public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, CARDCOLOR atouColor, Context c) : this(aCardColor, aCardValue, atouColor)
+        /// <param name="c">HttpContext of app</param>
+        public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, CARDCOLOR atouColor, HttpContext c) : this(aCardColor, aCardValue, atouColor)
         {
             this.context = c;
             // this.r = c.getResources();
@@ -330,8 +330,8 @@ namespace SchnapsNet.Models
         /// Constructor of Card by passing existing Card
         /// </summary>
         /// <param name="aCard">Card aCard - a instanciated Card object</param>
-        /// <param name="c">Context c - context of app</param>
-        public Card(Card aCard, Context c) : this(aCard)
+        /// <param name="c">HttpContext c - context of app</param>
+        public Card(Card aCard, HttpContext c) : this(aCard)
         {
             this.context = c;
             // r = c.getResources();

@@ -30,13 +30,13 @@ namespace SchnapsNet.Models
         int[] colorHitArray = { 0, 0, 0, 0, 0 };
         public int playerOptions = 0;
         // Resources r;
-        Context context;
+        HttpContext context;
 
         /// <summary>
         /// Constructor of Player
         /// </summary>
-        /// <param name="c">Context c</param>
-        public Player(Context c)
+        /// <param name="c">HttpContext c</param>
+        public Player(HttpContext c)
         {            
             this.context = c;
             // this.r = c.getResources();
@@ -52,8 +52,8 @@ namespace SchnapsNet.Models
         /// Constructor of Player
         /// </summary>
         /// <param name="starts">true if this player starts the game, otherwise false</param>
-        /// <param name="c">context of app</param>
-        public Player(bool starts, Context c) : this(c)
+        /// <param name="c">HttpContext of app</param>
+        public Player(bool starts, HttpContext c) : this(c)
         {
             this.begins = starts;
         }

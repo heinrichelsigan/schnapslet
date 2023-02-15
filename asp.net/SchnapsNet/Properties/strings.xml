@@ -58,26 +58,26 @@
     <string translatable="true" name="fourty_in_color">Forty in</string>
     <string translatable="true" name="twenty_and_enough">Twenty and enough !</string>
     <string translatable="true" name="fourty_and_enough">Forty and enough !</string>
-    <string translatable="true" name="you_have_won_points">You win with %1$s points!</string>
-    <string translatable="true" name="computer_has_won_points">Computer won with %1$s points!</string>
-    <string translatable="true" name="your_hit_points">Your hit with %1$s points.</string>
-    <string translatable="true" name="computer_hit_points">Computer hits with %1$s points.</string>
+    <string translatable="true" name="you_have_won_points">You win with {0} points!</string>
+    <string translatable="true" name="computer_has_won_points">Computer won with {0} points!</string>
+    <string translatable="true" name="your_hit_points">Your hit with {0} points.</string>
+    <string translatable="true" name="computer_hit_points">Computer hits with {0} points.</string>
     <string translatable="true" name="click_continue">Click on Continue!</string>
     <string translatable="true" name="computer_closing_failed">Computer failed closing the game, you win !</string>
     <string translatable="true" name="closing_failed">You failed to close this game, computer wins !</string>
     <string translatable="true" name="color_hit_force_mode">No more cards in talon -> follow the suit led otherwise must trump (if possible) !</string>
     <string translatable="true" name="last_hit_you_have_won">Last trick: you win!</string>
     <string translatable="true" name="computer_wins_last_hit">Last trick: computer wins  !</string>
-    <string translatable="true" name="you_say_pair">Thou announce a marriages in color %1$s!</string>
+    <string translatable="true" name="you_say_pair">Thou announce a marriages in color {0}!</string>
     <string translatable="true" name="computer_changes_atou">computer changes Atou card.</string>
-    <string translatable="true" name="computer_says_pair">computer announces  a marriages in color %1$s!</string>
+    <string translatable="true" name="computer_says_pair">computer announces  a marriages in color {0}!</string>
     <string translatable="true" name="this_is_no_valid_card">This is no valid card to play!</string>
     <string translatable="true" name="you_must_play_pair_card">You must play out queen or king when marriages!</string>
     <string translatable="true" name="you_must_play_color_hit_force_rules">Follow the suit led stict rules!</string>
     <string translatable="true" name="creating_players">Creating new players &#8230;</string>
     <string translatable="true" name="merging_cards">Merging cards &#8230;</string>
-    <string translatable="true" name="atou_is">Atou is %1$s!</string>
-    <string translatable="true" name="best_card_would_be">Best card would be: %1$s</string>
+    <string translatable="true" name="atou_is">Atou is {0}!</string>
+    <string translatable="true" name="best_card_would_be">Best card would be: {0}</string>
     <string translatable="true" name="ending_game">Ending game!</string>
     <string translatable="true" name="landscape_mode">Screen switched to Landscape mode</string>
     <string translatable="true" name="portrait_mode">Screen switched to Portrait mode</string>
