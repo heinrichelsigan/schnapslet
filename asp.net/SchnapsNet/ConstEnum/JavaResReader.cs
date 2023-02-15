@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Web;
 using System.Xml;
 
@@ -12,22 +13,27 @@ namespace SchnapsNet.ConstEnum
         public static string GetValueFromKey(string key, string langCode = "")
         {
             string retVal = null, retAttr = null;
-            XmlReader xmlReader = XmlReader.Create(Constants.URLXML + langCode + ".xml");
+            string myUri = Constants.URLXML + "-" + langCode + ".xml";
+            XmlReader xmlReader = XmlReader.Create(myUri);
             while (xmlReader.Read())
             {
-                if ((xmlReader.NodeType == XmlNodeType.Element) && (xmlReader.Name == key))
+                if ((xmlReader.NodeType == XmlNodeType.Element) && (xmlReader.Name == "string"))
                 {
                     if (xmlReader.HasAttributes)
-                        retAttr = xmlReader.GetAttribute(key);
-                    if (!string.IsNullOrEmpty(retAttr))
-                        return retAttr;
-                    retVal = xmlReader.GetValueAsync().ConfigureAwait(true).ToString();                    
-                    if (!string.IsNullOrEmpty(retVal)) 
-                        return retVal;
+                    {
+                        retAttr = xmlReader.GetAttribute(0).ToString();
+                        if (!string.IsNullOrEmpty(retAttr) && retAttr == key)
+                        {
+                            retVal = xmlReader.Value;
+                            if (!string.IsNullOrEmpty(retVal))
+                                return retVal;
+                        }
+                    }
                 }
             }
-            
-            return (!string.IsNullOrEmpty(retAttr)) ? retAttr : retVal;
+
+            retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
+            return (!string.IsNullOrEmpty(retVal)) ? retVal : retAttr;
         }
 
     }
