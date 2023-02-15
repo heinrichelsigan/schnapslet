@@ -33,7 +33,7 @@ namespace SchnapsNet.ConstEnum
             }
 
             retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : retAttr;
+            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
 
     }
