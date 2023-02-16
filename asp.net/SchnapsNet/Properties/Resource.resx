@@ -138,17 +138,29 @@
   <data name="action_stop" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="app_name" xml:space="preserve">
+    <value>Schnaps.Net</value>
+  </data>
+  <data name="atou_is" xml:space="preserve">
+    <value>Atou is {0}!</value>
+  </data>
   <data name="b20a_text" xml:space="preserve">
     <value>Marriage 20</value>
   </data>
   <data name="b20b_text" xml:space="preserve">
     <value>Atou marriage 40</value>
   </data>
+  <data name="back_button" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="bChange_text" xml:space="preserve">
-    <value>Change Atou&lt;</value>
+    <value>Change Atou</value>
   </data>
   <data name="bContinue_text" xml:space="preserve">
     <value>Continue</value>
+  </data>
+  <data name="best_card_would_be" xml:space="preserve">
+    <value>Best card would be: {0}</value>
   </data>
   <data name="bHelp_text" xml:space="preserve">
     <value>Help</value>
@@ -158,6 +170,12 @@
   </data>
   <data name="bStop_text" xml:space="preserve">
     <value>Stop</value>
+  </data>
+  <data name="build_with" xml:space="preserve">
+    <value>VisualStudio 2022 C# 4.8</value>
+  </data>
+  <data name="carddeck" xml:space="preserve">
+    <value>carddeck</value>
   </data>
   <data name="cardval_10" xml:space="preserve">
     <value>Ten</value>
@@ -174,11 +192,32 @@
   <data name="cardval_4" xml:space="preserve">
     <value>King</value>
   </data>
+  <data name="click_continue" xml:space="preserve">
+    <value>Click on Continue!</value>
+  </data>
+  <data name="close_game" xml:space="preserve">
+    <value>closes game</value>
+  </data>
+  <data name="closing_failed" xml:space="preserve">
+    <value>You failed to close this game, computer wins!</value>
+  </data>
+  <data name="colorDelimiter" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="color_e" xml:space="preserve">
+    <value>empty card</value>
+  </data>
   <data name="color_h" xml:space="preserve">
     <value>Hearts</value>
   </data>
+  <data name="color_hit_force_mode" xml:space="preserve">
+    <value>No more cards in talon -&gt; follow the suit led otherwise must trump (if possible).</value>
+  </data>
   <data name="color_k" xml:space="preserve">
     <value>Diamonds</value>
+  </data>
+  <data name="color_n" xml:space="preserve">
+    <value>nocolor</value>
   </data>
   <data name="color_p" xml:space="preserve">
     <value>Spades</value>
@@ -186,8 +225,92 @@
   <data name="color_t" xml:space="preserve">
     <value>Clubs</value>
   </data>
+  <data name="computer_changes_atou" xml:space="preserve">
+    <value>Computer changes Atou card.</value>
+  </data>
+  <data name="computer_closed_game" xml:space="preserve">
+    <value>Computer closes game!</value>
+  </data>
+  <data name="computer_closing_failed" xml:space="preserve">
+    <value>Computer failed closing the game, you win!</value>
+  </data>
+  <data name="computer_has_won_points" xml:space="preserve">
+    <value>Computer won with {0} points!</value>
+  </data>
+  <data name="computer_hit_points" xml:space="preserve">
+    <value>Computer hits with {0} points.</value>
+  </data>
+  <data name="computer_says_pair" xml:space="preserve">
+    <value>computer announces  a marriages in color {0}</value>
+  </data>
+  <data name="computer_wins_last_hit" xml:space="preserve">
+    <value>Last trick: computer wins!</value>
+  </data>
+  <data name="creating_players" xml:space="preserve">
+    <value>Creating new players</value>
+  </data>
+  <data name="default_cards" xml:space="preserve">
+    <value>default cards</value>
+  </data>
+  <data name="ending_game" xml:space="preserve">
+    <value>Ending game!</value>
+  </data>
+  <data name="english_cards" xml:space="preserve">
+    <value>english cards</value>
+  </data>
+  <data name="fourty_and_enough" xml:space="preserve">
+    <value>Forty and enough !</value>
+  </data>
+  <data name="fourty_in_color" xml:space="preserve">
+    <value>Forty in</value>
+  </data>
+  <data name="french_cards" xml:space="preserve">
+    <value>french cards</value>
+  </data>
+  <data name="german_cards" xml:space="preserve">
+    <value>german cards</value>
+  </data>
+  <data name="github_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet</value>
+  </data>
+  <data name="help_text" xml:space="preserve">
+    <value>Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
+  </data>
+  <data name="im0_text" xml:space="preserve">
+    <value>Player card 1</value>
+  </data>
+  <data name="im1_text" xml:space="preserve">
+    <value>Player card 2</value>
+  </data>
+  <data name="im2_text" xml:space="preserve">
+    <value>Player card 3</value>
+  </data>
+  <data name="im3_text" xml:space="preserve">
+    <value>Player card 4</value>
+  </data>
+  <data name="im4_text" xml:space="preserve">
+    <value>Player card 5</value>
+  </data>
   <data name="imAtou_text" xml:space="preserve">
     <value>Atou card</value>
+  </data>
+  <data name="imgCOut0_text" xml:space="preserve">
+    <value>Computer card 0</value>
+  </data>
+  <data name="imgCOut1_text" xml:space="preserve">
+    <value>Computer card 1</value>
+  </data>
+  <data name="imgCOut2_text" xml:space="preserve">
+    <value>Computer card 2</value>
+  </data>
+  <data name="imgCOut3_text" xml:space="preserve">
+    <value>Computer card 3</value>
+  </data>
+  <data name="imgCOut4_text" xml:space="preserve">
+    <value>Computer card 4</value>
+  </data>
+  <data name="imMerge_text" xml:space="preserve">
+    <value>Merging animation</value>
   </data>
   <data name="imOut0_text" xml:space="preserve">
     <value>Playout card</value>
@@ -198,19 +321,88 @@
   <data name="imTalon_text" xml:space="preserve">
     <value>Talon card</value>
   </data>
+  <data name="last_hit_you_have_won" xml:space="preserve">
+    <value>Last trick: you win!</value>
+  </data>
+  <data name="learn_more" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="merging_cards" xml:space="preserve">
+    <value>Merging cards</value>
+  </data>
+  <data name="newgame_starts" xml:space="preserve">
+    <value>Start a new game</value>
+  </data>
+  <data name="nogame_started" xml:space="preserve">
+    <value>No game has been started!</value>
+  </data>
+  <data name="no_second_pair" xml:space="preserve">
+    <value>no second pair</value>
+  </data>
+  <data name="player_closed_game" xml:space="preserve">
+    <value>Player closes game!</value>
+  </data>
+  <data name="polish_cards" xml:space="preserve">
+    <value>polish cardset</value>
+  </data>
+  <data name="say_pair" xml:space="preserve">
+    <value>say pair</value>
+  </data>
   <data name="sPoints" xml:space="preserve">
     <value>Points</value>
   </data>
   <data name="sRest" xml:space="preserve">
     <value>Rest</value>
   </data>
+  <data name="tDbg_text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="this_is_no_valid_card" xml:space="preserve">
+    <value>This is no valid card to play!</value>
+  </data>
   <data name="tMes_text" xml:space="preserve">
     <value>Short information</value>
+  </data>
+  <data name="toplayout_clickon_card" xml:space="preserve">
+    <value>Click on card symbol to play out that card.</value>
   </data>
   <data name="tPoints_text" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tRest_text" xml:space="preserve">
     <value>10</value>
+  </data>
+  <data name="twenty_and_enough" xml:space="preserve">
+    <value>Twenty and enough!</value>
+  </data>
+  <data name="twenty_in_color" xml:space="preserve">
+    <value>Twenty in</value>
+  </data>
+  <data name="ukraine_cards" xml:space="preserve">
+    <value>ukraine cardset</value>
+  </data>
+  <data name="us_cards" xml:space="preserve">
+    <value>future_us_cards</value>
+  </data>
+  <data name="version_name" xml:space="preserve">
+    <value>v2.2.4</value>
+  </data>
+  <data name="wiki_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
+  </data>
+  <data name="your_hit_points" xml:space="preserve">
+    <value>Your hit with {0} points</value>
+  </data>
+  <data name="you_have_won_points" xml:space="preserve">
+    <value>You win with {0} points!</value>
+  </data>
+  <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
+    <value>Follow the suit led stict rules!</value>
+  </data>
+  <data name="you_must_play_pair_card" xml:space="preserve">
+    <value>You must play out queen or king when marriages!</value>
+  </data>
+  <data name="you_say_pair" xml:space="preserve">
+    <value>Thou announce a marriages in color {0}!</value>
   </data>
 </root>

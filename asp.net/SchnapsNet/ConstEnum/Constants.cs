@@ -12,7 +12,7 @@ namespace SchnapsNet.ConstEnum
         public const string GITURL = ">https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL = ">https://github.com/heinrichelsigan/schnapslet/wiki";
         public const string URLPREFIX = "https://area23.at/schnapsen/cardpics/";
-        public const string URLPIC = "https://area23.at/mono/SchnapsNet/cardpics/";
+        public const string URLPIC = "https://area23.at/schnapsen/cardpics/";
         public const string URLXML = "https://area23.at/mono/SchnapsNet/Properties/strings";
         
         public const string COLOR_K = "DIAMONDS";

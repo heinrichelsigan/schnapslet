@@ -163,7 +163,7 @@ namespace SchnapsNet.Models
         public void assignCard(Card gotCard)
         {
             int i = 0;
-            while ((i < 5) && (hand[i].isValidCard)) i++;
+            while ((i < 5) && (hand[i] != null) && (hand[i].isValidCard)) i++;
             if (i < 5)
             {
                 hand[i] = new Card(gotCard, context);

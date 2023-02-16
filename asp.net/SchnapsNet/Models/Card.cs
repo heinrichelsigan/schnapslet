@@ -24,7 +24,8 @@ namespace SchnapsNet.Models
         char color = 'n';   // 4 colors and 'n' for unitialized
         int value = -1; // 5 values and 0 for unitialized
         string name = null;  // Human readable classifier
-        Url picture;  // picture        
+        Uri pictureUri;
+        String picture;  // picture        
 
         // Resources r;
         HttpContext context;
@@ -115,7 +116,10 @@ namespace SchnapsNet.Models
         {            
             this.context = c;
             // r = c.getResources();
-            globalVariable = (GlobalAppSettings)c.Session[Constants.APPNAME];
+            if (c != null && c.Session != null)
+            {
+                globalVariable = (GlobalAppSettings)c.Session[Constants.APPNAME];
+            }                
         }
 
         /// <summary>
@@ -433,12 +437,12 @@ namespace SchnapsNet.Models
         /// getPictureUrl 
         /// </summary>
         /// <returns>picture url beyond https://area23.at/schnapsen/cardpics/</returns>
-        public Url getPictureUrl()
+        public String getPictureUrl()
         {
-            Url url = null;
+            String uriString = "https://area23.at/mono/SchnapsNet/cardpics/notfound.gif";
             try
             {
-                url = new Url(Constants.URLPREFIX + this.color + this.value + ".gif");
+                uriString = getPictureUri().ToString();
             }
             catch (Exception exi)
             {
@@ -446,7 +450,7 @@ namespace SchnapsNet.Models
                     Constants.URLPREFIX + this.color + this.value + ".gif" +
                     "\r\n" + exi.StackTrace.ToString());
             }
-            return url;
+            return uriString;
         }
 
         /// <summary>

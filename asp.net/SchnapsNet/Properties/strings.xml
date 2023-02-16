@@ -67,7 +67,7 @@
     <string translatable="true" name="closing_failed">You failed to close this game, computer wins !</string>
     <string translatable="true" name="color_hit_force_mode">No more cards in talon -> follow the suit led otherwise must trump (if possible) !</string>
     <string translatable="true" name="last_hit_you_have_won">Last trick: you win!</string>
-    <string translatable="true" name="computer_wins_last_hit">Last trick: computer wins  !</string>
+    <string translatable="true" name="computer_wins_last_hit">Last trick: computer wins!</string>
     <string translatable="true" name="you_say_pair">Thou announce a marriages in color {0}!</string>
     <string translatable="true" name="computer_changes_atou">computer changes Atou card.</string>
     <string translatable="true" name="computer_says_pair">computer announces  a marriages in color {0}!</string>
@@ -81,7 +81,7 @@
     <string translatable="true" name="ending_game">Ending game!</string>
     <string translatable="true" name="landscape_mode">Screen switched to Landscape mode</string>
     <string translatable="true" name="portrait_mode">Screen switched to Portrait mode</string>
-    <string translatable="true" name="help_text">Schnapslet v1.6.9 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
+    <string translatable="true" name="help_text">Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
     <string translatable="true" name="build_with">Built with Android Studio 3.1.3</string>
     <string translatable="true" name="learn_more">Learn more</string>
     <string translatable="true" name="back_button">Back</string>
@@ -90,11 +90,11 @@
     <string translatable="true" name="english_cards">english cards</string>
     <string translatable="true" name="german_cards">german cards</string>
     <string translatable="true" name="french_cards">french cards</string>
-    <string translatable="true" name="ukraine_cards">ukraine cardsetk</string>
+    <string translatable="true" name="ukraine_cards">ukraine cardset</string>
     <string translatable="true" name="polish_cards">polish cardset</string>
 
     <string translatable="false" name="app_name">Schnapslet</string>
-    <string translatable="false" name="version_name">v2.2.3</string>
+    <string translatable="false" name="version_name">v2.2.4</string>
     <string translatable="false" name="param1_index">Index</string>
     <string translatable="false" name="param2_points">Points</string>
     <string translatable="false" name="tDbg_text" formatted="false"> </string>

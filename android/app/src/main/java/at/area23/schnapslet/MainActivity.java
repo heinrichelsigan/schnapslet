@@ -130,6 +130,8 @@ public class MainActivity
         }
     };
 
+    //region onCreateConfigChangedOptions
+
     /**
      * Override onCreate
      * @param savedInstanceState saved instance state
@@ -337,6 +339,7 @@ public class MainActivity
         return super.onOptionsItemSelected(item);
     }
 
+    //endregion
 
     /**
      * setLanguage
@@ -361,786 +364,7 @@ public class MainActivity
         return true;
     }
 
-
-    /**
-     * implements Runnable
-     */
-    public void run() {
-
-    }
-
-    /**
-     * reset Buttons
-     * @param level of reset
-     *  0 disable Mariage and Change Atou button
-     *  1 perform level 0 and enable Continue, reset atou and talon card
-     *  2 perform 0 + 1 and reset play out position cards
-     */
-    protected void resetButtons(int level) {
-
-        if (level >= 0 ) {
-            toggleEnabled(b20a, false, getString(R.string.b20a_text),
-                    getString(R.string.b20a_text));
-            if (aGame != null) {
-                aGame.a20 = false;
-                aGame.b20 = false;
-                aGame.bChange = false;
-            }
-            toggleEnabled(b20b, false, getString(R.string.b20b_text),
-                    getString(R.string.b20b_text));
-            toggleEnabled(bChange, false, getString(R.string.bChange_text),
-                    getString(R.string.bChange_text));
-        }
-
-        if (level >= 1) {
-            if (aGame != null)
-                aGame.shouldContinue = false;
-            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
-                    getString(R.string.bContinue_text));
-
-            showAtouCard(SCHNAPSTATE.GAME_START);
-            showTalonCard(SCHNAPSTATE.GAME_START);
-        }
-
-        if (level > 2) {
-            try {
-                imOut0.setImageResource(R.drawable.e);
-                imOut1.setImageResource(R.drawable.e);
-                playedOutCard0 = globalVariable.cardEmpty();
-                playedOutCard1 = globalVariable.cardEmpty();
-                aGame.playedOut0 = playedOutCard0;
-                aGame.playedOut1 = playedOutCard1;
-            } catch (Exception ex) {
-                this.errHandler(ex);
-            }
-        }
-        globalVariable.setGame(aGame);
-    }
-
-    /**
-     * init all ImageView's with default empty values
-     */
-    @Deprecated
-    public void initURLBase() {
-        im0.setImageResource(R.drawable.n0);
-        im1.setImageResource(R.drawable.n0);
-        im2.setImageResource(R.drawable.n0);
-        im3.setImageResource(R.drawable.n0);
-        im4.setImageResource(R.drawable.n0);
-        imAtou.setImageResource(R.drawable.n0);
-        imTalon.setImageResource(R.drawable.t);
-        imOut0.setImageResource(R.drawable.e);
-        imOut1.setImageResource(R.drawable.e);
-        imgCOut0.setImageResource(R.drawable.e);
-        imgCOut1.setImageResource(R.drawable.e);
-        imgCOut2.setImageResource(R.drawable.e);
-        imgCOut3.setImageResource(R.drawable.e);
-        imgCOut4.setImageResource(R.drawable.e);
-        imTalon.setVisibility(View.INVISIBLE);
-        imAtou.setVisibility(View.INVISIBLE);
-        playedOutCard0 = null;
-        playedOutCard1 = null;
-    }
-
-    /**
-     * gameStartAnimation - starts game with animation of splitting or knocking
-     * @param splitKnock - boolean true for split, false for knock
-     */
-    protected void gameStartAnimation(boolean splitKnock) {
-        startGame();
-    }
-
-    /**
-     * mergeCardAnim
-     * @param startMergeAnim true to start merge anim, false to stop
-     */
-    protected void mergeCardAnim(boolean startMergeAnim) {
-        if (startMergeAnim) {
-            // animatedGif = null;
-            showAtouCard(SCHNAPSTATE.MERGING_CARDS);
-            showTalonCard(SCHNAPSTATE.MERGING_CARDS);
-            imMerge.setVisibility(View.VISIBLE);
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                try {
-                    ImageDecoder.Source source =
-                            ImageDecoder.createSource(getResources(), R.drawable.mergecards);
-                    Drawable animDrawable = ImageDecoder.decodeDrawable(source);
-                    imMerge.setImageDrawable(animDrawable);
-
-                    if (animDrawable instanceof AnimatedImageDrawable) {
-                        animatedGif = ((AnimatedImageDrawable)animDrawable);
-                        // ((AnimatedImageDrawable) animDrawable).start();
-                        ((AnimatedImageDrawable)animatedGif).start();
-                    }
-                } catch (Exception exCraw) {
-                    this.errHandler(exCraw);
-                }
-                // if (animatedGif != null)
-                //     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
-            }
-            frameAnimation = (AnimationDrawable)imMerge.getBackground();
-            frameAnimation.start();
-        }
-        if (!startMergeAnim) {
-            frameAnimation.stop();
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                if (animatedGif != null)
-                    animatedGif.stop();
-            }
-            showAtouCard(SCHNAPSTATE.GAME_START);
-            showTalonCard(SCHNAPSTATE.GAME_START);
-            imMerge.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * showTalonCard - shows current talon card
-     */
-    protected void showTalonCard(SCHNAPSTATE gameState) {
-        try {
-            if (gameState.getValue() < 6) {
-                imTalon.setImageResource(R.drawable.t);
-                imTalon.setVisibility(View.VISIBLE);
-                talonCard.setVisibility(View.VISIBLE);
-            }
-            else  {
-                imTalon.setImageResource(R.drawable.e1);
-                imTalon.setVisibility(View.INVISIBLE);
-                talonCard.setVisibility(View.INVISIBLE);
-            }
-        } catch (Exception imTalonEx) {
-            this.errHandler(imTalonEx);
-        }
-    }
-
-    /**
-     * showAtouCard - shows current atou card => needed when changing locale and card set
-     */
-    protected void showAtouCard(SCHNAPSTATE gameState) {
-        try {
-            if (gameState.getValue() < 6) {
-                if (gameState == SCHNAPSTATE.GAME_CLOSED ||
-                        gameState == SCHNAPSTATE.GAME_START)
-                    imAtou.setImageResource(R.drawable.n1);
-                else
-                    imAtou.setImageDrawable(aGame.set[19].getDrawable());
-                imAtou.setVisibility(View.VISIBLE);
-                atouCard.setVisibility(View.VISIBLE);
-            } else {
-                imAtou.setImageResource(R.drawable.e1);
-                imAtou.setVisibility(View.INVISIBLE);
-                atouCard.setVisibility(View.INVISIBLE);
-            }
-        } catch (Exception exp) {
-            this.errHandler(exp);
-        }
-    }
-
-    /**
-     * showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
-     */
-    protected  void showPlayedOutCards() {
-        if ((aGame != null && aGame.playedOut0 != null && playedOutCard0 != null &&
-            !aGame.playedOut0.getColorValue().equals(playedOutCard0.getColorValue())) ||
-                (aGame != null && aGame.playedOut0 != null && playedOutCard0 == null)) {
-            playedOutCard0 = aGame.playedOut0;
-        }
-        if (aGame == null && playedOutCard0 == null)
-            playedOutCard0 = globalVariable.cardEmpty();
-        imOut0.setImageDrawable(playedOutCard0.getDrawable());
-
-        if ((aGame != null && aGame.playedOut1 != null && playedOutCard1 != null &&
-                !aGame.playedOut1.getColorValue().equals(playedOutCard1.getColorValue())) ||
-                (aGame != null && aGame.playedOut1 != null && playedOutCard1 == null)) {
-            playedOutCard1 = aGame.playedOut1;
-        }
-        if (playedOutCard1 == null)
-            playedOutCard1 = globalVariable.cardEmpty();
-        imOut1.setImageDrawable(playedOutCard1.getDrawable());
-    }
-
-    /**
-     * showPlayersCards
-     */
-    protected void showPlayersCards() {
-        try {
-            Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
-
-            Card handCard = (aGame.gambler != null && aGame.gambler.hand[0].isValidCard()) ?
-                    aGame.gambler.hand[0] : globalVariable.cardEmpty();
-            playerCard0.setVisibility(View.VISIBLE);
-            playerCard0.setBackground(normalShape);
-            im0.setBackground(normalShape);
-            im0.setImageDrawable(handCard.getDrawable());
-            im0.setVisibility(View.VISIBLE);
-
-            handCard =  (aGame.gambler != null && aGame.gambler.hand[1].isValidCard()) ?
-                    aGame.gambler.hand[1] : globalVariable.cardEmpty();
-            playerCard1.setVisibility(View.VISIBLE);
-            playerCard1.setBackground(normalShape);
-            im1.setBackground(normalShape);
-            im1.setImageDrawable(handCard.getDrawable());
-            im1.setVisibility(View.VISIBLE);
-
-            handCard = (aGame.gambler != null && aGame.gambler.hand[2].isValidCard()) ?
-                aGame.gambler.hand[2] : globalVariable.cardEmpty();
-            playerCard2.setVisibility(View.VISIBLE);
-            playerCard2.setBackground(normalShape);
-            im2.setBackground(normalShape);
-            im2.setImageDrawable(handCard.getDrawable());
-            im2.setVisibility(View.VISIBLE);
-
-            handCard = (aGame.gambler != null && aGame.gambler.hand[3].isValidCard()) ?
-                    aGame.gambler.hand[3] : globalVariable.cardEmpty();
-            playerCard3.setVisibility(View.VISIBLE);
-            playerCard3.setBackground(normalShape);
-            im3.setBackground(normalShape);
-            im3.setImageDrawable(handCard.getDrawable());
-            im3.setVisibility(View.VISIBLE);
-
-            handCard = (aGame.gambler != null && aGame.gambler.hand[4].isValidCard()) ?
-                 aGame.gambler.hand[4] : globalVariable.cardEmpty();
-            playerCard4.setVisibility(View.VISIBLE);
-            playerCard4.setBackground(normalShape);
-            im4.setBackground(normalShape);
-            im4.setImageDrawable(handCard.getDrawable());
-            im4.setVisibility(View.VISIBLE);
-
-        } catch (Exception exp) {
-            this.errHandler(exp);
-        }
-    }
-
-    /**
-     * reSetComputerPair resets computer pair images and linear layout placeholder
-     */
-    protected void reSetComputerPair() {
-        linLayoutCard0.setVisibility(View.INVISIBLE);
-        linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutCard2.setVisibility(View.INVISIBLE);
-        linLayoutCard3.setVisibility(View.INVISIBLE);
-        linLayoutCard4.setVisibility(View.INVISIBLE);
-        imgCOut0.setImageResource(R.drawable.e);
-        imgCOut1.setImageResource(R.drawable.e);
-
-        aGame.playedOut1 = playedOutCard1;
-        imOut1.setImageDrawable(playedOutCard1.getDrawable());
-    }
-
-    /**
-     * showComputer20 shows computer pair, when computer has 20 or 40
-     *
-     * @param computerPlayedOut
-     * @param stage - int stage
-     */
-    protected void showComputer20(Card computerPlayedOut, int stage) {
-        aStage = (stage >= 0) ? stage : aStage;
-        if (computerPlayedOut == null)
-            computerPlayedOut = playedOutCard1;
-        ImageView imCOut0 = imgCOut0;
-        ImageView imCOut1 = imgCOut1;
-
-        linLayoutCard0.setVisibility(View.INVISIBLE);
-        linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutCard2.setVisibility(View.INVISIBLE);
-        linLayoutCard3.setVisibility(View.INVISIBLE);
-        linLayoutCard4.setVisibility(View.INVISIBLE);
-
-        switch (aStage) {
-            case 0:
-            case 1:
-                linLayoutCard0.setVisibility(View.VISIBLE);
-                linLayoutCard1.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut0;
-                imCOut1 = imgCOut1;
-                break;
-            case 2:
-                linLayoutCard1.setVisibility(View.VISIBLE);
-                linLayoutCard2.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut1;
-                imCOut1 = imgCOut2;
-                break;
-            case 3:
-                linLayoutCard2.setVisibility(View.VISIBLE);
-                linLayoutCard3.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut2;
-                imCOut1 = imgCOut3;
-                break;
-            case 4:
-            default:
-                linLayoutCard3.setVisibility(View.VISIBLE);
-                linLayoutCard4.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut3;
-                imCOut1 = imgCOut4;
-                break;
-        }
-
-        for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
-            if (computerPlayedOut.getCardValue().getValue() == 3 &&
-                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
-                    aGame.computer.hand[ci].getCardValue().getValue() == 4) {
-                imCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
-                imCOut1.setImageDrawable(computerPlayedOut.getDrawable());
-                break;
-            }
-            if (computerPlayedOut.getCardValue().getValue() == 4 &&
-                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
-                    aGame.computer.hand[ci].getCardValue().getValue() == 3) {
-                imCOut0.setImageDrawable(computerPlayedOut.getDrawable());
-                imCOut1.setImageDrawable(aGame.computer.hand[ci].getDrawable());
-                break;
-            }
-        }
-
-        aStage--;
-        if (aStage > 0) {
-            showComputer20Handler.postDelayed(rShowComputer20, 800);
-        }
-        else {
-            aGame.playedOut1 = playedOutCard1;
-            imOut1.setImageDrawable(computerPlayedOut.getDrawable());
-            setComputerPairHandler.postDelayed(setComputerPair, 750);
-        }
-    }
-
-    /**
-     * start game
-     */
-    protected void startGame() {
-
-        toggleMenuItem(myMenu, R.id.action_start, false);
-        aGame = null;
-
-        // runtime = java.lang.Runtime.getRuntime();
-        // runtime.runFinalization();
-        // runtime.gc();
-
-        aGame = new Game(getApplicationContext());
-        aGame.isReady = true;
-        tMes.setVisibility(View.INVISIBLE);
-
-        mergeCardAnim(false);
-
-        showPlayersCards();
-        resetButtons(1);
-
-        tDbg.setText("");
-        tRest.setText(String.valueOf((19-aGame.index)));
-        // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
-        tPoints.setText(String.valueOf(aGame.gambler.points));
-        showAtouCard(aGame.schnapState);
-        showTalonCard(aGame.schnapState);
-
-        toggleMenuItem(myMenu, R.id.action_stop, true);
-
-        globalVariable.setGame(aGame);
-        gameTurn(0);
-    }
-
-    /**
-     * close that game
-     *
-     * @param who boolean - true for player, false for computer
-     */
-    protected void closeGame(boolean who) { //	Implementierung des Zudrehens
-        if (!aGame.isGame || aGame.gambler == null) {
-            setTextMessage(getString(R.string.nogame_started));
-            return;
-        }
-
-        aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
-        aGame.colorHitRule = true;
-        aGame.isClosed = true;
-        if (!aGame.atouChanged) {
-            aGame.atouChanged = true;
-        }
-        if (who) {
-            setTextMessage(getString(R.string.player_closed_game));
-            saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
-            aGame.gambler.hasClosed = true;
-        } else {
-            setTextMessage(getString(R.string.computer_closed_game));
-            aGame.computer.hasClosed = true;
-        }
-
-        showTalonCard(aGame.schnapState);
-        showAtouCard(aGame.schnapState);
-
-        globalVariable.setGame(aGame);
-        if (who) {
-            gameTurn(0);
-        }
-    }
-
-    /**
-     * a turn in game
-     * @param ixlevel level
-     */
-    protected void gameTurn(int ixlevel) {
-        if (ixlevel < 1) {
-            try {
-                imOut0.setImageResource(R.drawable.e1);
-                imOut1.setImageResource(R.drawable.e1);
-                playedOutCard0 = globalVariable.cardEmpty();
-                playedOutCard1 = globalVariable.cardEmpty();;
-                aGame.playedOut0 = playedOutCard0;
-                aGame.playedOut1 = playedOutCard1;
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-            globalVariable.setGame(aGame);
-            showPlayersCards();
-            pSaid = false;
-            aGame.said = 'n';
-            aGame.csaid = 'n';
-        }
-
-        aGame.bChange = false;
-        aGame.a20 = false;
-        aGame.b20 = false;
-        aGame.sayMarriage20= getString(R.string.b20a_text);
-        aGame.sayMarriage40 = getString(R.string.b20a_text);
-
-        if (aGame.playersTurn) {
-            // Wann kann man austauschen ?
-            if (ixlevel < 1) {
-                if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
-                    psaychange += 1;
-                    aGame.bChange = true;
-                }
-                toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
-                        getString(R.string.bChange_text));
-            }
-            // Gibts was zum Ansagen ?
-            int a20 = aGame.gambler.has20();
-            if (a20 > 0) {
-                psaychange += 2;
-                aGame.a20 = true;
-                aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
-
-                if (a20 > 1) {
-                    aGame.b20 = true;
-                    aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
-                }
-            }
-
-            toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20, aGame.sayMarriage20);
-            toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
-
-            // Info
-            setTextMessage(getString(R.string.toplayout_clickon_card));
-        }
-        else {
-            // COMPUTERS TURN IMPLEMENTIEREN
-            String outPutMessage = "";
-            // boolean atouNowChanged = aGame.atouChanged;
-            // if (aGame.atouIsChangable(aGame.computer))  aGame.changeAtou(aGame.computer); } /* old implementaton */
-            ccard = aGame.computerStarts();
-
-            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
-                this.showAtouCard(aGame.schnapState);
-                outPutMessage += getString(R.string.computer_changes_atou);
-            }
-            // if (atouNowChanged == false && aGame.atouChanged) { }
-
-            boolean computerSaid20 = false;
-            if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
-                computerSaid20 = true;
-                String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
-                outPutMessage = outPutMessage + " " + computerSaysPair;
-            }
-            setTextMessage(outPutMessage);
-            saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
-
-            if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
-                twentyEnough(false);
-                aGame.isReady = false;
-                globalVariable.setGame(aGame);
-                return;
-            }
-
-            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CLOSESGAME.getValue()) == PLAYEROPTIONS.CLOSESGAME.getValue()) {
-                aGame.isClosed = true;
-                outPutMessage += getString(R.string.computer_closed_game);
-                setTextMessage(outPutMessage);
-                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
-                closeGame(false);
-            }
-
-            try {
-                playedOutCard1 = aGame.computer.hand[ccard];
-                if (computerSaid20)
-                    showComputer20(playedOutCard1, 4);
-                else
-                    imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
-                aGame.playedOut1 = playedOutCard1;
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-            // tMes.setVisibility(View.VISIBLE);
-            // tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
-        }
-
-        aGame.isReady = true;
-        printMes();
-        globalVariable.setGame(aGame);
-    }
-
-    /**
-     * Continue turn
-     */
-    protected void continueTurn() {
-        try {
-
-            dragged20 = false;      // TODO: make this persistent in game state
-            droppedCard = false;    // TODO: make this persistent in game state
-
-            if (aGame == null || !aGame.isGame) {
-                startGame();
-                return;
-            }
-            aGame.isReady = true;
-
-            if (aGame != null)
-                aGame.shouldContinue = false;
-            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
-
-            tMes.setVisibility(View.INVISIBLE);
-
-            globalVariable.setGame(aGame);
-            gameTurn(0);
-        } catch (Exception e) {
-            this.errHandler(e);
-        }
-    }
-
-    /**
-     * say 20 or 40 and enough to finish game
-     * @param who player or computer
-     */
-    protected void twentyEnough(boolean who) {
-        int xj = 0;
-        String andEnough = getString(R.string.twenty_and_enough);
-        aGame.isReady = false;
-
-        if (who) {
-            if (aGame.said == aGame.atouInGame()) {
-                andEnough = getString(R.string.fourty_and_enough);
-            }
-            try {
-                for (xj = 0; xj < 5; xj++) {
-                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
-                            aGame.gambler.hand[xj].getCardValue().getValue() == 3) {
-                        playedOutCard0 = aGame.gambler.hand[xj];
-                        aGame.playedOut0 = playedOutCard0;
-                        imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
-                    }
-                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
-                            aGame.gambler.hand[xj].getCardValue().getValue() == 4) {
-                        playedOutCard1 = aGame.gambler.hand[xj];
-                        aGame.playedOut1 = playedOutCard1;
-                        imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
-                    }
-                }
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-
-            tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 2);
-
-        } else {
-            if (aGame.csaid == aGame.atouInGame()) {
-                andEnough = getString(R.string.fourty_and_enough);
-            }
-            try {
-                for (xj = 0; xj < 5; xj++) {
-                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
-                            aGame.computer.hand[xj].getCardValue().getValue() == 3) {
-                        playedOutCard0 = aGame.computer.hand[xj];
-                        aGame.playedOut0 = playedOutCard0;
-                        imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
-                    }
-                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
-                            aGame.computer.hand[xj].getCardValue().getValue() == 4) {
-                        playedOutCard1 = aGame.computer.hand[xj];
-                        aGame.playedOut1 = playedOutCard1;
-                        imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
-                    }
-                }
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-
-            printMes();
-            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
-            tsEnds(tsEndMes1, 2);
-            // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
-        }
-        globalVariable.setGame(aGame);
-        return;
-    }
-
-    /**
-     * end current turn in game
-     */
-    protected void endTurn() {
-        int tmppoints;
-        String msgText;
-
-        /* implement computers strategy here */
-        if (aGame.playersTurn) {
-            ccard = aGame.computersAnswer();
-            try {
-                playedOutCard1 = aGame.computer.hand[ccard];
-                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
-                aGame.playedOut1 = playedOutCard1;
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-        }
-
-        tmppoints = aGame.checkPoints(ccard);
-        aGame.computer.hand[ccard] = globalVariable.cardEmpty();
-        tPoints.setText(String.valueOf(aGame.gambler.points));
-
-        if (tmppoints > 0) {
-            msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
-            setTextMessage(msgText);
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
-
-            if (aGame.isClosed && (aGame.computer.hasClosed)) {
-                globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.computer_closing_failed), 1);
-                return;
-            }
-        } else {
-            msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
-            setTextMessage(msgText);
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
-
-            if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
-                globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.closing_failed), 1);
-                return;
-            }
-        }
-
-        // Assign new cards
-        if (aGame.assignNextCard(assignedCard)) {
-            /* NOW WE HAVE NO MORE TALON */
-            try {
-                showTalonCard(aGame.schnapState);
-                showAtouCard(aGame.schnapState);
-            } catch (Exception jbpvex) {
-                this.errHandler(jbpvex);
-            }
-
-            setTextMessage(getString(R.string.color_hit_force_mode));
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.color_hit_force_mode));
-        }
-        tRest.setText(String.valueOf((19-aGame.index)));
-        printMes();
-        // resetButtons(0);
-        pSaid = false;
-        aGame.said = 'n';
-        aGame.csaid = 'n';
-
-        if (aGame.playersTurn) {
-            if (aGame.gambler.points > 65) {
-                globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
-                return;
-            }
-        } else {
-            if (aGame.computer.points > 65) {
-                globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), 1);
-                return;
-            }
-        }
-
-        if (aGame.movs >= 5) {
-            if (aGame.isClosed) {
-                if (aGame.gambler.hasClosed) {
-                    globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.closing_failed), 1);
-                }
-                try {
-                    if (aGame.computer.hasClosed) {
-                        globalVariable.setGame(aGame);
-                        tsEnds(getString(R.string.computer_closing_failed), 1);
-                    }
-                } catch (Exception jbpvex) {
-                    this.errHandler(jbpvex);
-                }
-                return ;
-            } else {
-                if (tmppoints > 0) {
-                    globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.last_hit_you_have_won), 1);
-                } else {
-                    globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.computer_wins_last_hit), 1);
-                }
-                return;
-            }
-        }
-
-        if (aGame != null)
-            aGame.shouldContinue = true;
-        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
-        imTalon.setOnClickListener(this::bContinue_Clicked);
-        aGame.isReady = false;
-        globalVariable.setGame(aGame);
-    }
-
-    /**
-     * stop current game
-     * @param levela level of stop
-     */
-    protected void stopGame(int levela) {
-
-        toggleMenuItem(myMenu, R.id.action_stop, true);
-
-        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
-            aGame.stopGame();
-
-        resetButtons(levela);
-
-        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
-        toggleMenuItem(myMenu, R.id.action_start, true);
-
-        showPlayersCards();
-
-        playedOutCard0 = globalVariable.cardEmpty();
-        playedOutCard1 = globalVariable.cardEmpty();
-        aGame.playedOut0 = playedOutCard0;
-        aGame.playedOut1 = playedOutCard1;
-
-        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
-            aGame.destroyGame();
-
-        globalVariable.setGame(aGame);
-
-        if (levela <= 0 || levela >= 3) {
-            mergeCardAnim(true);
-        }
-    }
-
-    /**
-     * tsEnds method for ending the current game
-     * @param endMessage ending game message
-     * @param ix level
-     */
-    private void tsEnds(String endMessage, int ix) {
-        setTextMessage(endMessage);
-        saySchnapser(SCHNAPSOUNDS.NONE, endMessage);
-        globalVariable.setGame(aGame);
-        stopGame(ix);
-    }
+    //region ClickDragDrop
 
     /**
      * add listeners on all clickables
@@ -1235,7 +459,7 @@ public class MainActivity
 
             aGame.bChange = false;
             toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
-                getString(R.string.bChange_text));
+                    getString(R.string.bChange_text));
 
             showAtouCard(aGame.schnapState);
             showPlayersCards();
@@ -1547,12 +771,12 @@ public class MainActivity
                     }
                     if ((dropCard.getCardColor().getChar()
                             == touchedCard.getCardColor().getChar()) &&
-                        (dropCard.getCardValue().getValue() +
-                                touchedCard.getCardValue().getValue()
+                            (dropCard.getCardValue().getValue() +
+                                    touchedCard.getCardValue().getValue()
                                     == 7)) {
 
                         if (dropCard.isAtou()) {
-                        // if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
+                            // if (aGame.gambler.handpairs[0] == aGame.atouInGame) {
                             aGame.gambler.points += 40;
                         } else {
                             aGame.gambler.points += 20;
@@ -1733,8 +957,807 @@ public class MainActivity
 
     }
 
-    /*
-     * Future design
+    //endregion
+
+    /**
+     * implements Runnable
+     */
+    public void run() {
+
+    }
+
+    /**
+     * init all ImageView's with default empty values
+     */
+    @Deprecated
+    public void initURLBase() {
+        im0.setImageResource(R.drawable.n0);
+        im1.setImageResource(R.drawable.n0);
+        im2.setImageResource(R.drawable.n0);
+        im3.setImageResource(R.drawable.n0);
+        im4.setImageResource(R.drawable.n0);
+        imAtou.setImageResource(R.drawable.n0);
+        imTalon.setImageResource(R.drawable.t);
+        imOut0.setImageResource(R.drawable.e);
+        imOut1.setImageResource(R.drawable.e);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
+        imgCOut2.setImageResource(R.drawable.e);
+        imgCOut3.setImageResource(R.drawable.e);
+        imgCOut4.setImageResource(R.drawable.e);
+        imTalon.setVisibility(View.INVISIBLE);
+        imAtou.setVisibility(View.INVISIBLE);
+        playedOutCard0 = null;
+        playedOutCard1 = null;
+    }
+
+    //region showUI
+
+    /**
+     * gameStartAnimation - starts game with animation of splitting or knocking
+     * @param splitKnock - boolean true for split, false for knock
+     */
+    protected void gameStartAnimation(boolean splitKnock) {
+        startGame();
+    }
+
+    /**
+     * mergeCardAnim
+     * @param startMergeAnim true to start merge anim, false to stop
+     */
+    protected void mergeCardAnim(boolean startMergeAnim) {
+        if (startMergeAnim) {
+            // animatedGif = null;
+            showAtouCard(SCHNAPSTATE.MERGING_CARDS);
+            showTalonCard(SCHNAPSTATE.MERGING_CARDS);
+            imMerge.setVisibility(View.VISIBLE);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                try {
+                    ImageDecoder.Source source =
+                            ImageDecoder.createSource(getResources(), R.drawable.mergecards);
+                    Drawable animDrawable = ImageDecoder.decodeDrawable(source);
+                    imMerge.setImageDrawable(animDrawable);
+
+                    if (animDrawable instanceof AnimatedImageDrawable) {
+                        animatedGif = ((AnimatedImageDrawable)animDrawable);
+                        // ((AnimatedImageDrawable) animDrawable).start();
+                        ((AnimatedImageDrawable)animatedGif).start();
+                    }
+                } catch (Exception exCraw) {
+                    this.errHandler(exCraw);
+                }
+                // if (animatedGif != null)
+                //     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
+            }
+            frameAnimation = (AnimationDrawable)imMerge.getBackground();
+            frameAnimation.start();
+        }
+        if (!startMergeAnim) {
+            frameAnimation.stop();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (animatedGif != null)
+                    animatedGif.stop();
+            }
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
+            imMerge.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * showTalonCard - shows current talon card
+     */
+    protected void showTalonCard(SCHNAPSTATE gameState) {
+        try {
+            if (gameState.getValue() < 6) {
+                imTalon.setImageResource(R.drawable.t);
+                imTalon.setVisibility(View.VISIBLE);
+                talonCard.setVisibility(View.VISIBLE);
+            }
+            else  {
+                imTalon.setImageResource(R.drawable.e1);
+                imTalon.setVisibility(View.INVISIBLE);
+                talonCard.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception imTalonEx) {
+            this.errHandler(imTalonEx);
+        }
+    }
+
+    /**
+     * showAtouCard - shows current atou card => needed when changing locale and card set
+     */
+    protected void showAtouCard(SCHNAPSTATE gameState) {
+        try {
+            if (gameState.getValue() < 6) {
+                if (gameState == SCHNAPSTATE.GAME_CLOSED ||
+                        gameState == SCHNAPSTATE.GAME_START)
+                    imAtou.setImageResource(R.drawable.n1);
+                else
+                    imAtou.setImageDrawable(aGame.set[19].getDrawable());
+                imAtou.setVisibility(View.VISIBLE);
+                atouCard.setVisibility(View.VISIBLE);
+            } else {
+                imAtou.setImageResource(R.drawable.e1);
+                imAtou.setVisibility(View.INVISIBLE);
+                atouCard.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception exp) {
+            this.errHandler(exp);
+        }
+    }
+
+    /**
+     * showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
+     */
+    protected  void showPlayedOutCards() {
+        if ((aGame != null && aGame.playedOut0 != null && playedOutCard0 != null &&
+            !aGame.playedOut0.getColorValue().equals(playedOutCard0.getColorValue())) ||
+                (aGame != null && aGame.playedOut0 != null && playedOutCard0 == null)) {
+            playedOutCard0 = aGame.playedOut0;
+        }
+        if (aGame == null && playedOutCard0 == null)
+            playedOutCard0 = globalVariable.cardEmpty();
+        imOut0.setImageDrawable(playedOutCard0.getDrawable());
+
+        if ((aGame != null && aGame.playedOut1 != null && playedOutCard1 != null &&
+                !aGame.playedOut1.getColorValue().equals(playedOutCard1.getColorValue())) ||
+                (aGame != null && aGame.playedOut1 != null && playedOutCard1 == null)) {
+            playedOutCard1 = aGame.playedOut1;
+        }
+        if (playedOutCard1 == null)
+            playedOutCard1 = globalVariable.cardEmpty();
+        imOut1.setImageDrawable(playedOutCard1.getDrawable());
+    }
+
+    /**
+     * showPlayersCards
+     */
+    protected void showPlayersCards() {
+        try {
+            Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
+
+            Card handCard = (aGame.gambler != null && aGame.gambler.hand[0].isValidCard()) ?
+                    aGame.gambler.hand[0] : globalVariable.cardEmpty();
+            playerCard0.setVisibility(View.VISIBLE);
+            playerCard0.setBackground(normalShape);
+            im0.setBackground(normalShape);
+            im0.setImageDrawable(handCard.getDrawable());
+            im0.setVisibility(View.VISIBLE);
+
+            handCard =  (aGame.gambler != null && aGame.gambler.hand[1].isValidCard()) ?
+                    aGame.gambler.hand[1] : globalVariable.cardEmpty();
+            playerCard1.setVisibility(View.VISIBLE);
+            playerCard1.setBackground(normalShape);
+            im1.setBackground(normalShape);
+            im1.setImageDrawable(handCard.getDrawable());
+            im1.setVisibility(View.VISIBLE);
+
+            handCard = (aGame.gambler != null && aGame.gambler.hand[2].isValidCard()) ?
+                aGame.gambler.hand[2] : globalVariable.cardEmpty();
+            playerCard2.setVisibility(View.VISIBLE);
+            playerCard2.setBackground(normalShape);
+            im2.setBackground(normalShape);
+            im2.setImageDrawable(handCard.getDrawable());
+            im2.setVisibility(View.VISIBLE);
+
+            handCard = (aGame.gambler != null && aGame.gambler.hand[3].isValidCard()) ?
+                    aGame.gambler.hand[3] : globalVariable.cardEmpty();
+            playerCard3.setVisibility(View.VISIBLE);
+            playerCard3.setBackground(normalShape);
+            im3.setBackground(normalShape);
+            im3.setImageDrawable(handCard.getDrawable());
+            im3.setVisibility(View.VISIBLE);
+
+            handCard = (aGame.gambler != null && aGame.gambler.hand[4].isValidCard()) ?
+                 aGame.gambler.hand[4] : globalVariable.cardEmpty();
+            playerCard4.setVisibility(View.VISIBLE);
+            playerCard4.setBackground(normalShape);
+            im4.setBackground(normalShape);
+            im4.setImageDrawable(handCard.getDrawable());
+            im4.setVisibility(View.VISIBLE);
+
+        } catch (Exception exp) {
+            this.errHandler(exp);
+        }
+    }
+
+    /**
+     * showComputer20 shows computer pair, when computer has 20 or 40
+     *
+     * @param computerPlayedOut
+     * @param stage - int stage
+     */
+    protected void showComputer20(Card computerPlayedOut, int stage) {
+        aStage = (stage >= 0) ? stage : aStage;
+        if (computerPlayedOut == null)
+            computerPlayedOut = playedOutCard1;
+        ImageView imCOut0 = imgCOut0;
+        ImageView imCOut1 = imgCOut1;
+
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+
+        switch (aStage) {
+            case 0:
+            case 1:
+                linLayoutCard0.setVisibility(View.VISIBLE);
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut0;
+                imCOut1 = imgCOut1;
+                break;
+            case 2:
+                linLayoutCard1.setVisibility(View.VISIBLE);
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut1;
+                imCOut1 = imgCOut2;
+                break;
+            case 3:
+                linLayoutCard2.setVisibility(View.VISIBLE);
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut2;
+                imCOut1 = imgCOut3;
+                break;
+            case 4:
+            default:
+                linLayoutCard3.setVisibility(View.VISIBLE);
+                linLayoutCard4.setVisibility(View.VISIBLE);
+                imCOut0 = imgCOut3;
+                imCOut1 = imgCOut4;
+                break;
+        }
+
+        for (int ci = 0; ci < aGame.computer.hand.length; ci++) {
+            if (computerPlayedOut.getCardValue().getValue() == 3 &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
+                    aGame.computer.hand[ci].getCardValue().getValue() == 4) {
+                imCOut0.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                imCOut1.setImageDrawable(computerPlayedOut.getDrawable());
+                break;
+            }
+            if (computerPlayedOut.getCardValue().getValue() == 4 &&
+                    aGame.computer.hand[ci].getCardColor() == computerPlayedOut.getCardColor() &&
+                    aGame.computer.hand[ci].getCardValue().getValue() == 3) {
+                imCOut0.setImageDrawable(computerPlayedOut.getDrawable());
+                imCOut1.setImageDrawable(aGame.computer.hand[ci].getDrawable());
+                break;
+            }
+        }
+
+        aStage--;
+        if (aStage > 0) {
+            showComputer20Handler.postDelayed(rShowComputer20, 800);
+        }
+        else {
+            aGame.playedOut1 = playedOutCard1;
+            imOut1.setImageDrawable(computerPlayedOut.getDrawable());
+            setComputerPairHandler.postDelayed(setComputerPair, 750);
+        }
+    }
+
+    /**
+     * reSetComputerPair resets computer pair images and linear layout placeholder
+     */
+    protected void reSetComputerPair() {
+        linLayoutCard0.setVisibility(View.INVISIBLE);
+        linLayoutCard1.setVisibility(View.INVISIBLE);
+        linLayoutCard2.setVisibility(View.INVISIBLE);
+        linLayoutCard3.setVisibility(View.INVISIBLE);
+        linLayoutCard4.setVisibility(View.INVISIBLE);
+        imgCOut0.setImageResource(R.drawable.e);
+        imgCOut1.setImageResource(R.drawable.e);
+
+        aGame.playedOut1 = playedOutCard1;
+        imOut1.setImageDrawable(playedOutCard1.getDrawable());
+    }
+
+    //endregion
+
+    /**
+     * reset Buttons
+     * @param level of reset
+     *  0 disable Mariage and Change Atou button
+     *  1 perform level 0 and enable Continue, reset atou and talon card
+     *  2 perform 0 + 1 and reset play out position cards
+     */
+    protected void resetButtons(int level) {
+
+        if (level >= 0 ) {
+            toggleEnabled(b20a, false, getString(R.string.b20a_text),
+                    getString(R.string.b20a_text));
+            if (aGame != null) {
+                aGame.a20 = false;
+                aGame.b20 = false;
+                aGame.bChange = false;
+            }
+            toggleEnabled(b20b, false, getString(R.string.b20b_text),
+                    getString(R.string.b20b_text));
+            toggleEnabled(bChange, false, getString(R.string.bChange_text),
+                    getString(R.string.bChange_text));
+        }
+
+        if (level >= 1) {
+            if (aGame != null) {
+                aGame.shouldContinue = false;
+            }
+            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
+                    getString(R.string.bContinue_text));
+
+            showAtouCard(SCHNAPSTATE.GAME_START);
+            showTalonCard(SCHNAPSTATE.GAME_START);
+        }
+
+        if (level > 2) {
+            try {
+                imOut0.setImageResource(R.drawable.e);
+                imOut1.setImageResource(R.drawable.e);
+                playedOutCard0 = globalVariable.cardEmpty();
+                playedOutCard1 = globalVariable.cardEmpty();
+                aGame.playedOut0 = playedOutCard0;
+                aGame.playedOut1 = playedOutCard1;
+            } catch (Exception ex) {
+                this.errHandler(ex);
+            }
+        }
+        if (aGame != null) {
+            globalVariable.setGame(aGame);
+        }
+    }
+
+    //region gameStartStopEndsTurnAndEnough
+
+    /**
+     * start game
+     */
+    protected void startGame() {
+
+        toggleMenuItem(myMenu, R.id.action_start, false);
+        aGame = null;
+
+        // runtime = java.lang.Runtime.getRuntime();
+        // runtime.runFinalization();
+        // runtime.gc();
+
+        aGame = new Game(getApplicationContext());
+        aGame.isReady = true;
+        tMes.setVisibility(View.INVISIBLE);
+
+        mergeCardAnim(false);
+
+        showPlayersCards();
+        resetButtons(1);
+
+        tDbg.setText("");
+        tRest.setText(String.valueOf((19-aGame.index)));
+        // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
+        tPoints.setText(String.valueOf(aGame.gambler.points));
+        showAtouCard(aGame.schnapState);
+        showTalonCard(aGame.schnapState);
+
+        toggleMenuItem(myMenu, R.id.action_stop, true);
+
+        globalVariable.setGame(aGame);
+        gameTurn(0);
+    }
+
+    /**
+     * stop current game
+     * @param levela level of stop
+     */
+    protected void stopGame(int levela) {
+
+        toggleMenuItem(myMenu, R.id.action_stop, true);
+
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.stopGame();
+
+        resetButtons(levela);
+
+        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
+                getString(R.string.bContinue_text));
+        toggleMenuItem(myMenu, R.id.action_start, true);
+
+        showPlayersCards();
+
+        playedOutCard0 = globalVariable.cardEmpty();
+        playedOutCard1 = globalVariable.cardEmpty();
+        aGame.playedOut0 = playedOutCard0;
+        aGame.playedOut1 = playedOutCard1;
+
+        if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
+            aGame.destroyGame();
+
+        globalVariable.setGame(aGame);
+
+        if (levela <= 0 || levela >= 3) {
+            mergeCardAnim(true);
+        }
+    }
+
+    /**
+     * tsEnds method for ending the current game
+     * @param endMessage ending game message
+     * @param ix level
+     */
+    private void tsEnds(String endMessage, int ix) {
+        setTextMessage(endMessage);
+        saySchnapser(SCHNAPSOUNDS.NONE, endMessage);
+        globalVariable.setGame(aGame);
+        stopGame(ix);
+    }
+
+    /**
+     * close that game
+     *
+     * @param who boolean - true for player, false for computer
+     */
+    protected void closeGame(boolean who) { //	Implementierung des Zudrehens
+        if (!aGame.isGame || aGame.gambler == null) {
+            setTextMessage(getString(R.string.nogame_started));
+            return;
+        }
+
+        aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
+        aGame.colorHitRule = true;
+        aGame.isClosed = true;
+        if (!aGame.atouChanged) {
+            aGame.atouChanged = true;
+        }
+        if (who) {
+            setTextMessage(getString(R.string.player_closed_game));
+            saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
+            aGame.gambler.hasClosed = true;
+        } else {
+            setTextMessage(getString(R.string.computer_closed_game));
+            aGame.computer.hasClosed = true;
+        }
+
+        showTalonCard(aGame.schnapState);
+        showAtouCard(aGame.schnapState);
+
+        globalVariable.setGame(aGame);
+        if (who) {
+            gameTurn(0);
+        }
+    }
+
+    /**
+     * a turn in game
+     * @param ixlevel level
+     */
+    protected void gameTurn(int ixlevel) {
+        if (ixlevel < 1) {
+            try {
+                imOut0.setImageResource(R.drawable.e1);
+                imOut1.setImageResource(R.drawable.e1);
+                playedOutCard0 = globalVariable.cardEmpty();
+                playedOutCard1 = globalVariable.cardEmpty();;
+                aGame.playedOut0 = playedOutCard0;
+                aGame.playedOut1 = playedOutCard1;
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+            globalVariable.setGame(aGame);
+            showPlayersCards();
+            pSaid = false;
+            aGame.said = 'n';
+            aGame.csaid = 'n';
+        }
+
+        aGame.bChange = false;
+        aGame.a20 = false;
+        aGame.b20 = false;
+        aGame.sayMarriage20= getString(R.string.b20a_text);
+        aGame.sayMarriage40 = getString(R.string.b20a_text);
+
+        if (aGame.playersTurn) {
+            // Wann kann man austauschen ?
+            if (ixlevel < 1) {
+                if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
+                    psaychange += 1;
+                    aGame.bChange = true;
+                }
+                toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
+                        getString(R.string.bChange_text));
+            }
+            // Gibts was zum Ansagen ?
+            int a20 = aGame.gambler.has20();
+            if (a20 > 0) {
+                psaychange += 2;
+                aGame.a20 = true;
+                aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) +
+                        " " + getString(R.string.say_pair);
+
+                if (a20 > 1) {
+                    aGame.b20 = true;
+                    aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) +
+                        " " + getString(R.string.say_pair);
+                }
+                else {
+                    aGame.sayMarriage40 = getString(R.string.no_second_pair);
+                }
+            }
+
+            toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20, aGame.sayMarriage20);
+            toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
+
+            // Info
+            setTextMessage(getString(R.string.toplayout_clickon_card));
+        }
+        else {
+            // COMPUTERS TURN IMPLEMENTIEREN
+            String outPutMessage = "";
+            // boolean atouNowChanged = aGame.atouChanged;
+            // if (aGame.atouIsChangable(aGame.computer))  aGame.changeAtou(aGame.computer); } /* old implementaton */
+            ccard = aGame.computerStarts();
+
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
+                this.showAtouCard(aGame.schnapState);
+                outPutMessage += getString(R.string.computer_changes_atou);
+            }
+            // if (atouNowChanged == false && aGame.atouChanged) { }
+
+            boolean computerSaid20 = false;
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
+                computerSaid20 = true;
+                String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                outPutMessage = outPutMessage + " " + computerSaysPair;
+            }
+            setTextMessage(outPutMessage);
+            saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
+                twentyEnough(false);
+                aGame.isReady = false;
+                globalVariable.setGame(aGame);
+                return;
+            }
+
+            if ((aGame.computer.playerOptions & PLAYEROPTIONS.CLOSESGAME.getValue()) == PLAYEROPTIONS.CLOSESGAME.getValue()) {
+                aGame.isClosed = true;
+                outPutMessage += getString(R.string.computer_closed_game);
+                setTextMessage(outPutMessage);
+                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+                closeGame(false);
+            }
+
+            try {
+                playedOutCard1 = aGame.computer.hand[ccard];
+                if (computerSaid20)
+                    showComputer20(playedOutCard1, 4);
+                else
+                    imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
+                aGame.playedOut1 = playedOutCard1;
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+            // tMes.setVisibility(View.VISIBLE);
+            // tMes.setText("Zum Antworten einfach auf die entsprechende Karte klicken");
+        }
+
+        aGame.isReady = true;
+        printMes();
+        globalVariable.setGame(aGame);
+    }
+
+    /**
+     * Continue turn
+     */
+    protected void continueTurn() {
+        try {
+
+            dragged20 = false;      // TODO: make this persistent in game state
+            droppedCard = false;    // TODO: make this persistent in game state
+
+            if (aGame == null || !aGame.isGame) {
+                startGame();
+                return;
+            }
+            aGame.isReady = true;
+
+            if (aGame != null)
+                aGame.shouldContinue = false;
+            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
+                getString(R.string.bContinue_text));
+
+            tMes.setVisibility(View.INVISIBLE);
+
+            globalVariable.setGame(aGame);
+            gameTurn(0);
+        } catch (Exception e) {
+            this.errHandler(e);
+        }
+    }
+
+    /**
+     * end current turn in game
+     */
+    protected void endTurn() {
+        int tmppoints;
+        String msgText;
+
+        /* implement computers strategy here */
+        if (aGame.playersTurn) {
+            ccard = aGame.computersAnswer();
+            try {
+                playedOutCard1 = aGame.computer.hand[ccard];
+                imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
+                aGame.playedOut1 = playedOutCard1;
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+        }
+
+        tmppoints = aGame.checkPoints(ccard);
+        aGame.computer.hand[ccard] = globalVariable.cardEmpty();
+        tPoints.setText(String.valueOf(aGame.gambler.points));
+
+        if (tmppoints > 0) {
+            msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
+            setTextMessage(msgText);
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+
+            if (aGame.isClosed && (aGame.computer.hasClosed)) {
+                globalVariable.setGame(aGame);
+                tsEnds(getString(R.string.computer_closing_failed), 1);
+                return;
+            }
+        } else {
+            msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
+            setTextMessage(msgText);
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+
+            if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
+                globalVariable.setGame(aGame);
+                tsEnds(getString(R.string.closing_failed), 1);
+                return;
+            }
+        }
+
+        // Assign new cards
+        if (aGame.assignNextCard(assignedCard)) {
+            /* NOW WE HAVE NO MORE TALON */
+            try {
+                showTalonCard(aGame.schnapState);
+                showAtouCard(aGame.schnapState);
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+
+            setTextMessage(getString(R.string.color_hit_force_mode));
+            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.color_hit_force_mode));
+        }
+        tRest.setText(String.valueOf((19-aGame.index)));
+        printMes();
+        // resetButtons(0);
+        pSaid = false;
+        aGame.said = 'n';
+        aGame.csaid = 'n';
+
+        if (aGame.playersTurn) {
+            if (aGame.gambler.points > 65) {
+                globalVariable.setGame(aGame);
+                tsEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
+                return;
+            }
+        } else {
+            if (aGame.computer.points > 65) {
+                globalVariable.setGame(aGame);
+                tsEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), 1);
+                return;
+            }
+        }
+
+        if (aGame.movs >= 5) {
+            if (aGame.isClosed) {
+                if (aGame.gambler.hasClosed) {
+                    globalVariable.setGame(aGame);
+                    tsEnds(getString(R.string.closing_failed), 1);
+                }
+                try {
+                    if (aGame.computer.hasClosed) {
+                        globalVariable.setGame(aGame);
+                        tsEnds(getString(R.string.computer_closing_failed), 1);
+                    }
+                } catch (Exception jbpvex) {
+                    this.errHandler(jbpvex);
+                }
+                return ;
+            } else {
+                if (tmppoints > 0) {
+                    globalVariable.setGame(aGame);
+                    tsEnds(getString(R.string.last_hit_you_have_won), 1);
+                } else {
+                    globalVariable.setGame(aGame);
+                    tsEnds(getString(R.string.computer_wins_last_hit), 1);
+                }
+                return;
+            }
+        }
+
+        if (aGame != null)
+            aGame.shouldContinue = true;
+        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
+                getString(R.string.bContinue_text));
+        imTalon.setOnClickListener(this::bContinue_Clicked);
+        aGame.isReady = false;
+        globalVariable.setGame(aGame);
+    }
+
+    /**
+     * say 20 or 40 and enough to finish game
+     * @param who player or computer
+     */
+    protected void twentyEnough(boolean who) {
+        int xj = 0;
+        String andEnough = getString(R.string.twenty_and_enough);
+        aGame.isReady = false;
+
+        if (who) {
+            if (aGame.said == aGame.atouInGame()) {
+                andEnough = getString(R.string.fourty_and_enough);
+            }
+            try {
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
+                            aGame.gambler.hand[xj].getCardValue().getValue() == 3) {
+                        playedOutCard0 = aGame.gambler.hand[xj];
+                        aGame.playedOut0 = playedOutCard0;
+                        imOut0.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
+                    if (aGame.gambler.hand[xj].getCardColor().getChar() == aGame.said &&
+                            aGame.gambler.hand[xj].getCardValue().getValue() == 4) {
+                        playedOutCard1 = aGame.gambler.hand[xj];
+                        aGame.playedOut1 = playedOutCard1;
+                        imOut1.setImageDrawable(aGame.gambler.hand[xj].getDrawable());
+                    }
+                }
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+
+            tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 2);
+
+        } else {
+            if (aGame.csaid == aGame.atouInGame()) {
+                andEnough = getString(R.string.fourty_and_enough);
+            }
+            try {
+                for (xj = 0; xj < 5; xj++) {
+                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
+                            aGame.computer.hand[xj].getCardValue().getValue() == 3) {
+                        playedOutCard0 = aGame.computer.hand[xj];
+                        aGame.playedOut0 = playedOutCard0;
+                        imOut0.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
+                    if (aGame.computer.hand[xj].getCardColor().getChar() == aGame.csaid &&
+                            aGame.computer.hand[xj].getCardValue().getValue() == 4) {
+                        playedOutCard1 = aGame.computer.hand[xj];
+                        aGame.playedOut1 = playedOutCard1;
+                        imOut1.setImageDrawable(aGame.computer.hand[xj].getDrawable());
+                    }
+                }
+            } catch (Exception jbpvex) {
+                this.errHandler(jbpvex);
+            }
+
+            printMes();
+            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+            tsEnds(tsEndMes1, 2);
+            // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
+        }
+        globalVariable.setGame(aGame);
+        return;
+    }
+
+    //endregion
+
+    /**
+     * SetImageDrawable - Future design
+     *
      * @param imageView ImageView to display
      * @param card Card to display
      */
@@ -1749,6 +1772,8 @@ public class MainActivity
         imageView.setTag(0, tmp);
         imageView.setTag(1, imageView.getVisibility());
     }
+
+    //region TextMsgError
 
     /**
      * setTextMessage shows a new Toast dynamic message
@@ -1791,6 +1816,9 @@ public class MainActivity
         showHelp();
     }
 
+    //endregion
+
+    //region modalDialogs
 
     /**
      * showHelpDialog
@@ -1838,4 +1866,5 @@ public class MainActivity
         dialog.dismiss();
     }
 
+    //endregion
 }

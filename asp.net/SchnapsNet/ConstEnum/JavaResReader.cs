@@ -12,7 +12,10 @@ namespace SchnapsNet.ConstEnum
     {
         public static string GetValueFromKey(string key, string langCode = "")
         {
-            string retVal = null, retAttr = null;
+            string retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
+            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
+            /*
+            string retAttr = null;
             string myUri = Constants.URLXML + "-" + langCode + ".xml";
             XmlReader xmlReader = XmlReader.Create(myUri);
             while (xmlReader.Read())
@@ -32,8 +35,7 @@ namespace SchnapsNet.ConstEnum
                 }
             }
 
-            retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
+            */
         }
 
     }

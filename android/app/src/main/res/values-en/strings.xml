@@ -81,7 +81,7 @@
     <string name="ending_game">Ending game!</string>
     <string name="landscape_mode">Screen switched to Landscape mode</string>
     <string name="portrait_mode">Screen switched to Portrait mode</string>
-    <string name="help_text">Schnapslet v1.6.9 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
+    <string name="help_text">Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
     <string name="build_with">Built with Android Studio 3.1.3</string>
     <string name="learn_more">Learn more</string>
     <string name="back_button">Back</string>
@@ -92,6 +92,7 @@
     <string name="french_cards">french cards</string>
     <string name="ukraine_cards">ukraine cardsetk</string>
     <string name="polish_cards">polish cardset</string>
+	<string name="us_cards">US future cardset</string>
     <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
 </resources>
 
