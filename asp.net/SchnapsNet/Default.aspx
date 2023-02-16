@@ -1207,11 +1207,11 @@
             <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imOut0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" />
             </span>
-            <span style="width:96px; height:72px; margin-left: 0px; margin-top: 12px; z-index: 100; margin-top: 0px; text-align: left; font-size: medium">                
-                <asp:ImageButton ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Width="96" Height="72" />                 
+            <span style="width:96px; height:72px; margin-left: 0px; margin-top: 12px; z-index: 11; margin-top: 0px; text-align: left; font-size: medium">                
+                <asp:ImageButton ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Width="96" Height="72" style="z-index: 10"  />
             </span>            
-            <span style="width:72px; height:96px; margin-left: -16px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" style="z-index: 1" />
+            <span style="width:72px; height:96px; margin-left: -16px;  z-index: 100;  margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" style="z-index: 110" />
             </span>                        
         </div>
         <div style="nowrap; line-height: normal; height: 96px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
