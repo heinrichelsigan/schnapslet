@@ -13,6 +13,14 @@ namespace SchnapsNet.ConstEnum
         public static string GetValueFromKey(string key, string langCode = "")
         {
             string retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
+            if (langCode.ToLower() == "de")
+            {
+                string retVal_de = SchnapsNet.Properties.Resource_de.ResourceManager.GetString(key);
+                if (!string.IsNullOrEmpty(retVal_de))
+                {
+                    return retVal_de;
+                }
+            }
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
             /*
             string retAttr = null;

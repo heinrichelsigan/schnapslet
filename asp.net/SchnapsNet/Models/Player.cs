@@ -184,7 +184,7 @@ namespace SchnapsNet.Models
             for (i = 0; i < 5; i++)
             {
                 // ist gueltige Karte -> PRI 0
-                if (!hand[i].isValidCard)
+                if (hand[i] == null || !hand[i].isValidCard)
                 {
                     colorHitArray[i] = (-1);
                 }

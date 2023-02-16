@@ -344,11 +344,15 @@ namespace SchnapsNet.Models
 					gambler.assignCard(set[++index]);
 				}
 				if (index == 17)
-					atouChanged = true;
+				{
+                    schnapState = SCHNAPSTATE.TALON_ONE_REMAINS;
+                    atouChanged = true;
+				}
 				if (index == 19)
 				{
 					retval = 1;
-					colorHitRule = true;
+                    schnapState = SCHNAPSTATE.TALON_CONSUMED;                    
+                    colorHitRule = true;
 				}
 			}
 			else
