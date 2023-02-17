@@ -265,6 +265,7 @@
     <Content Include="Properties\strings.xml" />
     <Content Include="SchnapNet.aspx" />
     <Content Include="SchnapsApplet.html" />
+    <Content Include="SchnapsNet.aspx" />
     <Content Include="Web.config" />
     <Content Include="OctalDump.aspx" />
   </ItemGroup>
@@ -298,6 +299,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource_fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SchnapsNet.aspx.cs">
+      <DependentUpon>SchnapsNet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SchnapsNet.aspx.designer.cs">
+      <DependentUpon>SchnapsNet.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

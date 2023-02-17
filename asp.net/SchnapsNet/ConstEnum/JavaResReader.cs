@@ -5,6 +5,9 @@ using System.Linq;
 using System.Resources;
 using System.Web;
 using System.Xml;
+using SchnapsNet;
+using SchnapsNet.ConstEnum;
+using SchnapsNet.Properties;
 
 namespace SchnapsNet.ConstEnum
 {
@@ -12,10 +15,10 @@ namespace SchnapsNet.ConstEnum
     {
         public static string GetValueFromKey(string key, string langCode = "")
         {
-            string retVal = SchnapsNet.Properties.Resource.ResourceManager.GetString(key);
+            string retVal = Properties.Resource.ResourceManager.GetString(key);
             if (langCode.ToLower() == "de")
             {
-                string retVal_de = SchnapsNet.Properties.Resource_de.ResourceManager.GetString(key);
+                string retVal_de = Properties.Resource_de.ResourceManager.GetString(key);
                 if (!string.IsNullOrEmpty(retVal_de))
                 {
                     return retVal_de;
@@ -23,7 +26,7 @@ namespace SchnapsNet.ConstEnum
             }
             if (langCode.ToLower() == "fr")
             {
-                string retVal_fr = SchnapsNet.Properties.Resource_fr.ResourceManager.GetString(key);
+                string retVal_fr = Properties.Resource_fr.ResourceManager.GetString(key);
                 if (!string.IsNullOrEmpty(retVal_fr))
                 {
                     return retVal_fr;
