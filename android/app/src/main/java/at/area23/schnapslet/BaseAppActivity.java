@@ -17,26 +17,48 @@
 */
 package at.area23.schnapslet;
 
+import android.app.Application;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import at.area23.schnapslet.constenum.Constants;
 import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
 
 /**
@@ -61,13 +83,18 @@ public class BaseAppActivity extends AppCompatActivity {
     // Calling Application class (see application tag in AndroidManifest.xml)
     protected android.speech.tts.TextToSpeech text2Speach = null;
     protected String speakCallbackId;
+    protected ViewGroup rootViewGroup;
     protected GlobalAppSettings globalVariable;
+    protected final static Handler playL8rHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         globalVariable = (GlobalAppSettings) getApplicationContext();
+        if (rootView == null)
+            rootView = getWindow().getDecorView().getRootView();
+        rootView.setDrawingCacheEnabled(false);
 
         text2Speach = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -78,6 +105,8 @@ public class BaseAppActivity extends AppCompatActivity {
             }
         });
     }
+
+    //region MenuSelection
 
     /**
      * onCreateOptionsMenu
@@ -138,13 +167,36 @@ public class BaseAppActivity extends AppCompatActivity {
             if (mItemId == R.id.action_ukraine_cards) { //  uktainian
                 return setLanguage("uk", item);
             }
-            if (mItemId == R.id.action_polish_cards) { // Overwrites application locale in GlobalAppSettings with french
-                return setLanguage("pl", item);
+            if (mItemId == R.id.action_us_cards) { // Overwrites application locale in GlobalAppSettings with french
+                return setLanguage("us", item);
+            }
+            if (mItemId == R.id.action_screenshot) {
+                takeScreenShot(rootView, true);
+                return true;
+            }
+            if (mItemId == R.id.action_exit) {
+                exitGame();
+                return true;
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * reset menu checkboxes from all checkable menu items
+     */
+    protected void menuResetCheckboxes() {
+        if (myMenu != null) {
+            for (int i = 0; i < myMenu.size(); i++) {
+                MenuItem mItem = myMenu.getItem(i);
+                if (mItem.isCheckable() && mItem.isChecked())
+                    mItem.setChecked(false);
+            }
+        }
+    }
+
+    //endregion
 
     /**
      * setLocale        - change Locale incl. language in GlobalAppSettings globalVariable
@@ -176,18 +228,133 @@ public class BaseAppActivity extends AppCompatActivity {
         return setLocale(newLocale, item);
     }
 
+    //region speakSaySound
+
     /**
-     * reset menu checkboxes from all checkable menu items
+     * playMediaFromUri plays any sound media from an internet uri
+     * @param url - the full quaöofoed url accessor
      */
-    protected void menuResetCheckboxes() {
-        if (myMenu != null) {
-            for (int i = 0; i < myMenu.size(); i++) {
-                MenuItem mItem = myMenu.getItem(i);
-                if (mItem.isCheckable() && mItem.isChecked())
-                    mItem.setChecked(false);
-            }
+    public void playMediaFromUri(String url) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
+        try {
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepare(); // might take long! (for buffering, etc)
+            mediaPlayer.start();
+        } catch (Exception exi) {
+            showError(exi, true);
         }
     }
+
+    /**
+     * Play sound file stored in res/raw/ directory
+     * @param rawName - resource name or resource id
+     *   Name
+     *     Syntax  :  android.resource://[package]/[res type]/[res name]
+     *     Example : @<code>Uri.parse("android.resource://com.my.package/raw/sound1");</code>
+     *   Resource id
+     *     Syntax  : android.resource://[package]/[resource_id]
+     *     Example : @<code>Uri.parse("android.resource://com.my.package/" + R.raw.sound1); </code>
+     *
+     */
+    public void playRawSound(int rId, String rawName) {
+        try {
+            Resources res = getResources();
+            int resId = rId;
+            if (rawName != null) {
+                resId = getSoundRId(rawName);
+            }
+
+            if (resId != rId) {
+                String RESOURCE_PATH = ContentResolver.SCHEME_ANDROID_RESOURCE + "://";
+                String path = RESOURCE_PATH + getPackageName() + File.separator + resId;
+                Uri soundUri = Uri.parse(path);
+                showMessage("RawSound: Uri=" + soundUri.toString() + " path=" + path);
+            }
+
+            final MediaPlayer mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setVolume(1.0f, 1.0f);
+            mMediaPlayer.setLooping(false);
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    // Toast.makeText(getApplicationContext(),
+                    //         "start playing sound", Toast.LENGTH_SHORT).show();
+                    mMediaPlayer.start();
+                }
+            });
+            mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    // Toast.makeText(getApplicationContext(), String.format(Locale.US,
+                    //         "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+
+
+            // 2. Load using content provider, passing file descriptor.
+            ContentResolver resolver = getContentResolver();
+            AssetFileDescriptor fd = res.openRawResourceFd(resId);
+            mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+            fd.close();
+            mMediaPlayer.prepareAsync();
+
+            // See setOnPreparedListener above
+            mMediaPlayer.start();
+
+        } catch (Exception ex) {
+            // showException(ex);
+            showMessage(String.join("MediaPlayer: " , ex.getMessage()));
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * getSoundRId
+     * @param rawSoundName - raw sound name
+     * @return getRessources.getIdentifier(rawSoundName, ...):
+     */
+    public int getSoundRId(String rawSoundName) {
+        // Build path using resource number
+        int resID = getResources().getIdentifier(rawSoundName, "raw", getPackageName());
+        return resID;
+    }
+
+    /**
+     * playSound
+     *  plays a sound
+     * @param rawSoundName - resource name
+     *      Syntax  :  android.resource://[package]/[res type]/[res name]
+     *      Example : @<code>Uri.parse("android.resource://com.my.package/raw/sound1");</code>
+     */
+    public void playSound(String rawSoundName) {
+        int resID = getSoundRId(rawSoundName);
+        playRawSound(resID, rawSoundName);
+    }
+
+    /**
+     * delayPlayScreenshot = new Runnable() -> { playSound("sound_screenshot"); }
+     */
+    protected final Runnable delayPlayScreenshot = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() { playSound("sound_screenshot"); }
+    };
+
+    /**
+     * delayPlayKissClickClick = new Runnable() -> { playSound("sound_kissclickclick"); }
+     */
+    protected final Runnable delayPlayKissClickClick = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() { playSound("sound_kissclickclick"); }
+    };
 
     /**
      * speak - say some text
@@ -202,24 +369,25 @@ public class BaseAppActivity extends AppCompatActivity {
     public void speak(String text, Locale locLang, float rate, float pitch, float volume, String callbackId) {
         text2Speach.stop();
         text2Speach.setOnUtteranceProgressListener(
-                new UtteranceProgressListener() {
-                    @Override
-                    public void onStart(String utteranceId) {
-                    }
+            new UtteranceProgressListener() {
 
-                    @Override
-                    public void onDone(String utteranceId) {
-                        showMessage("speak: UtteranceProgressListener.Done: " + utteranceId, false);
-                    }
-
-                    @Override
-                    public void onError(String utteranceId) {
-                        OperationApplicationException opAppEx =
-                                new OperationApplicationException("speak: UtteranceProgressListener.Error: " + utteranceId);
-                        showException(opAppEx);
-                        // showMessage("speak: UtteranceProgressListener.Error: " + utteranceId, false);
-                    }
+                @Override
+                public void onStart(String utteranceId) {
                 }
+
+                @Override
+                public void onDone(String utteranceId) {
+                    showMessage("speak: UtteranceProgressListener.Done: " + utteranceId, false);
+                }
+
+                @Override
+                public void onError(String utteranceId) {
+                    OperationApplicationException opAppEx =
+                        new OperationApplicationException("speak: UtteranceProgressListener.Error: " + utteranceId);
+                    showException(opAppEx);
+                    // showMessage("speak: UtteranceProgressListener.Error: " + utteranceId, false);
+                }
+            }
         );
 
         if (locLang == null)
@@ -250,17 +418,21 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param text2Say special text to say
      */
     public void saySchnapser(SCHNAPSOUNDS schnapserl, String text2Say) {
-        String sayPhrase = (text2Say != null) ? text2Say : schnapserl.saySpeach(getApplicationContext());
+        String sayPhrase = (text2Say != null && text2Say.length() > 0) ?
+                text2Say : schnapserl.saySpeach(getApplicationContext());
+
         if (sayPhrase != null) {
-            // text2Speach.speak(sayPhrase, TextToSpeech.QUEUE_FLUSH, null);
             float floatRate = Float.parseFloat("1.15");
             float floatPitch = (float)(Math.E / 2);
             float floatVolume =  (float)Math.sqrt(Math.PI);
 
-            speak(sayPhrase, globalVariable.geSystemLLocale(), floatRate, floatPitch, floatVolume, speakCallbackId);
-            // .speak(text2Say, TextToSpeech.QUEUE_FLUSH, null);
+            speak(sayPhrase, globalVariable.geSystemLLocale(),
+                    floatRate, floatPitch, floatVolume, speakCallbackId);
         }
     }
+    //endregion
+
+    //region toggleEnabled
 
     /**
      * toggleEnabled - sets any TextView to enabled or disabled
@@ -306,7 +478,6 @@ public class BaseAppActivity extends AppCompatActivity {
         else
             throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
     }
-
 
     /**
      * toggleEnabled - sets any Button to enabled or disabled
@@ -363,7 +534,7 @@ public class BaseAppActivity extends AppCompatActivity {
         toggleEnabled(anytTextView, enabled, text2Set, text2Set);
     }
 
-  /**
+    /**
    * toggleEnabled - sets any View to enabled or disabled
    *
    * @param anyView View to change
@@ -418,7 +589,9 @@ public class BaseAppActivity extends AppCompatActivity {
             aMenu.findItem(itemId).setEnabled(enabled);
         }
     }
+    //endregion
 
+    //region showHelpMessageErrorException
 
     /**
      * showHelp
@@ -432,18 +605,6 @@ public class BaseAppActivity extends AppCompatActivity {
         // }
         // tDbg.setText(R.string.help_text);
         Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * openUrl
-     * opens https://github.com/heinrichelsigan/schnapslet/wiki
-     */
-    public void openUrl() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        String github = getString(R.string.github_uri);
-        intent.setData(android.net.Uri.parse(github));
         startActivity(intent);
     }
 
@@ -497,4 +658,107 @@ public class BaseAppActivity extends AppCompatActivity {
     public void showException(java.lang.Exception myEx) {
         showError(myEx, true);
     }
+
+    //endregion
+
+    /**
+     * takeScreenShot
+     *  takes a screenshot from a specific view or root view
+     *  of current android app
+     * @param view2Bmp android view on screen to grab / shot
+     *                 if (view2Bmp == null)
+     *                 getWindow().getDecorView().getRootView() will be assigned
+     * @param compress compress saved image file
+     *                 if (true) image will be saved as .jpg
+     *                 otherwise (false) as .png
+     */
+    public void takeScreenShot(View view2Bmp, boolean compress) {
+
+        // if (view2Bmp == null)
+        view2Bmp = getWindow().getDecorView().getRootView();
+        view2Bmp.buildDrawingCache(false);
+
+        // Output directory path
+        String path = getApplicationContext().getExternalFilesDir(null).getAbsolutePath();
+        // path = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) ? Environment.getStorageDirectory().toString() :
+        //  Environment.getExternalStorageDirectory().toString();
+
+        // save file name
+        String saveName = Constants.getSaveImageFileName(compress);
+        OutputStream fileOutputStream = null; // file Output Stream
+        File file = new File(path, saveName);
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            // Canvas canvas = new Canvas(); view2Bmp.draw(canvas);
+            // Paint paint = new Paint(); canvas.drawBitmap(0, 0, paint);
+            Bitmap pictureBitmap = view2Bmp.getDrawingCache(false); // view2Bmp.getDrawingCache(true);
+            Bitmap.CompressFormat bmpFormat = (compress) ?
+                    Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
+            int qualitiy = (compress) ? 80 : 100;
+            pictureBitmap.compress(bmpFormat, qualitiy, fileOutputStream);
+            fileOutputStream.flush();   // flush output stream
+            fileOutputStream.close();   // close output stream
+
+            // insert written image file to media store
+            MediaStore.Images.Media.insertImage(getContentResolver(),
+                file.getAbsolutePath(), file.getName(), file.getName());
+
+        } catch (Exception saveEcx) {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (Exception exx) {
+                }
+            }
+            showError(saveEcx, true);
+            saveEcx.printStackTrace();
+        }
+        finally {
+            fileOutputStream = null;
+        }
+
+        try {
+            view2Bmp.destroyDrawingCache();
+        }
+        catch (Exception destroyDrawingCacheEx) {
+            destroyDrawingCacheEx.printStackTrace();
+        }
+
+        playL8rHandler.postDelayed(delayPlayScreenshot, 200);
+    }
+
+    /**
+     * openUrl opens a  defined url as ACTION_VIEW Intent
+     * @param urlString url to open
+     */
+    public void openUrl(String urlString) {
+
+        Uri openUri;
+        String url2Open = (urlString != null && urlString.length() > 1) ?
+                urlString : getString(R.string.wiki_uri);
+        try {
+            openUri = android.net.Uri.parse(url2Open);
+        } catch (Exception exUriParse) {
+            exUriParse.printStackTrace();
+            openUri = android.net.Uri.parse(getString(R.string.github_uri));
+        }
+
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(openUri);
+        startActivity(intent);
+    }
+
+    /**
+     * exitGame() exit game
+     */
+    public void exitGame() {
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        finishAffinity();
+        System.exit(0);
+    }
+
 }

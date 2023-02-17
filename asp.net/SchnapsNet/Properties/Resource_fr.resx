@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="action_about" xml:space="preserve">
+    <value>information</value>
+  </data>
+  <data name="action_continue" xml:space="preserve">
+    <value>continuer</value>
+  </data>
+  <data name="action_exit" xml:space="preserve">
+    <value>sortie d'application</value>
+  </data>
+  <data name="action_help" xml:space="preserve">
+    <value>aide</value>
+  </data>
+  <data name="action_load" xml:space="preserve">
+    <value>obtenir le jeu</value>
+  </data>
+  <data name="action_options" xml:space="preserve">
+    <value>options</value>
+  </data>
+  <data name="action_save" xml:space="preserve">
+    <value>sauvegarder la partie</value>
+  </data>
+  <data name="action_screenshot" xml:space="preserve">
+    <value>capture d'écran</value>
+  </data>
+  <data name="action_settings" xml:space="preserve">
+    <value>paramètres</value>
+  </data>
+  <data name="action_start" xml:space="preserve">
+    <value>début</value>
+  </data>
+  <data name="action_stop" xml:space="preserve">
+    <value>replay</value>
+  </data>
+  <data name="atou_is" xml:space="preserve">
+    <value>atou c'est {0}!</value>
+  </data>
+  <data name="b20a_text" xml:space="preserve">
+    <value>mariage à 20</value>
+  </data>
+  <data name="b20b_text" xml:space="preserve">
+    <value>mariage à 40</value>
+  </data>
+  <data name="back_button" xml:space="preserve">
+    <value>précédent</value>
+  </data>
+  <data name="bChange_text" xml:space="preserve">
+    <value>échanger atou</value>
+  </data>
+  <data name="bContinue_text" xml:space="preserve">
+    <value>continuer</value>
+  </data>
+  <data name="best_card_would_be" xml:space="preserve">
+    <value>la meilleure carte serait: {0}</value>
+  </data>
+  <data name="bHelp_text" xml:space="preserve">
+    <value>aide</value>
+  </data>
+  <data name="bStart_text" xml:space="preserve">
+    <value>début</value>
+  </data>
+  <data name="bStop_text" xml:space="preserve">
+    <value>fin</value>
+  </data>
+  <data name="build_with" xml:space="preserve">
+    <value>another Java or C# compiler</value>
+  </data>
+  <data name="carddeck" xml:space="preserve">
+    <value>l'origin de cartes</value>
+  </data>
+  <data name="cardval_10" xml:space="preserve">
+    <value>dix</value>
+  </data>
+  <data name="cardval_11" xml:space="preserve">
+    <value>as</value>
+  </data>
+  <data name="cardval_2" xml:space="preserve">
+    <value>valet</value>
+  </data>
+  <data name="cardval_3" xml:space="preserve">
+    <value>reine</value>
+  </data>
+  <data name="cardval_4" xml:space="preserve">
+    <value>roi</value>
+  </data>
+  <data name="cardval_9" xml:space="preserve">
+    <value>neuf</value>
+  </data>
+  <data name="click_continue" xml:space="preserve">
+    <value>cliquez sur continuer!</value>
+  </data>
+  <data name="close_game" xml:space="preserve">
+    <value>on annonce la clôture</value>
+  </data>
+  <data name="closing_failed" xml:space="preserve">
+    <value>votre clôture manqué, l'ordinateur a gagné!</value>
+  </data>
+  <data name="colorDelimiter" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="color_e" xml:space="preserve">
+    <value>carte vide</value>
+  </data>
+  <data name="color_h" xml:space="preserve">
+    <value>coeur</value>
+  </data>
+  <data name="color_hit_force_mode" xml:space="preserve">
+    <value>aucune carte dans le talon  -&gt; clôture!</value>
+  </data>
+  <data name="color_k" xml:space="preserve">
+    <value>carreau</value>
+  </data>
+  <data name="color_n" xml:space="preserve">
+    <value>sans couleur</value>
+  </data>
+  <data name="color_p" xml:space="preserve">
+    <value>pique</value>
+  </data>
+  <data name="color_t" xml:space="preserve">
+    <value>trèfle</value>
+  </data>
+  <data name="computer_changes_atou" xml:space="preserve">
+    <value>l'ordinateur échange atou.</value>
+  </data>
+  <data name="computer_closed_game" xml:space="preserve">
+    <value>l'ordinateur  annonce la clôture!</value>
+  </data>
+  <data name="computer_closing_failed" xml:space="preserve">
+    <value>clôture de l'ordinateur manqué, vous avez gagné!</value>
+  </data>
+  <data name="computer_has_won_points" xml:space="preserve">
+    <value>l'ordinateur a gagné avec {0} points!</value>
+  </data>
+  <data name="computer_hit_points" xml:space="preserve">
+    <value>l'ordinateur remporte avec {0} points.</value>
+  </data>
+  <data name="computer_says_pair" xml:space="preserve">
+    <value>l'ordinateur announce marriage à {0}!</value>
+  </data>
+  <data name="computer_wins_last_hit" xml:space="preserve">
+    <value>dernier point: l'ordinateur a gagné!</value>
+  </data>
+  <data name="creating_players" xml:space="preserve">
+    <value>créer de nouvelles instances de joueur</value>
+  </data>
+  <data name="default_cards" xml:space="preserve">
+    <value>cartes normales</value>
+  </data>
+  <data name="ending_game" xml:space="preserve">
+    <value>terminez la partie en cours!</value>
+  </data>
+  <data name="english_cards" xml:space="preserve">
+    <value>cartes d'Angleterre</value>
+  </data>
+  <data name="fourty_and_enough" xml:space="preserve">
+    <value>quarante et finit!</value>
+  </data>
+  <data name="fourty_in_color" xml:space="preserve">
+    <value>quarante en marriage de</value>
+  </data>
+  <data name="french_cards" xml:space="preserve">
+    <value>cartes de France royal</value>
+  </data>
+  <data name="german_cards" xml:space="preserve">
+    <value>cartes de Suisse</value>
+  </data>
+  <data name="github_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
+  </data>
+  <data name="help_text" xml:space="preserve">
+    <value>Schnapslet v2.2.4 - Jeu de cartes Schnapsen application android de Heinrich Elsigan (root@darkstar.work) \nLe jeu est conçu pour jouer contre l'ordinateur. Si c'est votre tour, vous pouvez jouer une carte en cliquant sur son icône et en la faisant glisser dans le presse-papiers. Pour échanger Atou, vous pouvez tirer le Jack Atou sur la carte Atou ci-dessus et pour annoncer une paire, vous appelez la reine au roi correspondant ou inversement. "échanger" ou "quelques annonces" peuvent également être lus via les boutons correspondants; Si l'ordinateur est sur le tour, il joue une carte et vous pouvez ensuite sélectionner votre propre carte puis tirer sur le clip ou le poignarder. Le tournage se fait en cliquant sur la carte Atou. \n\nLes règles correspondent aux schnapsen autrichiens.</value>
+  </data>
+  <data name="im0_text" xml:space="preserve">
+    <value>carte 1 de joueur</value>
+  </data>
+  <data name="im1_text" xml:space="preserve">
+    <value>carte 2 de joueur</value>
+  </data>
+  <data name="im2_text" xml:space="preserve">
+    <value>carte 3 de joueur</value>
+  </data>
+  <data name="im3_text" xml:space="preserve">
+    <value>carte 4 de joueur</value>
+  </data>
+  <data name="im4_text" xml:space="preserve">
+    <value>carte 5 de joueur</value>
+  </data>
+  <data name="imAtou_text" xml:space="preserve">
+    <value>carte d'atou</value>
+  </data>
+  <data name="imgCOut0_text" xml:space="preserve">
+    <value>carte d'ordinateur 0</value>
+  </data>
+  <data name="imgCOut1_text" xml:space="preserve">
+    <value>carte d'ordinateur 1</value>
+  </data>
+  <data name="imgCOut2_text" xml:space="preserve">
+    <value>carte d'ordinateur 2</value>
+  </data>
+  <data name="imgCOut3_text" xml:space="preserve">
+    <value>carte d'ordinateur 3</value>
+  </data>
+  <data name="imgCOut4_text" xml:space="preserve">
+    <value>carte d'ordinateur 4</value>
+  </data>
+  <data name="imMerge_text" xml:space="preserve">
+    <value>animation de fusion</value>
+  </data>
+  <data name="imOut0_text" xml:space="preserve">
+    <value>carte à jouer</value>
+  </data>
+  <data name="imOut1_text" xml:space="preserve">
+    <value>carte de réponse</value>
+  </data>
+  <data name="imTalon_text" xml:space="preserve">
+    <value>carte de talon</value>
+  </data>
+  <data name="last_hit_you_have_won" xml:space="preserve">
+    <value>dernier point: vous avez gagné!</value>
+  </data>
+  <data name="learn_more" xml:space="preserve">
+    <value>en  savoir plus</value>
+  </data>
+  <data name="merging_cards" xml:space="preserve">
+    <value>mélanger des cartes</value>
+  </data>
+  <data name="newgame_starts" xml:space="preserve">
+    <value>nouvelle partie a commencé</value>
+  </data>
+  <data name="nogame_started" xml:space="preserve">
+    <value>aucune partie commencée!!</value>
+  </data>
+  <data name="no_second_pair" xml:space="preserve">
+    <value>pas de 2ème paire</value>
+  </data>
+  <data name="player_closed_game" xml:space="preserve">
+    <value>joueur annonce la clôture!</value>
+  </data>
+  <data name="polish_cards" xml:space="preserve">
+    <value>cartes de Bologne</value>
+  </data>
+  <data name="say_pair" xml:space="preserve">
+    <value>annonce mariage</value>
+  </data>
+  <data name="sPoints" xml:space="preserve">
+    <value>points</value>
+  </data>
+  <data name="sRest" xml:space="preserve">
+    <value>rest</value>
+  </data>
+  <data name="this_is_no_valid_card" xml:space="preserve">
+    <value>ceci n'est pas une carte valide!</value>
+  </data>
+  <data name="tMes_text" xml:space="preserve">
+    <value>info-bulle</value>
+  </data>
+  <data name="toplayout_clickon_card" xml:space="preserve">
+    <value>pour jouer, il vous suffit de cliquer sur la carte appropriée</value>
+  </data>
+  <data name="tPoints_text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tRest_text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="twenty_and_enough" xml:space="preserve">
+    <value>vingt et finit!</value>
+  </data>
+  <data name="twenty_in_color" xml:space="preserve">
+    <value>vingt en marriage de</value>
+  </data>
+  <data name="ukraine_cards" xml:space="preserve">
+    <value>cartes de Minsk</value>
+  </data>
+  <data name="us_cards" xml:space="preserve">
+    <value>cartes futuristes des Etas-Unis</value>
+  </data>
+  <data name="your_hit_points" xml:space="preserve">
+    <value>vous remportez la main avec {0} points.</value>
+  </data>
+  <data name="you_have_won_points" xml:space="preserve">
+    <value>vous avez gagné avec {0} points!</value>
+  </data>
+  <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
+    <value>clôture doive être respecté!</value>
+  </data>
+  <data name="you_must_play_pair_card" xml:space="preserve">
+    <value>vous devez jouer une carte de la mariage!</value>
+  </data>
+  <data name="you_say_pair" xml:space="preserve">
+    <value>vous annoucez mariage à {0}!</value>
+  </data>
+</root>

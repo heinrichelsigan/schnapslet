@@ -21,6 +21,14 @@ namespace SchnapsNet.ConstEnum
                     return retVal_de;
                 }
             }
+            if (langCode.ToLower() == "fr")
+            {
+                string retVal_fr = SchnapsNet.Properties.Resource_fr.ResourceManager.GetString(key);
+                if (!string.IsNullOrEmpty(retVal_fr))
+                {
+                    return retVal_fr;
+                }
+            }
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
             /*
             string retAttr = null;
@@ -42,7 +50,6 @@ namespace SchnapsNet.ConstEnum
                     }
                 }
             }
-
             */
         }
 

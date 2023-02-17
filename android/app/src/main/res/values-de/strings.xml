@@ -1,11 +1,16 @@
 <resources>
     <string name="action_settings">Settings</string>
     <string name="action_start">Start</string>
-    <string name="action_stop">Neustart</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_restart">Neustart</string>
     <string name="action_options">Optionen</string>
     <string name="action_help">Hilfe</string>
     <string name="action_about">Info</string>
     <string name="action_continue">Weiter</string>
+    <string name="action_load">Spiel laden</string>
+    <string name="action_save">Spiel speichern</string>
+    <string name="action_screenshot">Bildschirmfoto</string>
+    <string name="action_exit">Beenden</string>
     <string name="bStart_text">Start</string>
     <string name="bStop_text">Ende</string>
     <string name="bHelp_text">Hilfe</string>
@@ -46,7 +51,7 @@
     <string name="cardval_9">Neun</string>
     <string name="cardval_10">Zehn</string>
     <string name="cardval_11">Ass</string>
-    <string name="newgame_starts">Neues Spiel started &#8230;</string>
+    <string name="newgame_starts">Neues Spiel started </string>
     <string name="nogame_started">Kein Spiel gestartet!</string>
     <string name="close_game">Zudrehen</string>
     <string name="player_closed_game">Spieler dreht zu !</string>
@@ -74,25 +79,24 @@
     <string name="this_is_no_valid_card">Das ist keine gültige Karte !</string>
     <string name="you_must_play_pair_card">Sie muessen eine Karte vom Paar ausspielen !</string>
     <string name="you_must_play_color_hit_force_rules">Farb und Stichzwang muss eingehalten werden !</string>
-    <string name="creating_players">Erzeuge neuer Spieler Instanzen &#8230;</string>
-    <string name="merging_cards">Mische Karten &#8230;</string>
+    <string name="creating_players">Erzeuge neuer Spieler Instanzen </string>
+    <string name="merging_cards">Mische Karten </string>
     <string name="atou_is">Atou ist %1$s!</string>
     <string name="best_card_would_be">Beste Karte wäre: %1$s</string>
     <string name="ending_game">Beende das aktuelle Spiel!</string>
     <string name="landscape_mode">Bildschirm Landkarten Breitbild</string>
     <string name="portrait_mode">Bildschirm Portrait Hochbild</string>
     <string name="help_text">Schnapslet v2.2.4 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (root@darkstar.work).\n Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt und die Karte mit drag and drop auf die Ablage zieht. \nZum Atou austauschen kann man den Atou Buben auf die Atou Karte oben ziehen und um ein Paar anzusagen, zieht man die Dame auf den dazugehörigen König oder umgekehrt. \n"Atou austauschen" oder "Ein Paar Ansagen" können auch über die entsprechenden Buttons gespielt werden; \nIst der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch auswählen einer eigenen Karte und ziehen auf die Ablage dann stechen oder draufgeben. \nZudrehen wird durch Klick auf die Atou Karte ausgeführt. \n\nDie Regeln entsprechen dem oesterreichischen Schnapsen.</string>
-    <string name="build_with">Erzeugt mit Android Studio 3.1.3</string>
+    <string name="build_with">Erzeugt mit Android Studio 2021.3.1</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="back_button">Zurück</string>
     <string name="carddeck">Kartendeck</string>
     <string name="default_cards">Standard Kartendeck</string>
-    <string name="english_cards">Englisches Kartendeck</string>
-    <string name="german_cards">Doppeldeutsches Kartendeck</string>
-    <string name="french_cards">Französisches Kartendeck</string>
-    <string name="ukraine_cards">Ukraine Konfliktdeck</string>
+    <string name="english_cards">Englische Karten</string>
+    <string name="german_cards">Doppeldeutsche Karten</string>
+    <string name="french_cards">Französische Karten</string>
+    <string name="ukraine_cards">Ukraine Kartendeck</string>
     <string name="polish_cards">Polnische Karten</string>
 	<string name="us_cards">USA futuristische Karten</string>
-    <string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
 </resources>
 

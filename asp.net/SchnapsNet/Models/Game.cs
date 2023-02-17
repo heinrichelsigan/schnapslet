@@ -420,17 +420,17 @@ namespace SchnapsNet.Models
 			computer.playerOptions = 0;
 			int i; int j = 0; int mark = 0;
 
-			//region changeAtoi
+			#region changeAtou
 			if (atouIsChangable(computer))
 			{
 				changeAtou(computer);
 				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.TwoLetterISOLanguageName));
             }
-			//endregion
+            #endregion changeAtou
 
-			int cBestCloseCard = -1;
-			//region has20_has40
-			if ((i = computer.has20()) > 0)
+            int cBestCloseCard = -1;
+			#region has20_has40
+            if ((i = computer.has20()) > 0)
 			{
 				// if ((i > 1) && (computer.pairs[1] != null && computer.pairs[1].atou))
 				if ((i > 1) && (computer.handpairs[1] == this.AtouInGame))
@@ -505,9 +505,9 @@ namespace SchnapsNet.Models
 					}
 				}
 			}
-			//endregion
+            #endregion has20_has40
 
-			computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
+            computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
 			// TODO: Computer closes game
 			if (!this.isClosed && !this.colorHitRule && (computer.points + 12 >= 66) &&
 					schnapState == SCHNAPSTATE.GAME_STARTED)
@@ -535,7 +535,7 @@ namespace SchnapsNet.Models
 				}
 			}
 
-			//region colorHitRule
+			#region colorHitRule
 			if (colorHitRule)
 			{
 				mark = 0;
@@ -585,9 +585,9 @@ namespace SchnapsNet.Models
 					}
 				}
 			}
-			//endregion
+            #endregion colorHitRule
 
-			int min = 12; int c_idx = 0;
+            int min = 12; int c_idx = 0;
 			for (i = 0; i < 5; i++)
 			{
 				if (computer.hand[i].isValidCard)
@@ -612,11 +612,10 @@ namespace SchnapsNet.Models
 		/// <returns>card index of computer hand, that was played for answering</returns>
 		public int computersAnswer()
 		{
-
 			int i = 0, j = 0;
 			// String c_array = "Computer ARRAY: ";
 
-			//region colorHitRule
+			#region colorHitRule
 			if (colorHitRule)
 			{
 				i = computer.bestInColorHitsContext(this.playedOut);
@@ -630,9 +629,9 @@ namespace SchnapsNet.Models
 
 				return (i);
 			}
-			//endregion
+            #endregion colorHitRule
 
-			for (i = 0; i < 5; i++)
+            for (i = 0; i < 5; i++)
 			{
 				if (computer.hand[i].hitsCard(playedOut, false))
 				{

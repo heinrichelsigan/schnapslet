@@ -123,11 +123,23 @@
   <data name="action_continue" xml:space="preserve">
     <value>Weiter</value>
   </data>
+  <data name="action_exit" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
   <data name="action_help" xml:space="preserve">
     <value>Hilfe</value>
   </data>
+  <data name="action_load" xml:space="preserve">
+    <value>Spiel laden</value>
+  </data>
   <data name="action_options" xml:space="preserve">
     <value>Optionen</value>
+  </data>
+  <data name="action_save" xml:space="preserve">
+    <value>Spiel speichern</value>
+  </data>
+  <data name="action_screenshot" xml:space="preserve">
+    <value>Bildschirmfoto</value>
   </data>
   <data name="action_settings" xml:space="preserve">
     <value>Settings</value>
@@ -250,7 +262,17 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.2.4 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (root@darkstar.work).\n Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt und die Karte mit drag and drop auf die Ablage zieht. \nZum Atou austauschen kann man den Atou Buben auf die Atou Karte oben ziehen und um ein Paar anzusagen, zieht man die Dame auf den dazugehörigen König oder umgekehrt. \n"Atou austauschen" oder "Ein Paar Ansagen" können auch über die entsprechenden Buttons gespielt werden; \nIst der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch auswählen einer eigenen Karte und ziehen auf die Ablage dann stechen oder draufgeben. \nZudrehen wird durch Klick auf die Atou Karte ausgeführt. \n\nDie Regeln entsprechen dem oesterreichischen Schnapsen.</value>
+    <value>Schnapslet v2.2.4 - Pre Alpha Release \n
+Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp\n
+von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n
+Funktionsweise:\n
+Das Spiel ist so angelegt, dass man gegen den Computer spielt.\n
+Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.\n
+Andere Optionen, wie \"Atou austauschen\" oder \"Ein Paar Ansagen\" sind ueber die Buttons unterhalb der Kartensymbole moeglich; diese Optionen muessen gewaehlt werden, bevor man eine Karte auspielt !\n
+Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!\n
+Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt es bei noch kleine Bugs!
+Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.
+Ideen, Vorschlaege, Verbesserungen werden gerne angenommen !\n</value>
   </data>
   <data name="last_hit_you_have_won" xml:space="preserve">
     <value>Letzter Stich: Sie haben gewonnen !</value>

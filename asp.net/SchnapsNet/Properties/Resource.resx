@@ -123,11 +123,23 @@
   <data name="action_continue" xml:space="preserve">
     <value>Continue</value>
   </data>
+  <data name="action_exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="action_help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="action_load" xml:space="preserve">
+    <value>Load game</value>
+  </data>
   <data name="action_options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="action_save" xml:space="preserve">
+    <value>Save game</value>
+  </data>
+  <data name="action_screenshot" xml:space="preserve">
+    <value>ScreenShot</value>
   </data>
   <data name="action_settings" xml:space="preserve">
     <value>Settings</value>
@@ -274,7 +286,17 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change atou, drag the atou Jack card to the atou card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange atou" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on atou card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
+    <value>Schnapslet v2.2.4 - Pre Alpha Release \n
+Implementation of the card game Schnapsen as a simple Asp.Net WebApp\n
+by Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n
+Functionality:\n
+The game is designed to play against the computer.\n
+When it is your turn, you can play a card by clicking on the card icon.\n
+Other options, such as \"Exchange Atou\" or \"Announce a pair in [CardColor]\" are possible via the buttons below the card symbols; these options must be chosen before playing a card !\n
+When it is the computer's turn, it plays a card and you can click on your own cards to trick or give up!\n
+The rules correspond to the Austrian Schnapsen, but there are still small bugs!
+\n\'Closing Game' is implemented. You just have to click on the atou (trump) card. \n
+Ideas, suggestions, improvements are gladly accepted !\n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
   </data>
   <data name="im0_text" xml:space="preserve">
     <value>Player card 1</value>

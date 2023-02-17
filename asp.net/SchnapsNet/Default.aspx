@@ -20,11 +20,11 @@
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
         <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
 
-                gtag('config', 'G-01S65129V7');
+            gtag('config', 'G-01S65129V7');
         </script>
 </head>
 
@@ -42,12 +42,39 @@
     Uri backURL  = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
     Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
     Uri notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
+    
     SchnapsNet.Models.GlobalAppSettings globalVariable;
-    static String emptyJarStr = "/schnapsen/cardpics/e.gif";
-    static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
-    static String notJarStr =   "/schnapsen/cardpics/n0.gif";
-    static String talonJarStr = "/schnapsen/cardpics/t.gif";
+    System.Globalization.CultureInfo locale;
+
+    // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
+    // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
+    // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
+    // static String talonJarStr = "/schnapsen/cardpics/t.gif";
     // Thread t0;
+
+    
+    public System.Globalization.CultureInfo Locale
+    {
+        get
+        {            
+            if (locale == null)
+            {
+                try
+                {
+                    string defaultLang = Request.Headers["Accept-Language"].ToString();
+                    string firstLang = defaultLang.Split(',').FirstOrDefault();
+                    defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                    locale = new System.Globalization.CultureInfo(defaultLang);
+                }
+                catch (Exception e)
+                {
+                    locale = new System.Globalization.CultureInfo("en");
+                }
+            }
+            return locale;
+        }
+    }
+
 
     void InitURLBase() {
         try
@@ -83,29 +110,30 @@
         imAtou10.ImageUrl = talonURL.ToString();
 
 
-        bMerge.Text = "Start";
-        bStop.Text = "End";
-        bStop.Enabled = false;
-        b20b.Text = "Say 40!";
+        bMerge.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);         
+        bStop.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bStop_text", Locale.TwoLetterISOLanguageName); 
+        bStop.Enabled = false; 
+        b20b.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("b20b_text", Locale.TwoLetterISOLanguageName); 
         b20b.Enabled = false;
-        b20a.Text = "Say 20";
+        b20a.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("b20a_text", Locale.TwoLetterISOLanguageName); 
         b20a.Enabled = false;
 
-        bChange.Text = "Change Atou";
+        bChange.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bChange_text", Locale.TwoLetterISOLanguageName); 
         bChange.Enabled = false;
 
         tPoints.Enabled = false;
-        tPoints.Text = "0";
-        bContinue.Text = "Continue";
+        tPoints.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("tPoints_text", Locale.TwoLetterISOLanguageName); 
+        bContinue.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bContinue_text", Locale.TwoLetterISOLanguageName); 
         bContinue.Enabled = true;
 
-        bHelp.Text = "Help";
+        bHelp.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName); 
 
         tRest.Enabled = false;
-        tRest.Text = "10";
-
+        tRest.Text =  SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);
+        lPoints.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
+        lRest.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
         tMsg.Enabled = false;
-        tMsg.Text = "Click Continue to start a new game";
+        tMsg.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("toplayout_clickon_card", Locale.TwoLetterISOLanguageName);
         tMsg.Visible = true;
 
     }
@@ -411,12 +439,12 @@
         }
 
         string senderStr = "";
-        if (sender is WebControl) 
+        if (sender is WebControl)
         {
             senderStr = ((WebControl)sender).ClientID;
             preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
         }
-        if (sender is System.Web.UI.WebControls.ImageButton) 
+        if (sender is System.Web.UI.WebControls.ImageButton)
             senderStr = ((System.Web.UI.WebControls.ImageButton)sender).ClientID;
         senderStr = senderStr.StartsWith("imAtou") ? senderStr.Replace("imAtou", "") : senderStr.Replace("im", "");
 
@@ -540,6 +568,7 @@
         preOut.InnerText += "\r\n" + msg;
         if (aGame == null || !aGame.isGame) {
             startGame();
+
             return;
         }
         if (aGame != null)
@@ -664,11 +693,13 @@
         {
             string closeMsg0 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("player_closed_game", globalVariable.TwoLetterISOLanguageName);
             setTextMessage(closeMsg0);
+            aGame.InsertMsg(closeMsg0);
             // saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
             aGame.gambler.hasClosed = true;
         } else {
             string closeMsg1 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.TwoLetterISOLanguageName);
             setTextMessage(closeMsg1);
+            aGame.InsertMsg(closeMsg1);
             aGame.computer.hasClosed = true;
         }
 
@@ -981,9 +1012,9 @@
             {
                 this.errHandler(jbpex);
             }
-            
+
             String msgTxt33 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName);
-            setTextMessage(msgTxt33);            
+            // setTextMessage(msgTxt33);            
         }
 
         aGame.isReady = true;
@@ -1142,7 +1173,7 @@
 
 
     void printMsg() {
-        preOut.InnerText += aGame.FetchMsg();
+        preOut.InnerText = aGame.FetchMsg();
     }
 
     void errHandler(Exception myErr)
@@ -1169,22 +1200,8 @@
 
     void Help_Click(object sender, EventArgs e)
     {
-        preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-        preOut.InnerText += "Schnapslet V 0.2 - Pre Alpha Release \n";
-        preOut.InnerText += "Implementierung des Kartenspiel Schnapsen als einfache aps.net Appt\n";
-        preOut.InnerText += "von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n";
-        preOut.InnerHtml += "Funktionsweise:\n";
-        preOut.InnerHtml += "Das Spiel ist so angelegt, dass man gegen den Computer spielt.\n";
-        preOut.InnerHtml += "Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das\n";
-        preOut.InnerHtml += "Kartensymbol klickt. Andere Optionen, wie \"Atou austauschen\" oder \n";
-        preOut.InnerHtml += "\"Ein Paar Ansagen\" sind ueber die Buttons links oben moeglich; diese\n";
-        preOut.InnerHtml += "Optionen muessen gewaehlt werden, bevor man eine Karte auspielt !\n";
-        preOut.InnerHtml += "Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst\n";
-        preOut.InnerHtml += "kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!\n";
-        preOut.InnerHtml += "Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt\n";
-        preOut.InnerHtml += "es bei der Implementierung des Farb- und Stichzwangs noch kleine Bugs!\n";
-        preOut.InnerHtml += "Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.\n";
-        preOut.InnerHtml += "Ideen, Vorschlaege, Verbesserungen werden gerne angenommen !\n";
+        preOut.InnerHtml = "-------------------------------------------------------------------------\n";
+        preOut.InnerText += SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
         preOut.InnerHtml += "-------------------------------------------------------------------------\n";
     }
 
@@ -1231,38 +1248,49 @@
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
             </span>
         </div>        
-        <div style="nowrap; line-height: normal; vertical-align:middle; height: 36px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
+        <div style="nowrap; line-height: normal; vertical-align:middle; height: 36px; margin-top: 8px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
             <span style="width:100%; vertical-align:middle; text-align: left; font-size: medium; height: 36px;" align="left"  valign="middle">            
-                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="360" Height="36" AutoPostBack="True">Short Information</asp:TextBox>
+                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="366" Height="36" AutoPostBack="True">Short Information</asp:TextBox>
             </span>
         </div>
-        <div style="nowrap; line-height: normal; height: 60px;  margin-top: 16px; vertical-align:middle; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
-            <span style="width:40%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="bContinue" runat="server" ToolTip="Continue" Text="Continue" OnClick="bContinue_Click" />
-                &nbsp;
-                <asp:Button ID="bChange" runat="server" ToolTip="Change Atou" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />
+        <div style="nowrap; line-height: normal; height: 48px;  margin-top: 16px; vertical-align:middle; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
+            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
+                <asp:Button ID="bContinue" runat="server" ToolTip="Continue" Text="Continue" OnClick="bContinue_Click" />&nbsp;                
             </span>
-            <span style="width:30%; vertical-align:middle; text-align: left" align="left" valign="middle">
-                <asp:TextBox ID="tPoints" runat="server" ToolTip="text message" Width="36" Enabled="false">0</asp:TextBox>                
-                &nbsp;
+            <span style="width:25%; vertical-align:middle; text-align: left" align="left" valign="middle">
+                <asp:Button ID="bChange" runat="server" ToolTip="Change Atou" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
+            </span>
+            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
+                <asp:Button ID="b20a" runat="server" ToolTip="Say marriage 20" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
+            </span>
+            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="right" valign="middle">
+                <asp:Button ID="b20b" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
+            </span>
+            
+        </div>
+        <div style="nowrap; line-height: normal; height: 48px;  margin-top: 0px; vertical-align:middle; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
+            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
+                <asp:Button ID="bMerge" runat="server" Text="Start" OnClick="bMerge_Click" />&nbsp;
+            </span>
+            <span style="width:20%; vertical-align:middle; text-align: left" align="left" valign="middle">
+                <asp:Button ID="bStop" runat="server" Text="Start" OnClick="bStop_Click" />&nbsp;                
+            </span>
+            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
+                 <asp:Button ID="bHelp" runat="server" Text="Start" OnClick="bHelp_Click" />&nbsp;
+            </span>
+            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
+                <asp:Label ID="lPoints" runat="server" ToolTip="Points">Points</asp:Label>&nbsp;
+                <asp:TextBox ID="tPoints" runat="server" ToolTip="text message" Width="36" Enabled="false">0</asp:TextBox>
+            </span>
+            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="right" valign="middle">
+                <asp:Label ID="lRest" runat="server" ToolTip="Rest">Rest</asp:Label>&nbsp;
                 <asp:TextBox ID="tRest" runat="server" ToolTip="text message" Width="36" Enabled="false">10</asp:TextBox>
-            </span>
-            <span style="width:40%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="right">
-                <asp:Button ID="b20a" runat="server" ToolTip="Say marriage 20" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />
-                &nbsp;
-                <asp:Button ID="b20b" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />
-            </span>
-        </div>
-        <hr />
-        <asp:Button ID="bMerge" runat="server" Text="Start" OnClick="bMerge_Click" />&nbsp;
-        <asp:Button ID="bStop" runat="server" Text="Start" OnClick="bStop_Click" />&nbsp;
-        <asp:Button ID="bHelp" runat="server" Text="Start" OnClick="bHelp_Click" />&nbsp;
-        <br />
-        <hr />
-        <pre id="preOut" runat="server">
+            </span>                
+        </div>                             
+        <pre id="preOut" style="visibility: collapse; scroll-behavior: auto" runat="server">
         </pre>
-        <hr />
-        <div align="right" style="text-align: right; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+        <hr style="visibility: visible;"  />
+        <div align="left" style="text-align: left; visibility: visible; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
             <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://@arkstar.work">darkstar.work</a>
         </div>
     </form>

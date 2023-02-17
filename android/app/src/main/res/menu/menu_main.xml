@@ -8,9 +8,9 @@
         android:title="@string/action_start"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_stop"
+        android:id="@+id/action_restart"
         android:orderInCategory="200"
-        android:title="@string/action_stop"
+        android:title="@string/action_restart"
         android:enabled="true"
         app:showAsAction="never" />
 
@@ -55,10 +55,46 @@
                     android:checkable="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_polish_cards"
+                    android:id="@+id/action_us_cards"
                     android:orderInCategory="1600"
-                    android:title="@string/polish_cards"
+                    android:title="@string/us_cards"
                     android:checkable="true"
+                    app:showAsAction="never" />
+            </menu>
+        </item>
+    </group>
+    <group android:menuCategory="secondary"
+        android:id="@+id/group_options"
+        android:visible="true">
+        <item
+            android:id="@+id/action_options"
+            android:orderInCategory="1000"
+            android:title="@string/action_options"
+            app:showAsAction="collapseActionView">
+            <menu>
+                <item
+                    android:id="@+id/action_load"
+                    android:orderInCategory="2200"
+                    android:title="@string/action_load"
+                    android:enabled="false"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_save"
+                    android:orderInCategory="2300"
+                    android:title="@string/action_save"
+                    android:enabled="false"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_about"
+                    android:orderInCategory="9100"
+                    android:title="@string/action_about"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_screenshot"
+                    android:orderInCategory="9200"
+                    android:title="@string/action_screenshot"
+                    android:enabled="true"
                     app:showAsAction="never" />
             </menu>
         </item>
@@ -68,14 +104,14 @@
         android:visible="true">
         <item
             android:id="@+id/action_help"
-            android:orderInCategory="2100"
+            android:orderInCategory="9800"
             android:title="@string/action_help"
             android:enabled="true"
             app:showAsAction="never" />
         <item
-            android:id="@+id/action_about"
-            android:orderInCategory="2200"
-            android:title="@string/action_about"
+            android:id="@+id/action_exit"
+            android:orderInCategory="9900"
+            android:title="@string/action_exit"
             android:enabled="true"
             app:showAsAction="never" />
     </group>

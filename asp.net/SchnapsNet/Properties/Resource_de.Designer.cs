@@ -79,6 +79,15 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Beenden.
+        /// </summary>
+        internal static string action_exit {
+            get {
+                return ResourceManager.GetString("action_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hilfe.
         /// </summary>
         internal static string action_help {
@@ -88,11 +97,38 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spiel laden.
+        /// </summary>
+        internal static string action_load {
+            get {
+                return ResourceManager.GetString("action_load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optionen.
         /// </summary>
         internal static string action_options {
             get {
                 return ResourceManager.GetString("action_options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spiel speichern.
+        /// </summary>
+        internal static string action_save {
+            get {
+                return ResourceManager.GetString("action_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bildschirmfoto.
+        /// </summary>
+        internal static string action_screenshot {
+            get {
+                return ResourceManager.GetString("action_screenshot", resourceCulture);
             }
         }
         
@@ -457,7 +493,13 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.2.4 - Kartenspiel Schnapsen als android app von Heinrich Elsigan (root@darkstar.work).\n Das Spiel ist so angelegt, dass man gegen den Computer spielt. Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt und die Karte mit drag and drop auf die Ablage zieht. \nZum Atou austauschen kann man den Atou Buben auf die Atou Karte oben ziehen und um ein Paar anzusagen, zieht man die Dame auf den dazugehörigen König oder umgekehrt. \n&quot;Atou austauschen&quot; oder &quot;Ein Paar [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Schnapslet v2.2.4 - Pre Alpha Release \n
+        ///Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp\n
+        ///von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n
+        ///Funktionsweise:\n
+        ///Das Spiel ist so angelegt, dass man gegen den Computer spielt.\n
+        ///Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.\n
+        ///Andere Optionen, wie \&quot;Atou austauschen\&quot; oder \&quot;Ein Paar Ansagen\&quot; sind ueber die Buttons unterhalb der Kartensymbole moeglich; diese Optionen muessen gewaehlt wer [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {

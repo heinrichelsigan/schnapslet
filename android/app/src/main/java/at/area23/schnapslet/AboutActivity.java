@@ -20,8 +20,10 @@ package at.area23.schnapslet;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +43,7 @@ public class AboutActivity extends BaseAppActivity {
 
     Button backButton, learnMoreButton;
     TextView helpTextView, builtWithTextView;
+    LinearLayout linearRoot;
 
     /**
      * Override onCreate
@@ -51,6 +54,10 @@ public class AboutActivity extends BaseAppActivity {
         super.onCreate(savedInstanceState);
         globalVariable = (GlobalAppSettings) getApplicationContext();
         setContentView(R.layout.activity_about);
+
+        linearRoot = (LinearLayout) findViewById(R.id.linearRoot);
+        linearRoot.setDrawingCacheEnabled(true);
+        rootViewGroup = (ViewGroup) linearRoot;
 
         backButton = (Button) findViewById(R.id.backButton);
         learnMoreButton =  (Button) findViewById(R.id.learnMoreButton);
@@ -89,11 +96,12 @@ public class AboutActivity extends BaseAppActivity {
             finish();
             return true;
         }
-        if (id == R.id.action_stop) {
+        if (id == R.id.action_restart) {
             finish();
             return true;
         }
         if (id == R.id.action_help) {
+            openUrl(getString(R.string.github_uri));
             return true;
         }
 

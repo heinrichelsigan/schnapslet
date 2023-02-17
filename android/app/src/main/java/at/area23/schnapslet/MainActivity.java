@@ -45,8 +45,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 
@@ -85,6 +87,8 @@ public class MainActivity
             imgCOut0, imgCOut1, imgCOut2, imgCOut3, imgCOut4,
             imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
+    ConstraintLayout constraintRoot;
+    RelativeLayout relativeTop;
     // Menu myMenu;
 
     AnimationDrawable frameAnimation;
@@ -158,6 +162,15 @@ public class MainActivity
         }
 
         globalVariable = (GlobalAppSettings) getApplicationContext();
+
+        constraintRoot = (ConstraintLayout) findViewById(R.id.constraintRoot);
+        constraintRoot.setDrawingCacheEnabled(false);
+        rootViewGroup = (ViewGroup) constraintRoot;
+        rootView = constraintRoot.getRootView();
+        rootView.setDrawingCacheEnabled(false);
+
+        relativeTop = (RelativeLayout) findViewById(R.id.relativeTop);
+        relativeTop.setDrawingCacheEnabled(false);
 
         linLayoutCard0 = (LinearLayout) findViewById(R.id.linLayoutCard0);
         linLayoutCard1 = (LinearLayout) findViewById(R.id.linLayoutCard1);
@@ -322,7 +335,7 @@ public class MainActivity
                 startGame();
             return true;
         }
-        if (mItemId == R.id.action_stop) {
+        if (mItemId == R.id.action_restart) {
             if (aGame != null && aGame.isGame)
                 stopGame(3);
             return true;
@@ -335,6 +348,13 @@ public class MainActivity
             showAboutDialog();
             return true;
         }
+        if (mItemId == R.id.action_screenshot) {
+            rootView.setDrawingCacheEnabled(false);
+            takeScreenShot(rootView, true);
+
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -353,13 +373,18 @@ public class MainActivity
             item.setChecked(true);
         }
         if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
+
+            playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+
             //Overwrites application locale in GlobalAppSettings with english
             globalVariable.setLocale(aLocale);
             // Adjust language for text to speach
             // text2Speach.setLanguage(globalVariable.getLocale());
-            showAtouCard(aGame.schnapState);
-            showPlayersCards();
-            showPlayedOutCards();
+            if (aGame != null) {
+                showAtouCard(aGame.schnapState);
+                showPlayersCards();
+                showPlayedOutCards();
+            }
         }
         return true;
     }
@@ -1314,6 +1339,7 @@ public class MainActivity
      */
     protected void startGame() {
 
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
         toggleMenuItem(myMenu, R.id.action_start, false);
         aGame = null;
 
@@ -1337,7 +1363,8 @@ public class MainActivity
         showAtouCard(aGame.schnapState);
         showTalonCard(aGame.schnapState);
 
-        toggleMenuItem(myMenu, R.id.action_stop, true);
+        toggleMenuItem(myMenu, R.id.action_restart, true);
+        toggleMenuItem(myMenu, R.id.action_start, false);
 
         globalVariable.setGame(aGame);
         gameTurn(0);
@@ -1349,7 +1376,10 @@ public class MainActivity
      */
     protected void stopGame(int levela) {
 
-        toggleMenuItem(myMenu, R.id.action_stop, true);
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+
+        toggleMenuItem(myMenu, R.id.action_start, true);
+        toggleMenuItem(myMenu, R.id.action_restart, true);
 
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.stopGame();
@@ -1824,6 +1854,9 @@ public class MainActivity
      * showHelpDialog
      */
     public void showHelpDialog() {
+
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+
         // Create an instance of the dialog fragment and show it
         globalVariable.setDialog(DIALOGS.Help);
         int idx = (aGame != null) ? aGame.index : 9;
@@ -1841,6 +1874,9 @@ public class MainActivity
      * showAboutDialog
      */
     public void showAboutDialog() {
+
+        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+
         // Create an instance of the dialog fragment and show it
         globalVariable.setDialog(DIALOGS.About);
         int idx = (aGame != null) ? aGame.index : 9;
@@ -1854,7 +1890,7 @@ public class MainActivity
     public void onDialogPositiveClick(DialogFragment dialog) {
         DIALOGS dialogOpen = globalVariable.getDialog();
         if (dialogOpen == DIALOGS.About || dialogOpen == DIALOGS.Help) {
-            openUrl();
+            openUrl(getString(R.string.wiki_uri));
         }
         globalVariable.setDialog(DIALOGS.None);
         dialog.dismiss();
