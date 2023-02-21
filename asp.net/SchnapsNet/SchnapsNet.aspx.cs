@@ -88,7 +88,7 @@ namespace SchnapsNet
             imOut1.ImageUrl = emptyURL.ToString();
             imTalon.ImageUrl = talonURL.ToString();
             imTalon.Visible = true;
-            imAtou10.ImageUrl = talonURL.ToString();
+            imAtou10.ImageUrl = notURL.ToString();
 
 
             bMerge.Text = JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);
@@ -239,17 +239,17 @@ namespace SchnapsNet
 
         void showComputer20(Card computerPlayedOut, int stage)
         {
-            imCOut0.Visible = true;            
-            if (imCOut0.Style["visibility"] != null)
-                imCOut0.Style["visibility"] = "visible";
-            else
-                imCOut0.Style.Add("visibility", "visible");
+            //imCOut0.Visible = true;            
+            //if (imCOut0.Style["visibility"] != null)
+            //    imCOut0.Style["visibility"] = "visible";
+            //else
+            //    imCOut0.Style.Add("visibility", "visible");
             
-            imCOut1.Visible = true;
-            if (imCOut1.Style["visibility"] != null)
-                imCOut1.Style["visibility"] = "visible";
-            else
-                imCOut1.Style.Add("visibility", "visible");
+            //imCOut1.Visible = true;
+            //if (imCOut1.Style["visibility"] != null)
+            //    imCOut1.Style["visibility"] = "visible";
+            //else
+            //    imCOut1.Style.Add("visibility", "visible");
             
             for (int ci = 0; ci < aGame.computer.hand.Length; ci++)
             {
@@ -257,16 +257,16 @@ namespace SchnapsNet
                         aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
                         aGame.computer.hand[ci].CardValue == CARDVALUE.KING)
                 {
-                    imCOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
-                    imCOut1.ImageUrl = computerPlayedOut.getPictureUrl();
+                    imOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
+                    // imCOut1.ImageUrl = computerPlayedOut.getPictureUrl();
                     break;
                 }
                 if (computerPlayedOut.CardValue == CARDVALUE.KING &&
                         aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
                         aGame.computer.hand[ci].CardValue == CARDVALUE.QUEEN)
                 {
-                    imCOut0.ImageUrl = computerPlayedOut.getPictureUrl();
-                    imCOut1.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
+                    // imCOut0.ImageUrl = computerPlayedOut.getPictureUrl();
+                    imOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
                     break;
                 }
             }
@@ -279,20 +279,20 @@ namespace SchnapsNet
         /// </summary>
         void ReSetComputerPair()
         {
-            imCOut0.ImageUrl = emptyURL.ToString();
-            imCOut0.ImageUrl = emptyURL.ToString();
-            if (imCOut0.Style["visibility"] != null)
-            {
-                imCOut0.Style["visibility"] = "collapse";
-            }
-            else 
-                imCOut0.Style.Add("visibility", "collapse");
+            //imCOut0.ImageUrl = emptyURL.ToString();
+            //imCOut0.ImageUrl = emptyURL.ToString();
+            //if (imCOut0.Style["visibility"] != null)
+            //{
+            //    imCOut0.Style["visibility"] = "collapse";
+            //}
+            //else 
+            //    imCOut0.Style.Add("visibility", "collapse");
             
-            if (imCOut1.Style["visibility"] != null)
-            {
-                imCOut1.Style["visibility"] = "collapse";
-            }
-            else imCOut1.Style.Add("visibility", "collapse");
+            //if (imCOut1.Style["visibility"] != null)
+            //{
+            //    imCOut1.Style["visibility"] = "collapse";
+            //}
+            //else imCOut1.Style.Add("visibility", "collapse");
         }
 
 

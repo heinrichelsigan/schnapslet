@@ -142,20 +142,23 @@ public class MainActivity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        String layoutMes;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
         }
 
-        setContentView(R.layout.activity_main);
-
-        String layoutMes;
-        if (getResources().getDisplayMetrics().widthPixels > getResources().getDisplayMetrics().heightPixels) {
+        if (width > height) {
             layoutMes = getString(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
             phoneDirection = 0;
         } else {
+
             layoutMes = getString(R.string.portrait_mode);
             setContentView(R.layout.activity_main);
             phoneDirection = 1;
