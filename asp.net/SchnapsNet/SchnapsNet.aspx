@@ -15,22 +15,22 @@
                 <asp:TextBox ID="tPoints" Width="12%" Height="10%"  runat="server" ToolTip="text message" Enabled="false">0</asp:TextBox>
                 <asp:Label ID="lRest" Width="10%" Height="10%"  runat="server" ToolTip="Rest">Rest</asp:Label>
                 <asp:TextBox ID="tRest" Width="12%"  Height="10%"  runat="server" ToolTip="text message" Enabled="false">10</asp:TextBox>
-                <asp:Button ID="bMerge" Width="12%" Height="10%"  runat="server" Text="Start" OnClick="bMerge_Click" />
-                <asp:Button ID="bStop" Width="12%"  Height="10%"  runat="server" Text="Stop" OnClick="bStop_Click" style="vertical-align: top; tab-size: inherit" />           
+                <asp:Button ID="bMerge" Width="12%" Height="10%"  runat="server" Text="Start" style="font-size: x-large" OnClick="bMerge_Click" />
+                <asp:Button ID="bStop" Width="12%"  Height="10%"  runat="server" Text="Stop" OnClick="bStop_Click" style="font-size: x-large; vertical-align: top; tab-size: inherit" />  
             </span>            
         </div>
-        <div style="nowrap; line-height: normal; height: 10%;  margin-top: 12px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">
-            <span style="width:20%; height: 10%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="bContinue" Width="20%" Height="10%" runat="server" ToolTip="Continue" Text="Continue" OnClick="bContinue_Click" />&nbsp;                
+        <div style="nowrap; line-height: normal; height: 10%;  margin-top: 12px; vertical-align:middle; width: 100%; font-size: large; table-layout: fixed; inset-block-start: initial">
+            <span style="width:20%; height: 10%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bContinue" Width="20%" Height="10%" runat="server" ToolTip="Continue" style="font-size: x-large" Text="Continue" OnClick="bContinue_Click" />&nbsp;                
             </span>
-            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left" align="left" valign="middle">
-                <asp:Button ID="bChange" Width="20%" Height="10%" runat="server" ToolTip="Change Atou" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bChange" Width="20%" Height="10%" runat="server" ToolTip="Change Atou" style="font-size: x-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="b20a" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 20" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="b20a" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 20" style="font-size: x-large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: medium" align="right" valign="middle">
-                <asp:Button ID="b20b" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
+                <asp:Button ID="b20b" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 40"  style="font-size: x-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
             </span>            
         </div>
         <div style="nowrap; line-height: normal; height: 12%; width: 100%; margin-top: 12px; font-size: medium; table-layout: fixed; inset-block-start: auto">
