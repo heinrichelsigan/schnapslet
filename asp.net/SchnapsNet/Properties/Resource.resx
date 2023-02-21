@@ -220,22 +220,22 @@
     <value>empty card</value>
   </data>
   <data name="color_h" xml:space="preserve">
-    <value>Hearts</value>
+    <value>♥</value>
   </data>
   <data name="color_hit_force_mode" xml:space="preserve">
     <value>No more cards in talon -&gt; follow the suit led otherwise must trump (if possible).</value>
   </data>
   <data name="color_k" xml:space="preserve">
-    <value>Diamonds</value>
+    <value>♦</value>
   </data>
   <data name="color_n" xml:space="preserve">
     <value>nocolor</value>
   </data>
   <data name="color_p" xml:space="preserve">
-    <value>Spades</value>
+    <value>♠</value>
   </data>
   <data name="color_t" xml:space="preserve">
-    <value>Clubs</value>
+    <value>♣</value>
   </data>
   <data name="computer_changes_atou" xml:space="preserve">
     <value>Computer changes Atou card.</value>
@@ -286,7 +286,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.2.4 - Pre Alpha Release \n
+    <value>Schnapslet v2.4.6 - Pre Alpha Release \n
 Implementation of the card game Schnapsen as a simple Asp.Net WebApp\n
 by Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n
 Functionality:\n
@@ -407,7 +407,7 @@ Ideas, suggestions, improvements are gladly accepted !\n\nRules correspond to th
     <value>future_us_cards</value>
   </data>
   <data name="version_name" xml:space="preserve">
-    <value>v2.2.4</value>
+    <value>v2.4.6</value>
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>

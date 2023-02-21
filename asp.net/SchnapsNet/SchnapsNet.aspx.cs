@@ -233,8 +233,7 @@ namespace SchnapsNet
             catch (Exception imTalonEx)
             {
                 errHandler(imTalonEx);
-            }
-            imTalon.Visible = true;
+            }            
         }
 
         void showComputer20(Card computerPlayedOut, int stage)

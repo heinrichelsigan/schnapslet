@@ -213,8 +213,29 @@
   <data name="closing_failed" xml:space="preserve">
     <value>Zudrehen fehlgeschlagen, Computer hat gewonnen !</value>
   </data>
+  <data name="colorDelimiter" xml:space="preserve">
+    <value> in </value>
+  </data>
+  <data name="color_e" xml:space="preserve">
+    <value>Leerkarte</value>
+  </data>
+  <data name="color_h" xml:space="preserve">
+    <value>Herz</value>
+  </data>
   <data name="color_hit_force_mode" xml:space="preserve">
     <value>Keine Karten im Talon -&gt; Farb- und Stichzwang !</value>
+  </data>
+  <data name="color_k" xml:space="preserve">
+    <value>Karo</value>
+  </data>
+  <data name="color_n" xml:space="preserve">
+    <value>Keine Karte</value>
+  </data>
+  <data name="color_p" xml:space="preserve">
+    <value>Pik</value>
+  </data>
+  <data name="color_t" xml:space="preserve">
+    <value>Treff</value>
   </data>
   <data name="computer_changes_atou" xml:space="preserve">
     <value>Computer tauscht Atou aus.</value>
@@ -262,7 +283,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.2.4 - Pre Alpha Release \n
+    <value>Schnapslet v2.4.6 - Pre Alpha Release \n
 Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp\n
 von Heinrich Elsigan (heinrich.elsigan@area23.at)\n\n
 Funktionsweise:\n
