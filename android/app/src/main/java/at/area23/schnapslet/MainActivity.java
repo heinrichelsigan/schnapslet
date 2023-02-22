@@ -1097,8 +1097,8 @@ public class MainActivity
                 catch (Exception exCraw) {
                     this.errHandler(exCraw);
                 }
-                frameAnimation = (AnimationDrawable)imMerge.getBackground();
-                frameAnimation.start();
+                // frameAnimation = (AnimationDrawable)imMerge.getBackground();
+                // frameAnimation.start();
             }
             else {
                 imMerge.setImageResource(R.drawable.merge1);
@@ -1107,10 +1107,18 @@ public class MainActivity
 
         }
         if (!startMergeAnim) {
-            frameAnimation.stop();
+            // frameAnimation.stop();
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 if (animatedGif != null)
                     animatedGif.stop();
+            }
+            else {
+                try {
+                    mergeByHandler.removeCallbacks(runMergeByHand);
+                }
+                catch (Exception exMerge) {
+                    exMerge.printStackTrace();
+                }
             }
             showAtouCard(SCHNAPSTATE.GAME_START);
             showTalonCard(SCHNAPSTATE.GAME_START);
