@@ -141,7 +141,7 @@ public class HelpDialog extends DialogFragment {
         final DialogFragment dialogFragment = this;
 
         if (savedInstanceState != null) {
-            index = savedInstanceState.getInt(getString(R.string.param2_points), 0);
+            index = savedInstanceState.getInt(getString(R.string.param1_index), 9);
             points = savedInstanceState.getInt(getString(R.string.param2_points), 0);
         }
 

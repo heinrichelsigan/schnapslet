@@ -100,13 +100,39 @@ public class BaseAppActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    text2Speach.setLanguage(globalVariable.geSystemLLocale());
+                    text2Speach.setLanguage(globalVariable.getSystemLLocale());
                 }
             }
         });
     }
 
     //region MenuSelection
+
+    /**
+     * setCardDeckFromSystemLocale
+     *  sets card deck from default system language
+     */
+    public void setCardDeckFromSystemLocale() {
+        String defaultLocale = "en";
+        int localeItemId = R.id.action_english_cards;
+        if (globalVariable != null) {
+            defaultLocale = globalVariable.getSystemLLocale().getISO3Country().toLowerCase();
+        }
+        if (defaultLocale.equals("de"))
+            localeItemId = R.id.action_german_cards;
+        else if (defaultLocale.equals("en"))
+            localeItemId = R.id.action_english_cards;
+        else if (defaultLocale.equals("fe"))
+            localeItemId = R.id.action_french_cards;
+        else if (defaultLocale.equals("uk"))
+            localeItemId = R.id.action_ukraine_cards;
+        else if (defaultLocale.equals("us"))
+            localeItemId = R.id.action_us_cards;
+
+        if (myMenu != null && myMenu.findItem(localeItemId) != null) {
+            myMenu.findItem(localeItemId).setChecked(true);
+        }
+    }
 
     /**
      * onCreateOptionsMenu
@@ -174,6 +200,10 @@ public class BaseAppActivity extends AppCompatActivity {
                 takeScreenShot(rootView, true);
                 return true;
             }
+            if (mItemId == R.id.action_sound) {
+                toggleSoundOnOff();
+                return true;
+            }
             if (mItemId == R.id.action_exit) {
                 exitGame();
                 return true;
@@ -196,10 +226,26 @@ public class BaseAppActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * toggleSoundOnOff - toggle in submenu options Sound On/Off
+     */
+    public void toggleSoundOnOff() {
+        boolean soundOnOff = (globalVariable != null) ? globalVariable.getSound() : true;
+        MenuItem soundMenuItem = myMenu.findItem(R.id.action_sound);
+        if (soundMenuItem != null) {
+            soundMenuItem.setChecked(!soundOnOff);
+            if (globalVariable != null) {
+                globalVariable.setSound(!soundOnOff);
+            }
+        }
+    }
+
+
     //endregion
 
     /**
-     * setLocale        - change Locale incl. language in GlobalAppSettings globalVariable
+     * setLocale - change Locale incl. language in GlobalAppSettings globalVariable
      *
      * @param aLocale   - a locale
      * @param item      - a menu item
@@ -235,19 +281,22 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param url - the full quaöofoed url accessor
      */
     public void playMediaFromUri(String url) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(
-                new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-        );
-        try {
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare(); // might take long! (for buffering, etc)
-            mediaPlayer.start();
-        } catch (Exception exi) {
-            showError(exi, true);
+        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
+        if (soundOn) {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+            );
+            try {
+                mediaPlayer.setDataSource(url);
+                mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                mediaPlayer.start();
+            } catch (Exception exi) {
+                showError(exi, true);
+            }
         }
     }
 
@@ -263,55 +312,57 @@ public class BaseAppActivity extends AppCompatActivity {
      *
      */
     public void playRawSound(int rId, String rawName) {
-        try {
-            Resources res = getResources();
-            int resId = rId;
-            if (rawName != null) {
-                resId = getSoundRId(rawName);
-            }
-
-            if (resId != rId) {
-                String RESOURCE_PATH = ContentResolver.SCHEME_ANDROID_RESOURCE + "://";
-                String path = RESOURCE_PATH + getPackageName() + File.separator + resId;
-                Uri soundUri = Uri.parse(path);
-                showMessage("RawSound: Uri=" + soundUri.toString() + " path=" + path);
-            }
-
-            final MediaPlayer mMediaPlayer = new MediaPlayer();
-            mMediaPlayer.setVolume(1.0f, 1.0f);
-            mMediaPlayer.setLooping(false);
-            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    // Toast.makeText(getApplicationContext(),
-                    //         "start playing sound", Toast.LENGTH_SHORT).show();
-                    mMediaPlayer.start();
+        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
+        if (soundOn) {
+            try {
+                Resources res = getResources();
+                int resId = rId;
+                if (rawName != null) {
+                    resId = getSoundRId(rawName);
                 }
-            });
-            mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                @Override
-                public boolean onError(MediaPlayer mp, int what, int extra) {
-                    // Toast.makeText(getApplicationContext(), String.format(Locale.US,
-                    //         "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
-                    return false;
+
+                if (resId != rId) {
+                    String RESOURCE_PATH = ContentResolver.SCHEME_ANDROID_RESOURCE + "://";
+                    String path = RESOURCE_PATH + getPackageName() + File.separator + resId;
+                    Uri soundUri = Uri.parse(path);
+                    showMessage("RawSound: Uri=" + soundUri.toString() + " path=" + path);
                 }
-            });
 
+                final MediaPlayer mMediaPlayer = new MediaPlayer();
+                mMediaPlayer.setVolume(1.0f, 1.0f);
+                mMediaPlayer.setLooping(false);
+                mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        // Toast.makeText(getApplicationContext(),
+                        //         "start playing sound", Toast.LENGTH_SHORT).show();
+                        mMediaPlayer.start();
+                    }
+                });
+                mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        // Toast.makeText(getApplicationContext(), String.format(Locale.US,
+                        //         "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                });
 
-            // 2. Load using content provider, passing file descriptor.
-            ContentResolver resolver = getContentResolver();
-            AssetFileDescriptor fd = res.openRawResourceFd(resId);
-            mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
-            fd.close();
-            mMediaPlayer.prepareAsync();
+                // 2. Load using content provider, passing file descriptor.
+                ContentResolver resolver = getContentResolver();
+                AssetFileDescriptor fd = res.openRawResourceFd(resId);
+                mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+                fd.close();
+                mMediaPlayer.prepareAsync();
 
-            // See setOnPreparedListener above
-            mMediaPlayer.start();
+                // See setOnPreparedListener above
+                mMediaPlayer.start();
 
-        } catch (Exception ex) {
-            // showException(ex);
-            showMessage(String.join("MediaPlayer: " , ex.getMessage()));
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            } catch (Exception ex) {
+                // showException(ex);
+                showMessage(String.join("MediaPlayer: ", ex.getMessage()));
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -367,48 +418,52 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param callbackId String - speaker callback identifier as String
      */
     public void speak(String text, Locale locLang, float rate, float pitch, float volume, String callbackId) {
+        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
         text2Speach.stop();
-        text2Speach.setOnUtteranceProgressListener(
-            new UtteranceProgressListener() {
 
-                @Override
-                public void onStart(String utteranceId) {
-                }
+        if (soundOn) {
+            text2Speach.setOnUtteranceProgressListener(
+                    new UtteranceProgressListener() {
 
-                @Override
-                public void onDone(String utteranceId) {
-                    showMessage("speak: UtteranceProgressListener.Done: " + utteranceId, false);
-                }
+                        @Override
+                        public void onStart(String utteranceId) {
+                        }
 
-                @Override
-                public void onError(String utteranceId) {
-                    OperationApplicationException opAppEx =
-                        new OperationApplicationException("speak: UtteranceProgressListener.Error: " + utteranceId);
-                    showException(opAppEx);
-                    // showMessage("speak: UtteranceProgressListener.Error: " + utteranceId, false);
-                }
+                        @Override
+                        public void onDone(String utteranceId) {
+                            showMessage("speak: UtteranceProgressListener.Done: " + utteranceId, false);
+                        }
+
+                        @Override
+                        public void onError(String utteranceId) {
+                            OperationApplicationException opAppEx =
+                                    new OperationApplicationException("speak: UtteranceProgressListener.Error: " + utteranceId);
+                            showException(opAppEx);
+                            // showMessage("speak: UtteranceProgressListener.Error: " + utteranceId, false);
+                        }
+                    }
+            );
+
+            if (locLang == null)
+                locLang = globalVariable.getSystemLLocale();
+            text2Speach.setLanguage(locLang);
+
+            text2Speach.setSpeechRate(rate);
+            text2Speach.setPitch(pitch);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                Bundle ttsParams = new Bundle();
+                ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
+                ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+
+                text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams, callbackId);
+            } else {
+                HashMap<String, String> ttsParams = new HashMap<>();
+                ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
+                ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, Float.toString(volume));
+
+                text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams);
             }
-        );
-
-        if (locLang == null)
-            locLang = globalVariable.geSystemLLocale();
-        text2Speach.setLanguage(locLang);
-
-        text2Speach.setSpeechRate(rate);
-        text2Speach.setPitch(pitch);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Bundle ttsParams = new Bundle();
-            ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
-            ttsParams.putSerializable(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
-
-            text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams, callbackId);
-        } else {
-            HashMap<String, String> ttsParams = new HashMap<>();
-            ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
-            ttsParams.put(android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME, Float.toString(volume));
-
-            text2Speach.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, ttsParams);
         }
     }
 
@@ -426,7 +481,7 @@ public class BaseAppActivity extends AppCompatActivity {
             float floatPitch = (float)(Math.E / 2);
             float floatVolume =  (float)Math.sqrt(Math.PI);
 
-            speak(sayPhrase, globalVariable.geSystemLLocale(),
+            speak(sayPhrase, globalVariable.getSystemLLocale(),
                     floatRate, floatPitch, floatVolume, speakCallbackId);
         }
     }
@@ -594,10 +649,10 @@ public class BaseAppActivity extends AppCompatActivity {
     //region showHelpMessageErrorException
 
     /**
-     * showHelp
-     * prints out help text
+     * startAboutActivity
+     * starts About Activity
      */
-    public void showHelp() {
+    public void startAboutActivity() {
         // try {
         //     Thread.currentThread().sleep(10);
         // } catch (Exception exInt) {

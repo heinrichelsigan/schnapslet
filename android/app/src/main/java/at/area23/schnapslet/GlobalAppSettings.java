@@ -31,6 +31,7 @@ public class GlobalAppSettings extends Application {
 
     private static Application sApplication;
 
+    private boolean soundOn = true;
     private String pictureUrl = "https://area23.at/schnapsen/cardpics/";
     private Uri pictureUri = null;
     private Locale systemLocale, locale;
@@ -88,7 +89,7 @@ public class GlobalAppSettings extends Application {
         return locale;
     }
 
-    public Locale geSystemLLocale() {
+    public Locale getSystemLLocale() {
         initLocale();
         return systemLocale;
     }
@@ -162,5 +163,8 @@ public class GlobalAppSettings extends Application {
     public DIALOGS getDialog() { return dialogOpened; }
 
     public void setDialog(DIALOGS dia) { dialogOpened = dia; }
+
+    public boolean getSound() { return soundOn; }
+    public void setSound(boolean onOff) { soundOn = onOff; }
 
 }

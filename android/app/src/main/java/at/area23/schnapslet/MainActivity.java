@@ -70,7 +70,7 @@ import at.area23.schnapslet.models.Game;
  */
 public class MainActivity
         extends BaseAppActivity
-        implements Runnable, AboutDialog.NoticeDialogListener, HelpDialog.NoticeDialogListener {
+        implements Runnable, HelpDialog.NoticeDialogListener {
 
     private static final String API_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDDjZ+QmX6Zi514\nsFbIgT48HFuvXgWnmNbY7aBPW5gWq2kmISwxQcUG/JxdD2VasHiG66QAVgNHjQ8D\nRLyzPSmNUb4QVBMB4WHukqpBW97qG3Uhp4HnHYJ3Tg5XbHmjhFevxISG0ZLEni4C\nJMcNMTug6+VGDeNE/yISN42uhdiPsgTPIaGK/6FeG8KXLB9R501dYhiWprOuwhw5\nTXvAAaLyP+y/3N1/Q/4Po+WSusYqTUl1kNZ6/BvynmK4Bz+Ibakd59eBIn4xMOyK\nOxQuyC5GJbhRYjbcoEvbTzZy7CUk0nzrLunxzIucAr1SuOwJwIDz2yMM5wl/5nXY\nCm2RjzdnAgMBAAECggEAFWc50LTMI3gheyUpynZC3odoDZCn48kZstKHWkg3JDwM\nnSzCTn3ZV8NsRc86k6t+9Z1y7Mp9P2aT/xKV6LRICPyqZdUd43XMpzUMR20Lv+nT\nbySLVkVnkzFK5oyr35bLliRXMP5dJwH9HSTzWGFMGnfXN0yr1FBsZTwJWNGzez6a\nxX3tPFQXd4xwoZev+ZiEuaVgRGl6y1Va83QMw7rKOYA74NSBgMhZyhna+5O1fB3r\nH7mRsaCf+BI9HGYeu+mw9biJRBIHHqBcteT0I8wgXoxMews40elY5UrXYpHyfoV1\nSlYwLRcSaE4ugFO7zJIZGYrxE1Q6we6o6XuHsYCjyQKBgQDj/hOOJ89crQudFzm/\n1t8QHLWntQJzIU9NnazyXXT+coO3AX6qMDCwWy2o4gpku8gP4qqLErRLtCG+3f0T\nC6QHarLDhaONKIweArjJ7la9MsOqpeG9lZdOuzVxUWJCqTb75ykJBi/ickhDketb\nHJiGGTndU6YRIqc4atd4CKiO2wKBgQDbk2T9Nxm4TWvu5NRNYD9eMCVS8hFY5j0D\nU/Z4DDuO0ztktWVu+KQTMaMhn0iX+KjeuKt/ytfex8/uvbGx7cz9sUxP9GIZBKpB\nVTwNVr1Pt76YT5y+ngESlmueCVRQCFUYc//LCGeJh1s6PlmSM0ocV+8WvyrW9AUS\nYUx4g4ABZQKBgD/xyfBL8BfRHPnBQtwwWr29H6Ha3cYGqKRfPdt4JNEcsx6H18vJ\n2k4MNKEyTLH2DOWPsD9zTogRDIno3wsRb774yQyXlciIf8wG/Wb9ZuyHqWNaRRcU\nNqzJSvLuXX3O0fIS4mp6hsGfRe9VpMoYGhs6RgVyaZhSvM3RAX/UBdqTAoGAIC5A\n/c+GiHloWTHWX6S8hMxfnAF4Q2QzCvrSQ5PfYrZYnRDs1c/BFEMRGotis0sxTLsZ\n/3e2HaOBOQc6NM6aXZAPlCRIAEyruzmHvJi61CUk3OPGIDW+CIBdM2NApR4jgpr1\noUcRDZn159pdfEziDrdghh/sYmaPG7uA3qS/LPUCgYADPOzUYG45IPRb42R4qk0E\n5C83ekg5wz9PUsd6aZgRIvHZB3HgZ2p7bnHvMB0DBF+F4WPNB8zsY39lels/lC80\npDcK7XJtcm6ucbWJt0d8eyrxjlwGAzfcvOpubC/McVtW6Atj5+FVTi7dBvhqUSac\nzEXeRxpEeNilJzgNENDtAQ==\n-----END PRIVATE KEY-----\n";
     volatile boolean droppedCard = false, dragged20 = false;
@@ -78,7 +78,8 @@ public class MainActivity
 
     volatile byte psaychange = 0;
 
-    volatile int aStage = 4; // Errors Ticker
+    volatile int aStage = 4; // Computer show pair stage
+    volatile int mStage = 1; // Merge Stage
     int ccard; // Computers Card played
     int phoneDirection = -1;
 
@@ -110,6 +111,7 @@ public class MainActivity
 
     private final static Handler setComputerPairHandler = new Handler(Looper.getMainLooper());
     private final static Handler showComputer20Handler = new Handler(Looper.getMainLooper());
+    private final static Handler mergeByHandler = new Handler(Looper.getMainLooper());
 
     /**
      * setComputerPair new Runnable() -> { reSetComputerPair(); }
@@ -134,6 +136,19 @@ public class MainActivity
         }
     };
 
+    /**
+     * runMergeByHand new Runnable() -> { mergeByHand(mStage); }
+     */
+    private final Runnable runMergeByHand = new Runnable() {
+        @Override
+        // @SuppressLint("InlinedApi")
+        public void run() {
+            mStage = (mStage < 1 || mStage > 11) ? 1 : mStage;
+            mergeByHand(mStage);
+        }
+    };
+
+
     //region onCreateConfigChangedOptions
 
     /**
@@ -154,14 +169,19 @@ public class MainActivity
         }
 
         if (width > height) {
+            phoneDirection = 0;
             layoutMes = getString(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
-            phoneDirection = 0;
         } else {
-
-            layoutMes = getString(R.string.portrait_mode);
-            setContentView(R.layout.activity_main);
             phoneDirection = 1;
+            layoutMes = getString(R.string.portrait_mode);
+            if (width >= 392 && width < 500) {
+                layoutMes += " " + getString(R.string.width_400);
+                setContentView(R.layout.activity_main_400);
+            }
+            else {
+                setContentView(R.layout.activity_main);
+            }
         }
 
         globalVariable = (GlobalAppSettings) getApplicationContext();
@@ -245,19 +265,18 @@ public class MainActivity
             aGame = bGame;
             aGame.phoneDirection = phoneDirection;
             mergeCardAnim(false);
-            resetButtons(0);
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
             tRest.setText(String.valueOf((19-aGame.index)));
-            if (aGame.playersTurn) {
-
+            if (!aGame.playersTurn) {
+                resetButtons(0);
+            }
+            else {
                 if (aGame.index < 18) {
                     if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
                         psaychange += 1;
                         aGame.bChange = true;
                     }
-                    toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
-                            getString(R.string.bChange_text));
                 }
                 // Gibts was zum Ansagen ?
                 int a20 = aGame.gambler.has20();
@@ -267,6 +286,7 @@ public class MainActivity
                     aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
 
                     if (a20 > 1) {
+                        psaychange += 4;
                         aGame.b20 = true;
                         aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
                     }
@@ -300,21 +320,40 @@ public class MainActivity
      */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        String layoutMes = "";
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+
         super.onConfigurationChanged(newConfig);
         if (globalVariable == null) {
             globalVariable = (GlobalAppSettings) getApplicationContext();
         }
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            setContentView(R.layout.activity_main);
-            tDbg.setText(getString(R.string.portrait_mode));
-        }
+
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
+            phoneDirection = 0;
+            layoutMes = getString(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
-            tDbg.setText(getString(R.string.landscape_mode));
         }
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            phoneDirection = 1;
+            layoutMes = getString(R.string.portrait_mode);
+            if (width >= 392 && width < 500) {
+                layoutMes += " " + getString(R.string.width_400);
+                setContentView(R.layout.activity_main_400);
+            }
+            else {
+                setContentView(R.layout.activity_main);
+            }
+        }
+
+        tDbg.setText(layoutMes);
     }
+
+    //endregion
+
+    //region menuCreateItemSelected
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -322,6 +361,7 @@ public class MainActivity
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
         menuResetCheckboxes();
+        setCardDeckFromSystemLocale();
         return true;
     }
 
@@ -348,16 +388,18 @@ public class MainActivity
             return true;
         }
         if (mItemId == R.id.action_about) {
-            showAboutDialog();
+            startAboutActivity();
             return true;
         }
         if (mItemId == R.id.action_screenshot) {
             rootView.setDrawingCacheEnabled(false);
             takeScreenShot(rootView, true);
-
             return true;
         }
-
+        if (mItemId == R.id.action_sound) {
+            toggleSoundOnOff();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -1051,14 +1093,18 @@ public class MainActivity
                         // ((AnimatedImageDrawable) animDrawable).start();
                         ((AnimatedImageDrawable)animatedGif).start();
                     }
-                } catch (Exception exCraw) {
+                }
+                catch (Exception exCraw) {
                     this.errHandler(exCraw);
                 }
-                // if (animatedGif != null)
-                //     saySchnapser(SCHNAPSOUNDS.MERGE_CARDS, getString(R.string.merging_cards));
+                frameAnimation = (AnimationDrawable)imMerge.getBackground();
+                frameAnimation.start();
             }
-            frameAnimation = (AnimationDrawable)imMerge.getBackground();
-            frameAnimation.start();
+            else {
+                imMerge.setImageResource(R.drawable.merge1);
+                mergeByHandler.postDelayed(runMergeByHand, 250);
+            }
+
         }
         if (!startMergeAnim) {
             frameAnimation.stop();
@@ -1069,6 +1115,55 @@ public class MainActivity
             showAtouCard(SCHNAPSTATE.GAME_START);
             showTalonCard(SCHNAPSTATE.GAME_START);
             imMerge.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * mergeByHand merge animation by runnabler handler
+     *
+     * @param stage - int stage
+     */
+    protected void mergeByHand(int stage) {
+        mStage = (stage > 0 && stage <= 11) ? stage : 1;
+
+        switch (mStage) {
+            case 2:
+            case 7:
+                imMerge.setImageResource(R.drawable.merge2);
+                break;
+            case 3:
+            case 8:
+                imMerge.setImageResource(R.drawable.merge3);
+                break;
+            case 4:
+            case 9:
+                imMerge.setImageResource(R.drawable.merge4);
+                break;
+            case 5:
+            case 10:
+                imMerge.setImageResource(R.drawable.merge5);
+                break;
+            case 6:
+            case 11:
+                imMerge.setImageResource(R.drawable.merge6);
+                break;
+            case 0:
+            case 1:
+            default:
+                imMerge.setImageResource(R.drawable.merge1);
+                break;
+        }
+
+        if (++mStage <= 11) {
+            mergeByHandler.postDelayed(runMergeByHand, 250);
+        }
+        else {
+            try {
+                mergeByHandler.removeCallbacks(runMergeByHand);
+            }
+            catch (Exception exMerge) {
+                exMerge.printStackTrace();
+            }
         }
     }
 
@@ -1505,6 +1600,7 @@ public class MainActivity
                         " " + getString(R.string.say_pair);
 
                 if (a20 > 1) {
+                    psaychange += 4;
                     aGame.b20 = true;
                     aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) +
                         " " + getString(R.string.say_pair);
@@ -1843,10 +1939,10 @@ public class MainActivity
     }
 
     /**
-     * helpText() prints out help text
+     * showHelp() - show help Dialog
      */
-    public void helpText() {
-        showHelp();
+    public void showHelp() {
+        showHelpDialog();
     }
 
     //endregion
@@ -1873,21 +1969,6 @@ public class MainActivity
         dialog.show(getSupportFragmentManager(), "HelpDialog");
     }
 
-    /**
-     * showAboutDialog
-     */
-    public void showAboutDialog() {
-
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
-
-        // Create an instance of the dialog fragment and show it
-        globalVariable.setDialog(DIALOGS.About);
-        int idx = (aGame != null) ? aGame.index : 9;
-        int ptx = (aGame != null && aGame.gambler != null) ? aGame.gambler.points : 0;
-        DialogFragment dialog = AboutDialog.newInstance(idx, ptx);
-        dialog.setCancelable(false);
-        dialog.show(getSupportFragmentManager(), "AboutDialog");
-    }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {

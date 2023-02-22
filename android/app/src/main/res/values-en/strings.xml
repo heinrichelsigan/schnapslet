@@ -86,8 +86,8 @@
     <string name="ending_game">Ending game!</string>
     <string name="landscape_mode">Screen switched to Landscape mode</string>
     <string name="portrait_mode">Screen switched to Portrait mode</string>
-    <string name="help_text">Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change Trump, drag the Trump Jack card to the Trump card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange Trump" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on Trump card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
-    <string name="build_with">Built with Android Studio 2021.3.1</string>
+    <string name="help_text">Schnapslet v2.4.6 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change Trump, drag the Trump Jack card to the Trump card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange Trump" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on Trump card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
+    <string name="build_with">Built with Android Studio Electric Eel 2022.1.1</string>
     <string name="learn_more">Learn more</string>
     <string name="back_button">Back</string>
     <string name="carddeck">CardSet</string>

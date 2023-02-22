@@ -73,6 +73,12 @@
             app:showAsAction="collapseActionView">
             <menu>
                 <item
+                    android:id="@+id/action_about"
+                    android:orderInCategory="2100"
+                    android:title="@string/action_about"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
                     android:id="@+id/action_load"
                     android:orderInCategory="2200"
                     android:title="@string/action_load"
@@ -85,14 +91,16 @@
                     android:enabled="false"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_about"
-                    android:orderInCategory="9100"
-                    android:title="@string/action_about"
+                    android:id="@+id/action_sound"
+                    android:orderInCategory="4100"
+                    android:title="@string/action_sound"
                     android:enabled="true"
+                    android:checkable="true"
+                    android:checked="true"
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/action_screenshot"
-                    android:orderInCategory="9200"
+                    android:orderInCategory="4200"
                     android:title="@string/action_screenshot"
                     android:enabled="true"
                     app:showAsAction="never" />

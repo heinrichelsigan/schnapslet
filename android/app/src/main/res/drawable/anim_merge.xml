@@ -6,5 +6,4 @@
 	<item android:drawable="@drawable/merge4" android:duration="200" />
 	<item android:drawable="@drawable/merge5" android:duration="200" />
 	<item android:drawable="@drawable/merge6" android:duration="200" />
-	<item android:drawable="@drawable/merge7" android:duration="200" />	
 </animation-list>
