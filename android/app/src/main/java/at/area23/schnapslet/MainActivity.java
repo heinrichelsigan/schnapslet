@@ -113,21 +113,16 @@ public class MainActivity
     private final static Handler showComputer20Handler = new Handler(Looper.getMainLooper());
     private final static Handler mergeByHandler = new Handler(Looper.getMainLooper());
 
+    // @SuppressLint("InlinedApi")
     /**
      * setComputerPair new Runnable() -> { reSetComputerPair(); }
      */
-    private final Runnable setComputerPair = new Runnable() {
-        @Override
-        // @SuppressLint("InlinedApi")
-        public void run() {
-            reSetComputerPair();
-        }
-    };
+    private final Runnable setComputerPair = () -> reSetComputerPair();
 
     /**
      * rShowComputer20 new Runnable() -> { showComputer20(playedOutCard1, aStage); }
      */
-    private final Runnable rShowComputer20 = new Runnable() {
+    private final Runnable rShowComputer20 =  new Runnable() {
         @Override
         // @SuppressLint("InlinedApi")
         public void run() {
@@ -165,8 +160,7 @@ public class MainActivity
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-        }
+        // if (bundle != null) { }
 
         if (width > height) {
             phoneDirection = 0;
@@ -415,6 +409,7 @@ public class MainActivity
     @Override
     protected boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
+            menuResetCheckboxes();
             item.setChecked(true);
         }
         if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {

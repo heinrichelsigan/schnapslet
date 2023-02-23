@@ -190,7 +190,7 @@ public class BaseAppActivity extends AppCompatActivity {
             if (mItemId == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
                 return setLanguage("fr", item);
             }
-            if (mItemId == R.id.action_ukraine_cards) { //  uktainian
+            if (mItemId == R.id.action_ukraine_cards) { //  ukrainian
                 return setLanguage("uk", item);
             }
             if (mItemId == R.id.action_us_cards) { // Overwrites application locale in GlobalAppSettings with french
@@ -231,7 +231,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * toggleSoundOnOff - toggle in submenu options Sound On/Off
      */
     public void toggleSoundOnOff() {
-        boolean soundOnOff = (globalVariable != null) ? globalVariable.getSound() : true;
+        boolean soundOnOff = globalVariable == null || globalVariable.getSound();
         MenuItem soundMenuItem = myMenu.findItem(R.id.action_sound);
         if (soundMenuItem != null) {
             soundMenuItem.setChecked(!soundOnOff);
@@ -240,7 +240,6 @@ public class BaseAppActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //endregion
 
@@ -253,6 +252,7 @@ public class BaseAppActivity extends AppCompatActivity {
      */
     protected boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
+            menuResetCheckboxes();
             item.setChecked(true);
         }
         if (!globalVariable.getLocale().getLanguage().equals(aLocale.getLanguage())) {
@@ -281,7 +281,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param url - the full quaöofoed url accessor
      */
     public void playMediaFromUri(String url) {
-        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
+        boolean soundOn = globalVariable == null || globalVariable.getSound();
         if (soundOn) {
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioAttributes(
@@ -312,7 +312,7 @@ public class BaseAppActivity extends AppCompatActivity {
      *
      */
     public void playRawSound(int rId, String rawName) {
-        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
+        boolean soundOn = globalVariable == null || globalVariable.getSound();
         if (soundOn) {
             try {
                 Resources res = getResources();
