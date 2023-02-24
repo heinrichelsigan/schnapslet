@@ -75,8 +75,8 @@
         }
     }
 
-
-    void InitURLBase() {
+    void InitURLBase() 
+    {
         try
         {
             notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
@@ -107,7 +107,7 @@
         imOut1.ImageUrl = emptyURL.ToString();
         imTalon.ImageUrl = talonURL.ToString();
         imTalon.Visible = true;
-        imAtou10.ImageUrl = talonURL.ToString();
+        imAtou10.ImageUrl = notURL.ToString();
 
 
         bMerge.Text = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);         
@@ -168,14 +168,16 @@
 
     void showPlayersCards()
     {
-
-        try {
+        try 
+        {
             im0.ImageUrl = aGame.gambler.hand[0].getPictureUrl().ToString();
             im1.ImageUrl = aGame.gambler.hand[1].getPictureUrl().ToString();
             im2.ImageUrl = aGame.gambler.hand[2].getPictureUrl().ToString();
             im3.ImageUrl = aGame.gambler.hand[3].getPictureUrl().ToString();
             im4.ImageUrl = aGame.gambler.hand[4].getPictureUrl().ToString();
-        } catch (Exception exp) {
+        } 
+        catch (Exception exp) 
+        {
             this.errHandler(exp);
         }
     }
@@ -183,7 +185,8 @@
     /// <summary>
     /// showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
     /// </summary>
-    protected  void showPlayedOutCards() {
+    protected  void showPlayedOutCards() 
+    {
         if ((aGame != null && aGame.playedOut0 != null && playedOutCard0 != null &&
             aGame.playedOut0.ColorValue != playedOutCard0.ColorValue) ||
                 (aGame != null && aGame.playedOut0 != null && playedOutCard0 == null))
@@ -196,7 +199,8 @@
 
         if ((aGame != null && aGame.playedOut1 != null && playedOutCard1 != null &&
             aGame.playedOut1.ColorValue != playedOutCard1.ColorValue) ||
-                (aGame != null && aGame.playedOut1 != null && playedOutCard1 == null)) {
+                (aGame != null && aGame.playedOut1 != null && playedOutCard1 == null)) 
+        {
             playedOutCard1 = aGame.playedOut1;
         }
         if (playedOutCard1 == null)
@@ -229,7 +233,8 @@
         }
     }
 
-    void showTalonCard(SchnapsNet.ConstEnum.SCHNAPSTATE gameState) {
+    void showTalonCard(SchnapsNet.ConstEnum.SCHNAPSTATE gameState) 
+    {
         try
         {
             int schnapStateVal = SchnapsNet.ConstEnum.SCHNAPSTATE_Extensions.StateValue(gameState);
@@ -247,25 +252,25 @@
         {
             errHandler(imTalonEx);
         }
-        imTalon.Visible = true;
     }
 
-    void showComputer20(SchnapsNet.Models.Card computerPlayedOut, int stage) {
-        imCOut0.Visible = true;
-        imCOut0.Visible = true;
+    void showComputer20(SchnapsNet.Models.Card computerPlayedOut, int stage) 
+    {        
         for (int ci = 0; ci < aGame.computer.hand.Length; ci++) {
             if (computerPlayedOut.CardValue == SchnapsNet.ConstEnum.CARDVALUE.QUEEN &&
-                    aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
-                    aGame.computer.hand[ci].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) {
-                imCOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
-                imCOut1.ImageUrl = computerPlayedOut.getPictureUrl();
+                aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
+                    aGame.computer.hand[ci].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) 
+            {
+                imOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
+                // imCOut1.ImageUrl = computerPlayedOut.getPictureUrl();
                 break;
             }
             if (computerPlayedOut.CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING &&
-                    aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
-                    aGame.computer.hand[ci].CardValue == SchnapsNet.ConstEnum.CARDVALUE.QUEEN) {
-                imCOut0.ImageUrl = computerPlayedOut.getPictureUrl();
-                imCOut1.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
+                aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
+                    aGame.computer.hand[ci].CardValue == SchnapsNet.ConstEnum.CARDVALUE.QUEEN) 
+            {
+                // imCOut0.ImageUrl = computerPlayedOut.getPictureUrl();
+                imOut0.ImageUrl = aGame.computer.hand[ci].getPictureUrl();
                 break;
             }
         }
@@ -276,11 +281,9 @@
     /// <summary>
     /// reSetComputerPair - resets computer pair images and  placeholder
     /// </summary>
-    void ReSetComputerPair() {
-        imCOut0.ImageUrl = emptyURL.ToString();
-        imCOut0.ImageUrl = emptyURL.ToString();
-        imCOut0.Visible = false;
-        imCOut0.Visible = false;
+    void ReSetComputerPair() 
+    {
+        ;
     }
 
 
@@ -337,17 +340,22 @@
             aGame = globalVariable.Game;
         }
         preOut.InnerText += "b20a_Click\r\n";
-        try {
-            if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) {
+        try 
+        {
+            if ((pSaid) || (aGame.gambler.handpairs[0] == 'n')) 
+            {
                 return;
             }
             String sayPair;
             aGame.said = aGame.gambler.handpairs[0];
-            if (aGame.gambler.handpairs[0] == aGame.AtouInGame) {
+            if (aGame.gambler.handpairs[0] == aGame.AtouInGame) 
+            {
                 aGame.gambler.points += 40;
                 sayPair = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
-            } else {
+            } 
+            else 
+            {
                 aGame.gambler.points += 20;
                 sayPair = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
@@ -391,12 +399,14 @@
             }
             String sayPair;
             aGame.said = aGame.gambler.handpairs[1];
-            if (aGame.gambler.handpairs[1] == aGame.AtouInGame) {
+            if (aGame.gambler.handpairs[1] == aGame.AtouInGame) 
+            {
                 aGame.gambler.points += 40;
                 sayPair = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
             }
-            else {
+            else 
+            {
                 aGame.gambler.points += 20;
                 sayPair = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
@@ -434,7 +444,8 @@
         int j, ic = 0;
 
         // don't let player drag and drop cards, when he shouldn't
-        if (aGame != null && (!aGame.isReady || sender == null)) {
+        if (aGame != null && (!aGame.isReady || sender == null)) 
+        {
             return;
         }
 
@@ -457,7 +468,8 @@
         {
             if (ic == 10)
             {
-                if (aGame.playersTurn && (!aGame.isClosed) &&  (!pSaid) && (aGame.index < 16)) {
+                if (aGame.playersTurn && (!aGame.isClosed) &&  (!pSaid) && (aGame.index < 16)) 
+                {
                     closeGame(true);
                 }
                 return;
@@ -566,7 +578,8 @@
     {
         string msg = "bContinue_Click";
         preOut.InnerText += "\r\n" + msg;
-        if (aGame == null || !aGame.isGame) {
+        if (aGame == null || !aGame.isGame) 
+        {
             startGame();
             return;
         }
@@ -617,25 +630,31 @@
             showTalonCard(SchnapsNet.ConstEnum.SCHNAPSTATE.GAME_START);
         }
 
-        if (level > 2) {
-            try {
+        if (level > 2) 
+        {
+            try 
+            {
                 imOut0.ImageUrl = emptyURL.ToString();
                 imOut1.ImageUrl = emptyURL.ToString();
                 playedOutCard0 = globalVariable.CardEmpty;
                 playedOutCard1 = globalVariable.CardEmpty;
                 aGame.playedOut0 = playedOutCard0;
                 aGame.playedOut1 = playedOutCard1;
-            } catch (Exception exL2) {
+            } 
+            catch (Exception exL2) 
+            {
                 this.errHandler(exL2);
             }
         }
-        if (aGame != null) {
+        if (aGame != null) 
+        {
             globalVariable.Game = aGame;
         }
     }
 
 
-    void stopGame(int levela) {
+    void stopGame(int levela) 
+    {
         bStop.Enabled = false;
         aGame.stopGame();
         resetButtons(levela);
@@ -646,7 +665,8 @@
         bMerge.Enabled = true;
     }
 
-    void startGame() {  /* Mischen */
+    void startGame() /* Mischen */
+    {  
         bMerge.Enabled = false;
         // runtime = java.lang.Runtime.getRuntime();
         // runtime.runFinalization();
@@ -675,7 +695,8 @@
     /// <param name="who">true, if player closes game, false if computer closes game</param>
     void closeGame(bool who)
     {
-        if (aGame.isGame == false || aGame.gambler == null) {
+        if (aGame.isGame == false || aGame.gambler == null) 
+        {
             setTextMessage(SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("nogame_started", globalVariable.TwoLetterISOLanguageName));
             return;
         }
@@ -695,7 +716,9 @@
             aGame.InsertMsg(closeMsg0);
             // saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
             aGame.gambler.hasClosed = true;
-        } else {
+        } 
+        else 
+        {
             string closeMsg1 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.TwoLetterISOLanguageName);
             setTextMessage(closeMsg1);
             aGame.InsertMsg(closeMsg1);
@@ -742,13 +765,15 @@
                 {
                     char colorCh0 = SchnapsNet.ConstEnum.CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xj].CardColor);
                     if (colorCh0 == aGame.said &&
-                            aGame.gambler.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.QUEEN) {
+                        aGame.gambler.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.QUEEN) 
+                    {
                         playedOutCard0 = aGame.gambler.hand[xj];
                         aGame.playedOut0 = playedOutCard0;
                         imOut0.ImageUrl = aGame.gambler.hand[xj].getPictureUrl();
                     }
                     if (colorCh0 == aGame.said &&
-                            aGame.gambler.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) {
+                        aGame.gambler.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) 
+                    {
                         playedOutCard1 = aGame.gambler.hand[xj];
                         aGame.playedOut1 = playedOutCard1;
                         imOut1.ImageUrl = aGame.gambler.hand[xj].getPictureUrl();
@@ -762,9 +787,8 @@
 
             string sEnds11 = andEnough + " " + string.Format(
                 SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
-                aGame.gambler.points.ToString());
+                    aGame.gambler.points.ToString());
             tsEnds(sEnds11, 2);
-
         }
         else
         {
@@ -785,7 +809,8 @@
                         imOut0.ImageUrl = aGame.computer.hand[xj].getPictureUrl();
                     }
                     if (colorCh1 == aGame.csaid &&
-                        aGame.computer.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) {
+                        aGame.computer.hand[xj].CardValue == SchnapsNet.ConstEnum.CARDVALUE.KING) 
+                    {
                         playedOutCard1 = aGame.computer.hand[xj];
                         aGame.playedOut1 = playedOutCard1;
                         imOut1.ImageUrl = aGame.computer.hand[xj].getPictureUrl();
@@ -808,14 +833,17 @@
         return;
     }
 
-    void twentyEnough_Old(bool who) {
+    void twentyEnough_Old(bool who) 
+    {
         int xking = 0;
         int xqueen = 0;
         bool xfinished = false;
         String andEnough = "20 und genug !";
         aGame.isReady = false;
-        if (who) {
-            try {
+        if (who) 
+        {
+            try 
+            {
                 while((xqueen < 5) && !xfinished)
                 {
                     if ((aGame.gambler.hand[xqueen] != null))
@@ -841,19 +869,26 @@
                     xqueen++;
                 }
 
-                if (aGame.said == aGame.AtouInGame) {
+                if (aGame.said == aGame.AtouInGame) 
+                {
                     andEnough = "40 und genug !";
                 }
-            } catch (Exception jbpvex) {
+            } 
+            catch (Exception jbpvex) 
+            {
                 this.errHandler(jbpvex);
             }
             string anEnPairMsg = andEnough + " Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !";
             tsEnds(andEnough, 1);
-        } else {
-            try {
+        } 
+        else 
+        {
+            try 
+            {
                 xqueen = 0;
                 xfinished = false;
-                while((xqueen < 5) && !xfinished)  {
+                while((xqueen < 5) && !xfinished)  
+                {
                     if (aGame.computer.hand[xqueen] != null)
                     {
                         char queenColor = SchnapsNet.ConstEnum.CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xqueen].CardColor);
@@ -877,10 +912,13 @@
                     xqueen++;
                 }
 
-                if (aGame.csaid == aGame.AtouInGame) {
+                if (aGame.csaid == aGame.AtouInGame) 
+                {
                     andEnough = "40 und genug !";
                 }
-            } catch (Exception jbpvex) {
+            } 
+            catch (Exception jbpvex) 
+            {
                 this.errHandler(jbpvex);
             }
             printMsg();
@@ -890,16 +928,21 @@
         return;
     }
 
-    void GameTurn(int ixlevel) {
-        if (ixlevel < 1) {
-            try {
+    void GameTurn(int ixlevel) 
+    {
+        if (ixlevel < 1) 
+        {
+            try 
+            {
                 imOut0.ImageUrl = emptyURL.ToString();
                 imOut1.ImageUrl = emptyURL.ToString();
                 playedOutCard0 = globalVariable.CardEmpty;
                 playedOutCard1 = globalVariable.CardEmpty;;
                 aGame.playedOut0 = playedOutCard0;
                 aGame.playedOut1 = playedOutCard1;
-            } catch (Exception jbpvex) {
+            } 
+            catch (Exception jbpvex) 
+            {
                 this.errHandler(jbpvex);
             }
             showPlayersCards();
@@ -919,7 +962,8 @@
             // Wann kann man austauschen ?
             if (ixlevel < 1)
             {
-                if (aGame.atouIsChangable(aGame.gambler) && (!pSaid)) {
+                if (aGame.atouIsChangable(aGame.gambler) && (!pSaid)) 
+                {
                     psaychange += 1;
                     bChange.Enabled = true;
                     aGame.bChange = true;
@@ -936,7 +980,8 @@
                     SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                 aGame.a20 = true;
                 b20a.Enabled = true;
-                if (a20 > 1) {
+                if (a20 > 1) 
+                {
                     b20b.Text = aGame.printColor(aGame.gambler.handpairs[1]) + " " +
                         SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                     aGame.b20 = true;
@@ -952,14 +997,17 @@
             }
             // Info 
             setTextMessage(SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName));
-        } else {
+        } 
+        else 
+        {
             /* COMPUTERS TURN IMPLEMENTIEREN */
             string outPutMessage = "";
             ccard = aGame.computerStarts();
             Session["ccard"] = ccard;
 
             int bitShift = SchnapsNet.ConstEnum.PLAYEROPTIONS_Extensions.GetValue(SchnapsNet.ConstEnum.PLAYEROPTIONS.CHANGEATOU);
-            if ((aGame.computer.playerOptions & bitShift) == bitShift) {
+            if ((aGame.computer.playerOptions & bitShift) == bitShift) 
+            {
                 this.showAtouCard(aGame.schnapState);
                 outPutMessage += SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("computer_changes_atou", globalVariable.TwoLetterISOLanguageName);
             }
@@ -1021,7 +1069,8 @@
         globalVariable.Game = aGame;
     }
 
-    void endTurn() {
+    void endTurn() 
+    {
         int tmppoints;
         String msgText = "";
 
@@ -1089,10 +1138,13 @@
         if (aGame.assignNewCard() == 1)
         {
             /* NOW WE HAVE NO MORE TALON */
-            try {
+            try 
+            {
                 showTalonCard(aGame.schnapState);
                 showAtouCard(aGame.schnapState);
-            } catch (Exception jbpvex) {
+            } 
+            catch (Exception jbpvex) 
+            {
                 this.errHandler(jbpvex);
             }
 
@@ -1131,29 +1183,41 @@
             }
         }
 
-        if (aGame.movs >= 5) {
-            if (aGame.isClosed) {
-                if (aGame.gambler.hasClosed) {
+        if (aGame.movs >= 5) 
+        {
+            if (aGame.isClosed) 
+            {
+                if (aGame.gambler.hasClosed) 
+                {
                     globalVariable.Game = aGame;
                     string sEnds6 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
                     tsEnds(sEnds6, 1);
                 }
-                try {
-                    if (aGame.computer.hasClosed) {
+                try 
+                {
+                    if (aGame.computer.hasClosed) 
+                    {
                         globalVariable.Game = aGame;
                         string sEnds7 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
                         tsEnds(sEnds7, 1);
                     }
-                } catch (Exception jbpvex) {
+                } 
+                catch (Exception jbpvex) 
+                {
                     this.errHandler(jbpvex);
                 }
                 return ;
-            } else {
-                if (tmppoints > 0) {
+            } 
+            else 
+            {
+                if (tmppoints > 0) 
+                {
                     globalVariable.Game = aGame;
                     string sEnds8 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
                     tsEnds(sEnds8, 1);
-                } else {
+                } 
+                else 
+                {
                     globalVariable.Game = aGame;
                     string sEnds9 = SchnapsNet.ConstEnum.JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
                     tsEnds(sEnds9, 1);
@@ -1162,7 +1226,8 @@
             }
         }
 
-        if (aGame != null) {
+        if (aGame != null) 
+        {
             aGame.shouldContinue = true;
         }
         bContinue.Enabled = true;
@@ -1171,7 +1236,8 @@
     }
 
 
-    void printMsg() {
+    void printMsg() 
+    {
         preOut.InnerText = aGame.FetchMsg();
     }
 
@@ -1187,8 +1253,8 @@
     /// setTextMessage shows a new Toast dynamic message
     /// </summary>
     /// <param name="textMsg">text to display</param>
-    void setTextMessage(string textMsg) {
-
+    void setTextMessage(string textMsg) 
+    {
         string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
         if (aGame != null)
             aGame.textMsg = msgSet;
@@ -1207,92 +1273,81 @@
 </script>
 
 <body>
-    <form id="form1" runat="server">
-        <div style="line-height: normal; height: 96px; width: 100%; table-layout: fixed; inset-block-start: initial">    
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="imCOut0" runat="server" ImageUrl="~/cardpics/e.gif" Visible="false" Width="72" Height="96" />
-            </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="imCOut1" runat="server" ImageUrl="~/cardpics/e.gif" Visible="false" Width="72" Height="96" />
-            </span>
-        </div>
-        <div style="nowrap; line-height: normal; height: 96px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="imOut1" runat="server" ImageUrl="~/cardpics/e.gif" Width="72" Height="96" />
-            </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imOut0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" />
-            </span>
-            <span style="width:96px; height:72px; margin-left: 0px; margin-top: 12px; z-index: 100; margin-top: 0px; text-align: left; font-size: medium">                
-                <asp:ImageButton ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Width="96" Height="72" />                 
+    <form id="form1" runat="server">        
+        <div style="line-height: normal; height: 10%; width: 100%; table-layout: fixed; inset-block-start: auto">                
+            <span style="width:92%; height:10%; margin: 0px 0px 0px 0px; text-align: right; vertical-align:top; font-size: larger" align="right" valign="top">
+                <asp:Label ID="lPoints" Width="10%" Height="10%"  runat="server" ToolTip="Points">Points</asp:Label>
+                <asp:TextBox ID="tPoints" Width="12%" Height="10%"  runat="server" ToolTip="text message" style="font-size: x-large" Enabled="false">0</asp:TextBox>
+                <asp:Label ID="lRest" Width="10%" Height="10%"  runat="server" ToolTip="Rest">Rest</asp:Label>
+                <asp:TextBox ID="tRest" Width="12%"  Height="10%"  runat="server" ToolTip="text message" style="font-size: x-large" Enabled="false">10</asp:TextBox>
+                <asp:Button ID="bMerge" Width="12%" Height="10%"  runat="server" Text="Start" style="font-size: xx-large" OnClick="bMerge_Click" />
+                <asp:Button ID="bStop" Width="12%"  Height="10%"  runat="server" Text="Stop" OnClick="bStop_Click" style="font-size: xx-large; vertical-align: top; tab-size: inherit" />  
             </span>            
-            <span style="width:72px; height:96px; margin-left: -16px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" style="z-index: 1" />
+        </div>
+        <div style="nowrap; line-height: normal; height: 10%;  margin-top: 12px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">
+            <span style="width:20%; height: 10%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bContinue" Width="20%" Height="10%" runat="server" ToolTip="Continue" style="font-size: xx-large" Text="Continue" OnClick="bContinue_Click" />&nbsp;                
+            </span>
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bChange" Width="20%" Height="10%" runat="server" ToolTip="Change Atou" style="font-size: xx-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
+            </span>
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="b20a" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 20" style="font-size: xx-large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
+            </span>
+            <span style="width:20%; height: 10%;  vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
+                <asp:Button ID="b20b" Width="20%" Height="10%" runat="server" ToolTip="Say marriage 40"  style="font-size: xx-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
+            </span>            
+        </div>
+        <div style="nowrap; line-height: normal; height: 12%; width: 100%; margin-top: 12px; font-size: medium; table-layout: fixed; inset-block-start: auto">
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
+                <asp:ImageButton ID="imOut1" runat="server" ImageUrl="~/cardpics/e.gif" 
+                    Width="15%" Height="12%" />
+            </span>
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="imOut0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="12%" />
+            </span>
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                    Width="15%" Height="12%" OnClick="ImageCard_Click" style="z-index: 1" />
+            </span>
+            <span style="width:18%; height:15%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
+                <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" 
+                    style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit"  Width="12%" />
             </span>                        
         </div>
-        <div style="nowrap; line-height: normal; height: 96px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
+        <div style="nowrap; line-height: normal; height: 12%; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
+                <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                    Width="15%" Height="12%" OnClick="ImageCard_Click" />
             </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                     Width="15%" Height="12%" OnClick="ImageCard_Click" />
             </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                    Width="15%" Height="12%" OnClick="ImageCard_Click" />
             </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                    Width="15%" Height="12%" OnClick="ImageCard_Click" />
             </span>
-            <span style="width:72px; height:96px; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="72" Height="96" OnClick="ImageCard_Click" />
+            <span style="width:15%; height:12%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+                <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" 
+                    Width="15%" Height="12%"  OnClick="ImageCard_Click" />
             </span>
         </div>        
-        <div style="nowrap; line-height: normal; vertical-align:middle; height: 36px; margin-top: 8px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
-            <span style="width:100%; vertical-align:middle; text-align: left; font-size: medium; height: 36px;" align="left"  valign="middle">            
-                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="366" Height="36" AutoPostBack="True">Short Information</asp:TextBox>
+        <div style="nowrap; line-height: normal; vertical-align:middle; height: 8%; margin-top: 8px; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
+            <span style="width:100%; vertical-align:middle; text-align: left; font-size: larger; height: 36px;" align="left"  valign="middle">            
+                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="92%" Height="8%" style=" font-size: x-large">Short Information</asp:TextBox>
             </span>
         </div>
-        <div style="nowrap; line-height: normal; height: 48px;  margin-top: 16px; vertical-align:middle; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
-            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="bContinue" runat="server" ToolTip="Continue" Text="Continue" OnClick="bContinue_Click" />&nbsp;                
-            </span>
-            <span style="width:25%; vertical-align:middle; text-align: left" align="left" valign="middle">
-                <asp:Button ID="bChange" runat="server" ToolTip="Change Atou" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
-            </span>
-            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="b20a" runat="server" ToolTip="Say marriage 20" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
-            </span>
-            <span style="width:25%; vertical-align:middle; text-align: left; font-size: medium" align="right" valign="middle">
-                <asp:Button ID="b20b" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
-            </span>
-            
-        </div>
-        <div style="nowrap; line-height: normal; height: 48px;  margin-top: 0px; vertical-align:middle; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: initial">
-            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Button ID="bMerge" runat="server" Text="Start" OnClick="bMerge_Click" />&nbsp;
-            </span>
-            <span style="width:20%; vertical-align:middle; text-align: left" align="left" valign="middle">
-                <asp:Button ID="bStop" runat="server" Text="Start" OnClick="bStop_Click" />&nbsp;                
-            </span>
-            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                 <asp:Button ID="bHelp" runat="server" Text="Start" OnClick="bHelp_Click" />&nbsp;
-            </span>
-            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="left" valign="middle">
-                <asp:Label ID="lPoints" runat="server" ToolTip="Points">Points</asp:Label>&nbsp;
-                <asp:TextBox ID="tPoints" runat="server" ToolTip="text message" Width="36" Enabled="false">0</asp:TextBox>
-            </span>
-            <span style="width:20%; vertical-align:middle; text-align: left; font-size: medium" align="right" valign="middle">
-                <asp:Label ID="lRest" runat="server" ToolTip="Rest">Rest</asp:Label>&nbsp;
-                <asp:TextBox ID="tRest" runat="server" ToolTip="text message" Width="36" Enabled="false">10</asp:TextBox>
-            </span>                
-        </div>                     
-        <hr style="visibility: collapse;"  />
-        <pre id="preOut" style="visibility: collapse;" runat="server">
+        <pre id="preOut" style="width: 100%; height: 12%; visibility: visible; font-size: large; scroll-behavior: auto;" runat="server">
         </pre>
-        <hr style="visibility: collapse;"  />
-        <div align="left" style="text-align: left; visibility: collapse; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+        <div align="left" style="text-align: left; width: 100%; height: 12%; visibility: collapse; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
             <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://@arkstar.work">darkstar.work</a>
-        </div>
+            <asp:Button ID="bHelp" runat="server" ToolTip="Help" Text="Help" OnClick="bHelp_Click" Enabled="false" Visible="false" />
+        </div>    
     </form>
 </body>
 </html>
