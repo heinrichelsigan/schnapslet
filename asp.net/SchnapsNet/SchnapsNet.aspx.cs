@@ -108,6 +108,7 @@ namespace SchnapsNet
             bContinue.Enabled = true;
 
             bHelp.Text = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
+            bHelp.ToolTip = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
 
             tRest.Enabled = false;
             tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);
@@ -146,9 +147,8 @@ namespace SchnapsNet
             }
         }
 
-        void showPlayersCards()
+        protected void showPlayersCards()
         {
-
             try
             {
                 im0.ImageUrl = aGame.gambler.hand[0].getPictureUrl().ToString();
@@ -189,7 +189,7 @@ namespace SchnapsNet
             imOut1.ImageUrl = playedOutCard1.getPictureUrl();
         }
 
-        void showAtouCard(SCHNAPSTATE gameState)
+        protected void showAtouCard(SCHNAPSTATE gameState)
         {
             try
             {
@@ -214,7 +214,7 @@ namespace SchnapsNet
             }
         }
 
-        void showTalonCard(SCHNAPSTATE gameState)
+        protected void showTalonCard(SCHNAPSTATE gameState)
         {
             try
             {
@@ -236,20 +236,8 @@ namespace SchnapsNet
             }            
         }
 
-        void showComputer20(Card computerPlayedOut, int stage)
+        protected void showComputer20(Card computerPlayedOut, int stage)
         {
-            //imCOut0.Visible = true;            
-            //if (imCOut0.Style["visibility"] != null)
-            //    imCOut0.Style["visibility"] = "visible";
-            //else
-            //    imCOut0.Style.Add("visibility", "visible");
-            
-            //imCOut1.Visible = true;
-            //if (imCOut1.Style["visibility"] != null)
-            //    imCOut1.Style["visibility"] = "visible";
-            //else
-            //    imCOut1.Style.Add("visibility", "visible");
-            
             for (int ci = 0; ci < aGame.computer.hand.Length; ci++)
             {
                 if (computerPlayedOut.CardValue == CARDVALUE.QUEEN &&

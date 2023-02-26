@@ -24,6 +24,24 @@ namespace SchnapsNet
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// bMerge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button bMerge;
+
+        /// <summary>
+        /// bStop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button bStop;
+
+        /// <summary>
         /// lPoints control.
         /// </summary>
         /// <remarks>
@@ -60,22 +78,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.TextBox tRest;
 
         /// <summary>
-        /// bMerge control.
+        /// bHelp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bMerge;
-
-        /// <summary>
-        /// bStop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bStop;
+        protected global::System.Web.UI.WebControls.Button bHelp;
 
         /// <summary>
         /// bContinue control.
@@ -211,14 +220,5 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
-
-        /// <summary>
-        /// bHelp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bHelp;
     }
 }
