@@ -99,7 +99,7 @@ namespace SchnapsNet.Models
         /// Card() default parameterless constructor 
         /// </summary>
         public Card()
-        {           
+        {
             this.intern = -1;
             this.name = "nocard";
             cardValue = CARDVALUE.NONE;

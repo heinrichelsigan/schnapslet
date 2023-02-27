@@ -29,6 +29,7 @@ namespace SchnapsNet.Models
 		public bool a20 = false;                 // can player announce 1st pair
 		public bool b20 = false;                 // can player announce 2nd pair
 		public bool bChange = false;             // can player change atou
+		public bool pSaid = false;				// said pair in game
 
 		public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
 		public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
@@ -70,7 +71,8 @@ namespace SchnapsNet.Models
 		{
 			// super();
 			globalAppSettings = (GlobalAppSettings)c.Session[Constants.APPNAME];
-			isGame = true;
+            pSaid = false;
+            isGame = true;
 			atouChanged = false;
 			playersTurn = true;
 			colorHitRule = false;

@@ -38,8 +38,7 @@
     int ccard = -1; // Computers Card played
     Card emptyTmpCard, playedOutCard0, playedOutCard1;
     volatile byte psaychange = 0;
-    bool pSaid = false; // Said something
-                        // static java.lang.Runtime runtime = null;
+        
     Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
     Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
     Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
@@ -390,7 +389,7 @@
         preOut.InnerText += "b20a_Click\r\n";
         try
         {
-            if ((pSaid) || (aGame.gambler.handpairs[0] == 'n'))
+            if ((aGame.pSaid) || (aGame.gambler.handpairs[0] == 'n'))
             {
                 return;
             }
@@ -408,7 +407,7 @@
                 sayPair = JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
             }
-            pSaid = true;
+            aGame.pSaid = true;
             resetButtons(0);
 
             string msg0 = string.Format(
@@ -441,7 +440,7 @@
         preOut.InnerText += "\r\n" + msg;
         try
         {
-            if ((pSaid) || (aGame.gambler.handpairs[1] == 'n'))
+            if ((aGame.pSaid) || (aGame.gambler.handpairs[1] == 'n'))
             {
                 return;
             }
@@ -459,7 +458,7 @@
                 sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
                     " " + aGame.printColor(aGame.said);
             }
-            pSaid = true;
+            aGame.pSaid = true;
             resetButtons(0);
 
             string msg0 = string.Format(JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
@@ -516,7 +515,7 @@
         {
             if (ic == 10)
             {
-                if (aGame.playersTurn && (!aGame.isClosed) && (!pSaid) && (aGame.index < 16))
+                if (aGame.playersTurn && (!aGame.isClosed) && (!aGame.pSaid) && (aGame.index < 16))
                 {
                     closeGame(true);
                 }
@@ -530,7 +529,7 @@
                 printMsg();
                 return;
             }
-            if (pSaid)
+            if (aGame.pSaid)
             {
                 int cardVal = CARDVALUE_Extensions.CardValue(aGame.gambler.hand[ic].CardValue);
                 if ((aGame.said == CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[ic].CardColor)) &&
@@ -989,7 +988,7 @@
                 this.errHandler(jbpvex);
             }
             showPlayersCards(aGame.schnapState);
-            pSaid = false;
+            aGame.pSaid = false;
             aGame.said = 'n';
             aGame.csaid = 'n';
         }
@@ -1005,7 +1004,7 @@
             // Wann kann man austauschen ?
             if (ixlevel < 1)
             {
-                if (aGame.atouIsChangable(aGame.gambler) && (!pSaid))
+                if (aGame.atouIsChangable(aGame.gambler) && (!aGame.pSaid))
                 {
                     psaychange += 1;
                     bChange.Enabled = true;
@@ -1198,7 +1197,7 @@
         tRest.Text = (19 - aGame.index).ToString();
         printMsg();
         // resetButtons(0);
-        pSaid = false;
+        aGame.pSaid = false;
         aGame.said = 'n';
         aGame.csaid = 'n';
 
