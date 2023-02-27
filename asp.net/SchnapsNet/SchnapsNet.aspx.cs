@@ -22,6 +22,7 @@ namespace SchnapsNet
         Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
         Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
         Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
+        Uri emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
         Uri notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
 
         Models.GlobalAppSettings globalVariable;
@@ -65,6 +66,7 @@ namespace SchnapsNet
                 backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
                 // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
                 talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
+                emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
             }
             catch (Exception)
             {
@@ -78,18 +80,17 @@ namespace SchnapsNet
             preOut.InnerText = "[pre][/pre]";
             // tMsg.Enabled = false;
 
-            im0.ImageUrl = notURL.ToString();
-            im1.ImageUrl = notURL.ToString();
-            im2.ImageUrl = notURL.ToString();
-            im3.ImageUrl = notURL.ToString();
-            im4.ImageUrl = notURL.ToString();
+            im0.ImageUrl = emptyURL.ToString();
+            im1.ImageUrl = emptyURL.ToString();
+            im2.ImageUrl = emptyURL.ToString();
+            im3.ImageUrl = emptyURL.ToString();
+            im4.ImageUrl = emptyURL.ToString();
 
             imOut0.ImageUrl = emptyURL.ToString();
             imOut1.ImageUrl = emptyURL.ToString();
-            imTalon.ImageUrl = talonURL.ToString();
+            imTalon.ImageUrl = emptyTalonUri.ToString();
             imTalon.Visible = true;
-            imAtou10.ImageUrl = notURL.ToString();
-
+            imAtou10.ImageUrl = emptyURL.ToString();
 
             bMerge.Text = JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);
             bStop.Text = JavaResReader.GetValueFromKey("bStop_text", Locale.TwoLetterISOLanguageName);
@@ -105,7 +106,7 @@ namespace SchnapsNet
             tPoints.Enabled = false;
             tPoints.Text = JavaResReader.GetValueFromKey("tPoints_text", Locale.TwoLetterISOLanguageName);
             bContinue.Text = JavaResReader.GetValueFromKey("bContinue_text", Locale.TwoLetterISOLanguageName);
-            bContinue.Enabled = true;
+            bContinue.Enabled = false;
 
             bHelp.Text = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
             bHelp.ToolTip = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
@@ -147,19 +148,30 @@ namespace SchnapsNet
             }
         }
 
-        protected void showPlayersCards()
+        protected void showPlayersCards(SCHNAPSTATE gameState)
         {
-            try
+            if (SCHNAPSTATE_Extensions.StateValue(gameState) < 16 && gameState != SCHNAPSTATE.GAME_START)
             {
-                im0.ImageUrl = aGame.gambler.hand[0].getPictureUrl().ToString();
-                im1.ImageUrl = aGame.gambler.hand[1].getPictureUrl().ToString();
-                im2.ImageUrl = aGame.gambler.hand[2].getPictureUrl().ToString();
-                im3.ImageUrl = aGame.gambler.hand[3].getPictureUrl().ToString();
-                im4.ImageUrl = aGame.gambler.hand[4].getPictureUrl().ToString();
+                try
+                {
+                    im0.ImageUrl = aGame.gambler.hand[0].getPictureUrl().ToString();
+                    im1.ImageUrl = aGame.gambler.hand[1].getPictureUrl().ToString();
+                    im2.ImageUrl = aGame.gambler.hand[2].getPictureUrl().ToString();
+                    im3.ImageUrl = aGame.gambler.hand[3].getPictureUrl().ToString();
+                    im4.ImageUrl = aGame.gambler.hand[4].getPictureUrl().ToString();
+                }
+                catch (Exception exp)
+                {
+                    this.errHandler(exp);
+                }
             }
-            catch (Exception exp)
+            else
             {
-                this.errHandler(exp);
+                im0.ImageUrl = emptyURL.ToString();
+                im1.ImageUrl = emptyURL.ToString();
+                im2.ImageUrl = emptyURL.ToString();
+                im3.ImageUrl = emptyURL.ToString();
+                im4.ImageUrl = emptyURL.ToString();
             }
         }
 
@@ -189,14 +201,34 @@ namespace SchnapsNet
             imOut1.ImageUrl = playedOutCard1.getPictureUrl();
         }
 
+        protected void ShowMergeAnim(SCHNAPSTATE gameState)
+        {
+            try
+            {
+                if (SCHNAPSTATE_Extensions.StateValue(gameState) >= 16 || gameState == SCHNAPSTATE.GAME_START)
+                {
+                    ImageMerge.Visible = true;
+                }
+                else
+                {
+                    ImageMerge.Visible = false;
+                }
+            }
+            catch (Exception exMergeCards)
+            {
+                this.errHandler(exMergeCards);
+            }
+        }
+
         protected void showAtouCard(SCHNAPSTATE gameState)
         {
             try
             {
                 if (SCHNAPSTATE_Extensions.StateValue(gameState) < 6)
                 {
-                    if (gameState == SCHNAPSTATE.GAME_CLOSED ||
-                            gameState == SCHNAPSTATE.GAME_START)
+                    if (gameState == SCHNAPSTATE.GAME_START)
+                        imAtou10.ImageUrl = emptyURL.ToString(); 
+                    else if (gameState == SCHNAPSTATE.GAME_CLOSED)
                         imAtou10.ImageUrl = notURL.ToString();
                     else
                         imAtou10.ImageUrl = aGame.set[19].getPictureUrl().ToString();
@@ -221,7 +253,10 @@ namespace SchnapsNet
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal < 6)
                 {
-                    imTalon.ImageUrl = talonURL.ToString();
+                    if (gameState == SCHNAPSTATE.GAME_START)
+                        imTalon.ImageUrl = emptyTalonUri.ToString();
+                    else
+                        imTalon.ImageUrl = talonURL.ToString();
                     imTalon.Visible = true;
                 }
                 else
@@ -316,7 +351,7 @@ namespace SchnapsNet
 
             bChange.Enabled = false;
             showAtouCard(aGame.schnapState);
-            showPlayersCards();
+            showPlayersCards(aGame.schnapState);
             GameTurn(1);
         }
 
@@ -515,7 +550,7 @@ namespace SchnapsNet
                             aGame.gambler.hand[tmpint].getName());
                         aGame.InsertMsg(msgBestWouldBe);
                         printMsg();
-                        showPlayersCards();
+                        showPlayersCards(aGame.schnapState);
                         return;
                     }
                 }
@@ -620,6 +655,7 @@ namespace SchnapsNet
 
                 showAtouCard(SCHNAPSTATE.GAME_START);
                 showTalonCard(SCHNAPSTATE.GAME_START);
+                ShowMergeAnim(SCHNAPSTATE.GAME_START);
             }
 
             if (level > 2)
@@ -645,12 +681,16 @@ namespace SchnapsNet
         }
 
 
-        void stopGame(int levela)
+        void stopGame(int levela, string endMessage = null)
         {
+            if (!string.IsNullOrEmpty(endMessage))
+            {
+                setTextMessage(endMessage);
+            }
             bStop.Enabled = false;
             aGame.stopGame();
             resetButtons(levela);
-            showPlayersCards();
+            showPlayersCards(aGame.schnapState);
             aGame.Dispose();
             // java.lang.System.runFinalization();
             // java.lang.System.gc();
@@ -675,6 +715,7 @@ namespace SchnapsNet
             tPoints.Text = "" + aGame.gambler.points;
             showAtouCard(aGame.schnapState);
             showTalonCard(aGame.schnapState);
+            ShowMergeAnim(aGame.schnapState);
             bStop.Enabled = true;
 
             globalVariable.Game = aGame;
@@ -719,6 +760,7 @@ namespace SchnapsNet
 
             showTalonCard(aGame.schnapState);
             showAtouCard(aGame.schnapState);
+            ShowMergeAnim(aGame.schnapState);
 
             globalVariable.Game = aGame;
             if (who)
@@ -726,19 +768,7 @@ namespace SchnapsNet
                 GameTurn(0);
             }
         }
-
-        /// <summary>
-        /// tsEnds - method for ending the current game
-        /// </summary>
-        /// <param name="endMessage">ending game message</param>
-        /// <param name="ix">int level</param>
-        void tsEnds(String endMessage, int ix)
-        {
-            setTextMessage(endMessage);
-            stopGame(ix);
-            return;
-        }
-
+        
         protected void twentyEnough(bool who)
         {
             int xj = 0;
@@ -780,8 +810,7 @@ namespace SchnapsNet
                 string sEnds11 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.gambler.points.ToString());
-                tsEnds(sEnds11, 2);
-
+                stopGame(2, sEnds11);
             }
             else
             {
@@ -819,8 +848,8 @@ namespace SchnapsNet
                 string sEnds12 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.computer.points.ToString());
-                tsEnds(sEnds12, 2);
-                // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
+                stopGame(2, sEnds12);                
+                // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
             }
             globalVariable.Game = aGame;
             return;
@@ -872,7 +901,7 @@ namespace SchnapsNet
                     this.errHandler(jbpvex);
                 }
                 string anEnPairMsg = andEnough + " Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !";
-                tsEnds(andEnough, 1);
+                stopGame(1, andEnough);
             }
             else
             {
@@ -916,7 +945,7 @@ namespace SchnapsNet
                 }
                 printMsg();
                 string msg40 = andEnough + "Computer hat gewonnen mit " + aGame.computer.points + " Punkten !";
-                tsEnds(msg40, 1);
+                stopGame(1, msg40);                
             }
             return;
         }
@@ -938,7 +967,7 @@ namespace SchnapsNet
                 {
                     this.errHandler(jbpvex);
                 }
-                showPlayersCards();
+                showPlayersCards(aGame.schnapState);
                 pSaid = false;
                 aGame.said = 'n';
                 aGame.csaid = 'n';
@@ -1106,7 +1135,7 @@ namespace SchnapsNet
                 {
                     globalVariable.Game = aGame;
                     string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    tsEnds(sEnds0, 1);
+                    stopGame(1, sEnds0);
                     return;
                 }
             }
@@ -1122,7 +1151,7 @@ namespace SchnapsNet
                 {
                     globalVariable.Game = aGame;
                     string sEnds1 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    tsEnds(sEnds1, 1);
+                    stopGame(1, sEnds1);
                     return;
                 }
             }
@@ -1135,6 +1164,7 @@ namespace SchnapsNet
                 {
                     showTalonCard(aGame.schnapState);
                     showAtouCard(aGame.schnapState);
+                    ShowMergeAnim(aGame.schnapState);
                 }
                 catch (Exception jbpvex)
                 {
@@ -1159,7 +1189,7 @@ namespace SchnapsNet
                     string sEnds3 = string.Format(
                         JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                         aGame.gambler.points.ToString());
-                    tsEnds(sEnds3, 1);
+                    stopGame(1, sEnds3);
                     return;
                 }
             }
@@ -1171,7 +1201,7 @@ namespace SchnapsNet
                     string sEnds4 = string.Format(
                        JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                        aGame.computer.points.ToString());
-                    tsEnds(sEnds4, 1);
+                    stopGame(1, sEnds4);                    
                     return;
                 }
             }
@@ -1184,7 +1214,7 @@ namespace SchnapsNet
                     {
                         globalVariable.Game = aGame;
                         string sEnds6 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                        tsEnds(sEnds6, 1);
+                        stopGame(1, sEnds6);
                     }
                     try
                     {
@@ -1192,7 +1222,7 @@ namespace SchnapsNet
                         {
                             globalVariable.Game = aGame;
                             string sEnds7 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                            tsEnds(sEnds7, 1);
+                            stopGame(1, sEnds7);
                         }
                     }
                     catch (Exception jbpvex)
@@ -1207,13 +1237,13 @@ namespace SchnapsNet
                     {
                         globalVariable.Game = aGame;
                         string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
-                        tsEnds(sEnds8, 1);
+                        stopGame(1, sEnds8);
                     }
                     else
                     {
                         globalVariable.Game = aGame;
                         string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
-                        tsEnds(sEnds9, 1);
+                        stopGame(1, sEnds9);
                     }
                     return;
                 }
