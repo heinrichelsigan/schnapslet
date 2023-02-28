@@ -55,6 +55,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.HashMap;
 import java.util.Locale;
 
+import at.area23.schnapslet.constenum.CARDCOLOR;
 import at.area23.schnapslet.constenum.CARDVALUE;
 import at.area23.schnapslet.constenum.DIALOGS;
 import at.area23.schnapslet.constenum.PLAYEROPTIONS;
@@ -354,7 +355,8 @@ public class MainActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
-        menuResetCheckboxes();
+        Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
+        menuResetCheckboxes(mySubMenu);
         setCardDeckFromSystemLocale();
         return true;
     }
@@ -374,7 +376,7 @@ public class MainActivity
         }
         if (mItemId == R.id.action_restart) {
             if (aGame != null && aGame.isGame)
-                stopGame(3);
+                stopGame(3, getString(R.string.ending_game));
             return true;
         }
         if (mItemId == R.id.action_help) {
@@ -409,7 +411,8 @@ public class MainActivity
     @Override
     protected boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
-            menuResetCheckboxes();
+            Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
+            menuResetCheckboxes(mySubMenu);
             item.setChecked(true);
         }
         if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
@@ -478,11 +481,11 @@ public class MainActivity
         imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
         imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
         imOut0 = (ImageView) findViewById(R.id.imOut0);
-        imOut0.setOnClickListener(argß -> imOut_Click(argß));
+        imOut0.setOnClickListener(arg0 -> imOut_Click(arg0));
         imOut1 = (ImageView) findViewById(R.id.imOut1);
-        imOut1.setOnClickListener(argß -> imOut_Click(argß));
+        imOut1.setOnClickListener(arg0 -> imOut_Click(arg0));
         imMerge = (ImageView) findViewById(R.id.imMerge);
-        imMerge.setOnClickListener(argß -> imMerge_Click(argß));
+        imMerge.setOnClickListener(arg0 -> imMerge_Click(arg0));
     }
 
     /**
@@ -492,16 +495,18 @@ public class MainActivity
     public void imOut_Click(View arg0) {
         if (arg0 == null || arg0.getVisibility() == View.INVISIBLE)
             return;
-        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut0 || arg0.getTag() == "imOut0_tag")) {
-            if (!bContinue.isEnabled())
-                stopGame(3);
-        }
+        // TODO: What shell we do with the drunken sailor?
+        /*
+        if (!bContinue.isEnabled()) {
+            if (((playedOutCard0 == null || playedOutCard0.getCardColor() == CARDCOLOR.EMPTY) &&
+                    (arg0.getId() == R.id.imOut0 || arg0.getTag() == "imOut0_tag")) ||
+                ((playedOutCard1 == null || playedOutCard1.getCardColor() == CARDCOLOR.EMPTY) &&
+                        (arg0.getId() == R.id.imOut1 || arg0.getTag() == "imOut1_tag"))) {
 
-        if ((playedOutCard0 == null) && (arg0.getId() == R.id.imOut1 || arg0.getTag() == "imOut1_tag")) {
-            stopGame(3);
-            if (!bContinue.isEnabled())
-                stopGame(3);
+                stopGame(3, getString(R.string.ending_game));
+            }
         }
+         */
     }
 
     /**
@@ -1474,8 +1479,14 @@ public class MainActivity
     /**
      * stop current game
      * @param levela level of stop
+     * @param stopMessage ending game message
      */
-    protected void stopGame(int levela) {
+    protected void stopGame(int levela, String stopMessage) {
+
+        if (stopMessage != null && stopMessage.length() > 0) {
+            setTextMessage(stopMessage);
+            saySchnapser(SCHNAPSOUNDS.NONE, stopMessage);
+        }
 
         playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
 
@@ -1508,17 +1519,6 @@ public class MainActivity
         }
     }
 
-    /**
-     * tsEnds method for ending the current game
-     * @param endMessage ending game message
-     * @param ix level
-     */
-    private void tsEnds(String endMessage, int ix) {
-        setTextMessage(endMessage);
-        saySchnapser(SCHNAPSOUNDS.NONE, endMessage);
-        globalVariable.setGame(aGame);
-        stopGame(ix);
-    }
 
     /**
      * close that game
@@ -1690,8 +1690,7 @@ public class MainActivity
             }
             aGame.isReady = true;
 
-            if (aGame != null)
-                aGame.shouldContinue = false;
+            aGame.shouldContinue = false;
             toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
                 getString(R.string.bContinue_text));
 
@@ -1734,7 +1733,7 @@ public class MainActivity
 
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.computer_closing_failed), 1);
+                stopGame(1, getString(R.string.computer_closing_failed));
                 return;
             }
         } else {
@@ -1744,7 +1743,7 @@ public class MainActivity
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.closing_failed), 1);
+                stopGame(1, getString(R.string.closing_failed));
                 return;
             }
         }
@@ -1772,13 +1771,13 @@ public class MainActivity
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
                 globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 1);
+                stopGame(1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
                 globalVariable.setGame(aGame);
-                tsEnds(getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)), 1);
+                stopGame(1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
                 return;
             }
         }
@@ -1787,12 +1786,12 @@ public class MainActivity
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
                     globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.closing_failed), 1);
+                    stopGame(1, getString(R.string.closing_failed));
                 }
                 try {
                     if (aGame.computer.hasClosed) {
                         globalVariable.setGame(aGame);
-                        tsEnds(getString(R.string.computer_closing_failed), 1);
+                        stopGame(1, getString(R.string.computer_closing_failed));
                     }
                 } catch (Exception jbpvex) {
                     this.errHandler(jbpvex);
@@ -1801,17 +1800,16 @@ public class MainActivity
             } else {
                 if (tmppoints > 0) {
                     globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.last_hit_you_have_won), 1);
+                    stopGame(1, getString(R.string.last_hit_you_have_won));
                 } else {
                     globalVariable.setGame(aGame);
-                    tsEnds(getString(R.string.computer_wins_last_hit), 1);
+                    stopGame(1, getString(R.string.computer_wins_last_hit));
                 }
                 return;
             }
         }
 
-        if (aGame != null)
-            aGame.shouldContinue = true;
+        aGame.shouldContinue = true;
         toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
                 getString(R.string.bContinue_text));
         imTalon.setOnClickListener(this::bContinue_Clicked);
@@ -1851,7 +1849,7 @@ public class MainActivity
                 this.errHandler(jbpvex);
             }
 
-            tsEnds(andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)), 2);
+            stopGame(2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
 
         } else {
             if (aGame.csaid == aGame.atouInGame()) {
@@ -1878,8 +1876,8 @@ public class MainActivity
 
             printMes();
             String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
-            tsEnds(tsEndMes1, 2);
-            // tsEnds(new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"), 1);
+            stopGame(2, tsEndMes1);
+            // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
         }
         globalVariable.setGame(aGame);
         return;

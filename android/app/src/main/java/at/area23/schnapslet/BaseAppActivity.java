@@ -153,7 +153,8 @@ public class BaseAppActivity extends AppCompatActivity {
 
             if (menuId >= 0) {
                 getMenuInflater().inflate(menuId, menu);
-                menuResetCheckboxes();
+                Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
+                menuResetCheckboxes(mySubMenu);
                 return true;
             }
         } catch (Exception menuEx) {
@@ -174,7 +175,7 @@ public class BaseAppActivity extends AppCompatActivity {
         int mItemId = (item != null) ? item.getItemId() : -1;
         if (mItemId >= 0) {
             // reset now all checkboxes for language menu items
-            menuResetCheckboxes();
+            // menuResetCheckboxes(myMenu);
 
             if (mItemId == R.id.action_default_cards) {
                 //Sets application locale in GlobalAppSettings from default app locale
@@ -215,13 +216,23 @@ public class BaseAppActivity extends AppCompatActivity {
 
     /**
      * reset menu checkboxes from all checkable menu items
+     * @param recusriveMenu   - menu or submenu to enter recursion
      */
-    protected void menuResetCheckboxes() {
-        if (myMenu != null) {
-            for (int i = 0; i < myMenu.size(); i++) {
-                MenuItem mItem = myMenu.getItem(i);
-                if (mItem.isCheckable() && mItem.isChecked())
-                    mItem.setChecked(false);
+    protected void menuResetCheckboxes(Menu recusriveMenu) {
+        if (recusriveMenu == null) {
+            recusriveMenu = myMenu;
+        }
+        if (recusriveMenu != null) {
+            for (int i = 0; i < recusriveMenu.size(); i++) {
+                MenuItem mItem = recusriveMenu.getItem(i);
+                if (mItem != null) {
+                    if (mItem.isCheckable() && mItem.isChecked())
+                        mItem.setChecked(false);
+                    if (mItem.hasSubMenu()) {
+                        Menu subMenu = mItem.getSubMenu();
+                        menuResetCheckboxes(subMenu);
+                    }
+                }
             }
         }
     }
@@ -252,7 +263,8 @@ public class BaseAppActivity extends AppCompatActivity {
      */
     protected boolean setLocale(Locale aLocale, MenuItem item) {
         if (item != null) {
-            menuResetCheckboxes();
+            Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
+            menuResetCheckboxes(mySubMenu);
             item.setChecked(true);
         }
         if (!globalVariable.getLocale().getLanguage().equals(aLocale.getLanguage())) {
@@ -331,21 +343,15 @@ public class BaseAppActivity extends AppCompatActivity {
                 final MediaPlayer mMediaPlayer = new MediaPlayer();
                 mMediaPlayer.setVolume(1.0f, 1.0f);
                 mMediaPlayer.setLooping(false);
-                mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        // Toast.makeText(getApplicationContext(),
-                        //         "start playing sound", Toast.LENGTH_SHORT).show();
-                        mMediaPlayer.start();
-                    }
+                mMediaPlayer.setOnPreparedListener(mp -> {
+                    // Toast.makeText(getApplicationContext(),
+                    //         "start playing sound", Toast.LENGTH_SHORT).show();
+                    mMediaPlayer.start();
                 });
-                mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                    @Override
-                    public boolean onError(MediaPlayer mp, int what, int extra) {
-                        // Toast.makeText(getApplicationContext(), String.format(Locale.US,
-                        //         "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
-                        return false;
-                    }
+                mMediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    // Toast.makeText(getApplicationContext(), String.format(Locale.US,
+                    //         "Media error what=%d extra=%d", what, extra), Toast.LENGTH_LONG).show();
+                    return false;
                 });
 
                 // 2. Load using content provider, passing file descriptor.
@@ -389,23 +395,17 @@ public class BaseAppActivity extends AppCompatActivity {
         playRawSound(resID, rawSoundName);
     }
 
+    // @SuppressLint("InlinedApi")
     /**
      * delayPlayScreenshot = new Runnable() -> { playSound("sound_screenshot"); }
      */
-    protected final Runnable delayPlayScreenshot = new Runnable() {
-        @Override
-        // @SuppressLint("InlinedApi")
-        public void run() { playSound("sound_screenshot"); }
-    };
+    protected final Runnable delayPlayScreenshot = () -> playSound("sound_screenshot");
 
+    // @SuppressLint("InlinedApi")
     /**
      * delayPlayKissClickClick = new Runnable() -> { playSound("sound_kissclickclick"); }
      */
-    protected final Runnable delayPlayKissClickClick = new Runnable() {
-        @Override
-        // @SuppressLint("InlinedApi")
-        public void run() { playSound("sound_kissclickclick"); }
-    };
+    protected final Runnable delayPlayKissClickClick = () -> playSound("sound_kissclickclick");
 
     /**
      * speak - say some text
@@ -418,7 +418,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param callbackId String - speaker callback identifier as String
      */
     public void speak(String text, Locale locLang, float rate, float pitch, float volume, String callbackId) {
-        boolean soundOn = (globalVariable != null) ? globalVariable.getSound() : true;
+        boolean soundOn = globalVariable == null || globalVariable.getSound();
         text2Speach.stop();
 
         if (soundOn) {
@@ -501,6 +501,9 @@ public class BaseAppActivity extends AppCompatActivity {
      * */
     public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) {
 
+        if (anytTextView == null) {
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
+        }
         if (anytTextView != null) {
 
             if (anytTextView.getVisibility() != View.VISIBLE)
@@ -527,11 +530,7 @@ public class BaseAppActivity extends AppCompatActivity {
                 anytTextView.setTypeface(anytTextView.getTypeface(), Typeface.ITALIC);
                 anytTextView.setBackgroundColor(getColor(R.color.colorBackButton));
             }
-
-            return ;
         }
-        else
-            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
     }
 
     /**
@@ -546,6 +545,9 @@ public class BaseAppActivity extends AppCompatActivity {
      * */
     public void toggleEnabled(Button aButton, boolean enabled, String text2Set, String toolTip) {
 
+        if (aButton == null) {
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
+        }
         if (aButton != null) {
 
             if (aButton.getVisibility() != View.VISIBLE)
@@ -571,11 +573,7 @@ public class BaseAppActivity extends AppCompatActivity {
                 aButton.setTypeface(aButton.getTypeface(), Typeface.ITALIC);
                 aButton.setBackgroundColor(getColor(R.color.colorBackButton));
             }
-
-            return ;
         }
-        else
-            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_text_view));
     }
 
     /**
@@ -598,22 +596,21 @@ public class BaseAppActivity extends AppCompatActivity {
    * @throws NullPointerException when anyView is null
    */
     public void toggleEnabled(View anyView, boolean enabled) {
-        if (anyView != null) {
-            if (anyView instanceof TextView)
-                toggleEnabled(((TextView) anyView), enabled, null);
-            else if (anyView instanceof Button)
-                toggleEnabled(((Button) anyView), enabled, null, null);
-            else {
-                anyView.setEnabled(enabled);
-                if (enabled)
-                    anyView.setBackgroundColor(getColor(R.color.colorBackLight));
-                else
-                    anyView.setBackgroundColor(getColor(R.color.colorBackButton));
-            }
-            return ;
-        }
-        else
+        if (anyView == null) {
             throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_any_view));
+        }
+
+        if (anyView instanceof TextView)
+            toggleEnabled(((TextView) anyView), enabled, null);
+        else if (anyView instanceof Button)
+            toggleEnabled(((Button) anyView), enabled, null, null);
+        else {
+            anyView.setEnabled(enabled);
+            if (enabled)
+                anyView.setBackgroundColor(getColor(R.color.colorBackLight));
+            else
+                anyView.setBackgroundColor(getColor(R.color.colorBackButton));
+        }
     }
 
     /**
@@ -625,12 +622,12 @@ public class BaseAppActivity extends AppCompatActivity {
      * @throws NullPointerException when aMenuItem is null
      */
     public void toggleMenuItem(MenuItem aMenuItem, boolean enabled) {
+        if (aMenuItem == null) {
+            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_menu_item));
+        }
         if (aMenuItem != null) {
             aMenuItem.setEnabled(enabled);
-            return;
         }
-        else
-            throw new NullPointerException(getString(R.string.msg_null_pointer_toggle_menu_item));
     }
 
     /**
