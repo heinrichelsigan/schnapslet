@@ -1323,10 +1323,10 @@
 
 <body>
     <form id="form1" runat="server">        
-        <div style="line-height: normal; min-height: 60px; min-width: 400px;  height: 8%; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: auto">                
-            <span style="min-height: 60px; min-width: 400px; height:8%; width:100%; margin: 0px 0px 0px 0px; text-align: right; vertical-align:top; font-size: larger" align="right" valign="top">
+        <div style="line-height: normal; min-height: 40px; min-width: 400px;  height: 8%; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: auto">                
+            <span style="min-height: 40px; min-width: 400px; height:8%; width:100%; margin: 0px 0px 0px 0px; text-align: right; vertical-align:top; font-size: larger" align="right" valign="top">
                 <asp:Button ID="bMerge" Width="12%" Height="8%"  runat="server" Text="Start" style="min-height: 40px; min-width: 60px; font-size: xx-large" OnClick="bMerge_Click" />
-                <asp:Button ID="bStop" Width="12%"  Height="8%"  runat="server" Text="Stop" OnClick="bStop_Click" style="min-height: 40px; min-width: 60px; font-size: xx-large; vertical-align: top; tab-size: inherit" />  
+                <asp:Button ID="bStop" Width="12%"  Height="8%"  runat="server" Text="Stop" OnClick="bStop_Click" style="min-height: 40px; min-width: 60px; font-size: xx-large; tab-size: inherit" />  
                 <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" style="min-height: 40px; min-width: 40px; font-size: xx-large;">Points</asp:Label>
                 <asp:TextBox ID="tPoints" Width="12%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 60px; font-size: xx-large" Enabled="false">0</asp:TextBox>
                 <asp:Label ID="lRest" Width="8%" Height="8%"  runat="server" Visible="false" ToolTip="Rest">Rest</asp:Label>
@@ -1334,18 +1334,18 @@
                 <asp:Button ID="bHelp" runat="server" ToolTip="Help" Width="12%"  Height="8%" Text="Help" style="min-height: 40px; min-width: 60px; font-size: xx-large" OnClick="bHelp_Click" />
             </span>            
         </div>
-        <div style="nowrap; line-height: normal; min-height: 60px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">
-            <span style="min-height: 60px; min-width: 80px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: xx-large" align="left" valign="middle">
-                <asp:Button ID="bContinue" Width="20%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 60px; min-width: 80px; font-size: xx-large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;                
+        <div style="nowrap; line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">
+            <span style="min-height: 40px; min-width: 60px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bContinue" Width="20%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 60px; font-size: x-large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 80px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="bChange" Width="20%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 80px; font-size: xx-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bChange" Width="20%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 60px; font-size: x-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 80px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="b20a" Width="20%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 80px; font-size: xx-large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="b20a" Width="20%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 60px; font-size: x-large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 80px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
-                <asp:Button ID="b20b" Width="20%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 80px; font-size: xx-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:20%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
+                <asp:Button ID="b20b" Width="20%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 60px; font-size: x-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
             </span>            
         </div>
         <div style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; table-layout: fixed; inset-block-start: auto">
