@@ -48,6 +48,8 @@ https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outp
 https://area23.at/mono/SchnapsNet/
 > schnapslet/asp.net
 
+YouTube Video: https://youtu.be/izqcm7XdHYY
+
 ## Schnapslet Schnapsen Wiki 
 
 Wiki files are located at
