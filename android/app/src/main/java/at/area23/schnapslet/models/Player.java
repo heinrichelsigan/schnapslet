@@ -18,6 +18,8 @@
 package at.area23.schnapslet.models;
 
 import java.lang.*;
+import java.util.HashMap;
+
 import android.content.res.Resources;
 import android.content.Context;
 
@@ -43,6 +45,10 @@ public class Player {
     public final char[] handpairs = {'n', 'n'};
     final int[] colorHitArray = {0, 0, 0, 0, 0};
     public int playerOptions = 0;
+
+    public int stitchCount = 0;
+    public HashMap<Integer, TwoCards> cardStitchs = new HashMap<>();
+
     final Resources r;
     final Context context;
 
@@ -78,6 +84,9 @@ public class Player {
         int i;
         for (i = 0; i < 5; i++)
             hand[i] = null;
+
+        stitchCount = 0;
+        cardStitchs.clear();
     }
 
     /**
@@ -85,10 +94,10 @@ public class Player {
      * @return concatenate String of all players hand cards
      */
     public String showHand() {
-        String retVal = "";
+        StringBuilder retVal = new StringBuilder();
         for (int j = 0; j < 5; j++)
-            retVal = retVal + hand[j].getName() + " ";
-        return retVal;
+            retVal.append(hand[j].getName()).append(" ");
+        return retVal.toString();
     }
 
     /**

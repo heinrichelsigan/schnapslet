@@ -70,10 +70,11 @@ import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
 public class BaseAppActivity extends AppCompatActivity {
 
     protected volatile boolean started = false;
-    protected volatile int startedTimes = 0;
+    protected volatile int ticks = 0;
     protected volatile int errNum = 0;
     protected volatile int startedDrag = 0;
     protected volatile int finishedDrop = 0;
+    protected volatile Integer syncLocker  = null;
     protected String tmp = "";
 
     protected Menu myMenu;
@@ -96,12 +97,9 @@ public class BaseAppActivity extends AppCompatActivity {
             rootView = getWindow().getDecorView().getRootView();
         rootView.setDrawingCacheEnabled(false);
 
-        text2Speach = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    text2Speach.setLanguage(globalVariable.getSystemLLocale());
-                }
+        text2Speach = new TextToSpeech(getApplicationContext(), status -> {
+            if (status != TextToSpeech.ERROR) {
+                text2Speach.setLanguage(globalVariable.getSystemLLocale());
             }
         });
     }
@@ -695,7 +693,7 @@ public class BaseAppActivity extends AppCompatActivity {
             synchronized (this) {
                 ++errNum;
             }
-            CharSequence text = "CRITICAL ERROR #" + String.valueOf((errNum)) + " " + myErr.getMessage() + "\nMessage: " + myErr.getLocalizedMessage() + "\n";
+            CharSequence text = "CRITICAL ERROR #" + errNum + " " + myErr.getMessage() + "\nMessage: " + myErr.getLocalizedMessage() + "\n";
             if (showMessage)
                 showMessage(text);
             myErr.printStackTrace();

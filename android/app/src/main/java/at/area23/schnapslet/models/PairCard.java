@@ -24,13 +24,12 @@ import at.area23.schnapslet.constenum.CARDCOLOR;
  *
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
-public class PairCard {
+public class PairCard extends  TwoCards {
     
 	boolean atou = false;
 	CARDCOLOR cardColor = CARDCOLOR.NONE; // Color of Pair
 	char color = 'n';   // 4 colors and 'n' for unitialized
     int pairValue = 20;      // 5 values and 0 for unitialized
-	final Card[] pairs = new Card[2]; // the 2 Cards, that represents the pair
 
     /**
      * Constructor PairCard()
@@ -57,8 +56,8 @@ public class PairCard {
 		if (cardColor == CARDCOLOR.CLUBS) queenNumValue += 15;
 		int kingNumValue = queenNumValue + 1;
 
-		pairs[0] = new Card(queenNumValue, atouColor.getChar());
-		pairs[1] = new Card(kingNumValue, atouColor.getChar());
+		cards[0] = new Card(queenNumValue, atouColor.getChar());
+		cards[1] = new Card(kingNumValue, atouColor.getChar());
 
 		this.pairValue = 20;
 		if (cardColor.getChar() == atouColor.getChar()) {
@@ -73,11 +72,18 @@ public class PairCard {
 	 * @param kingCard - the King in that pair
 	 */
 	public PairCard(Card queenCard, Card kingCard) {
-		this();
+		super(queenCard, kingCard);
+		if (cardSumValue != 7) {
+			throw new RuntimeException("Sum of queen + king in pair must be 7!");
+		}
 		this.cardColor = queenCard.cardColor;
 		this.color = (char)queenCard.cardColor.getChar();
-		pairs[0] = new Card(queenCard);
-		pairs[1] = new Card(kingCard);
+		char kingColor = (char)kingCard.cardColor.getChar();
+		if (kingColor != this.color) {
+			throw new RuntimeException("Queen " + color + " & King " + kingColor + " must have same colors!");
+		}
+		cards[0] = new Card(queenCard);
+		cards[1] = new Card(kingCard);
 		if (queenCard.isAtou()) {
 			this.atou = true;
 			this.pairValue = 40;

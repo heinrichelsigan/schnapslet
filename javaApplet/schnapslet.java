@@ -552,7 +552,9 @@ public class schnapslet extends Applet implements Runnable
 				}
             } catch (java.beans.PropertyVetoException jbpvex) {
                 this.errHandler(jbpvex);
-            }            
+            } catch (java.net.MalformedURLException malformUrlExc) {
+				this.errHandler(malformUrlExc);
+			}    
             tsEnds(new String(andEnough+" Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !"), 1);       
         } else {
             try {
@@ -583,7 +585,9 @@ public class schnapslet extends Applet implements Runnable
 				}
             } catch (java.beans.PropertyVetoException jbpvex) {
                 this.errHandler(jbpvex);
-            }                        
+            } catch (java.net.MalformedURLException malformUrlExc) {
+				this.errHandler(malformUrlExc);
+			}                       
             printMes();
             tsEnds(new String(andEnough+"Computer hatgewonnen mit " + aGame.computer.points + " Punkten !"), 1);
         }

@@ -52,6 +52,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -63,6 +65,8 @@ import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
 import at.area23.schnapslet.constenum.SCHNAPSTATE;
 import at.area23.schnapslet.models.Card;
 import at.area23.schnapslet.models.Game;
+import at.area23.schnapslet.models.PairCard;
+import at.area23.schnapslet.models.TwoCards;
 
 /**
  * MainActivity class implements the MainActivity.
@@ -86,18 +90,26 @@ public class MainActivity
 
     Button b20a, b20b,  bChange, bContinue; // bStart, bStop, bHelp;
     ImageView im0,im1,im2, im3, im4,
-            imgCOut0, imgCOut1, imgCOut2, imgCOut3, imgCOut4,
+            imgCOut0, imgCOut1,
+            imgComputerStitch0a, imgComputerStitch0b,
+            imgPlayerStitch0a, imgPlayerStitch0b,
+            imgPlayerStitch1a, imgPlayerStitch1b,
+            imgPlayerStitch2a, imgPlayerStitch2b,
             imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg;
     ConstraintLayout constraintRoot;
-    RelativeLayout relativeTop;
+    RelativeLayout relativeTop, relativeLayoutStitches;
     // Menu myMenu;
 
     AnimationDrawable frameAnimation;
     AnimatedImageDrawable animatedGif;
 
     LinearLayout playerCard0, playerCard1, playerCard2, playerCard3, playerCard4,
-            linLayoutCard0, linLayoutCard1, linLayoutCard2, linLayoutCard3, linLayoutCard4,
+            linLayoutCard0, linLayoutCard1,
+            linLayoutComputerStitch0a, linLayoutComputerStitch0b,
+            linLayoutPlayerStitch0a, linLayoutPlayerStitch0b,
+            linLayoutPlayerStitch1a, linLayoutPlayerStitch1b,
+            linLayoutPlayerStitch2a, linLayoutPlayerStitch2b,
             playedCard0, playedCard1, atouCard, talonCard;
 
     volatile Card touchedCard, draggedCard, playedOutCard0, playedOutCard1;
@@ -127,21 +139,26 @@ public class MainActivity
         @Override
         // @SuppressLint("InlinedApi")
         public void run() {
-            aStage = (aStage < 0) ? 4 : aStage;
+            syncLocker = Integer.valueOf(ticks);
+            synchronized (syncLocker) {
+                ticks++;
+                aStage = (aStage < 0) ? 1 : aStage;
+            }
             showComputer20(playedOutCard1, aStage);
         }
     };
 
+    // @SuppressLint("InlinedApi")
     /**
      * runMergeByHand new Runnable() -> { mergeByHand(mStage); }
      */
-    private final Runnable runMergeByHand = new Runnable() {
-        @Override
-        // @SuppressLint("InlinedApi")
-        public void run() {
+    private final Runnable runMergeByHand = () -> {
+        syncLocker = Integer.valueOf(ticks);
+        synchronized (syncLocker) {
+            ticks++;
             mStage = (mStage < 1 || mStage > 11) ? 1 : mStage;
-            mergeByHand(mStage);
         }
+        mergeByHand(mStage);
     };
 
 
@@ -190,16 +207,28 @@ public class MainActivity
         relativeTop = (RelativeLayout) findViewById(R.id.relativeTop);
         relativeTop.setDrawingCacheEnabled(false);
 
+        relativeLayoutStitches = (RelativeLayout)findViewById(R.id.relativeLayoutStitches);
         linLayoutCard0 = (LinearLayout) findViewById(R.id.linLayoutCard0);
         linLayoutCard1 = (LinearLayout) findViewById(R.id.linLayoutCard1);
-        linLayoutCard2 = (LinearLayout) findViewById(R.id.linLayoutCard2);
-        linLayoutCard3 = (LinearLayout) findViewById(R.id.linLayoutCard3);
-        linLayoutCard4 = (LinearLayout) findViewById(R.id.linLayoutCard4);
+        linLayoutComputerStitch0a = (LinearLayout) findViewById(R.id.linLayoutComputerStitch0a);
+        linLayoutComputerStitch0b = (LinearLayout) findViewById(R.id.linLayoutComputerStitch0b);
+        linLayoutPlayerStitch0a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch0a);
+        linLayoutPlayerStitch0b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch0b);
+        linLayoutPlayerStitch1a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch1a);
+        linLayoutPlayerStitch1b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch1b);
+        linLayoutPlayerStitch2a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch2a);
+        linLayoutPlayerStitch2b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch2b);
+        relativeLayoutStitches.setVisibility(View.INVISIBLE);
         linLayoutCard0.setVisibility(View.INVISIBLE);
         linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutCard2.setVisibility(View.INVISIBLE);
-        linLayoutCard3.setVisibility(View.INVISIBLE);
-        linLayoutCard4.setVisibility(View.INVISIBLE);
+        linLayoutComputerStitch0a.setVisibility(View.INVISIBLE);
+        linLayoutComputerStitch0b.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch0a.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch0b.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch1a.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch1b.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch2a.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch2b.setVisibility(View.INVISIBLE);
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
         atouCard = (LinearLayout) findViewById(R.id.atouCard);
@@ -218,9 +247,14 @@ public class MainActivity
 
         imgCOut0 = (ImageView) findViewById(R.id.imgCOut0);
         imgCOut1 = (ImageView) findViewById(R.id.imgCOut1);
-        imgCOut2 = (ImageView) findViewById(R.id.imgCOut2);
-        imgCOut3 = (ImageView) findViewById(R.id.imgCOut3);
-        imgCOut4 = (ImageView) findViewById(R.id.imgCOut4);
+        imgComputerStitch0a = (ImageView) findViewById(R.id.imgComputerStitch0a);
+        imgComputerStitch0b = (ImageView) findViewById(R.id.imgComputerStitch0b);
+        imgPlayerStitch0a = (ImageView) findViewById(R.id.imgPlayerStitch0a);
+        imgPlayerStitch0b = (ImageView) findViewById(R.id.imgPlayerStitch0b);
+        imgPlayerStitch1a = (ImageView) findViewById(R.id.imgPlayerStitch1a);
+        imgPlayerStitch1b = (ImageView) findViewById(R.id.imgPlayerStitch1b);
+        imgPlayerStitch2a = (ImageView) findViewById(R.id.imgPlayerStitch2a);
+        imgPlayerStitch2b = (ImageView) findViewById(R.id.imgPlayerStitch2b);
         imOut0 = (ImageView) findViewById(R.id.imOut0);
         imOut1 = (ImageView) findViewById(R.id.imOut1);
         imTalon = (ImageView) findViewById(R.id.imTalon);
@@ -239,7 +273,7 @@ public class MainActivity
         tPoints = (TextView) findViewById(R.id.tPoints);
         tRest = (TextView) findViewById(R.id.tRest);
         tDbg = (TextView) findViewById(R.id.tDbg);
-        tDbg.setText(layoutMes);
+        // tDbg.setText(layoutMes);
         tMes.setVisibility(View.INVISIBLE);
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         toggleEnabled(bChange, false, getString(R.string.bChange_text),
@@ -269,19 +303,31 @@ public class MainActivity
             else {
                 if (aGame.index < 18) {
                     if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
-                        psaychange += 1;
+                        syncLocker = Integer.valueOf(ticks);
+                        synchronized (syncLocker) {
+                            ticks++;
+                            psaychange += 1;
+                        }
                         aGame.bChange = true;
                     }
                 }
                 // Gibts was zum Ansagen ?
                 int a20 = aGame.gambler.has20();
                 if (a20 > 0) {
-                    psaychange += 2;
+                    syncLocker = Integer.valueOf(ticks);
+                    synchronized (syncLocker) {
+                        ticks++;
+                        psaychange += 2;
+                    }
                     aGame.a20 = true;
                     aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
 
                     if (a20 > 1) {
-                        psaychange += 4;
+                        syncLocker = Integer.valueOf(ticks);
+                        synchronized (syncLocker) {
+                            ticks++;
+                            psaychange += 4;
+                        }
                         aGame.b20 = true;
                         aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
                     }
@@ -300,6 +346,7 @@ public class MainActivity
             showAtouCard(aGame.schnapState);
             playedOutCard0 = aGame.playedOut0;
             playedOutCard1 = aGame.playedOut1;
+            showStitches(-2);
             showPlayersCards();
             showPlayedOutCards();
             globalVariable.setGame(aGame);
@@ -343,7 +390,9 @@ public class MainActivity
             }
         }
 
-        tDbg.setText(layoutMes);
+        if (tDbg != null) {
+            tDbg.setText(layoutMes);
+        }
     }
 
     //endregion
@@ -459,6 +508,16 @@ public class MainActivity
         b20b.setOnClickListener(this::b20b_Clicked);
         bContinue = (Button) findViewById(R.id.bContinue);
         bContinue.setOnClickListener(this::bContinue_Clicked);
+
+        imgComputerStitch0a.setOnClickListener(v -> showStitches(-1));
+        imgComputerStitch0b.setOnClickListener(v -> showStitches(-1));
+
+        imgPlayerStitch0a.setOnClickListener(v -> showStitches(0));
+        imgPlayerStitch0b.setOnClickListener(v -> showStitches(0));
+        imgPlayerStitch1a.setOnClickListener(v -> showStitches(1));
+        imgPlayerStitch1b.setOnClickListener(v -> showStitches(1));
+        imgPlayerStitch2a.setOnClickListener(v -> showStitches(2));
+        imgPlayerStitch2b.setOnClickListener(v -> showStitches(2));
 
         im0 = (ImageView) findViewById(R.id.im0);
         im0.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 0));
@@ -1010,7 +1069,7 @@ public class MainActivity
                 case 4:
                     im4.setImageResource(R.drawable.e);
                     break;
-                default: tDbg.append("Assertion !");
+                default: if (tDbg != null) tDbg.append("Assertion !");
             }
 
             playedOutCard0 = aGame.gambler.hand[ic];
@@ -1052,9 +1111,14 @@ public class MainActivity
         imOut1.setImageResource(R.drawable.e);
         imgCOut0.setImageResource(R.drawable.e);
         imgCOut1.setImageResource(R.drawable.e);
-        imgCOut2.setImageResource(R.drawable.e);
-        imgCOut3.setImageResource(R.drawable.e);
-        imgCOut4.setImageResource(R.drawable.e);
+        imgComputerStitch0a.setImageResource(R.drawable.n1);
+        imgComputerStitch0b.setImageResource(R.drawable.n1);
+        imgPlayerStitch0a.setImageResource(R.drawable.n1);
+        imgPlayerStitch0b.setImageResource(R.drawable.n1);
+        imgPlayerStitch1a.setImageResource(R.drawable.n1);
+        imgPlayerStitch1b.setImageResource(R.drawable.n1);
+        imgPlayerStitch2a.setImageResource(R.drawable.n1);
+        imgPlayerStitch2b.setImageResource(R.drawable.n1);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
         playedOutCard0 = null;
@@ -1162,7 +1226,12 @@ public class MainActivity
                 break;
         }
 
-        if (++mStage <= 11) {
+        syncLocker = Integer.valueOf(ticks);
+        synchronized (syncLocker) {
+            ticks++;
+            ++mStage;
+        }
+        if (mStage <= 11) {
             mergeByHandler.postDelayed(runMergeByHand, 250);
         }
         else {
@@ -1294,13 +1363,126 @@ public class MainActivity
     }
 
     /**
+     * ShowStitches - shows player and computer stitches
+     * @param whichStitch   number >= 0 for player stitch
+     *                      -1 for computer stitch,
+     *                      -2 for none
+     *                      -3 for
+     */
+    protected void showStitches(int whichStitch) {
+        if (aGame != null && aGame.gambler != null && aGame.computer != null) {
+
+            if (whichStitch < -2) {
+                imgComputerStitch0a.setImageResource(R.drawable.n1);
+                imgComputerStitch0b.setImageResource(R.drawable.n1);
+                linLayoutComputerStitch0a.setVisibility(View.INVISIBLE);
+                linLayoutComputerStitch0b.setVisibility(View.INVISIBLE);
+
+                imgPlayerStitch0a.setImageResource(R.drawable.n1);
+                imgPlayerStitch0b.setImageResource(R.drawable.n1);
+                imgPlayerStitch1a.setImageResource(R.drawable.n1);
+                imgPlayerStitch1b.setImageResource(R.drawable.n1);
+                imgPlayerStitch2a.setImageResource(R.drawable.n1);
+                imgPlayerStitch2b.setImageResource(R.drawable.n1);
+                linLayoutPlayerStitch0a.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch0b.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch1a.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch1b.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch2a.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch2b.setVisibility(View.INVISIBLE);
+
+                relativeLayoutStitches.setVisibility(View.INVISIBLE);
+            }
+            else if (whichStitch == -2) {
+                relativeLayoutStitches.setVisibility(View.VISIBLE);
+
+                imgComputerStitch0a.setImageResource(R.drawable.n1);
+                imgComputerStitch0b.setImageResource(R.drawable.n1);
+
+                imgPlayerStitch0a.setImageResource(R.drawable.n1);
+                imgPlayerStitch0b.setImageResource(R.drawable.n1);
+                imgPlayerStitch1a.setImageResource(R.drawable.n1);
+                imgPlayerStitch1b.setImageResource(R.drawable.n1);
+                imgPlayerStitch2a.setImageResource(R.drawable.n1);
+                imgPlayerStitch2b.setImageResource(R.drawable.n1);
+            }
+            else {
+                relativeLayoutStitches.setVisibility(View.VISIBLE);
+            }
+
+            //region playersStitches
+            if (aGame.gambler.stitchCount > 0) {
+                linLayoutPlayerStitch0a.setVisibility(View.VISIBLE);
+                linLayoutPlayerStitch0b.setVisibility(View.VISIBLE);
+
+                if (aGame.gambler.stitchCount > 1) {
+                    linLayoutPlayerStitch1a.setVisibility(View.VISIBLE);
+                    linLayoutPlayerStitch1b.setVisibility(View.VISIBLE);
+                }
+                if (aGame.gambler.stitchCount > 2) {
+                    linLayoutPlayerStitch2a.setVisibility(View.VISIBLE);
+                    linLayoutPlayerStitch2b.setVisibility(View.VISIBLE);
+                }
+
+                for (HashMap.Entry<Integer, TwoCards> stitchEntry : aGame.gambler.cardStitchs.entrySet()) {
+                    if (stitchEntry != null) {
+                        if (stitchEntry.getKey() == 0 && whichStitch == 0) {
+                            TwoCards playerStitch0 = stitchEntry.getValue();
+                            if (playerStitch0 != null && playerStitch0.card1st != null && playerStitch0.card2nd != null) {
+                                imgPlayerStitch0a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
+                                imgPlayerStitch0b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
+                            }
+                        }
+                        if (stitchEntry.getKey() == 1 && whichStitch == 1) {
+                            TwoCards playerStitch1 = stitchEntry.getValue();
+                            if (playerStitch1 != null && playerStitch1.card1st != null && playerStitch1.card2nd != null) {
+                                imgPlayerStitch1a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
+                                imgPlayerStitch1b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
+                            }
+                        }
+                        if (stitchEntry.getKey() == 1 && whichStitch == 1) {
+                            TwoCards playerStitch2 = stitchEntry.getValue();
+                            if (playerStitch2 != null && playerStitch2.card1st != null && playerStitch2.card2nd != null) {
+                                imgPlayerStitch2a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
+                                imgPlayerStitch2b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
+                            }
+                        }
+                    }
+                }
+            }
+            //endregion
+
+            //region computerStitches
+            if (aGame.computer.stitchCount > 0) {
+                linLayoutComputerStitch0a.setVisibility(View.VISIBLE);
+                linLayoutComputerStitch0b.setVisibility(View.VISIBLE);
+
+                for (HashMap.Entry<Integer, TwoCards> stitchEntry : aGame.computer.cardStitchs.entrySet()) {
+                    if (stitchEntry != null && stitchEntry.getKey() == 0 && whichStitch == -1) {
+                        TwoCards computerStitch0 = stitchEntry.getValue();
+                        if (computerStitch0 != null && computerStitch0.card1st != null && computerStitch0.card2nd != null) {
+                            imgComputerStitch0a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
+                            imgComputerStitch0b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
+                        }
+                    }
+                }
+            }
+            //endregion
+        }
+    }
+
+    /**
      * showComputer20 shows computer pair, when computer has 20 or 40
      *
-     * @param computerPlayedOut
+     * @param computerPlayedOut - computer played out that Card
      * @param stage - int stage
      */
     protected void showComputer20(Card computerPlayedOut, int stage) {
-        aStage = (stage >= 0) ? stage : aStage;
+        syncLocker = Integer.valueOf(ticks);
+        synchronized (syncLocker) {
+            ticks++;
+            aStage = (stage >= 0) ? stage : aStage;
+        }
         if (computerPlayedOut == null)
             computerPlayedOut = playedOutCard1;
         ImageView imCOut0 = imgCOut0;
@@ -1308,36 +1490,15 @@ public class MainActivity
 
         linLayoutCard0.setVisibility(View.INVISIBLE);
         linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutCard2.setVisibility(View.INVISIBLE);
-        linLayoutCard3.setVisibility(View.INVISIBLE);
-        linLayoutCard4.setVisibility(View.INVISIBLE);
 
         switch (aStage) {
             case 0:
             case 1:
+            default:
                 linLayoutCard0.setVisibility(View.VISIBLE);
                 linLayoutCard1.setVisibility(View.VISIBLE);
                 imCOut0 = imgCOut0;
                 imCOut1 = imgCOut1;
-                break;
-            case 2:
-                linLayoutCard1.setVisibility(View.VISIBLE);
-                linLayoutCard2.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut1;
-                imCOut1 = imgCOut2;
-                break;
-            case 3:
-                linLayoutCard2.setVisibility(View.VISIBLE);
-                linLayoutCard3.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut2;
-                imCOut1 = imgCOut3;
-                break;
-            case 4:
-            default:
-                linLayoutCard3.setVisibility(View.VISIBLE);
-                linLayoutCard4.setVisibility(View.VISIBLE);
-                imCOut0 = imgCOut3;
-                imCOut1 = imgCOut4;
                 break;
         }
 
@@ -1358,7 +1519,11 @@ public class MainActivity
             }
         }
 
-        aStage--;
+        syncLocker = Integer.valueOf(ticks);
+        synchronized (syncLocker) {
+            ticks++;
+            aStage--;
+        }
         if (aStage > 0) {
             showComputer20Handler.postDelayed(rShowComputer20, 800);
         }
@@ -1375,9 +1540,6 @@ public class MainActivity
     protected void reSetComputerPair() {
         linLayoutCard0.setVisibility(View.INVISIBLE);
         linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutCard2.setVisibility(View.INVISIBLE);
-        linLayoutCard3.setVisibility(View.INVISIBLE);
-        linLayoutCard4.setVisibility(View.INVISIBLE);
         imgCOut0.setImageResource(R.drawable.e);
         imgCOut1.setImageResource(R.drawable.e);
 
@@ -1459,10 +1621,13 @@ public class MainActivity
 
         mergeCardAnim(false);
 
+        showStitches(-3);
         showPlayersCards();
         resetButtons(1);
 
-        tDbg.setText("");
+        if (tDbg != null) {
+            tDbg.setText("");
+        }
         tRest.setText(String.valueOf((19-aGame.index)));
         // emptyTmpCard = new Card(-2, getApplicationContext()); // new Card(this, -1);
         tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -1497,12 +1662,14 @@ public class MainActivity
             aGame.stopGame();
 
         resetButtons(levela);
+        showStitches(-3);
 
         toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
                 getString(R.string.bContinue_text));
         toggleMenuItem(myMenu, R.id.action_start, true);
 
         showPlayersCards();
+
 
         playedOutCard0 = globalVariable.cardEmpty();
         playedOutCard1 = globalVariable.cardEmpty();
@@ -1565,7 +1732,7 @@ public class MainActivity
                 imOut0.setImageResource(R.drawable.e1);
                 imOut1.setImageResource(R.drawable.e1);
                 playedOutCard0 = globalVariable.cardEmpty();
-                playedOutCard1 = globalVariable.cardEmpty();;
+                playedOutCard1 = globalVariable.cardEmpty();
                 aGame.playedOut0 = playedOutCard0;
                 aGame.playedOut1 = playedOutCard1;
             } catch (Exception jbpvex) {
@@ -1578,6 +1745,7 @@ public class MainActivity
             aGame.csaid = 'n';
         }
 
+        showStitches(-2);
         aGame.bChange = false;
         aGame.a20 = false;
         aGame.b20 = false;
@@ -1588,7 +1756,11 @@ public class MainActivity
             // Wann kann man austauschen ?
             if (ixlevel < 1) {
                 if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
-                    psaychange += 1;
+                    syncLocker = Integer.valueOf(ticks);
+                    synchronized (syncLocker) {
+                        ticks++;
+                        psaychange += 1;
+                    }
                     aGame.bChange = true;
                 }
                 toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
@@ -1597,13 +1769,21 @@ public class MainActivity
             // Gibts was zum Ansagen ?
             int a20 = aGame.gambler.has20();
             if (a20 > 0) {
-                psaychange += 2;
+                syncLocker = Integer.valueOf(ticks);
+                synchronized (syncLocker) {
+                    ticks++;
+                    psaychange += 2;
+                }
                 aGame.a20 = true;
                 aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) +
                         " " + getString(R.string.say_pair);
 
                 if (a20 > 1) {
-                    psaychange += 4;
+                    syncLocker = Integer.valueOf(ticks);
+                    synchronized (syncLocker) {
+                        ticks++;
+                        psaychange += 4;
+                    }
                     aGame.b20 = true;
                     aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) +
                         " " + getString(R.string.say_pair);
@@ -1659,7 +1839,7 @@ public class MainActivity
             try {
                 playedOutCard1 = aGame.computer.hand[ccard];
                 if (computerSaid20)
-                    showComputer20(playedOutCard1, 4);
+                    showComputer20(playedOutCard1, 1);
                 else
                     imOut1.setImageDrawable(aGame.computer.hand[ccard].getDrawable());
                 aGame.playedOut1 = playedOutCard1;
@@ -1731,6 +1911,12 @@ public class MainActivity
             setTextMessage(msgText);
             saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
 
+            TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
+            if (!aGame.gambler.cardStitchs.containsKey(aGame.gambler.stitchCount)) {
+                aGame.gambler.cardStitchs.put(aGame.gambler.stitchCount, stitchPlayer);
+                aGame.gambler.stitchCount++;
+            }
+
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 globalVariable.setGame(aGame);
                 stopGame(1, getString(R.string.computer_closing_failed));
@@ -1740,6 +1926,13 @@ public class MainActivity
             msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
             saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+
+            TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
+            if (!aGame.computer.cardStitchs.containsKey(aGame.computer.stitchCount)) {
+                aGame.computer.cardStitchs.put(aGame.computer.stitchCount, stitchComputer);
+                aGame.computer.stitchCount++;
+            }
+
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 globalVariable.setGame(aGame);
@@ -1925,7 +2118,9 @@ public class MainActivity
      * print message queue
      */
     private void printMes() {
-        tDbg.append(aGame.fetchMsg());
+        if (tDbg != null) {
+            tDbg.append(aGame.fetchMsg());
+        }
     }
 
     /**
@@ -1933,9 +2128,19 @@ public class MainActivity
      * @param myErr java.lang.Throwable
      */
     private void errHandler(java.lang.Throwable myErr) {
-        tDbg.append("\nCRITICAL ERROR #" + ++errNum + " " + myErr.getMessage());
-        tDbg.append(myErr.toString());
-        tDbg.append("\nMessage: "+ myErr.getLocalizedMessage() + "\n");
+        syncLocker = Integer.valueOf(ticks);
+        synchronized (syncLocker) {
+            ticks++;
+            ++errNum;
+        }
+
+        String strDbg = "\nCRITICAL ERROR #" + String.valueOf(errNum) + " " + myErr.getMessage();
+        strDbg += "\n\t" + myErr.toString();
+        strDbg += "\nMessage: "+ myErr.getLocalizedMessage() + "\n";
+
+        if (tDbg != null) {
+            tDbg.append(strDbg);
+        }
         myErr.printStackTrace();
     }
 

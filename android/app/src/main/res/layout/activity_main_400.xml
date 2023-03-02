@@ -53,50 +53,35 @@
                     android:src="@drawable/e" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/linLayoutCard2"
-                android:layout_width="72dp"
-                android:layout_height="96dp"
-                android:layout_marginStart="128dp"
-                android:layout_marginTop="0dp">
-                <ImageView
-                    android:id="@+id/imgCOut2"
-                    android:layout_width="72dp"
-                    android:layout_height="96dp"
-                    android:contentDescription="@string/imgCOut2_text"
-                    android:minHeight="96dp"
-                    android:minWidth="72dp"
-                    android:src="@drawable/e" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linLayoutCard3"
+                android:id="@+id/linLayoutComputerStitch0a"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="192dp"
                 android:layout_marginTop="0dp"
                 android:visibility="visible">
                 <ImageView
-                    android:id="@+id/imgCOut3"
+                    android:id="@+id/imgComputerStitch0a"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
                     android:contentDescription="@string/imgCOut2_text"
                     android:minHeight="96dp"
                     android:minWidth="72dp"
-                    android:src="@drawable/e" />
+                    android:src="@drawable/n0" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/linLayoutCard4"
+                android:id="@+id/linLayoutComputerStitch0b"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="256dp"
-                android:layout_marginTop="0dp">
+                android:layout_marginStart="240dp"
+                android:layout_marginTop="4dp">
                 <ImageView
-                    android:id="@+id/imgCOut4"
+                    android:id="@+id/imgComputerStitch0b"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
                     android:contentDescription="@string/imgCOut2_text"
                     android:minHeight="96dp"
                     android:minWidth="72dp"
-                    android:src="@drawable/e"
+                    android:src="@drawable/n1"
                     android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>
@@ -385,16 +370,122 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/relativeLayoutStitches"
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="444dp"
+            android:minHeight="108dp"
+            android:minWidth="480dp">
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch0a"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:visibility="visible">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch0a"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n0" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch0b"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="2dp">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch0b"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n1"
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch1a"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="4dp"
+                android:visibility="visible">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch1a"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n0" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch1b"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="6dp">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch1b"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n1"
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch2a"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="192dp"
+                android:layout_marginTop="8dp"
+                android:visibility="visible">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch2a"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n0" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linLayoutPlayerStitch2b"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="240dp"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:id="@+id/imgPlayerStitch2b"
+                    android:layout_width="72dp"
+                    android:layout_height="96dp"
+                    android:contentDescription="@string/imgCOut2_text"
+                    android:minHeight="96dp"
+                    android:minWidth="72dp"
+                    android:src="@drawable/n1"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </RelativeLayout>
+
         <TextView
-            android:id="@+id/tDbg"
+            android:id="@+id/ntDbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="36dp"
-            android:layout_marginTop="444dp"
+            android:layout_marginTop="564dp"
             android:minWidth="320dp"
-            android:minHeight="128dp"
+            android:minHeight="96dp"
             android:textStyle="italic"
             android:text="@string/tDbg_text"
             android:background="@color/colorBackButton"
