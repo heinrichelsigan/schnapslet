@@ -205,33 +205,25 @@ namespace SchnapsNet
 
         protected void ShowMergeAnim(SCHNAPSTATE gameState)
         {
-            if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
+            try
+            {
+                if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
                 gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
                 gameState == SCHNAPSTATE.MERGING_CARDS)
-            {
-                ImageMerge.Visible = true;
-                try
                 {
-                    SpanMerge.Style["visibility"] = "visible";
+                    ImageMerge.Visible = true;
+                    PlaceHolderMerge.Visible = true;
                 }
-                catch (Exception exSpan)
+                else
                 {
-                    this.errHandler(exSpan);
-                }
-            }
-            else
-            {
-                ImageMerge.Visible = false;
-                try
-                {
-                    SpanMerge.Style["visibility"] = "hidden";
-                }
-                catch (Exception exSpan1)
-                {
-                    this.errHandler(exSpan1);
+                    ImageMerge.Visible = false;
+                    PlaceHolderMerge.Visible = false;
                 }
             }
-            
+            catch (Exception mergeAnimEx)
+            {
+                this.errHandler(mergeAnimEx);
+            }
         }
 
         protected void showAtouCard(SCHNAPSTATE gameState)
@@ -291,27 +283,27 @@ namespace SchnapsNet
             {
                 if (whichStitch < -2)
                 {
-                    SpanComputerStitches.Style["visibility"] = "hidden";
-                    SpanPlayerStitches.Style["visibility"] = "hidden";
                     ImageComputerStitch0a.Visible = false;
                     ImageComputerStitch0b.Visible = false;
                     ImagePlayerStitch0a.Visible = false;
                     ImagePlayerStitch0b.Visible = false;
+                    PlaceHolderComputerStitches.Visible = false;
+                    PlaceHolderPlayerStitches.Visible = false;                    
                 }
                 else
                 {
                     if (aGame.computer.cardStitches.Count > 0)
                     {
-                        SpanComputerStitches.Style["visibility"] = "visible";
+                        PlaceHolderComputerStitches.Visible = true;
+                        ImageComputerStitch0a.Visible = true;
+                        ImageComputerStitch0b.Visible = true;
                     }
                     if (aGame.gambler.cardStitches.Count > 0)
                     {
-                        SpanPlayerStitches.Style["visibility"] = "visible";
-                    }
-                    ImageComputerStitch0a.Visible = true;
-                    ImageComputerStitch0b.Visible = true;
-                    ImagePlayerStitch0a.Visible = true;
-                    ImagePlayerStitch0b.Visible = true;
+                        PlaceHolderPlayerStitches.Visible = true;
+                        ImagePlayerStitch0a.Visible = true;
+                        ImagePlayerStitch0b.Visible = true;
+                    }                    
                 }
                 if (whichStitch == -2)
                 {
@@ -1411,5 +1403,6 @@ namespace SchnapsNet
         {
             showStitches(0);
         }
+    
     }
 }

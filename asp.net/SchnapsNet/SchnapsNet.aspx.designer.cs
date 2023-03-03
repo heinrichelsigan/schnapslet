@@ -123,13 +123,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Image imTalon;
 
         /// <summary>
-        /// SpanMerge control.
+        /// PlaceHolderMerge control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanMerge;
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderMerge;
 
         /// <summary>
         /// ImageMerge control.
@@ -141,13 +141,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Image ImageMerge;
 
         /// <summary>
-        /// SpanComputerStitches control.
+        /// PlaceHolderComputerStitches control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanComputerStitches;
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderComputerStitches;
 
         /// <summary>
         /// ImageComputerStitch0a control.
@@ -213,13 +213,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton im4;
 
         /// <summary>
-        /// SpanPlayerStitches control.
+        /// PlaceHolderPlayerStitches control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPlayerStitches;
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderPlayerStitches;
 
         /// <summary>
         /// ImagePlayerStitch0a control.
