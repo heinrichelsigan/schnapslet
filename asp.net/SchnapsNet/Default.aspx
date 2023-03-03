@@ -233,12 +233,12 @@
             gameState == SCHNAPSTATE.MERGING_CARDS)
             {
                 ImageMerge.Visible = true;
-                PlaceHolderMerge.Visible = true;
+                // PlaceHolderMerge.Visible = true;
             }
             else
             {
                 ImageMerge.Visible = false;
-                PlaceHolderMerge.Visible = false;
+                // PlaceHolderMerge.Visible = false;
             }
         }
         catch (Exception mergeAnimEx)
@@ -253,6 +253,7 @@
         {
             if (SCHNAPSTATE_Extensions.StateValue(gameState) < 6)
             {
+                PlaceHolderAtouTalon.Visible = true;
                 if (gameState == SCHNAPSTATE.GAME_START)
                     imAtou10.ImageUrl = emptyURL.ToString(); 
                 else if (gameState == SCHNAPSTATE.GAME_CLOSED)
@@ -265,6 +266,7 @@
             {
                 imAtou10.ImageUrl = emptyURL.ToString();
                 imAtou10.Visible = false;
+                PlaceHolderAtouTalon.Visible = false;
             }
         }
         catch (Exception exAtou1)
@@ -277,9 +279,10 @@
     {
         try
         {
+            PlaceHolderAtouTalon.Visible = true;
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
             if (schnapStateVal < 6)
-            {
+            {                
                 if (gameState == SCHNAPSTATE.GAME_START)
                     imTalon.ImageUrl = emptyTalonUri.ToString();
                 else
@@ -290,6 +293,7 @@
             {
                 imTalon.ImageUrl = emptyURL.ToString();
                 imTalon.Visible = false;
+                PlaceHolderAtouTalon.Visible = false;
             }
         }
         catch (Exception imTalonEx)
@@ -1459,17 +1463,17 @@
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imOut0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" />
             </span>
+            <asp:PlaceHolder ID="PlaceHolderAtouTalon" runat="server">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" style="z-index: 1" />
             </span>
             <span style="min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
                 <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit" Width="18%" />
-            </span>
-            <asp:PlaceHolder ID="PlaceHolderMerge" runat="server">
-            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
-                <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="18%" style="z-index: 2" BorderStyle="None" />
-            </span>
+            </span>   
             </asp:PlaceHolder>
+            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
+                <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="18%" style="z-index: 2" BorderStyle="None" />&nbsp;
+            </span>
             <asp:PlaceHolder ID="PlaceHolderComputerStitches" runat="server">
             <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: right; font-size: medium">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />

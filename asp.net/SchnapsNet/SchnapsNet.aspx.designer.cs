@@ -105,6 +105,15 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imOut0;
 
         /// <summary>
+        /// PlaceHolderAtouTalon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderAtouTalon;
+
+        /// <summary>
         /// imAtou10 control.
         /// </summary>
         /// <remarks>
@@ -121,15 +130,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imTalon;
-
-        /// <summary>
-        /// PlaceHolderMerge control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderMerge;
 
         /// <summary>
         /// ImageMerge control.

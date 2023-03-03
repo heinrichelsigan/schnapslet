@@ -212,12 +212,12 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
                     ImageMerge.Visible = true;
-                    PlaceHolderMerge.Visible = true;
+                    // PlaceHolderMerge.Visible = true;
                 }
                 else
                 {
                     ImageMerge.Visible = false;
-                    PlaceHolderMerge.Visible = false;
+                    // PlaceHolderMerge.Visible = false;
                 }
             }
             catch (Exception mergeAnimEx)
@@ -232,6 +232,7 @@ namespace SchnapsNet
             {
                 if (SCHNAPSTATE_Extensions.StateValue(gameState) < 6)
                 {
+                    PlaceHolderAtouTalon.Visible = true;
                     if (gameState == SCHNAPSTATE.GAME_START)
                         imAtou10.ImageUrl = emptyURL.ToString(); 
                     else if (gameState == SCHNAPSTATE.GAME_CLOSED)
@@ -244,6 +245,7 @@ namespace SchnapsNet
                 {
                     imAtou10.ImageUrl = emptyURL.ToString();
                     imAtou10.Visible = false;
+                    PlaceHolderAtouTalon.Visible = false;
                 }
             }
             catch (Exception exAtou1)
@@ -256,6 +258,7 @@ namespace SchnapsNet
         {
             try
             {
+                PlaceHolderAtouTalon.Visible = true;
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal < 6)
                 {
@@ -269,6 +272,7 @@ namespace SchnapsNet
                 {
                     imTalon.ImageUrl = emptyURL.ToString();
                     imTalon.Visible = false;
+                    PlaceHolderAtouTalon.Visible = false;
                 }
             }
             catch (Exception imTalonEx)
