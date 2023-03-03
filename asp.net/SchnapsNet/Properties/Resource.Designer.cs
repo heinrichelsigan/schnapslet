@@ -565,7 +565,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.4.6 - Pre Alpha Release
+        ///   Looks up a localized string similar to Schnapslet v2.4.8 - Pre Alpha Release
         ///Implementation of the card game Schnapsen as a simple Asp.Net WebApp
         ///by Heinrich Elsigan (heinrich.elsigan@area23.at)
         ///

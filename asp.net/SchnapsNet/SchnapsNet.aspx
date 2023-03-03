@@ -9,7 +9,7 @@
 </head>
 <body>
     <form id="form1" runat="server">        
-        <div style="nowrap; line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">            
+        <div id="DivSchnapsButtons" style="nowrap; line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">            
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
                 <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;                
             </span>
@@ -32,7 +32,7 @@
                 <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Help" OnClick="bHelp_Click" Enabled="true" />                
             </span>
         </div>
-        <div style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; table-layout: fixed; inset-block-start: auto">
+        <div id="DivSchnapsStack" style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
                 <asp:ImageButton ID="imOut1" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" />
             </span>
@@ -47,17 +47,17 @@
                 <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit" Width="18%" />
             </span>   
             </asp:PlaceHolder>
-            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
-                <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="18%" style="z-index: 2" BorderStyle="None" />&nbsp;
+            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
+                <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" BorderStyle="None" />&nbsp;
             </span>
-            <asp:PlaceHolder ID="PlaceHolderComputerStitches" runat="server">
+            <asp:PlaceHolder ID="PlaceHolderComputerStitches" runat="server" Visible="false">
             <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: right; font-size: medium">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
                 <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
             </span>
             </asp:PlaceHolder>
         </div>
-        <div style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
+        <div id="DivPlayerStack" style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
                 <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" />
             </span>
@@ -73,8 +73,8 @@
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click" />
             </span>
-            <asp:PlaceHolder ID="PlaceHolderPlayerStitches" runat="server">
-            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-left: 0px; margin-top: 0px; text-align: left; visibility: hidden; font-size: medium">
+            <asp:PlaceHolder ID="PlaceHolderPlayerStitches" runat="server" Visible="false">
+            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-left: 0px; margin-top: 0px; text-align: left; visibility: visible; font-size: medium">
                 <asp:ImageButton ID="ImagePlayerStitch0a" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" OnClick="ImagePlayerStitch_Click" />
                 <asp:ImageButton ID="ImagePlayerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -10%; margin-top: 1px" BorderStyle="None" OnClick="ImagePlayerStitch_Click" />            
             </span>
