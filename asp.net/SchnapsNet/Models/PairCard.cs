@@ -15,7 +15,7 @@ namespace SchnapsNet.Models
 	/// <summary>
 	/// Port of class PairCard
 	/// </summary>
-	public class PairCard
+	public class PairCard : TwoCards
 	{
 		bool atou = false;
 		CARDCOLOR cardColor = CARDCOLOR.NONE;	// Color of Pair
@@ -65,11 +65,21 @@ namespace SchnapsNet.Models
 		/// </summary>
 		/// <param name="queenCard">the Queen in that pair</param>
 		/// <param name="kingCard">the King in that pair</param>
-		public PairCard(Card queenCard, Card kingCard) : this()
+		public PairCard(Card queenCard, Card kingCard) : base(queenCard, kingCard)
 		{
-			this.cardColor = queenCard.CardColor;
-			this.color = (char)queenCard.CardColor.GetChar();
-			pairs[0] = new Card(queenCard);
+            this.cardColor = queenCard.CardColor;
+            this.color = (char)queenCard.CardColor.GetChar();
+            char kingColor = (char)kingCard.CardColor.GetChar();
+            if (kingColor != this.color)
+            {
+                throw new InvalidOperationException("Queen " + color + " & King " + kingColor + " must have same colors!");
+            }
+            if (cardSumValue != 7)
+            {
+                throw new InvalidOperationException("Sum of queen + king in pair must be 7!");
+            }
+            
+            pairs[0] = new Card(queenCard);
 			pairs[1] = new Card(kingCard);
 			if (queenCard.isAtou)
 			{

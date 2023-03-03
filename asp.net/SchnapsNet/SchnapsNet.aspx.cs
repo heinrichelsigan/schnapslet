@@ -110,14 +110,17 @@ namespace SchnapsNet
             bHelp.Text = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
             bHelp.ToolTip = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
 
-            tRest.Enabled = false;
-            tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);
+            // tRest.Enabled = false;
+            // tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);            
+            // lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
+            
             lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
-            lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
+
             tMsg.Enabled = false;
             tMsg.Text = JavaResReader.GetValueFromKey("toplayout_clickon_card", Locale.TwoLetterISOLanguageName);
             tMsg.Visible = true;
 
+            showStitches(-3);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -204,13 +207,17 @@ namespace SchnapsNet
         {
             try
             {
-                if (SCHNAPSTATE_Extensions.StateValue(gameState) >= 16 || gameState == SCHNAPSTATE.GAME_START)
+                if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
+                    gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
+                    gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
                     ImageMerge.Visible = true;
+                    SpanMerge.Style["visibility"] = "visible";
                 }
                 else
                 {
                     ImageMerge.Visible = false;
+                    SpanMerge.Style["visibility"] = "hidden";
                 }
             }
             catch (Exception exMergeCards)
@@ -268,6 +275,74 @@ namespace SchnapsNet
             {
                 errHandler(imTalonEx);
             }            
+        }
+
+        protected void showStitches(int whichStitch)
+        {
+            if (aGame != null && aGame.gambler != null && aGame.computer != null)
+            {
+                if (whichStitch < -2)
+                {
+                    SpanComputerStitches.Style["visibility"] = "hidden";
+                    SpanPlayerStitches.Style["visibility"] = "hidden";
+                    ImageComputerStitch0a.Visible = false;
+                    ImageComputerStitch0b.Visible = false;
+                    ImagePlayerStitch0a.Visible = false;
+                    ImagePlayerStitch0b.Visible = false;
+                }
+                else
+                {
+                    if (aGame.computer.cardStitches.Count > 0)
+                    {
+                        SpanComputerStitches.Style["visibility"] = "visible";
+                    }
+                    if (aGame.gambler.cardStitches.Count > 0)
+                    {
+                        SpanPlayerStitches.Style["visibility"] = "visible";
+                    }
+                    ImageComputerStitch0a.Visible = true;
+                    ImageComputerStitch0b.Visible = true;
+                    ImagePlayerStitch0a.Visible = true;
+                    ImagePlayerStitch0b.Visible = true;
+                }
+                if (whichStitch == -2)
+                {
+                    ImageComputerStitch0a.ImageUrl = notURL.ToString();
+                    ImageComputerStitch0b.ImageUrl = notURL.ToString();
+                    ImagePlayerStitch0a.ImageUrl = notURL.ToString();
+                    ImagePlayerStitch0b.ImageUrl = notURL.ToString();
+                }
+                if (whichStitch == -1 && aGame.computer.stitchCount > 0)
+                {
+                    if (aGame.computer.stitchCount > 0 && aGame.computer.cardStitches.Count > 0)
+                    {
+                        if (aGame.computer.cardStitches.Keys.Contains(0))
+                        {
+                            TwoCards stitch0 = aGame.computer.cardStitches[0];
+                            if (stitch0 != null && stitch0.card1st != null && stitch0.card2nd != null)
+                            {
+                                ImageComputerStitch0a.ImageUrl = stitch0.card1st.getPictureUri().ToString();
+                                ImageComputerStitch0b.ImageUrl = stitch0.card2nd.getPictureUri().ToString();
+                            }
+                        }
+                    }
+                }
+                if (whichStitch == 0 && aGame.gambler.stitchCount > 0)
+                {
+                    if (aGame.gambler.stitchCount > 0 && aGame.gambler.cardStitches.Count > 0)
+                    {
+                        if (aGame.gambler.cardStitches.Keys.Contains(0))
+                        {
+                            TwoCards stitchPlayer0 = aGame.gambler.cardStitches[0];
+                            if (stitchPlayer0 != null && stitchPlayer0.card1st != null && stitchPlayer0.card2nd != null)
+                            {
+                                ImagePlayerStitch0a.ImageUrl = stitchPlayer0.card1st.getPictureUri().ToString();
+                                ImagePlayerStitch0b.ImageUrl = stitchPlayer0.card2nd.getPictureUri().ToString();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         protected void showComputer20(Card computerPlayedOut, int stage)
@@ -688,7 +763,10 @@ namespace SchnapsNet
             }
             bStop.Enabled = false;
             aGame.stopGame();
+            
             resetButtons(levela);
+            showStitches(-3);
+
             showPlayersCards(aGame.schnapState);
             aGame.Dispose();
             // java.lang.System.runFinalization();
@@ -708,8 +786,9 @@ namespace SchnapsNet
             tMsg.Visible = false;
             resetButtons(1);
             preOut.InnerText = "";
-            tRest.Text = (19 - aGame.index).ToString();
+            // tRest.Text = (19 - aGame.index).ToString();
 
+            showStitches(-3);
             emptyTmpCard = new Card(-2, HttpContext.Current);
             tPoints.Text = "" + aGame.gambler.points;
             showAtouCard(aGame.schnapState);
@@ -972,6 +1051,7 @@ namespace SchnapsNet
                 aGame.csaid = 'n';
             }
 
+            showStitches(-2);
             aGame.bChange = false;
             aGame.a20 = false;
             aGame.b20 = false;
@@ -1130,6 +1210,13 @@ namespace SchnapsNet
 
                 setTextMessage(msgText);
 
+                TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
+                if (!aGame.gambler.cardStitches.Keys.Contains(aGame.gambler.stitchCount))
+                {
+                    aGame.gambler.cardStitches.Add(aGame.gambler.stitchCount, stitchPlayer);
+                    aGame.gambler.stitchCount++;
+                }
+
                 if (aGame.isClosed && (aGame.computer.hasClosed))
                 {
                     globalVariable.Game = aGame;
@@ -1145,6 +1232,12 @@ namespace SchnapsNet
                     JavaResReader.GetValueFromKey("click_continue", globalVariable.TwoLetterISOLanguageName);
                 setTextMessage(msgText);
 
+                TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
+                if (!aGame.computer.cardStitches.Keys.Contains(aGame.computer.stitchCount))
+                {
+                    aGame.computer.cardStitches.Add(aGame.computer.stitchCount, stitchComputer);
+                    aGame.computer.stitchCount++;
+                }
 
                 if ((aGame.isClosed) && (aGame.gambler.hasClosed))
                 {
@@ -1173,8 +1266,10 @@ namespace SchnapsNet
                 string msgChFrc = JavaResReader.GetValueFromKey("color_hit_force_mode", globalVariable.TwoLetterISOLanguageName);
                 setTextMessage(msgChFrc);
             }
-            tRest.Text = (19 - aGame.index).ToString();
+
+            // tRest.Text = (19 - aGame.index).ToString();
             printMsg();
+
             // resetButtons(0);
             aGame.pSaid = false;
             aGame.said = 'n';
@@ -1296,6 +1391,17 @@ namespace SchnapsNet
         protected void bMerge_Click(object sender, EventArgs e)
         {
             startGame();
+        }
+    
+    
+        protected void ImageComputerStitch_Click(object sender, EventArgs e)
+        {
+            showStitches(-1);
+        }
+
+        protected void ImagePlayerStitch_Click(object sender, EventArgs e)
+        {
+            showStitches(0);
         }
     }
 }

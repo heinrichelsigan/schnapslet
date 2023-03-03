@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Resources;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
 using System.Web;
@@ -29,6 +30,9 @@ namespace SchnapsNet.Models
         public char[] handpairs = { 'n', 'n' };
         int[] colorHitArray = { 0, 0, 0, 0, 0 };
         public int playerOptions = 0;
+
+        public int stitchCount = 0;
+        public Dictionary<int, TwoCards> cardStitches = new Dictionary<int, TwoCards>();
         // Resources r;
         HttpContext context;
 
@@ -46,6 +50,7 @@ namespace SchnapsNet.Models
                 hand[i] = new Card(c);
                 colorHitArray[i] = (-1);
             }
+            cardStitches = new Dictionary<int, TwoCards>();
         }
 
         /// <summary>
@@ -66,6 +71,9 @@ namespace SchnapsNet.Models
             int i;
             for (i = 0; i < 5; i++)
                 hand[i] = null;
+
+            stitchCount = 0;
+            cardStitches.Clear();
         }
         
         /// <summary>
