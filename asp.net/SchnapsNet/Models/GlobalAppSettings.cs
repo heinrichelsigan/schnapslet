@@ -69,7 +69,12 @@ namespace SchnapsNet.Models
         public Card CardNone { get => (noneCard == null) ? noneCard = new Card(-1, getContext()) : noneCard; }
 
         #endregion properties
-        
+
+        public GlobalAppSettings()
+        {
+
+        }
+
         /// <summary>
         /// constructor for GlobalAppSettings
         /// </summary>
@@ -80,9 +85,33 @@ namespace SchnapsNet.Models
             sApplication = app;
             context = c;
             application = haps;
-            this.session = hses;
-            
+            this.session = hses;            
         }
+
+        public GlobalAppSettings(HttpContext c, HttpApplicationState haps, HttpSessionState hses)
+        {
+            context = c;
+            application = haps;
+            this.session = hses;
+        }
+
+        public GlobalAppSettings(HttpApplicationState haps, HttpSessionState hses)
+        {
+            application = haps;
+            this.session = hses;
+        }
+
+        public GlobalAppSettings(HttpContext c, HttpSessionState hses)
+        {
+            context = c;
+            this.session = hses;
+        }
+
+        public GlobalAppSettings(HttpSessionState hses)
+        {
+            this.session = hses;
+        }
+
 
         #region members
 

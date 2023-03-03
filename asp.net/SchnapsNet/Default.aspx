@@ -144,7 +144,7 @@
         showStitches(-3);
     }
 
-    protected void Page_Load(object sender, EventArgs e)
+    void Page_Load(object sender, EventArgs e)
     {
         ReSetComputerPair();
 
@@ -157,7 +157,7 @@
         {
             if (this.Context.Session[Constants.APPNAME] == null)
             {
-                globalVariable = new GlobalAppSettings(null, this.Context, this.Application, this.Session);
+                globalVariable = new GlobalAppSettings(this.Context, this.Session);
                 this.Context.Session[Constants.APPNAME] = globalVariable;
             }
             else
@@ -171,7 +171,7 @@
         }
     }
 
-    protected void showPlayersCards(SCHNAPSTATE gameState)
+    void showPlayersCards(SCHNAPSTATE gameState)
     {
         if (SCHNAPSTATE_Extensions.StateValue(gameState) < 16 && gameState != SCHNAPSTATE.GAME_START)
         {
@@ -201,7 +201,7 @@
     /// <summary>
     /// showPlayedOutCards - shows playedOutCards => needed when changing locale and card deck
     /// </summary>
-    protected void showPlayedOutCards()
+    void showPlayedOutCards()
     {
         if ((aGame != null && aGame.playedOut0 != null && playedOutCard0 != null &&
             aGame.playedOut0.ColorValue != playedOutCard0.ColorValue) ||
@@ -224,30 +224,37 @@
         imOut1.ImageUrl = playedOutCard1.getPictureUrl();
     }
 
-    protected void ShowMergeAnim(SCHNAPSTATE gameState)
+    void ShowMergeAnim(SCHNAPSTATE gameState)
     {
-        try
+        if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
+            gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
+            gameState == SCHNAPSTATE.MERGING_CARDS)
         {
-            if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
-                gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
-                gameState == SCHNAPSTATE.MERGING_CARDS)
+            ImageMerge.Visible = true;
+            try
             {
-                ImageMerge.Visible = true;
                 SpanMerge.Style["visibility"] = "visible";
             }
-            else
+            catch (Exception exSpan)
             {
-                ImageMerge.Visible = false;
-                SpanMerge.Style["visibility"] = "hidden";
+                this.errHandler(exSpan);
             }
         }
-        catch (Exception exMergeCards)
+        else
         {
-            this.errHandler(exMergeCards);
+            ImageMerge.Visible = false;
+            try
+            {
+                SpanMerge.Style["visibility"] = "hidden";
+            }
+            catch (Exception exSpan1)
+            {
+                this.errHandler(exSpan1);
+            }
         }
     }
 
-    protected void showAtouCard(SCHNAPSTATE gameState)
+    void showAtouCard(SCHNAPSTATE gameState)
     {
         try
         {
@@ -273,7 +280,7 @@
         }
     }
 
-    protected void showTalonCard(SCHNAPSTATE gameState)
+    void showTalonCard(SCHNAPSTATE gameState)
     {
         try
         {
@@ -298,7 +305,7 @@
         }            
     }
 
-    protected void showStitches(int whichStitch)
+    void showStitches(int whichStitch)
     {
         if (aGame != null && aGame.gambler != null && aGame.computer != null)
         {
@@ -366,7 +373,7 @@
         }
     }
 
-    protected void showComputer20(Card computerPlayedOut, int stage)
+    void showComputer20(Card computerPlayedOut, int stage)
     {
         for (int ci = 0; ci < aGame.computer.hand.Length; ci++)
         {
@@ -413,13 +420,12 @@
     }
 
 
-    protected void bHelp_Click(object sender, EventArgs e)
+    void bHelp_Click(object sender, EventArgs e)
     {
         Help_Click(sender, e);
     }
 
-
-    protected void bStop_Click(object sender, EventArgs e)
+    void bStop_Click(object sender, EventArgs e)
     {
         try
         {
@@ -436,7 +442,7 @@
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void bChange_Click(object sender, EventArgs e)
+    void bChange_Click(object sender, EventArgs e)
     {
         preOut.InnerText += "bChange_Click\r\n";
         aGame.changeAtou(aGame.gambler);
@@ -455,7 +461,7 @@
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void b20a_Click(object sender, EventArgs e)
+    void b20a_Click(object sender, EventArgs e)
     {
         if (globalVariable != null && aGame == null)
         {
@@ -509,7 +515,7 @@
     /// </summary>
     /// <param name="sender">object sender</param>
     /// <param name="e">EventArgs e</param>
-    protected void b20b_Click(object sender, EventArgs e)
+    void b20b_Click(object sender, EventArgs e)
     {
         string msg = "b20b_Click";
         preOut.InnerText += "\r\n" + msg;
@@ -555,13 +561,12 @@
         }
     }
 
-
     /// <summary>
     /// EventHandler when clicking on a Card Image
     /// </summary>
     /// <param name="sender">object sender</param>
     /// <param name="e">EventArgs e</param>
-    protected void ImageCard_Click(object sender, EventArgs e)
+    void ImageCard_Click(object sender, EventArgs e)
     {
         int ic = 0;
 
@@ -696,7 +701,7 @@
     /// </summary>
     /// <param name="sender">object sender</param>
     /// <param name="e">EventArgs e</param>
-    protected void bContinue_Click(object sender, EventArgs e)
+    void bContinue_Click(object sender, EventArgs e)
     {
         string msg = "bContinue_Click";
         preOut.InnerText += "\r\n" + msg;
@@ -712,7 +717,6 @@
         globalVariable.Game = aGame;
         GameTurn(0);
     }
-
 
     void resetButtons(int level)
     {
@@ -868,7 +872,7 @@
         }
     }
         
-    protected void twentyEnough(bool who)
+    void twentyEnough(bool who)
     {
         int xj = 0;
         String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalVariable.TwoLetterISOLanguageName);
@@ -1409,21 +1413,21 @@
         preOut.InnerHtml += "-------------------------------------------------------------------------\n";
     }
 
-    protected void bMerge_Click(object sender, EventArgs e)
+    void bMerge_Click(object sender, EventArgs e)
     {
         startGame();
     }
-    
-    
-    protected void ImageComputerStitch_Click(object sender, EventArgs e)
+        
+    void ImageComputerStitch_Click(object sender, EventArgs e)
     {
         showStitches(-1);
     }
 
-    protected void ImagePlayerStitch_Click(object sender, EventArgs e)
+    void ImagePlayerStitch_Click(object sender, EventArgs e)
     {
         showStitches(0);
     }
+
 </script>
 
 <body>
@@ -1448,7 +1452,7 @@
                 <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Stop" OnClick="bStop_Click" Enabled="true" />
             </span>
             <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
-                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Marriage 40" OnClick="bHelp_Click" Enabled="true" />                
+                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Help" OnClick="bHelp_Click" Enabled="true" />                
             </span>
         </div>
         <div style="nowrap; line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; table-layout: fixed; inset-block-start: auto">
@@ -1464,10 +1468,10 @@
             <span style="min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
                 <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit" Width="18%" />
             </span>      
-            <span ID="SpanMerge" runat="server" style="min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; visibility: visible; font-size: medium">
+            <span ID="SpanMerge" runat="server" style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
                 <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="18%" style="z-index: 2" BorderStyle="None" />
             </span>
-            <span ID="SpanComputerStitches" runat="server" style="min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; visibility: hidden; font-size: medium">
+            <span ID="SpanComputerStitches" runat="server" style="visibility: hidden; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: right; font-size: medium">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
                 <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
             </span>
@@ -1493,7 +1497,7 @@
                 <asp:ImageButton ID="ImagePlayerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -10%; margin-top: 1px" BorderStyle="None" OnClick="ImagePlayerStitch_Click" />            
             </span>
         </div>        
-                <div style="nowrap; line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: larger; margin-top: 8px; table-layout: fixed; inset-block-start: initial">
+        <div style="nowrap; line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: larger; margin-top: 8px; table-layout: fixed; inset-block-start: initial">
             <span style="width:6%; vertical-align:middle; text-align: left; font-size: x-large; height: 8%;" align="left" valign="middle">
                 <asp:TextBox ID="tPoints" Width="6%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 32px; font-size: x-large" Enabled="false">0</asp:TextBox>                
             </span>

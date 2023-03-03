@@ -136,7 +136,7 @@ namespace SchnapsNet
             {
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
-                    globalVariable = new Models.GlobalAppSettings(null, this.Context, this.Application, this.Session);
+                    globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
                     this.Context.Session[Constants.APPNAME] = globalVariable;
                 }
                 else
@@ -205,25 +205,33 @@ namespace SchnapsNet
 
         protected void ShowMergeAnim(SCHNAPSTATE gameState)
         {
-            try
+            if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
+                gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
+                gameState == SCHNAPSTATE.MERGING_CARDS)
             {
-                if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE ||
-                    gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
-                    gameState == SCHNAPSTATE.MERGING_CARDS)
+                ImageMerge.Visible = true;
+                try
                 {
-                    ImageMerge.Visible = true;
                     SpanMerge.Style["visibility"] = "visible";
                 }
-                else
+                catch (Exception exSpan)
                 {
-                    ImageMerge.Visible = false;
-                    SpanMerge.Style["visibility"] = "hidden";
+                    this.errHandler(exSpan);
                 }
             }
-            catch (Exception exMergeCards)
+            else
             {
-                this.errHandler(exMergeCards);
+                ImageMerge.Visible = false;
+                try
+                {
+                    SpanMerge.Style["visibility"] = "hidden";
+                }
+                catch (Exception exSpan1)
+                {
+                    this.errHandler(exSpan1);
+                }
             }
+            
         }
 
         protected void showAtouCard(SCHNAPSTATE gameState)
