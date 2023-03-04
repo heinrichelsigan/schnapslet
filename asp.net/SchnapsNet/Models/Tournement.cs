@@ -1,0 +1,83 @@
+﻿using SchnapsNet.ConstEnum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using SchnapsNet.ConstEnum;
+using SchnapsNet.Models;
+using System.Runtime.Serialization.Formatters;
+using System.Drawing;
+
+namespace SchnapsNet.Models
+{
+    /// <summary>
+    /// Port of class Tournement
+    /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
+    /// </summary>
+    public class Tournement
+    {
+        public int GamblerTPoints { get; set; } = 7;
+        public int ComputerTPoints { get; set; } = 7;
+
+        internal List<Point> tHistory = new List<Point>();
+
+        public PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
+
+        public PLAYERDEF NextGameStarter { 
+            get
+            {
+                if (NextGameGiver == PLAYERDEF.HUMAN)
+                    return PLAYERDEF.COMPUTER;
+                if (NextGameGiver == PLAYERDEF.COMPUTER)
+                    return PLAYERDEF.HUMAN;
+                return PLAYERDEF.UNKNOWN; // TODO: ReThink Unknown never occurred state
+            } 
+        }
+
+        public PLAYERDEF WonTournement
+        {
+            get
+            {
+                if (ComputerTPoints <= 0 && GamblerTPoints > 0)
+                    return PLAYERDEF.COMPUTER;
+                if (GamblerTPoints <= 0 && ComputerTPoints > 0)
+                    return PLAYERDEF.HUMAN;
+                return PLAYERDEF.UNKNOWN;
+            }
+        }
+
+        public bool Taylor { get => (WonTournement != PLAYERDEF.UNKNOWN && (GamblerTPoints == 7 || ComputerTPoints == 7)); }
+        
+
+        public Tournement()
+        {
+            GamblerTPoints = 7;
+            ComputerTPoints = 7;
+            tHistory = new List<Point>();
+            Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
+            tHistory.Add(ptStart);
+            NextGameGiver = PLAYERDEF.COMPUTER;
+        }
+        
+        public Tournement(PLAYERDEF nextGiver) : this()
+        {
+            NextGameGiver = nextGiver;
+        }
+
+        public void AddPointsRotateGiver()
+        {
+            Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
+            tHistory.Add(ptStart);
+            if (NextGameGiver == PLAYERDEF.COMPUTER)
+                NextGameGiver = PLAYERDEF.HUMAN;
+            else if (NextGameGiver == PLAYERDEF.HUMAN)
+                NextGameGiver = PLAYERDEF.COMPUTER;
+            else if (NextGameGiver == PLAYERDEF.UNKNOWN)
+                throw new InvalidProgramException("Unknown game state to determine next giver");
+        }
+
+    }
+}
