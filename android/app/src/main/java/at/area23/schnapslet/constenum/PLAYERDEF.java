@@ -23,8 +23,9 @@ package at.area23.schnapslet.constenum;
  * @see <a href="https://github.com/heinrichelsigan/schnapslet/wiki</a>
  */
 public enum PLAYERDEF {
-	HUMAN(0),
-	COMPUTER(1);
+	UNKNOWN(0),
+	HUMAN(2),
+	COMPUTER(2);
 
 	PLAYERDEF(int value) { this.value = value; }
 

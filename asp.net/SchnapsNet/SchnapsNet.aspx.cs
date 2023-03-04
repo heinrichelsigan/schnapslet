@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 
@@ -13,6 +16,7 @@ namespace SchnapsNet
     {
         System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         Models.Game aGame;
+        Models.Tournement aTournement;
         long errNum = 0; // Errors Ticker
         int ccard = -1; // Computers Card played
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
@@ -119,9 +123,16 @@ namespace SchnapsNet
             tMsg.Enabled = false;
             tMsg.Text = JavaResReader.GetValueFromKey("toplayout_clickon_card", Locale.TwoLetterISOLanguageName);
             tMsg.Visible = true;
-
+            
             showStitches(-3);
         }
+
+        public void RefreshGlobalVariableSession()
+        {
+            globalVariable.SetTournementGame(aTournement, aGame);
+            this.Context.Session[Constants.APPNAME] = globalVariable;
+        } 
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -137,6 +148,8 @@ namespace SchnapsNet
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
+                    aTournement = new Tournement();
+                    globalVariable.Tournement = aTournement;
                     this.Context.Session[Constants.APPNAME] = globalVariable;
                 }
                 else
@@ -144,10 +157,11 @@ namespace SchnapsNet
                     globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
                 }
             }
+            if (aTournement == null)
+                aTournement = globalVariable.Tournement;
             if (aGame == null)
-            {
                 aGame = globalVariable.Game;
-            }
+            drawPointsTable();
         }
 
         protected void showPlayersCards(SCHNAPSTATE gameState)
@@ -395,7 +409,6 @@ namespace SchnapsNet
             //else imCOut1.Style.Add("visibility", "collapse");
         }
 
-
         protected void bHelp_Click(object sender, EventArgs e)
         {
             Help_Click(sender, e);
@@ -406,7 +419,7 @@ namespace SchnapsNet
         {
             try
             {
-                stopGame(3);
+                stopGame(7, PLAYERDEF.COMPUTER);
             }
             catch (Exception e23)
             {
@@ -478,7 +491,7 @@ namespace SchnapsNet
                 tPoints.Text = aGame.gambler.points.ToString();
                 if (aGame.gambler.points > 65)
                 {
-                    twentyEnough(true);
+                    twentyEnough(PLAYERDEF.HUMAN);
                 }
             }
             catch (Exception ex22)
@@ -529,7 +542,7 @@ namespace SchnapsNet
                 tPoints.Text = aGame.gambler.points.ToString();
                 if (aGame.gambler.points > 65)
                 {
-                    twentyEnough(true);
+                    twentyEnough(PLAYERDEF.HUMAN);
                 }
             }
             catch (Exception ex33)
@@ -575,7 +588,7 @@ namespace SchnapsNet
                 {
                     if (aGame.playersTurn && (!aGame.isClosed) && (!aGame.pSaid) && (aGame.index < 16))
                     {
-                        closeGame(true);
+                        closeGame(PLAYERDEF.HUMAN);
                     }
                     return;
                 }
@@ -613,12 +626,12 @@ namespace SchnapsNet
                     }
 
                     // CORRECT WAY ?
-                    if ((!aGame.gambler.isInColorHitsContextValid(ic, aGame.computer.hand[ccard])))
+                    if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
                         String msgColorHitRule = JavaResReader.GetValueFromKey("you_must_play_color_hit_force_rules", globalVariable.TwoLetterISOLanguageName);
                         setTextMessage(msgColorHitRule);
                         aGame.InsertMsg(msgColorHitRule);
-                        int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
+                        int tmpint = aGame.gambler.preferedInColorHitsContext(aGame.computer.hand[ccard]);
                         // for (j = 0; j < 5; j++) {
                         //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
                         // }
@@ -669,7 +682,7 @@ namespace SchnapsNet
             }
             aGame.gambler.hand[ic] = globalVariable.CardEmpty;
             aGame.isReady = false;
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             endTurn();
 
         }
@@ -692,7 +705,7 @@ namespace SchnapsNet
                 aGame.shouldContinue = false;
             bContinue.Enabled = false;
             tMsg.Visible = false;
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             GameTurn(0);
         }
 
@@ -736,7 +749,7 @@ namespace SchnapsNet
                 ShowMergeAnim(SCHNAPSTATE.GAME_START);
             }
 
-            if (level > 2)
+            if (level > 3)
             {
                 try
                 {
@@ -754,28 +767,80 @@ namespace SchnapsNet
             }
             if (aGame != null)
             {
-                globalVariable.Game = aGame;
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             }
         }
 
+        void drawPointsTable()
+        {
+            tableTournement.Rows.Clear();
+            HtmlTableRow trHead = new HtmlTableRow();
+            trHead.Style["border-bottom"] = "thick";
+            HtmlTableCell tdX = new HtmlTableCell() { InnerText = "You" };
+            tdX.Style["border-right"] = "medium";
+            HtmlTableCell tdY = new HtmlTableCell() { InnerText = "Computer" };
+            trHead.Cells.Add(tdX);
+            trHead.Cells.Add(tdY);
+            tableTournement.Rows.Add(trHead);
+            foreach (Point pt in aTournement.tHistory)
+            {
+                HtmlTableRow tr = new HtmlTableRow();
+                tdX = new HtmlTableCell() { InnerText = pt.X.ToString() };
+                tdY = new HtmlTableCell() { InnerText = pt.Y.ToString() };
+                tr.Cells.Add(tdX);
+                tr.Cells.Add(tdY);
+                tableTournement.Rows.Add(tr);
+            }
+        }
 
-        void stopGame(int levela, string endMessage = null)
+        void stopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
                 setTextMessage(endMessage);
             }
+            if (whoWon == PLAYERDEF.HUMAN)
+            {
+                aTournement.GamblerTPoints -= tournementPts;
+            }
+            else if (whoWon == PLAYERDEF.COMPUTER)
+            {
+                aTournement.ComputerTPoints -= tournementPts;
+            }
+            aTournement.AddPointsRotateGiver();
             bStop.Enabled = false;
             aGame.stopGame();
             
-            resetButtons(levela);
+            resetButtons(tournementPts);
             showStitches(-3);
+            drawPointsTable();
 
             showPlayersCards(aGame.schnapState);
             aGame.Dispose();
             // java.lang.System.runFinalization();
             // java.lang.System.gc();
-            bMerge.Enabled = true;
+            if (aTournement.WonTournement == PLAYERDEF.UNKNOWN)
+            {
+                bMerge.Enabled = true;
+            } 
+            else
+            {
+                string endTournementMsg = "";
+                if (aTournement.WonTournement == PLAYERDEF.HUMAN)
+                {
+                    endTournementMsg = (aTournement.Taylor) ?
+                        JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName) :
+                        JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                }
+                else if (aTournement.WonTournement == PLAYERDEF.COMPUTER)
+                {
+                    endTournementMsg = (aTournement.Taylor) ?
+                        JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName) :
+                        JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                }
+                setTextMessage(endTournementMsg);
+                // TODO: excited end animation
+            }
         }
 
         void startGame()
@@ -785,7 +850,7 @@ namespace SchnapsNet
             // runtime.runFinalization();
             // runtime.gc();
             aGame = null;
-            aGame = new Game(HttpContext.Current);
+            aGame = new Game(HttpContext.Current, aTournement.NextGameGiver);
             aGame.isReady = true;
             tMsg.Visible = false;
             resetButtons(1);
@@ -800,64 +865,43 @@ namespace SchnapsNet
             ShowMergeAnim(aGame.schnapState);
             bStop.Enabled = true;
 
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             GameTurn(0);
         }
 
         /// <summary>
         /// CloseGame - implements closing game => Zudrehens
         /// </summary>
-        /// <param name="who">true, if player closes game, false if computer closes game</param>
-        void closeGame(bool who)
+        /// <param name="whoCloses">PLAYERDEF player or computer</param>
+        void closeGame(PLAYERDEF whoCloses)
         {
-            if (aGame.isGame == false || aGame.gambler == null)
+            if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
             {
                 setTextMessage(JavaResReader.GetValueFromKey("nogame_started", globalVariable.TwoLetterISOLanguageName));
                 return;
             }
 
-            aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
-            aGame.colorHitRule = true;
-            aGame.isClosed = true;
-            if (!aGame.atouChanged)
-            {
-                aGame.atouChanged = true;
-            }
+            aGame.closeGame(whoCloses);
 
-            if (who)
-            {
-                string closeMsg0 = JavaResReader.GetValueFromKey("player_closed_game", globalVariable.TwoLetterISOLanguageName);
-                setTextMessage(closeMsg0);
-                aGame.InsertMsg(closeMsg0);
-                // saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
-                aGame.gambler.hasClosed = true;
-            }
-            else
-            {
-                string closeMsg1 = JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.TwoLetterISOLanguageName);
-                setTextMessage(closeMsg1);
-                aGame.InsertMsg(closeMsg1);
-                aGame.computer.hasClosed = true;
-            }
-
+            setTextMessage(aGame.statusMessage);
             showTalonCard(aGame.schnapState);
             showAtouCard(aGame.schnapState);
             ShowMergeAnim(aGame.schnapState);
 
-            globalVariable.Game = aGame;
-            if (who)
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+            if (whoCloses == PLAYERDEF.HUMAN)
             {
                 GameTurn(0);
             }
         }
         
-        protected void twentyEnough(bool who)
+        protected void twentyEnough(PLAYERDEF whoWon)
         {
             int xj = 0;
             String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalVariable.TwoLetterISOLanguageName);
             aGame.isReady = false;
 
-            if (who)
+            if (whoWon == PLAYERDEF.HUMAN)
             {
                 if (aGame.said == aGame.AtouInGame)
                 {
@@ -892,10 +936,11 @@ namespace SchnapsNet
                 string sEnds11 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.gambler.points.ToString());
-                stopGame(2, sEnds11);
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
             }
-            else
-            {
+            else // Computer won
+            { 
                 if (aGame.csaid == aGame.AtouInGame)
                 {
                     andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalVariable.TwoLetterISOLanguageName);
@@ -930,10 +975,11 @@ namespace SchnapsNet
                 string sEnds12 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.computer.points.ToString());
-                stopGame(2, sEnds12);                
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.COMPUTER);
+                stopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);  
                 // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
             }
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             return;
         }
 
@@ -983,7 +1029,8 @@ namespace SchnapsNet
                     this.errHandler(jbpvex);
                 }
                 string anEnPairMsg = andEnough + " Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !";
-                stopGame(1, andEnough);
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.HUMAN, andEnough);
             }
             else
             {
@@ -1027,7 +1074,8 @@ namespace SchnapsNet
                 }
                 printMsg();
                 string msg40 = andEnough + "Computer hat gewonnen mit " + aGame.computer.points + " Punkten !";
-                stopGame(1, msg40);                
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.COMPUTER);
+                stopGame(tPts, PLAYERDEF.COMPUTER, msg40);              
             }
             return;
         }
@@ -1041,7 +1089,7 @@ namespace SchnapsNet
                     imOut0.ImageUrl = emptyURL.ToString();
                     imOut1.ImageUrl = emptyURL.ToString();
                     playedOutCard0 = globalVariable.CardEmpty;
-                    playedOutCard1 = globalVariable.CardEmpty; ;
+                    playedOutCard1 = globalVariable.CardEmpty;
                     aGame.playedOut0 = playedOutCard0;
                     aGame.playedOut1 = playedOutCard1;
                 }
@@ -1075,7 +1123,7 @@ namespace SchnapsNet
                     }
                 }
                 // Gibts was zum Ansagen ?
-                int a20 = aGame.gambler.has20();
+                int a20 = aGame.gambler.HasPair;
                 if (a20 > 0)
                 {
                     psaychange += 2;
@@ -1132,9 +1180,9 @@ namespace SchnapsNet
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
-                    twentyEnough(false);
+                    twentyEnough(PLAYERDEF.COMPUTER);
                     aGame.isReady = false;
-                    globalVariable.Game = aGame;
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     return;
                 }
 
@@ -1144,7 +1192,7 @@ namespace SchnapsNet
                     aGame.isClosed = true;
                     outPutMessage += JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.TwoLetterISOLanguageName);
                     setTextMessage(outPutMessage);
-                    closeGame(false);
+                    closeGame(PLAYERDEF.COMPUTER);
                 }
 
 
@@ -1171,7 +1219,7 @@ namespace SchnapsNet
 
             aGame.isReady = true;
             printMsg();
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
         void endTurn()
@@ -1223,9 +1271,9 @@ namespace SchnapsNet
 
                 if (aGame.isClosed && (aGame.computer.hasClosed))
                 {
-                    globalVariable.Game = aGame;
-                    string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    stopGame(1, sEnds0);
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                    string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);                    
+                    stopGame(3, PLAYERDEF.HUMAN, sEnds0);
                     return;
                 }
             }
@@ -1245,9 +1293,9 @@ namespace SchnapsNet
 
                 if ((aGame.isClosed) && (aGame.gambler.hasClosed))
                 {
-                    globalVariable.Game = aGame;
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds1 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    stopGame(1, sEnds1);
+                    stopGame(3, PLAYERDEF.COMPUTER, sEnds1);
                     return;
                 }
             }
@@ -1283,11 +1331,12 @@ namespace SchnapsNet
             {
                 if (aGame.gambler.points > 65)
                 {
-                    globalVariable.Game = aGame;
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds3 = string.Format(
                         JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                         aGame.gambler.points.ToString());
-                    stopGame(1, sEnds3);
+                    int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
                     return;
                 }
             }
@@ -1295,32 +1344,33 @@ namespace SchnapsNet
             {
                 if (aGame.computer.points > 65)
                 {
-                    globalVariable.Game = aGame;
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds4 = string.Format(
                        JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                        aGame.computer.points.ToString());
-                    stopGame(1, sEnds4);                    
+                    int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                    stopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);                    
                     return;
                 }
             }
 
-            if (aGame.movs >= 5)
+            if (aGame.schnapState == SCHNAPSTATE.ZERO_CARD_REMAINS)
             {
-                if (aGame.isClosed)
+                if (aGame.isClosed) // close game => must have over 66 or loose
                 {
                     if (aGame.gambler.hasClosed)
                     {
-                        globalVariable.Game = aGame;
+                        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds6 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                        stopGame(1, sEnds6);
+                        stopGame(3, PLAYERDEF.COMPUTER, sEnds6);
                     }
                     try
                     {
                         if (aGame.computer.hasClosed)
                         {
-                            globalVariable.Game = aGame;
+                            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                             string sEnds7 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                            stopGame(1, sEnds7);
+                            stopGame(3, PLAYERDEF.HUMAN, sEnds7);
                         }
                     }
                     catch (Exception jbpvex)
@@ -1333,15 +1383,17 @@ namespace SchnapsNet
                 {
                     if (tmppoints > 0)
                     {
-                        globalVariable.Game = aGame;
+                        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
-                        stopGame(1, sEnds8);
+                        int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                        stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
                     }
                     else
                     {
-                        globalVariable.Game = aGame;
+                        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
-                        stopGame(1, sEnds9);
+                        int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                        stopGame(tPts, PLAYERDEF.HUMAN, sEnds9);
                     }
                     return;
                 }
@@ -1353,7 +1405,7 @@ namespace SchnapsNet
             }
             bContinue.Enabled = true;
             aGame.isReady = false;
-            globalVariable.Game = aGame;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
 
@@ -1376,10 +1428,9 @@ namespace SchnapsNet
         /// <param name="textMsg">text to display</param>
         void setTextMessage(string textMsg)
         {
-
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             if (aGame != null)
-                aGame.textMsg = msgSet;
+                aGame.statusMessage = msgSet;
 
             tMsg.Visible = true;
             tMsg.Text = msgSet;

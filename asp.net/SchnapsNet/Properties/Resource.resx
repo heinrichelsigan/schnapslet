@@ -258,6 +258,12 @@
   <data name="computer_wins_last_hit" xml:space="preserve">
     <value>Last trick: computer wins!</value>
   </data>
+  <data name="computer_won_taylor" xml:space="preserve">
+    <value>Du bist im Schneider!</value>
+  </data>
+  <data name="computer_won_tournement" xml:space="preserve">
+    <value>Du hast des Bummerl!</value>
+  </data>
   <data name="creating_players" xml:space="preserve">
     <value>Creating new players</value>
   </data>
@@ -428,5 +434,11 @@ Ideas, suggestions, improvements are gladly accepted !\n\nRules correspond to th
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>Thou announce a marriages in color {0}!</value>
+  </data>
+  <data name="you_won_taylor" xml:space="preserve">
+    <value>Computer bekommt einen Schneider!</value>
+  </data>
+  <data name="you_won_tournement" xml:space="preserve">
+    <value>Computer hats Bummerl!</value>
   </data>
 </root>

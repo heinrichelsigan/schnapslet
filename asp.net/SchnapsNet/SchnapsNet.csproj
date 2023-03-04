@@ -274,6 +274,7 @@
     <Compile Include="ConstEnum\CARDVALUE.cs" />
     <Compile Include="ConstEnum\Constants.cs" />
     <Compile Include="ConstEnum\JavaResReader.cs" />
+    <Compile Include="ConstEnum\PLAYERDEF.cs" />
     <Compile Include="ConstEnum\PLAYEROPTIONS.cs" />
     <Compile Include="ConstEnum\SCHNAPSTATE.cs" />
     <Compile Include="Global.asax.cs">
@@ -284,6 +285,7 @@
     <Compile Include="Models\GlobalAppSettings.cs" />
     <Compile Include="Models\PairCard.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Tournement.cs" />
     <Compile Include="Models\TwoCards.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resource.Designer.cs">

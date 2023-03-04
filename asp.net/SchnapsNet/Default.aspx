@@ -33,12 +33,13 @@
 
 <script runat="server" language="C#">
     System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
+    Tournement aTournement;
     Game aGame;
     long errNum = 0; // Errors Ticker
     int ccard = -1; // Computers Card played
     Card emptyTmpCard, playedOutCard0, playedOutCard1;
     volatile byte psaychange = 0;
-        
+
     Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
     Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
     Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
@@ -134,7 +135,7 @@
         // tRest.Enabled = false;
         // tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);            
         // lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
-            
+
         lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
 
         tMsg.Enabled = false;
@@ -255,7 +256,7 @@
             {
                 PlaceHolderAtouTalon.Visible = true;
                 if (gameState == SCHNAPSTATE.GAME_START)
-                    imAtou10.ImageUrl = emptyURL.ToString(); 
+                    imAtou10.ImageUrl = emptyURL.ToString();
                 else if (gameState == SCHNAPSTATE.GAME_CLOSED)
                     imAtou10.ImageUrl = notURL.ToString();
                 else
@@ -282,7 +283,7 @@
             PlaceHolderAtouTalon.Visible = true;
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
             if (schnapStateVal < 6)
-            {                
+            {
                 if (gameState == SCHNAPSTATE.GAME_START)
                     imTalon.ImageUrl = emptyTalonUri.ToString();
                 else
@@ -299,7 +300,7 @@
         catch (Exception imTalonEx)
         {
             errHandler(imTalonEx);
-        }            
+        }
     }
 
     protected void showStitches(int whichStitch)
@@ -313,7 +314,7 @@
                 ImagePlayerStitch0a.Visible = false;
                 ImagePlayerStitch0b.Visible = false;
                 PlaceHolderComputerStitches.Visible = false;
-                PlaceHolderPlayerStitches.Visible = false;                    
+                PlaceHolderPlayerStitches.Visible = false;
             }
             else
             {
@@ -328,7 +329,7 @@
                     PlaceHolderPlayerStitches.Visible = true;
                     ImagePlayerStitch0a.Visible = true;
                     ImagePlayerStitch0b.Visible = true;
-                }                    
+                }
             }
             if (whichStitch == -2)
             {
@@ -408,7 +409,7 @@
         //}
         //else 
         //    imCOut0.Style.Add("visibility", "collapse");
-            
+
         //if (imCOut1.Style["visibility"] != null)
         //{
         //    imCOut1.Style["visibility"] = "collapse";
@@ -634,12 +635,12 @@
                 }
 
                 // CORRECT WAY ?
-                if ((!aGame.gambler.isInColorHitsContextValid(ic, aGame.computer.hand[ccard])))
+                if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                 {
                     String msgColorHitRule = JavaResReader.GetValueFromKey("you_must_play_color_hit_force_rules", globalVariable.TwoLetterISOLanguageName);
                     setTextMessage(msgColorHitRule);
                     aGame.InsertMsg(msgColorHitRule);
-                    int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
+                    int tmpint = aGame.gambler.preferedInColorHitsContext(aGame.computer.hand[ccard]);
                     // for (j = 0; j < 5; j++) {
                     //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
                     // }
@@ -690,7 +691,7 @@
         }
         aGame.gambler.hand[ic] = globalVariable.CardEmpty;
         aGame.isReady = false;
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
         endTurn();
 
     }
@@ -713,7 +714,7 @@
             aGame.shouldContinue = false;
         bContinue.Enabled = false;
         tMsg.Visible = false;
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
         GameTurn(0);
     }
 
@@ -775,7 +776,7 @@
         }
         if (aGame != null)
         {
-            globalVariable.Game = aGame;
+            globalVariable.SetTournementGame(aTournement, aGame);
         }
     }
 
@@ -788,7 +789,7 @@
         }
         bStop.Enabled = false;
         aGame.stopGame();
-            
+
         resetButtons(levela);
         showStitches(-3);
 
@@ -821,7 +822,7 @@
         ShowMergeAnim(aGame.schnapState);
         bStop.Enabled = true;
 
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
         GameTurn(0);
     }
 
@@ -865,13 +866,13 @@
         showAtouCard(aGame.schnapState);
         ShowMergeAnim(aGame.schnapState);
 
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
         if (who)
         {
             GameTurn(0);
         }
     }
-        
+
     protected void twentyEnough(bool who)
     {
         int xj = 0;
@@ -951,10 +952,10 @@
             string sEnds12 = andEnough + " " + string.Format(
                 JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                 aGame.computer.points.ToString());
-            stopGame(2, sEnds12);                
+            stopGame(2, sEnds12);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
         }
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
         return;
     }
 
@@ -1048,7 +1049,7 @@
             }
             printMsg();
             string msg40 = andEnough + "Computer hat gewonnen mit " + aGame.computer.points + " Punkten !";
-            stopGame(1, msg40);                
+            stopGame(1, msg40);
         }
         return;
     }
@@ -1096,7 +1097,7 @@
                 }
             }
             // Gibts was zum Ansagen ?
-            int a20 = aGame.gambler.has20();
+            int a20 = aGame.gambler.HasPair;
             if (a20 > 0)
             {
                 psaychange += 2;
@@ -1155,7 +1156,7 @@
             {
                 twentyEnough(false);
                 aGame.isReady = false;
-                globalVariable.Game = aGame;
+                globalVariable.SetTournementGame(aTournement, aGame);
                 return;
             }
 
@@ -1192,7 +1193,7 @@
 
         aGame.isReady = true;
         printMsg();
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
     }
 
     void endTurn()
@@ -1244,7 +1245,7 @@
 
             if (aGame.isClosed && (aGame.computer.hasClosed))
             {
-                globalVariable.Game = aGame;
+                globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
                 stopGame(1, sEnds0);
                 return;
@@ -1266,7 +1267,7 @@
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed))
             {
-                globalVariable.Game = aGame;
+                globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds1 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
                 stopGame(1, sEnds1);
                 return;
@@ -1304,7 +1305,7 @@
         {
             if (aGame.gambler.points > 65)
             {
-                globalVariable.Game = aGame;
+                globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds3 = string.Format(
                     JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.gambler.points.ToString());
@@ -1316,11 +1317,11 @@
         {
             if (aGame.computer.points > 65)
             {
-                globalVariable.Game = aGame;
+                globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds4 = string.Format(
                     JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.computer.points.ToString());
-                stopGame(1, sEnds4);                    
+                stopGame(1, sEnds4);
                 return;
             }
         }
@@ -1331,7 +1332,7 @@
             {
                 if (aGame.gambler.hasClosed)
                 {
-                    globalVariable.Game = aGame;
+                    globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds6 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
                     stopGame(1, sEnds6);
                 }
@@ -1339,7 +1340,7 @@
                 {
                     if (aGame.computer.hasClosed)
                     {
-                        globalVariable.Game = aGame;
+                        globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds7 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
                         stopGame(1, sEnds7);
                     }
@@ -1354,13 +1355,13 @@
             {
                 if (tmppoints > 0)
                 {
-                    globalVariable.Game = aGame;
+                    globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
                     stopGame(1, sEnds8);
                 }
                 else
                 {
-                    globalVariable.Game = aGame;
+                    globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
                     stopGame(1, sEnds9);
                 }
@@ -1374,7 +1375,7 @@
         }
         bContinue.Enabled = true;
         aGame.isReady = false;
-        globalVariable.Game = aGame;
+        globalVariable.SetTournementGame(aTournement, aGame);
     }
 
 
@@ -1400,7 +1401,7 @@
 
         string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
         if (aGame != null)
-            aGame.textMsg = msgSet;
+            aGame.statusMessage = msgSet;
 
         tMsg.Visible = true;
         tMsg.Text = msgSet;
@@ -1417,8 +1418,8 @@
     {
         startGame();
     }
-    
-    
+
+
     protected void ImageComputerStitch_Click(object sender, EventArgs e)
     {
         showStitches(-1);

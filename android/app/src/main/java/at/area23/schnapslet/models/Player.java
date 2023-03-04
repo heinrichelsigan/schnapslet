@@ -38,6 +38,7 @@ public class Player {
     // not implemented yet !
     // Card hits[] = new Card[10]; // hits made by this player
 
+    public PLAYERDEF playerDefinition = PLAYERDEF.UNKNOWN;
     public boolean hasClosed = false;
     public int points = 0;             // points made by this player
     // char pairs[] = {'n', 'n', 'n', 'n'};
@@ -69,11 +70,13 @@ public class Player {
 
     /**
      * Constructor of Player
-     * @param starts true if this player starts the game, otherwise false
      * @param c context of android app
+     * @param playerDef definition if human or computer
+     * @param starts true if this player starts the game, otherwise false
      */
-    public Player(boolean starts, Context c) {
+    public Player(Context c, PLAYERDEF playerDef, boolean starts) {
         this(c);
+        this.playerDefinition = playerDef;
         this.begins = starts;
     }
 
@@ -136,25 +139,25 @@ public class Player {
     }
 
     /**
-     * has20 - checks if a player (the player or computer) has a Queen & King pair
+     * hasPair - checks if a player (the player or computer) has a Queen & King pair
      * @return number of pairs, that player has (1 or 2)
      */
-    public int has20() {
+    public int hasPair() {
         int i, hpidx = 0;
+        pairs[0] = null;
+        pairs[1] = null;
         handpairs[0] = 'n';
         handpairs[1] = 'n';
 
         for (i = 0; i < 4; i++) {
             if (hand[i].color == hand[i + 1].color) {
                 if ((hand[i].getValue() + hand[i + 1].getValue()) == 7) {
-
                     if (hpidx == 0) {
                         pairs[0] = new PairCard(hand[i], hand[i + 1]);
                     }
                     if (hpidx == 1) {
                         pairs[1] = new PairCard(hand[i], hand[i + 1]);
                     }
-
                     handpairs[hpidx++] = hand[i].color;
                 }
             }
@@ -175,37 +178,36 @@ public class Player {
     }
 
     /**
-     * isInColorHitsContextValid checks it a card is valid in color hit rule context
+     * isValidInColorHitsContext checks it a card is valid in color hit rule context
      * @param nynum - number of the played card
      * @param aCard - another card
      * @return true if played card is valid in color hit rule context, otherwise false
      */
-    public boolean isInColorHitsContextValid(int nynum, Card aCard) {
+    public boolean isValidInColorHitsContext(int nynum, Card aCard) {
         int i = 0;
         int j = 0;
         int max = -1;
         for (i = 0; i < 5; i++) {
-            // ist gueltige Karte -> PRI 0
+            // is valid card -> PRI 0
             if (!hand[i].isValidCard()) {
-                colorHitArray[i] = (-1);
+                colorHitArray[i] = -1;
             } else if (hand[i].isValidCard()) {
-
+                // any valid card => PRIO 0
                 colorHitArray[i] = 0;
                 if (max < 0) max = 0;
 
-                // ich hab gleich Farbe -> PRI 2
                 if ((hand[i].color) != aCard.color) {
-                    // ich kann mit Atou stechen -> PRI 1
+                    // can hit with atou => PRIO 1
                     if ((!aCard.isAtou()) && (hand[i].isAtou())) { // aCard.isAtou() == false)
                         colorHitArray[i] = 1;
                         if (max < 1) max = 1;
                     }
                 } else if ((hand[i].color) == aCard.color) {
-
+                    // same color => PRIO 2
                     colorHitArray[i] = 2;
                     if (max < 2) max = 2;
 
-                    // ich kann aber auch noch stechen -> PRI 3
+                    // can hit with same color => PRIO 3
                     if ((hand[i].getValue()) > (aCard.getValue())) {
                         colorHitArray[i] = 3;
                         if (max < 3) max = 3;
@@ -219,10 +221,170 @@ public class Player {
     }
 
     /**
+     * preferedInColorHitsContext calculate best card number, that is valid s valid in color hit rule context
+     * @param aCard - another card
+     * @return number of best card to be played, that is valid in color hit rule context
+     */
+    public int preferedInColorHitsContext(Card aCard) {
+        int i = 0, j = 0, tmp = -1, min = -1, max = -1, mark = -1, markMin = -1, markMax = -1;
+
+        for (i = 0; i < 5; i++)
+        {
+            if (!hand[i].isValidCard())
+            {
+                tmp = -1;
+            }
+            else if (hand[i].isValidCard())
+            {
+                // valid card => max = CardValue
+                tmp = hand[i].cardValue.getValue();
+
+                if (hand[i].cardColor.getChar() != aCard.cardColor.getChar())
+                {
+                    // not same colors && atou => max is atou card value
+                    if ((hand[i].isAtou()) && (!aCard.isAtou())) // can hit with atou -> PRI 1
+                        tmp = 11 + hand[i].cardValue.getValue();
+                }
+                else if (hand[i].cardColor.getChar() == aCard.cardColor.getChar())
+                {
+                    // same colors
+                    tmp = 22 + hand[i].cardValue.getValue();
+
+                    if (hand[i].cardValue.getValue() > aCard.cardValue.getValue())
+                        tmp = 33 + hand[i].cardValue.getValue();
+                }
+            }
+            colorHitArray[i] = tmp;
+            if (tmp >= max) max = tmp;
+            if (tmp >= 0 && min < tmp) min = tmp;
+        }
+
+        if (max > 0 && max <= 11)
+        {
+            min = max; markMin = -1; markMax = -1;
+            for (j = 0; j < 5; j++)
+            {
+                if (colorHitArray[j] >= 0 && colorHitArray[j] <= 11 && colorHitArray[j] == max)
+                    markMax = j;
+                if (colorHitArray[j] >= 0 && colorHitArray[j] < 11 && colorHitArray[j] < min)
+                {
+                    min = colorHitArray[j];
+                    markMin = j;
+                }
+            }
+            return (markMin >= 0) ? markMin : markMax;
+        }
+        if (max > 11 && max <= 22) // can only hit with atou
+        {
+            min = max; markMin = -1; markMax = -1;
+            Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
+            for (j = 0; j < 5; j++)
+            {
+                if (colorHitArray[j] > 11 && colorHitArray[j] <= 22 && colorHitArray[j] == max)
+                {
+                    markMax = j;
+                    maxBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+                if (colorHitArray[j] > 11 && colorHitArray[j] < 22 && colorHitArray[j] < min)
+                {
+                    markMin = j;
+                    min = colorHitArray[j];
+                    minBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+            }
+            mark = (markMin >= 0) ? markMin : markMax;
+            int tmpHasPair = hasPair();
+            if ((tmpHasPair == 1 && pairs[0].card1st.cardColor == tmpBestCard.cardColor) ||
+                    (tmpHasPair == 2 && pairs[1].card1st.cardColor == tmpBestCard.cardColor))
+            {
+                markMax = -1; markMin = -1;
+                for (j = 0; j < 5; j++)
+                {
+                    if (colorHitArray[j] > 11 && colorHitArray[j] <= 22 && colorHitArray[j] > 20)
+                        markMax = j;
+                    if (colorHitArray[j] > 11 && colorHitArray[j] <= 22 && colorHitArray[j] < 14)
+                        markMin = j;
+                }
+                if (markMax >= 0)
+                    return markMax;
+                if (markMin >= 0)
+                    return markMin;
+                return mark;
+            }
+            if (markMin >= 0)
+            {
+                if (maxBestCard.cardValue == CARDVALUE.ACE)
+                    return markMin;
+                if (maxBestCard.cardValue == CARDVALUE.TEN)
+                    return markMax;
+                return markMin;
+            }
+            return markMax;
+        }
+        if (max > 22 && max <= 33)
+        {
+            min = max; markMin = -1; markMax = -1;
+            Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
+            for (j = 0; j < 5; j++)
+            {
+                if (colorHitArray[j] > 22 && colorHitArray[j] <= 33 && colorHitArray[j] == max)
+                {
+                    markMax = j;
+                    maxBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+                if (colorHitArray[j] > 22 && colorHitArray[j] < 33 && colorHitArray[j] < min)
+                {
+                    markMin = j;
+                    min = colorHitArray[j];
+                    minBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+            }
+            mark = (markMin >= 0) ? markMin : markMax;
+            int tmpHasPair = hasPair();
+            if ((tmpHasPair == 1 && pairs[0].card1st.cardColor == tmpBestCard.cardColor) ||
+                    (tmpHasPair == 2 && pairs[1].card1st.cardColor == tmpBestCard.cardColor))
+            {
+                if (minBestCard.cardValue == CARDVALUE.JACK)
+                    return markMin;
+            }
+            return (markMin >= 0) ? markMin : markMax;
+        }
+        if (max > 33 && max <= 44)
+        {
+            min = max; markMin = -1; markMax = -1;
+            Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
+            for (j = 0; j < 5; j++)
+            {
+                if (colorHitArray[j] > 33 && colorHitArray[j] <= 44 && colorHitArray[j] == max)
+                {
+                    markMax = j;
+                    maxBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+                if (colorHitArray[j] > 33 && colorHitArray[j] < 44 && colorHitArray[j] < min)
+                {
+                    min = colorHitArray[j];
+                    markMin = j;
+                    minBestCard = hand[j];
+                    tmpBestCard = hand[j];
+                }
+            }
+            return markMax;
+        }
+
+        return mark;
+    }
+
+    /**
      * bestInColorHitsContext calculate best card number, that is valid s valid in color hit rule context
      * @param aCard - another card
      * @return number of best card to be played, that is valid in color hit rule context
      */
+    @Deprecated
     public int bestInColorHitsContext(Card aCard) {
         int i = 0, j = 0, mark = -1, max = -1;
 
@@ -261,19 +423,8 @@ public class Player {
         for (j = 0; j < 5; j++) {
             if (colorHitArray[j] == max) {
                 if (mark < 0) mark = j;
-                else switch (max) {
-                    case 0:
-                    case 2:
-                        if ((hand[mark].getValue()) <  (hand[j].getValue()))
-                            mark = j;
-                        break;
-                    case 1:
-                    case 3:
-                        if ((hand[mark].getValue()) <  (hand[j].getValue()))
-                            mark = j;
-                        break;
-                    default:
-                        break;
+                else if ((hand[mark].getValue()) < (hand[j].getValue())) {
+                    mark = j;
                 }
             }
         }
@@ -288,7 +439,7 @@ public class Player {
      *
      * @deprecated  isColorHitValid is marked deprecated<br/>
      *              {will be removed in next version} <br/>
-     *              use {@link #isInColorHitsContextValid(int nynum, Card aCard)} instead like this:
+     *              use {@link #isValidInColorHitsContext(int nynum, Card aCard)} instead like this:
      *
      * <blockquote><pre>
      * bool isPlayable = isInColorHitsContextValid(mynum, aCard);
@@ -297,18 +448,18 @@ public class Player {
     @Deprecated
     public boolean isColorHitValid(int cidx, Card otherCard) {
         int i;
-        // gleiche Farbe und groesser -> OK
+        // same color and hit => OK
         if (hand[cidx].hitsValue(otherCard))
             return true;
 
-        // Kann ich mit Farbe stechen ->
+        // can hit with color ->
         for (i = 0; i < 5; i++) {
             if (hand[i].isValidCard())
                 if (hand[i].hitsValue(otherCard))
                     return false;
         }
 
-        // Ist die Karte gleicher Farbe -> OK
+        // is card same color -> OK
         if (hand[cidx].color == otherCard.color)
             return true;
 

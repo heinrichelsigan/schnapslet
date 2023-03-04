@@ -60,6 +60,7 @@ import java.util.Locale;
 import at.area23.schnapslet.constenum.CARDCOLOR;
 import at.area23.schnapslet.constenum.CARDVALUE;
 import at.area23.schnapslet.constenum.DIALOGS;
+import at.area23.schnapslet.constenum.PLAYERDEF;
 import at.area23.schnapslet.constenum.PLAYEROPTIONS;
 import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
 import at.area23.schnapslet.constenum.SCHNAPSTATE;
@@ -302,7 +303,7 @@ public class MainActivity
             }
             else {
                 if (aGame.index < 18) {
-                    if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
+                    if ((aGame.isAtouChangable(aGame.gambler)) && (!pSaid)) {
                         syncLocker = Integer.valueOf(ticks);
                         synchronized (syncLocker) {
                             ticks++;
@@ -312,7 +313,7 @@ public class MainActivity
                     }
                 }
                 // Gibts was zum Ansagen ?
-                int a20 = aGame.gambler.has20();
+                int a20 = aGame.gambler.hasPair();
                 if (a20 > 0) {
                     syncLocker = Integer.valueOf(ticks);
                     synchronized (syncLocker) {
@@ -339,7 +340,7 @@ public class MainActivity
                     getString(R.string.bChange_text));
             toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20, aGame.sayMarriage20);
             toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
-            setTextMessage(aGame.textMsg);
+            setTextMessage(aGame.statusMessage);
             printMes();
 
             showTalonCard(aGame.schnapState);
@@ -718,7 +719,7 @@ public class MainActivity
                 }
             }
 
-            if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid) &&
+            if ((aGame.isAtouChangable(aGame.gambler)) && (!pSaid) &&
                     touchedCard.getCardValue() == CARDVALUE.JACK && touchedCard.isAtou()) {
                 atouCard = (LinearLayout) findViewById(R.id.atouCard);
                 atouCard.setOnDragListener((view1, dragEvent) -> layoutView_OnDragHandler(view1, dragEvent, -1));
@@ -1002,8 +1003,9 @@ public class MainActivity
 
         try {
             if (ic == 10) {
+                // TODO: more proper states
                 if (aGame.playersTurn && (!aGame.isClosed) &&  (!pSaid) && (aGame.index < 16)) {
-                    closeGame(true);
+                    closeGame(PLAYERDEF.HUMAN);
                 }
                 return;
             }
@@ -1027,10 +1029,10 @@ public class MainActivity
             }
             if (aGame.colorHitRule && (!aGame.playersTurn)) {
                 // CORRECT WAY ?
-                if ((!aGame.gambler.isInColorHitsContextValid(ic,aGame.computer.hand[ccard]))) {
+                if ((!aGame.gambler.isValidInColorHitsContext(ic,aGame.computer.hand[ccard]))) {
                     setTextMessage(getString(R.string.you_must_play_color_hit_force_rules));
                     aGame.insertMsg(getString(R.string.you_must_play_color_hit_force_rules));
-                    int tmpint = aGame.gambler.bestInColorHitsContext(aGame.computer.hand[ccard]);
+                    int tmpint = aGame.gambler.preferedInColorHitsContext(aGame.computer.hand[ccard]);
                     // for (j = 0; j < 5; j++) {
                     //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
                     // }
@@ -1690,34 +1692,28 @@ public class MainActivity
     /**
      * close that game
      *
-     * @param who boolean - true for player, false for computer
+     * @param whoCloses PLAYERDEF - player or computer
      */
-    protected void closeGame(boolean who) { //	Implementierung des Zudrehens
-        if (!aGame.isGame || aGame.gambler == null) {
+    protected void closeGame(PLAYERDEF whoCloses) { //	Implementierung des Zudrehens
+        if (!aGame.isGame || aGame.gambler == null ||
+            aGame.colorHitRule || aGame.isClosed ||
+            aGame.schnapState == SCHNAPSTATE.GAME_CLOSED ||
+            aGame.schnapState == SCHNAPSTATE.TALON_ONE_REMAINS ||
+            aGame.schnapState == SCHNAPSTATE.TALON_CONSUMED ||
+            aGame.schnapState == SCHNAPSTATE.NONE) {
             setTextMessage(getString(R.string.nogame_started));
             return;
         }
 
-        aGame.schnapState = SCHNAPSTATE.GAME_CLOSED;
-        aGame.colorHitRule = true;
-        aGame.isClosed = true;
-        if (!aGame.atouChanged) {
-            aGame.atouChanged = true;
-        }
-        if (who) {
-            setTextMessage(getString(R.string.player_closed_game));
-            saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, getString(R.string.close_game));
-            aGame.gambler.hasClosed = true;
-        } else {
-            setTextMessage(getString(R.string.computer_closed_game));
-            aGame.computer.hasClosed = true;
-        }
+        aGame.closeGame(whoCloses);
 
+        setTextMessage(aGame.statusMessage);
+        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, aGame.statusMessage);
         showTalonCard(aGame.schnapState);
         showAtouCard(aGame.schnapState);
 
         globalVariable.setGame(aGame);
-        if (who) {
+        if (whoCloses == PLAYERDEF.HUMAN) {
             gameTurn(0);
         }
     }
@@ -1755,7 +1751,7 @@ public class MainActivity
         if (aGame.playersTurn) {
             // Wann kann man austauschen ?
             if (ixlevel < 1) {
-                if ((aGame.atouIsChangable(aGame.gambler)) && (!pSaid)) {
+                if ((aGame.isAtouChangable(aGame.gambler)) && (!pSaid)) {
                     syncLocker = Integer.valueOf(ticks);
                     synchronized (syncLocker) {
                         ticks++;
@@ -1767,7 +1763,7 @@ public class MainActivity
                         getString(R.string.bChange_text));
             }
             // Gibts was zum Ansagen ?
-            int a20 = aGame.gambler.has20();
+            int a20 = aGame.gambler.hasPair();
             if (a20 > 0) {
                 syncLocker = Integer.valueOf(ticks);
                 synchronized (syncLocker) {
@@ -1833,7 +1829,7 @@ public class MainActivity
                 outPutMessage += getString(R.string.computer_closed_game);
                 setTextMessage(outPutMessage);
                 saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
-                closeGame(false);
+                closeGame(PLAYERDEF.COMPUTER);
             }
 
             try {
@@ -2107,10 +2103,10 @@ public class MainActivity
         String textMsg = (text != null && text.length() > 2) ?
                 String.valueOf(text) : getString(R.string.tDbg_text);
 
-        if (aGame != null)
-            aGame.textMsg = textMsg;
+        if (aGame != null) // TOOD:
+            aGame.statusMessage = textMsg;
 
-        boolean tMesEna = (!textMsg.isEmpty() && textMsg.length() > 2);
+        boolean tMesEna = (textMsg != null && textMsg.length() > 2);
         toggleEnabled(tMes, tMesEna, textMsg);
     }
 

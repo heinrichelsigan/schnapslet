@@ -22,6 +22,7 @@ namespace SchnapsNet.Models
         private Card emptyCard = null;
         private Card noneCard = null;
         private Game game = null;
+        private Tournement tournement = null;
         private static HttpContext context;
         private HttpSessionState session;
         private static HttpApplicationState application;
@@ -62,7 +63,9 @@ namespace SchnapsNet.Models
         public String TwoLetterISOLanguageName { get => Locale.TwoLetterISOLanguageName; }
 
 
-        public Game Game { get => game; set => game = value; }
+        public Game Game { get => game; }
+
+        public Tournement Tournement { get => tournement; set => tournement = value; }
 
         public Card CardEmpty { get => (emptyCard == null) ? new Card(-2, getContext()) : emptyCard; }
 
@@ -194,6 +197,12 @@ namespace SchnapsNet.Models
             {
                 Console.Error.WriteLine(e.StackTrace);
             }
+        }
+
+        public void SetTournementGame(Tournement aTournement, Game aGame)
+        {
+            this.tournement = aTournement;
+            this.game = aGame;            
         }
 
         // public DIALOGS getDialog() { return dialogOpened; }

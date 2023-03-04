@@ -98,7 +98,10 @@
     <string translatable="true" name="ukraine_cards">ukraine card deck</string>
     <string translatable="true" name="polish_cards">polish card deck</string>
     <string translatable="true" name="us_cards">US future card set</string>
-
+    <string translatable="false" name="you_won_tournement">Computer hats Bummmerl.</string>
+    <string translatable="false" name="you_won_taylor">Computer hat einen Schneider!</string>
+    <string translatable="false" name="computer_won_tournement">Du hast des Bummerl.</string>
+    <string translatable="false" name="computer_won_taylor">Du bist im Schneider!</string>
     <string translatable="false" name="app_name">Schnapslet</string>
     <string translatable="false" name="version_name">v2.4.6</string>
     <string translatable="false" name="param1_index">Index</string>

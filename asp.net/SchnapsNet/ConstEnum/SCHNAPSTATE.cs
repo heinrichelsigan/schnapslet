@@ -14,7 +14,7 @@ namespace SchnapsNet.ConstEnum
 		GAME_CLOSED         = 3,
 		TALON_ONE_REMAINS   = 5,
 		TALON_CONSUMED      = 7,
-		GAME_STOP           = 8,
+		ZERO_CARD_REMAINS   = 8,
 		MERGING_CARDS       = 16,
 		MERGE_PLAYER        = 32,
 		MERGE_COMPUTER      = 64,
@@ -36,7 +36,7 @@ namespace SchnapsNet.ConstEnum
                 case SCHNAPSTATE.GAME_CLOSED: return 3;
                 case SCHNAPSTATE.TALON_ONE_REMAINS: return 5;
                 case SCHNAPSTATE.TALON_CONSUMED: return 7;
-				case SCHNAPSTATE.GAME_STOP: return 8;
+				case SCHNAPSTATE.ZERO_CARD_REMAINS: return 8;
                 case SCHNAPSTATE.MERGING_CARDS: return 16;
                 case SCHNAPSTATE.MERGE_PLAYER: return 32;
                 case SCHNAPSTATE.MERGE_COMPUTER: return 64;
@@ -57,7 +57,7 @@ namespace SchnapsNet.ConstEnum
                 case SCHNAPSTATE.GAME_CLOSED: return 3;
                 case SCHNAPSTATE.TALON_ONE_REMAINS: return 5;
                 case SCHNAPSTATE.TALON_CONSUMED: return 7;
-                case SCHNAPSTATE.GAME_STOP: return 8;
+                case SCHNAPSTATE.ZERO_CARD_REMAINS: return 8;
                 case SCHNAPSTATE.MERGING_CARDS: return 16;
                 case SCHNAPSTATE.MERGE_PLAYER: return 32;
                 case SCHNAPSTATE.MERGE_COMPUTER: return 64;
