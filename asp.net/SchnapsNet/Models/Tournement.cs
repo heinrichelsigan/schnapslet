@@ -22,7 +22,7 @@ namespace SchnapsNet.Models
         public int GamblerTPoints { get; set; } = 7;
         public int ComputerTPoints { get; set; } = 7;
 
-        internal List<Point> tHistory = new List<Point>();
+        public List<Point> tHistory = new List<Point>();
 
         public PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
 

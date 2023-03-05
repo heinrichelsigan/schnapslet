@@ -774,19 +774,19 @@ namespace SchnapsNet
         void drawPointsTable()
         {
             tableTournement.Rows.Clear();
-            HtmlTableRow trHead = new HtmlTableRow();
+            TableRow trHead = new TableRow();
             trHead.Style["border-bottom"] = "thick";
-            HtmlTableCell tdX = new HtmlTableCell() { InnerText = "You" };
+            TableCell tdX = new TableCell() { Text = "You" };
             tdX.Style["border-right"] = "medium";
-            HtmlTableCell tdY = new HtmlTableCell() { InnerText = "Computer" };
+            TableCell tdY = new TableCell() { Text = "Computer" };
             trHead.Cells.Add(tdX);
             trHead.Cells.Add(tdY);
             tableTournement.Rows.Add(trHead);
             foreach (Point pt in aTournement.tHistory)
             {
-                HtmlTableRow tr = new HtmlTableRow();
-                tdX = new HtmlTableCell() { InnerText = pt.X.ToString() };
-                tdY = new HtmlTableCell() { InnerText = pt.Y.ToString() };
+                TableRow tr = new TableRow();
+                tdX = new TableCell() { Text = pt.X.ToString() };
+                tdY = new TableCell() { Text = pt.Y.ToString() };
                 tr.Cells.Add(tdX);
                 tr.Cells.Add(tdY);
                 tableTournement.Rows.Add(tr);
