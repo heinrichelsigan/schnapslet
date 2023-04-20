@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
+using Newtonsoft.Json;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 
@@ -157,6 +159,16 @@ namespace SchnapsNet
                     globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
                 }
             }
+
+            string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
+    "Schnapsen_" +
+    DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString() + "_"
+     + Context.Session.SessionID + "_" + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second +
+    ".json");
+
+            string jsonString = JsonConvert.SerializeObject(globalVariable);
+            System.IO.File.WriteAllText(saveFileName, jsonString);
+            ;
             if (aTournement == null)
                 aTournement = globalVariable.Tournement;
             if (aGame == null)
@@ -799,15 +811,8 @@ namespace SchnapsNet
             {
                 setTextMessage(endMessage);
             }
-            if (whoWon == PLAYERDEF.HUMAN)
-            {
-                aTournement.GamblerTPoints -= tournementPts;
-            }
-            else if (whoWon == PLAYERDEF.COMPUTER)
-            {
-                aTournement.ComputerTPoints -= tournementPts;
-            }
-            aTournement.AddPointsRotateGiver();
+            
+            aTournement.AddPointsRotateGiver(tournementPts,whoWon);
             bStop.Enabled = false;
             aGame.stopGame();
             

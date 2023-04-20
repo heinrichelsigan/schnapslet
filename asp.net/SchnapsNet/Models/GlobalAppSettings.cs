@@ -11,6 +11,7 @@ using System.Web.SessionState;
 
 namespace SchnapsNet.Models
 {
+    [Serializable]
     public class GlobalAppSettings
     {
         private String pictureUrl = Constants.URLPIC;

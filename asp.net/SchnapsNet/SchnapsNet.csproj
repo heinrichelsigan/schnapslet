@@ -270,13 +270,13 @@
     <Content Include="OctalDump.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstEnum\CARDCOLOR.cs" />
-    <Compile Include="ConstEnum\CARDVALUE.cs" />
-    <Compile Include="ConstEnum\Constants.cs" />
-    <Compile Include="ConstEnum\JavaResReader.cs" />
-    <Compile Include="ConstEnum\PLAYERDEF.cs" />
-    <Compile Include="ConstEnum\PLAYEROPTIONS.cs" />
-    <Compile Include="ConstEnum\SCHNAPSTATE.cs" />
+    <Compile Include="ConstEum\CARDCOLOR.cs" />
+    <Compile Include="ConstEum\CARDVALUE.cs" />
+    <Compile Include="ConstEum\Constants.cs" />
+    <Compile Include="ConstEum\JavaResReader.cs" />
+    <Compile Include="ConstEum\PLAYERDEF.cs" />
+    <Compile Include="ConstEum\PLAYEROPTIONS.cs" />
+    <Compile Include="ConstEum\SCHNAPSTATE.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

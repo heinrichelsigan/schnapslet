@@ -67,8 +67,16 @@ namespace SchnapsNet.Models
             NextGameGiver = nextGiver;
         }
 
-        public void AddPointsRotateGiver()
+        public void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
+            if (whoWon == PLAYERDEF.HUMAN)
+            {
+                GamblerTPoints -= tournementPts;
+            }
+            else if (whoWon == PLAYERDEF.COMPUTER)
+            {
+                ComputerTPoints -= tournementPts;
+            }
             Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
             tHistory.Add(ptStart);
             if (NextGameGiver == PLAYERDEF.COMPUTER)
