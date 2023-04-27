@@ -13,80 +13,122 @@
         android:id="@+id/relativeTop"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-52dp"
+        tools:layout_editor_absoluteY="360dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp">
+
             <LinearLayout
                 android:id="@+id/linLayoutCard0"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp">
+
                 <ImageView
                     android:id="@+id/imgCOut0"
-                    android:contentDescription="@string/imgCOut0_text"
-                    android:src="@drawable/e"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
-                    android:minHeight="96dp"
+                    android:contentDescription="@string/imgCOut0_text"
                     android:minWidth="72dp"
-                    android:visibility="visible"
-                    />
+                    android:minHeight="96dp"
+                    android:src="@drawable/e"
+                    android:visibility="visible" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linLayoutCard1"
                 android:layout_width="72dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="66dp"
                 android:layout_marginTop="0dp">
+
                 <ImageView
                     android:id="@+id/imgCOut1"
                     android:layout_width="72dp"
                     android:layout_height="96dp"
                     android:contentDescription="@string/imgCOut1_text"
-                    android:minHeight="96dp"
                     android:minWidth="72dp"
+                    android:minHeight="96dp"
                     android:src="@drawable/e" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linLayoutComputerStitch0a"
-                android:layout_width="72dp"
+                android:id="@+id/LinTable"
+                android:layout_width="60dp"
                 android:layout_height="96dp"
-                android:layout_marginStart="192dp"
-                android:layout_marginTop="0dp"
-                android:visibility="visible">
-                <ImageView
-                    android:id="@+id/imgComputerStitch0a"
-                    android:layout_width="72dp"
-                    android:layout_height="96dp"
-                    android:contentDescription="@string/imgCOut2_text"
-                    android:minHeight="96dp"
-                    android:minWidth="72dp"
-                    android:src="@drawable/n0" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linLayoutComputerStitch0b"
-                android:layout_width="72dp"
-                android:layout_height="96dp"
-                android:layout_marginStart="240dp"
-                android:layout_marginTop="4dp">
+                android:layout_marginStart="140dp"
+                android:layout_marginTop="0dp">
 
-                <ImageView
-                    android:id="@+id/imgComputerStitch0b"
-                    android:layout_width="72dp"
-                    android:layout_height="96dp"
-                    android:contentDescription="@string/imgCOut2_text"
-                    android:minWidth="72dp"
-                    android:minHeight="96dp"
-                    android:src="@drawable/n1"
-                    android:visibility="visible" />
-            </LinearLayout>
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:text="P"></TextView>
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="0dp"
+                    android:text="C"></TextView>
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="24dp"
+                    android:text="7">
+            </TextView>
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="24dp"
+                android:text="7"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayoutComputerStitch0a"
+            android:layout_width="72dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="204dp"
+            android:layout_marginTop="0dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/imgComputerStitch0a"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:contentDescription="@string/imgCOut2_text"
+                android:minWidth="72dp"
+                android:minHeight="96dp"
+                android:src="@drawable/n0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayoutComputerStitch0b"
+            android:layout_width="72dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="256dp"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:id="@+id/imgComputerStitch0b"
+                android:layout_width="72dp"
+                android:layout_height="96dp"
+                android:contentDescription="@string/imgCOut2_text"
+                android:minWidth="72dp"
+                android:minHeight="96dp"
+                android:src="@drawable/n1"
+                android:visibility="visible" />
+        </LinearLayout>
+    </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
