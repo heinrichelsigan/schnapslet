@@ -150,6 +150,17 @@
     {
         globalVariable.SetTournementGame(aTournement, aGame);
         this.Context.Session[Constants.APPNAME] = globalVariable;
+
+        string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
+"Schnapsen_" +
+DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
+DateTime.Now.Day.ToString() + "_"
+ + Context.Session.SessionID + "_" + DateTime.Now.Hour + DateTime.Now.Minute +
+ DateTime.Now.Second +
+".json");
+
+        string jsonString = JsonConvert.SerializeObject(globalVariable);
+        System.IO.File.WriteAllText(saveFileName, jsonString);
     }
 
 
@@ -166,7 +177,7 @@
         {
             if (this.Context.Session[Constants.APPNAME] == null)
             {
-                globalVariable = new    GlobalAppSettings(this.Context, this.Session);
+                globalVariable = new GlobalAppSettings(this.Context, this.Session);
                 aTournement = new Tournement();
                 globalVariable.Tournement = aTournement;
                 this.Context.Session[Constants.APPNAME] = globalVariable;
@@ -176,22 +187,13 @@
                 globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
             }
 
-            string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
-    "Schnapsen_" + 
-    DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
-    DateTime.Now.Day.ToString() + "_"
-     + Context.Session.SessionID + "_" + DateTime.Now.Hour + DateTime.Now.Minute + 
-     DateTime.Now.Second +
-    ".json");
 
-            string jsonString = JsonConvert.SerializeObject(globalVariable);
-            System.IO.File.WriteAllText(saveFileName, jsonString);
+            if (aTournement == null)
+                aTournement = globalVariable.Tournement;
+            if (aGame == null)
+                aGame = globalVariable.Game;
+            drawPointsTable();
         }
-        if (aTournement == null)
-            aTournement = globalVariable.Tournement;
-        if (aGame == null)
-            aGame = globalVariable.Game;
-        drawPointsTable();
     }
 
     protected void showPlayersCards(SCHNAPSTATE gameState)

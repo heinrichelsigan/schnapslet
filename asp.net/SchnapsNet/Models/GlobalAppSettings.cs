@@ -14,16 +14,16 @@ namespace SchnapsNet.Models
     [Serializable]
     public class GlobalAppSettings
     {
-        private String pictureUrl = Constants.URLPIC;
-        private string prefixUrl = Constants.URLPREFIX;
-        private Uri prefixUri = null;
-        private Uri pictureUri = null;
-        private CultureInfo systemLocale, locale;
+        public String pictureUrl = Constants.URLPIC;
+        public string prefixUrl = Constants.URLPREFIX;
+        public Uri prefixUri = null;
+        public Uri pictureUri = null;
+        public CultureInfo systemLocale, locale;
         // private DIALOGS dialogOpened = DIALOGS.None;
-        private Card emptyCard = null;
-        private Card noneCard = null;
-        private Game game = null;
-        private Tournement tournement = null;
+        public Card emptyCard = null;
+        public Card noneCard = null;
+        public Game game = null;
+        public Tournement tournement = null;
         private static HttpContext context;
         private HttpSessionState session;
         private static HttpApplicationState application;

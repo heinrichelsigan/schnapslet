@@ -17,6 +17,7 @@ namespace SchnapsNet.Models
 	/// Port of class Game
 	/// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
 	/// </summary>
+	[Serializable]
 	public class Game : IDisposable
 	{
 		public volatile bool isGame = false;		// a Game is running
@@ -46,7 +47,7 @@ namespace SchnapsNet.Models
 		public String sayMarriage20, sayMarriage40, statusMessage;
 		public PLAYERDEF whoStarts = PLAYERDEF.UNKNOWN;
 
-        public GlobalAppSettings globalAppSettings;
+        internal GlobalAppSettings globalAppSettings;
 		public Card[] set = new Card[20];
 		public Card playedOut, playedOut0, playedOut1;
 
