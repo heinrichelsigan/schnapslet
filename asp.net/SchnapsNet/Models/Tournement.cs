@@ -26,7 +26,7 @@ namespace SchnapsNet.Models
 
         public PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
 
-        public PLAYERDEF NextGameStarter { 
+        public PLAYERDEF NextGameStarter {
             get
             {
                 if (NextGameGiver == PLAYERDEF.HUMAN)
@@ -34,7 +34,7 @@ namespace SchnapsNet.Models
                 if (NextGameGiver == PLAYERDEF.COMPUTER)
                     return PLAYERDEF.HUMAN;
                 return PLAYERDEF.UNKNOWN; // TODO: ReThink Unknown never occurred state
-            } 
+            }
         }
 
         public PLAYERDEF WonTournement
@@ -49,7 +49,16 @@ namespace SchnapsNet.Models
             }
         }
 
-        public bool Taylor { get => (WonTournement != PLAYERDEF.UNKNOWN && (GamblerTPoints == 7 || ComputerTPoints == 7)); }
+        public bool Taylor
+        {
+            get
+            {
+                if ((WonTournement == PLAYERDEF.COMPUTER && GamblerTPoints == 7) ||
+                    (WonTournement == PLAYERDEF.HUMAN && ComputerTPoints == 7))
+                    return true;
+                return false;
+            }
+        } 
         
 
         public Tournement()

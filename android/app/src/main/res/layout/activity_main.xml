@@ -58,7 +58,7 @@
                     android:src="@drawable/e" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/LinTable"
                 android:layout_width="60dp"
                 android:layout_height="96dp"
@@ -78,20 +78,20 @@
                     android:layout_marginTop="0dp"
                     android:text="C"></TextView>
                 <TextView
+                    android:id="@+id/player7text"
                     android:layout_width="30dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="24dp"
-                    android:text="7">
-            </TextView>
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="24dp"
-                android:text="7"></TextView>
-        </LinearLayout>
+                    android:text="7"></TextView>
+                <TextView
+                    android:id="@+id/computer7text"
+                    android:layout_width="30dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="24dp"
+                    android:text="7"></TextView>
+            </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linLayoutComputerStitch0a"

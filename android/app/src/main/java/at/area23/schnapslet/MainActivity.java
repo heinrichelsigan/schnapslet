@@ -52,6 +52,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.gson.Gson;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -2108,6 +2110,8 @@ public class MainActivity
 
         boolean tMesEna = (textMsg != null && textMsg.length() > 2);
         toggleEnabled(tMes, tMesEna, textMsg);
+
+
     }
 
     /**
@@ -2189,4 +2193,9 @@ public class MainActivity
     }
 
     //endregion
+
+    protected String SerializeJsom(Game aGame) {
+        String gsonStr = new Gson().toJson(aGame);
+        return gsonStr;
+    }
 }
