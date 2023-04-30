@@ -45,14 +45,29 @@ public class Constants {
 
 	/**
 	 * getSaveImageFileName
-	 * 	gets application specific
-	 *  unique save file name for images (screenshots)
+	 * gets application specific
+	 * unique save file name for images (screenshots)
+	 *
 	 * @param compress true, if jpeg compression wanted,
 	 *                 otherwise false if png wanted
 	 * @return application specific unique save file name
 	 */
 	public static String getSaveImageFileName(boolean compress) {
 
+		String datePart = getDateString();
+		String timePart = getTimeString(true);
+		String saveName = APP_NAME + "_" + datePart + "-" + timePart;
+		String saveFullName = saveName + ((compress) ? IMG_JPG_SUFFIX : IMG_PNG_SUFFIX);
+
+		return saveFullName;
+	}
+
+	/**
+	 * getDateString
+	 *
+	 * @return String representing current date "YYYY-MM-DD"
+	 */
+	public static String getDateString() {
 		Calendar calendar = Calendar.getInstance();
 
 		String yearStr = String.valueOf(calendar.get(Calendar.YEAR));
@@ -61,23 +76,43 @@ public class Constants {
 		String dayStr = (calendar.get(Calendar.DAY_OF_MONTH) < 10) ?
 				"0" : "" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
 
+		String dateString = yearStr + "-" + monthStr + "-" + dayStr;
+		return dateString;
+	}
+
+	/**
+	 * getTimeString
+	 *
+	 * @param showMillis true to show additionally milliseconds
+	 * @return String representing current time "HHMMSS" or "HHMMSS_mmmm"
+	 */
+	public static String getTimeString(boolean showMillis) {
+		Calendar calendar = Calendar.getInstance();
+
 		String hourStr = (calendar.get(Calendar.HOUR_OF_DAY) < 10) ?
 				"0" : "" + String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
 		String minuteStr = (calendar.get(Calendar.MINUTE) < 10) ?
 				"0" : "" + String.valueOf(calendar.get(Calendar.MINUTE));
 		String secondStr = (calendar.get(Calendar.SECOND) < 10) ?
 				"0" : "" + String.valueOf(calendar.get(Calendar.SECOND));
+		String milliStr = (calendar.get(Calendar.MILLISECOND) < 10) ?
+				"00" : ((calendar.get(Calendar.MILLISECOND) < 100) ?
+				"0" : String.valueOf(calendar.get(Calendar.MILLISECOND)));
 
-		String milliStr = String.valueOf(calendar.get(Calendar.MILLISECOND));
-		for (int imilli = 0; imilli < (4 - milliStr.length()); imilli++) {
-			milliStr = "0" + milliStr;
-		}
+		String timeString = hourStr + minuteStr + secondStr;
+		if (showMillis)
+			timeString += "_" + milliStr;
 
-		String datePart = yearStr + "-" + monthStr + "-" + dayStr;
-		String timePart = hourStr + minuteStr + secondStr + "_" + milliStr;
-		String saveName = APP_NAME + "_" + datePart + "-" + timePart;
-		String saveFullName = saveName + ((compress) ? IMG_JPG_SUFFIX : IMG_PNG_SUFFIX);
-
-		return saveFullName;
+		return timeString;
 	}
+
+	/**
+	 * getTimeString
+	 *
+	 * @return String representing current time "HHMMSS"
+	 */
+	public static String getTimeString() {
+		return getTimeString(false);
+	}
+
 }

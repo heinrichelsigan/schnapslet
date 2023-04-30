@@ -38,6 +38,7 @@ public class GlobalAppSettings extends Application {
     private DIALOGS dialogOpened = DIALOGS.None;
     private Card emptyCard = null;
     private Card noneCard = null;
+    private Tournament tournament = null;
     private Game game = null;
     private Context context;
 
@@ -148,6 +149,20 @@ public class GlobalAppSettings extends Application {
 
     public void setGame(Game aGame) { game = aGame;}
 
+    public Tournament getTournament() {
+        if (tournament == null)
+            tournament = new Tournament(getContext());
+        return tournament;
+    }
+    /**
+     * setTournamentGame sets current tournament & game to statefull GlobalAppSettings
+     * @param aTournament Tournament current tournament
+     * @param aGame Game current game
+     */
+    public void setTournamentGame(Tournament aTournament, Game aGame) {
+        tournament = aTournament;
+        game = aGame;
+    }
     public Card cardEmpty() {
         if (emptyCard == null)
             emptyCard = new Card(-2, getApplication().getApplicationContext());
