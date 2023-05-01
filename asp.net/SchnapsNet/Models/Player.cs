@@ -264,7 +264,7 @@ namespace SchnapsNet.Models
                     // valid card => max = CardValue
                     tmp = hand[i].CardValue.GetValue();
 
-                    if (hand[i].CardColor.GetChar() != aCard.CardColor.GetChar())
+                    if (hand[i].CardColor.GetChar() != aCard.CardColor.GetChar()) 
                     {
                         // not same colors && atou => max is atou card value
                         if ((hand[i].isAtou) && (!aCard.isAtou)) // can hit with atou -> PRI 1                        
