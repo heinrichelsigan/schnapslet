@@ -466,6 +466,15 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Computer plays out.
+        /// </summary>
+        internal static string computer_plays_out {
+            get {
+                return ResourceManager.GetString("computer_plays_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to computer announces  a marriages in color {0}.
         /// </summary>
         internal static string computer_says_pair {

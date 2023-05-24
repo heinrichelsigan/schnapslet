@@ -159,8 +159,8 @@ DateTime.Now.Day.ToString() + "_"
  DateTime.Now.Second +
 ".json");
 
-        string jsonString = JsonConvert.SerializeObject(globalVariable);
-        System.IO.File.WriteAllText(saveFileName, jsonString);
+        // string jsonString = JsonConvert.SerializeObject(globalVariable);
+        // System.IO.File.WriteAllText(saveFileName, jsonString);
     }
 
 
@@ -1197,6 +1197,8 @@ DateTime.Now.Day.ToString() + "_"
                     aGame.printColor(aGame.csaid));
                 outPutMessage = outPutMessage + " " + computerSaysPair;
             }
+            if (outPutMessage == "")
+                    outPutMessage = JavaResReader.GetValueFromKey("computer_plays_out", globalVariable.TwoLetterISOLanguageName);
             setTextMessage(outPutMessage);
 
             bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);

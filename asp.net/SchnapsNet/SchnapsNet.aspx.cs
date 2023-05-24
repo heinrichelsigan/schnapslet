@@ -1174,6 +1174,8 @@ namespace SchnapsNet
                         aGame.printColor(aGame.csaid));
                     outPutMessage = outPutMessage + " " + computerSaysPair;
                 }
+                if (outPutMessage == "")
+                    outPutMessage = JavaResReader.GetValueFromKey("computer_plays_out", globalVariable.TwoLetterISOLanguageName);
                 setTextMessage(outPutMessage);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
@@ -1218,6 +1220,7 @@ namespace SchnapsNet
 
             aGame.isReady = true;
             printMsg();
+
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
@@ -1449,7 +1452,7 @@ namespace SchnapsNet
                 globalVariable = new GlobalAppSettings(this.Context, this.Session);
                 aTournement = new Tournement();
                 globalVariable.Tournement = aTournement;
-                this.Context.Session[Constants.APPNAME] = globalVariable;
+                this.Context.Session[Constants.APPNAME] = globalVariable;                
             }
             startGame();
         }

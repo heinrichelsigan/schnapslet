@@ -252,6 +252,9 @@
   <data name="computer_hit_points" xml:space="preserve">
     <value>Computer hits with {0} points.</value>
   </data>
+  <data name="computer_plays_out" xml:space="preserve">
+    <value>Computer plays out</value>
+  </data>
   <data name="computer_says_pair" xml:space="preserve">
     <value>computer announces  a marriages in color {0}</value>
   </data>
