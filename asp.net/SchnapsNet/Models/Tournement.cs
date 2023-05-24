@@ -68,7 +68,9 @@ namespace SchnapsNet.Models
             tHistory = new List<Point>();
             Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
             tHistory.Add(ptStart);
-            NextGameGiver = PLAYERDEF.COMPUTER;
+            Random random = new Random();
+            int rand = random.Next();
+            NextGameGiver = (rand % 2 == 0) ? PLAYERDEF.HUMAN : PLAYERDEF.COMPUTER;
         }
         
         public Tournement(PLAYERDEF nextGiver) : this()

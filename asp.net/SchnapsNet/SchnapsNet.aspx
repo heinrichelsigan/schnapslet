@@ -1,4 +1,4 @@
-﻿01<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SchnapsNet.aspx.cs" Inherits="SchnapsNet.SchnapsNet" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SchnapsNet.aspx.cs" Inherits="SchnapsNet.SchnapsNet" %>
 
 <!DOCTYPE html>
 
@@ -93,12 +93,11 @@
         </div>
         <pre id="preOut" style="width: 100%; height: 12%; visibility: visible; font-size: large; scroll-behavior: auto;" runat="server">
         </pre>
-        <asp:Table ID="tableTournement" runat="server">
-            <asp:TableHeaderRow style="border-bottom: thick">
-                <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
-                <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
-            </asp:TableHeaderRow>
-        </asp:Table>        
+        <table id="tableTournement" runat="server">
+            <tr style="border-bottom: thick">
+                <td style="border-bottom: thick; border-right: medium">You</td><td style="border-bottom: thick; border-left: medium">Computer</td>
+            </tr>
+        </table>
         <div align="left" style="text-align: left; width: 100%; height: 8%; visibility: inherit; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
             <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://@arkstar.work">darkstar.work</a>            
         </div>    

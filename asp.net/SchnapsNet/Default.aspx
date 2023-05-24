@@ -843,24 +843,22 @@ DateTime.Now.Day.ToString() + "_"
         aGame.Dispose();
         // java.lang.System.runFinalization();
         // java.lang.System.gc();
-        if (aTournement.WonTournement == PLAYERDEF.UNKNOWN)
-        {
-            bMerge.Enabled = true;
-        }
-        else
+
+        bMerge.Enabled = true;
+        if (aTournement.WonTournement != PLAYERDEF.UNKNOWN)
         {
             string endTournementMsg = "";
             if (aTournement.WonTournement == PLAYERDEF.HUMAN)
             {
                 endTournementMsg = (aTournement.Taylor) ?
-                    JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName) :
-                    JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                    JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName) :
+                    JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
             }
             else if (aTournement.WonTournement == PLAYERDEF.COMPUTER)
             {
                 endTournementMsg = (aTournement.Taylor) ?
-                    JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName) :
-                    JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                    JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName) :
+                    JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
             }
             setTextMessage(endTournementMsg);
             // TODO: excited end animation
@@ -1469,6 +1467,13 @@ DateTime.Now.Day.ToString() + "_"
 
     protected void bMerge_Click(object sender, EventArgs e)
     {
+        if (aTournement.WonTournement != PLAYERDEF.UNKNOWN)
+        {
+            globalVariable = new GlobalAppSettings(this.Context, this.Session);
+            aTournement = new Tournement();
+            globalVariable.Tournement = aTournement;
+            this.Context.Session[Constants.APPNAME] = globalVariable;
+        }
         startGame();
     }
 

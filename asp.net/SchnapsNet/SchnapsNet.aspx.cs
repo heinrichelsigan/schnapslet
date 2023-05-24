@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using Newtonsoft.Json;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 
@@ -159,16 +157,6 @@ namespace SchnapsNet
                     globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
                 }
             }
-
-            string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
-    "Schnapsen_" +
-    DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Day.ToString() + "_"
-     + Context.Session.SessionID + "_" + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second +
-    ".json");
-
-            string jsonString = JsonConvert.SerializeObject(globalVariable);
-            System.IO.File.WriteAllText(saveFileName, jsonString);
-            ;
             if (aTournement == null)
                 aTournement = globalVariable.Tournement;
             if (aGame == null)
@@ -786,19 +774,19 @@ namespace SchnapsNet
         void drawPointsTable()
         {
             tableTournement.Rows.Clear();
-            TableRow trHead = new TableRow();
+            HtmlTableRow trHead = new HtmlTableRow();
             trHead.Style["border-bottom"] = "thick";
-            TableCell tdX = new TableCell() { Text = "You" };
+            HtmlTableCell tdX = new HtmlTableCell() { InnerText = "You" };
             tdX.Style["border-right"] = "medium";
-            TableCell tdY = new TableCell() { Text = "Computer" };
+            HtmlTableCell tdY = new HtmlTableCell() { InnerText = "Computer" };
             trHead.Cells.Add(tdX);
             trHead.Cells.Add(tdY);
             tableTournement.Rows.Add(trHead);
             foreach (Point pt in aTournement.tHistory)
             {
-                TableRow tr = new TableRow();
-                tdX = new TableCell() { Text = pt.X.ToString() };
-                tdY = new TableCell() { Text = pt.Y.ToString() };
+                HtmlTableRow tr = new HtmlTableRow();
+                tdX = new HtmlTableCell() { InnerText = pt.X.ToString() };
+                tdY = new HtmlTableCell() { InnerText = pt.Y.ToString() };
                 tr.Cells.Add(tdX);
                 tr.Cells.Add(tdY);
                 tableTournement.Rows.Add(tr);
@@ -811,8 +799,15 @@ namespace SchnapsNet
             {
                 setTextMessage(endMessage);
             }
-            
-            aTournement.AddPointsRotateGiver(tournementPts,whoWon);
+            if (whoWon == PLAYERDEF.HUMAN)
+            {
+                aTournement.GamblerTPoints -= tournementPts;
+            }
+            else if (whoWon == PLAYERDEF.COMPUTER)
+            {
+                aTournement.ComputerTPoints -= tournementPts;
+            }
+            aTournement.AddPointsRotateGiver(tournementPts, whoWon);
             bStop.Enabled = false;
             aGame.stopGame();
             
@@ -824,24 +819,23 @@ namespace SchnapsNet
             aGame.Dispose();
             // java.lang.System.runFinalization();
             // java.lang.System.gc();
-            if (aTournement.WonTournement == PLAYERDEF.UNKNOWN)
-            {
-                bMerge.Enabled = true;
-            } 
-            else
+            
+            bMerge.Enabled = true;
+            if (aTournement.WonTournement != PLAYERDEF.UNKNOWN)
             {
                 string endTournementMsg = "";
                 if (aTournement.WonTournement == PLAYERDEF.HUMAN)
                 {
                     endTournementMsg = (aTournement.Taylor) ?
-                        JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName) :
-                        JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                        JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName) :
+                    JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                        
                 }
                 else if (aTournement.WonTournement == PLAYERDEF.COMPUTER)
                 {
                     endTournementMsg = (aTournement.Taylor) ?
-                        JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName) :
-                        JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                        JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName) :
+                        JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
                 }
                 setTextMessage(endTournementMsg);
                 // TODO: excited end animation
@@ -1450,6 +1444,13 @@ namespace SchnapsNet
 
         protected void bMerge_Click(object sender, EventArgs e)
         {
+            if (aTournement.WonTournement != PLAYERDEF.UNKNOWN)
+            {
+                globalVariable = new GlobalAppSettings(this.Context, this.Session);
+                aTournement = new Tournement();
+                globalVariable.Tournement = aTournement;
+                this.Context.Session[Constants.APPNAME] = globalVariable;
+            }
             startGame();
         }
     
