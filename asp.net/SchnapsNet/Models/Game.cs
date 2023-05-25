@@ -84,8 +84,7 @@ namespace SchnapsNet.Models
 			this.context = c;
 			// this.r = c.getResources();
 			this.schnapState = SCHNAPSTATE.GAME_START;
-			ClearMsg();
-			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.TwoLetterISOLanguageName));
+			ClearMsg();			
             
 			playedOut0 = globalAppSettings.CardEmpty;
 			playedOut1 = globalAppSettings.CardEmpty;
@@ -185,8 +184,7 @@ namespace SchnapsNet.Models
 			}
 
 			set[19] = new Card(inGame[19], context);
-			set[19].setAtou();
-			InsertFormated(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.TwoLetterISOLanguageName), set[19].FullName);			
+			set[19].setAtou();						
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
 
 			for (i = 0; i < 19; i++)
