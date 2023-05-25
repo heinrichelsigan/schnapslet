@@ -191,10 +191,13 @@
     <Content Include="cardpics\merge5.gif" />
     <Content Include="cardpics\merge6.gif" />
     <Content Include="cardpics\merge7.gif" />
+    <Content Include="cardpics\mergeanim.gif" />
     <Content Include="cardpics\mergecards.gif" />
     <Content Include="cardpics\mergen.png" />
+    <Content Include="cardpics\mergeshort.gif" />
     <Content Include="cardpics\n0.gif" />
     <Content Include="cardpics\n1.gif" />
+    <Content Include="cardpics\notfound.gif" />
     <Content Include="cardpics\nt.gif" />
     <Content Include="cardpics\n_1.gif" />
     <Content Include="cardpics\p10.gif" />
