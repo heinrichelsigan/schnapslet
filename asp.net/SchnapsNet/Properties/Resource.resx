@@ -237,6 +237,9 @@
   <data name="color_t" xml:space="preserve">
     <value>♣</value>
   </data>
+  <data name="computer" xml:space="preserve">
+    <value>computer</value>
+  </data>
   <data name="computer_changes_atou" xml:space="preserve">
     <value>Computer changes Atou card.</value>
   </data>
@@ -422,6 +425,9 @@ Ideas, suggestions, improvements are gladly accepted !\n\nRules correspond to th
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
+  </data>
+  <data name="you" xml:space="preserve">
+    <value>you</value>
   </data>
   <data name="your_hit_points" xml:space="preserve">
     <value>Your hit with {0} points</value>

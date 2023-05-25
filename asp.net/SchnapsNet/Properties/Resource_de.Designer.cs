@@ -421,6 +421,15 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Computer.
+        /// </summary>
+        internal static string computer {
+            get {
+                return ResourceManager.GetString("computer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Computer tauscht Atou aus..
         /// </summary>
         internal static string computer_changes_atou {
@@ -721,6 +730,15 @@ namespace SchnapsNet.Properties {
         internal static string ukraine_cards {
             get {
                 return ResourceManager.GetString("ukraine_cards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Du.
+        /// </summary>
+        internal static string you {
+            get {
+                return ResourceManager.GetString("you", resourceCulture);
             }
         }
         

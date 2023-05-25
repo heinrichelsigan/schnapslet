@@ -788,18 +788,27 @@ namespace SchnapsNet
         {
             tableTournement.Rows.Clear();
             TableRow trHead = new TableRow();
-            trHead.Style["border-bottom"] = "thick";
-            TableCell tdX = new TableCell() { Text = "You" };
-            tdX.Style["border-right"] = "medium";
-            TableCell tdY = new TableCell() { Text = "Computer" };
+            trHead.Style["border-bottom"] = "2px solid";
+            TableCell tdX = new TableCell()
+            {
+                Text = JavaResReader.GetValueFromKey("computer", globalVariable.TwoLetterISOLanguageName)
+            };
+            tdX.Style["border-right"] = "1px solid;";
+            tdX.Style["border-bottom"] = "2px solid";
+            TableCell tdY = new TableCell()
+            {
+                Text = JavaResReader.GetValueFromKey("you", globalVariable.TwoLetterISOLanguageName)
+            };
+            tdY.Style["border-bottom"] = "2px solid";
             trHead.Cells.Add(tdX);
             trHead.Cells.Add(tdY);
             tableTournement.Rows.Add(trHead);
             foreach (Point pt in aTournement.tHistory)
             {
                 TableRow tr = new TableRow();
-                tdX = new TableCell() { Text = pt.X.ToString() };
-                tdY = new TableCell() { Text = pt.Y.ToString() };
+                tdX = new TableCell() { Text = pt.Y.ToString() }; // computer first
+                tdX.Style["border-right"] = "1px solid;";
+                tdY = new TableCell() { Text = pt.X.ToString() };
                 tr.Cells.Add(tdX);
                 tr.Cells.Add(tdY);
                 tableTournement.Rows.Add(tr);
@@ -1456,6 +1465,7 @@ namespace SchnapsNet
                 aTournement = new Tournement();
                 globalVariable.Tournement = aTournement;
                 this.Context.Session[Constants.APPNAME] = globalVariable;
+                drawPointsTable();
             }
             startGame();
         }

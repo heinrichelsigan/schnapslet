@@ -237,6 +237,9 @@
   <data name="color_t" xml:space="preserve">
     <value>trèfle</value>
   </data>
+  <data name="computer" xml:space="preserve">
+    <value>ordinateur</value>
+  </data>
   <data name="computer_changes_atou" xml:space="preserve">
     <value>l'ordinateur échange atou.</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="us_cards" xml:space="preserve">
     <value>cartes futuristes des Etas-Unis</value>
+  </data>
+  <data name="you" xml:space="preserve">
+    <value>vous</value>
   </data>
   <data name="your_hit_points" xml:space="preserve">
     <value>vous remportez la main avec {0} points.</value>
