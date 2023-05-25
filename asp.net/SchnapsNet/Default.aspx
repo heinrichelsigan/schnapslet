@@ -99,7 +99,7 @@
     {
         InitURLBase();
 
-        preOut.InnerText = "[pre][/pre]";
+        preOut.InnerText = "";
         // tMsg.Enabled = false;
 
         im0.ImageUrl = emptyURL.ToString();
@@ -170,7 +170,7 @@ DateTime.Now.Day.ToString() + "_"
 
         if (!Page.IsPostBack && globalVariable == null)
         {
-            preOut.InnerText = "[pre][/pre]";
+            preOut.InnerText = "";
             Init();
         }
         if (globalVariable == null)
