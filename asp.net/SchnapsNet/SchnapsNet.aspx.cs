@@ -784,7 +784,7 @@ namespace SchnapsNet
             }
         }
 
-        void drawPointsTable()
+        void drawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             tableTournement.Rows.Clear();
             TableRow trHead = new TableRow();
@@ -813,6 +813,33 @@ namespace SchnapsNet
                 tr.Cells.Add(tdY);
                 tableTournement.Rows.Add(tr);
             }
+            if (whoWon != PLAYERDEF.UNKNOWN) 
+            {
+                if (displayBummerlOrTaylor == 1)
+                {                   
+                    TableRow tr = new TableRow();
+                    tdX = new TableCell() { Text = "" }; // computer first
+                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "." : "";
+                    tdX.Style["border-right"] = "1px solid;";
+                    tdY = new TableCell() { Text = "." };
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "" : ".";
+                    tr.Cells.Add(tdX);
+                    tr.Cells.Add(tdY);
+                    tableTournement.Rows.Add(tr);                    
+                }
+                if (displayBummerlOrTaylor == 2)
+                {
+                    TableRow tr = new TableRow();
+                    tdX = new TableCell() { Text = "" }; // computer first
+                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "✂" : "";
+                    tdX.Style["border-right"] = "1px solid;";
+                    tdY = new TableCell() { Text = "" };
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "" : "✂";
+                    tr.Cells.Add(tdX);
+                    tr.Cells.Add(tdY);
+                    tableTournement.Rows.Add(tr);
+                }
+            }
         }
 
         void stopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
@@ -840,15 +867,29 @@ namespace SchnapsNet
                 string endTournementMsg = "";
                 if (aTournement.WonTournement == PLAYERDEF.HUMAN)
                 {
-                    endTournementMsg = (aTournement.Taylor) ?
-                        JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName) :
-                        JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                    if (aTournement.Taylor)
+                    {
+                        endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                        drawPointsTable(1, aTournement.WonTournement);
+                    }
+                    else
+                    {
+                        endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                        drawPointsTable(1, aTournement.WonTournement);
+                    }
                 }
                 else if (aTournement.WonTournement == PLAYERDEF.COMPUTER)
                 {
-                    endTournementMsg = (aTournement.Taylor) ?
-                        JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName) :
-                        JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                    if (aTournement.Taylor)
+                    {
+                        endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                        drawPointsTable(2, aTournement.WonTournement);
+                    }
+                    else
+                    {
+                        endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                        drawPointsTable(1, aTournement.WonTournement);
+                    }
                 }
                 setTextMessage(endTournementMsg);
                 // TODO: excited end animation
