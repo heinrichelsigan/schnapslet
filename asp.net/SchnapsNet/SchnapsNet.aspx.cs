@@ -62,18 +62,12 @@ namespace SchnapsNet
 
         void InitURLBase()
         {
-            try
-            {
-                notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-                emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-                backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-                // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
-                talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-                emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
-            }
-            catch (Exception)
-            {
-            }
+            notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
+            emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
+            backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
+            // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
+            talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
+            emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
         }
 
         public void Init()
@@ -818,11 +812,12 @@ namespace SchnapsNet
                 if (displayBummerlOrTaylor == 1)
                 {                   
                     TableRow tr = new TableRow();
-                    tdX = new TableCell() { Text = "" }; // computer first
+                    tr.Style["font-size"] = "large";
+                    tdX = new TableCell() { Text = "." }; // computer first
                     tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "." : "";
                     tdX.Style["border-right"] = "1px solid;";
                     tdY = new TableCell() { Text = "." };
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "" : ".";
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "." : "";
                     tr.Cells.Add(tdX);
                     tr.Cells.Add(tdY);
                     tableTournement.Rows.Add(tr);                    
@@ -830,11 +825,14 @@ namespace SchnapsNet
                 if (displayBummerlOrTaylor == 2)
                 {
                     TableRow tr = new TableRow();
-                    tdX = new TableCell() { Text = "" }; // computer first
-                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "✂" : "";
+                    tr.Style["font-size"] = "large";
+                    tdX = new TableCell() { Text = "&#9986;" }; // computer first
+                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "&#9986;" : "";
+                    tdX.Style["font-size"] = "large";
                     tdX.Style["border-right"] = "1px solid;";
-                    tdY = new TableCell() { Text = "" };
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "" : "✂";
+                    tdY = new TableCell() { Text = "&#x2702;" };
+                    tdY.Style["font-size"] = "large";
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "&#x2702;" : "";
                     tr.Cells.Add(tdX);
                     tr.Cells.Add(tdY);
                     tableTournement.Rows.Add(tr);
