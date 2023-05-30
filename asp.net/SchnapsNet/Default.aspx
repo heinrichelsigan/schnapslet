@@ -1446,24 +1446,22 @@ DateTime.Now.Day.ToString() + "_"
                 }
                 return;
             }
+
+            if (tmppoints > 0)
+            {
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
+            }
             else
             {
-                if (tmppoints > 0)
-                {
-                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
-                    int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
-                }
-                else
-                {
-                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
-                    int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds9);
-                }
-                return;
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
+                int tPts = aGame.GetTournementPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.HUMAN, sEnds9);
             }
+            return;            
         }
 
         if (aGame != null)

@@ -581,7 +581,9 @@ namespace SchnapsNet.Properties {
         ///Funktionsweise:
         ///Das Spiel ist so angelegt, dass man gegen den Computer spielt.
         ///Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.
-        ///Andere Optionen, wie \&quot;Atou austauschen\&quot; oder \&quot;Ein Paar Ansagen\&quot; sind ueber die Buttons unterhalb der Kartensymbole moeglich; diese Optionen muessen gewaehlt werden, bevor m [rest of string was truncated]&quot;;.
+        ///Andere Optionen, wie &quot;Atou austauschen&quot; oder &quot;Ein Paar Ansagen&quot; sind 
+        ///ueber die Buttons unterhalb der Kartensymbole moeglich; 
+        ///diese Optionen muessen gewaehlt werden, bevor m [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {

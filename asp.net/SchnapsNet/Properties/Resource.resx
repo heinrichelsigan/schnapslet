@@ -305,12 +305,19 @@ by Heinrich Elsigan (heinrich.elsigan@area23.at)
 Functionality:
 The game is designed to play against the computer.
 When it is your turn, you can play a card by clicking on the card icon.
-Other options, such as \"Exchange Atou\" or \"Announce a pair in [CardColor]\" are possible via the buttons below the card symbols; these options must be chosen before playing a card!
-When it is the computer's turn, it plays a card and you can click on your own cards to trick or give up!
-The rules correspond to the Austrian Schnapsen, but there are still small bugs!
-\'Closing Game' is implemented. You just have to click on the atou (trump) card. 
+Other options, such as "Exchange Atou" or "Announce a pair in [CardColor]" 
+are possible via the buttons below the card symbols; 
+these options must be chosen before playing a card!
+When it is the computer's turn, it plays a card and 
+you can click on your own cards to trick or give up!
+The rules correspond to the Austrian Schnapsen, 
+but there are still small bugs!
+'Closing Game' is implemented: 
+You just have to click on the atou (trump) card. 
 
-Ideas, suggestions, improvements are gladly accepted !\n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
+Ideas, suggestions, improvements are gladly accepted !
+Rules correspond to the Austrian Schnapsen 
+[ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
   </data>
   <data name="im0_text" xml:space="preserve">
     <value>Player card 1</value>

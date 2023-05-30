@@ -296,10 +296,16 @@ von Heinrich Elsigan (heinrich.elsigan@area23.at)
 Funktionsweise:
 Das Spiel ist so angelegt, dass man gegen den Computer spielt.
 Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.
-Andere Optionen, wie \"Atou austauschen\" oder \"Ein Paar Ansagen\" sind ueber die Buttons unterhalb der Kartensymbole moeglich; diese Optionen muessen gewaehlt werden, bevor man eine Karte auspielt!
-Ist der Computer am Zug, so spielt dieser eine Karte aus und man selbst kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!
-Die Regeln entsprechen dem oesterreichischen Schnapsen, allerdings gibt es bei noch kleine Bugs!
-Zudrehen ist implementiert. Man muss einfach auf die Atou Karte klicken.
+Andere Optionen, wie "Atou austauschen" oder "Ein Paar Ansagen" sind 
+ueber die Buttons unterhalb der Kartensymbole moeglich; 
+diese Optionen muessen gewaehlt werden, bevor man eine Karte auspielt!
+Ist der Computer am Zug, so spielt dieser eine Karte aus und 
+man selbst kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!
+Die Regeln entsprechen dem oesterreichischen Schnapsen, 
+allerdings gibt es bei noch kleine Bugs!
+Zudrehen ist implementiert:
+Man muss einfach auf die Atou Karte klicken.
+
 Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
   </data>
   <data name="last_hit_you_have_won" xml:space="preserve">

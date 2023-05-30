@@ -608,7 +608,9 @@ namespace SchnapsNet.Properties {
         ///Functionality:
         ///The game is designed to play against the computer.
         ///When it is your turn, you can play a card by clicking on the card icon.
-        ///Other options, such as \&quot;Exchange Atou\&quot; or \&quot;Announce a pair in [CardColor]\&quot; are possible via the buttons below the card symbols; these options must be chosen before playing a card!
+        ///Other options, such as &quot;Exchange Atou&quot; or &quot;Announce a pair in [CardColor]&quot; 
+        ///are possible via the buttons below the card symbols; 
+        ///these options must be chosen before playing a card!
         ///When it is the computer&apos;s [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
