@@ -89,7 +89,7 @@
         emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");        
     }
 
-    public void Init()
+    public void InitSchnaps()
     {
         InitURLBase();
 
@@ -165,7 +165,7 @@ DateTime.Now.Day.ToString() + "_"
         if (!Page.IsPostBack && globalVariable == null)
         {
             preOut.InnerText = "";
-            Init();
+            InitSchnaps();
         }
         if (globalVariable == null)
         {

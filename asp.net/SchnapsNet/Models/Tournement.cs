@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 using System.Runtime.Serialization.Formatters;
 using System.Drawing;

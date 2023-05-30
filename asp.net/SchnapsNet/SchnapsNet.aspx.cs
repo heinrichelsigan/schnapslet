@@ -70,7 +70,7 @@ namespace SchnapsNet
             emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
         }
 
-        public void Init()
+        public void InitSchnaps()
         {
             InitURLBase();
 
@@ -146,7 +146,7 @@ namespace SchnapsNet
             if (!Page.IsPostBack && globalVariable == null)
             {
                 preOut.InnerText = "";
-                Init();
+                InitSchnaps();
             }
             if (globalVariable == null)
             {
