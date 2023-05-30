@@ -331,6 +331,15 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Klicke auf &apos;Start&apos; um ein neues Spiel zu starten..
+        /// </summary>
+        internal static string clickon_start {
+            get {
+                return ResourceManager.GetString("clickon_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zudrehen.
         /// </summary>
         internal static string close_game {

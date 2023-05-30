@@ -204,6 +204,9 @@
   <data name="cardval_4" xml:space="preserve">
     <value>King</value>
   </data>
+  <data name="clickon_start" xml:space="preserve">
+    <value>Click on 'Start' button to start a new game.</value>
+  </data>
   <data name="click_continue" xml:space="preserve">
     <value>Click on Continue!</value>
   </data>

@@ -115,7 +115,7 @@ namespace SchnapsNet
             lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
 
             tMsg.Enabled = false;
-            tMsg.Text = JavaResReader.GetValueFromKey("toplayout_clickon_card", Locale.TwoLetterISOLanguageName);
+            tMsg.Text = JavaResReader.GetValueFromKey("clickon_start", Locale.TwoLetterISOLanguageName);
             tMsg.Visible = true;
 
             showStitches(-3);

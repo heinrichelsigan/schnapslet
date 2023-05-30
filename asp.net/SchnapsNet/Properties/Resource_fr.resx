@@ -204,6 +204,9 @@
   <data name="cardval_9" xml:space="preserve">
     <value>neuf</value>
   </data>
+  <data name="clickon_start" xml:space="preserve">
+    <value>Cliquez sur "Démarrer" pour démarrer une nouvelle partie.</value>
+  </data>
   <data name="click_continue" xml:space="preserve">
     <value>cliquez sur continuer!</value>
   </data>
