@@ -190,8 +190,9 @@ DateTime.Now.Day.ToString() + "_"
 
     protected void showPlayersCards(SCHNAPSTATE gameState)
     {
-        if (SCHNAPSTATE_Extensions.StateValue(gameState) < 16 && gameState != SCHNAPSTATE.GAME_START)
-        {
+        int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
+        if (schnapStateVal >= 16 && schnapStateVal < 22 && gameState != SCHNAPSTATE.GAME_START)
+        { 
             try
             {
                 im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
@@ -268,7 +269,8 @@ DateTime.Now.Day.ToString() + "_"
     {
         try
         {
-            if (SCHNAPSTATE_Extensions.StateValue(gameState) < 6)
+            int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
+            if (schnapStateVal >= 10 && schnapStateVal < 20)
             {
                 PlaceHolderAtouTalon.Visible = true;
                 if (gameState == SCHNAPSTATE.GAME_START)
@@ -298,7 +300,7 @@ DateTime.Now.Day.ToString() + "_"
         {
             PlaceHolderAtouTalon.Visible = true;
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
-            if (schnapStateVal < 6)
+            if (schnapStateVal >= 15 && schnapStateVal < 20)
             {
                 if (gameState == SCHNAPSTATE.GAME_START)
                     imTalon.ImageUrl = emptyTalonUri.ToString();

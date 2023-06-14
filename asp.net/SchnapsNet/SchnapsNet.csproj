@@ -103,6 +103,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cardpics\a0.gif" />
     <Content Include="cardpics\android.png" />
     <Content Include="cardpics\de_h10.gif" />
     <Content Include="cardpics\de_h11.gif" />
@@ -149,6 +150,7 @@
     <Content Include="cardpics\en_t3.png" />
     <Content Include="cardpics\en_t4.png" />
     <Content Include="cardpics\e_2.gif" />
+    <Content Include="cardpics\f0.gif" />
     <Content Include="cardpics\fr_h10.gif" />
     <Content Include="cardpics\fr_h11.gif" />
     <Content Include="cardpics\fr_h2.gif" />
@@ -268,6 +270,7 @@
     <Content Include="Properties\strings.xml" />
     <Content Include="SchnapNet.aspx" />
     <Content Include="SchnapsApplet.html" />
+    <Content Include="SchnapsenNet.aspx" />
     <Content Include="SchnapsNet.aspx" />
     <Content Include="Web.config" />
     <Content Include="OctalDump.aspx" />
@@ -306,6 +309,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource_fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SchnapsenNet.aspx.cs">
+      <DependentUpon>SchnapsenNet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SchnapsenNet.aspx.designer.cs">
+      <DependentUpon>SchnapsenNet.aspx</DependentUpon>
     </Compile>
     <Compile Include="SchnapsNet.aspx.cs">
       <DependentUpon>SchnapsNet.aspx</DependentUpon>
