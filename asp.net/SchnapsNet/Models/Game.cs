@@ -59,10 +59,19 @@ namespace SchnapsNet.Models
 
 		Queue<string> mqueue = new Queue<string>();
 
+        #region properties
+
         /// <summary>
         /// atouInGame => char for CARDCOLOR of atou in game
         /// </summary>       
         public char AtouInGame { get => (char)atouColor.GetChar(); }
+
+        /// <summary>
+        /// gets a random number modulo 20
+        /// </summary>
+        public int Random { get => GetRandom(20, false); }
+
+        #endregion properties
 
         /// <summary>
         /// Constructor of Card
@@ -108,7 +117,13 @@ namespace SchnapsNet.Models
 			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.TwoLetterISOLanguageName)); // TODO: giver msg            
         }
 
-		public Game(HttpContext c, PLAYERDEF starts = PLAYERDEF.HUMAN) : this(c)
+        /// <summary>
+        /// Constructor of Game with HttpContext and who starts as 2 parameters
+        /// </summary>
+        /// <param name="c"><see cref="HttpContext">HttpContext</see></param>
+        /// <param name="starts"><see cref="PLAYERDEF"/> for 
+		/// <seealso cref="PLAYERDEF.HUMAN"/> or <seealso cref="PLAYERDEF.COMPUTER"/></param>
+        public Game(HttpContext c, PLAYERDEF starts = PLAYERDEF.HUMAN) : this(c)
 		{
 			whoStarts = starts;			
 			playersTurn = true;
@@ -121,18 +136,18 @@ namespace SchnapsNet.Models
             computer.points = 0;
 			isClosed = false;
 
-            mergeCards();
+            MergeCards();
         }
 
 
 
 		/// <summary>
-		/// gets a positive random number
+		/// Gets a positive random number
         /// </summary>
         /// <param name="modulo">modulo modulo %</param>
         /// <param name="generate">true for generate a new Random, false for use existing one</param>
         /// <returns>random as int</returns>
-        int getRandom(int modulo, bool generate)
+        int GetRandom(int modulo, bool generate)
 		{
 			int rand = 0;
 			if (random == null || generate)
@@ -146,29 +161,20 @@ namespace SchnapsNet.Models
 			return rand;
         }
 
-		/// <summary>
-		/// gets a random number modulo 20
-        /// </summary>
-        /// <returns>random as int</returns>
-        int getRandom()
-		{
-			return getRandom(20, false);
-		}
-
         /// <summary>
-        /// mergeCards - function for merging cards
+        /// MergeCards - function for merging cards
         /// </summary>
-        public void mergeCards()
+        public void MergeCards()
 		{
 			int i, k, j, l, tmp;
             
             InsertMsg(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.TwoLetterISOLanguageName));
-            k = getRandom(32, true);
+            k = GetRandom(32, true);
 
 			for (i = 0; i < k + 20; i++)
 			{
-				j = getRandom();
-				l = getRandom();
+				j = Random;
+				l = Random;
 
 				if (l == j)
 				{
@@ -184,7 +190,7 @@ namespace SchnapsNet.Models
 			}
 
 			set[19] = new Card(inGame[19], context);
-			set[19].setAtou();						
+			set[19].SetAtou();						
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
 
 			for (i = 0; i < 19; i++)
@@ -228,9 +234,9 @@ namespace SchnapsNet.Models
 		}
 
         /// <summary>
-        /// stopGame - stops softley a game
+        /// StopGame - stops softley a game
         /// </summary>
-        public void stopGame()
+        public void StopGame()
 		{
 			isGame = false;
 			atouColor = CARDCOLOR.NONE;
@@ -250,10 +256,10 @@ namespace SchnapsNet.Models
         }
 
 		/// <summary>
-		/// change Atou Card in game
+		/// Change Atou Card in game
         /// </summary>
         /// <param name="aPlayer">player, that changes Atou Card</param>
-        public void changeAtou(Player aPlayer)
+        public void ChangeAtou(Player aPlayer)
 		{
 			int cardidx;
 			Card tmpCard;
@@ -273,7 +279,7 @@ namespace SchnapsNet.Models
         /// </summary>
         /// <param name="aPlayer">player, that should change Atou</param>
         /// <returns>true, if player can change, otherwise false</returns>
-        public bool atouIsChangable(Player aPlayer)
+        public bool AtouIsChangable(Player aPlayer)
 		{
 			if (atouChanged ||
 				schnapState == SCHNAPSTATE.GAME_CLOSED ||
@@ -284,17 +290,17 @@ namespace SchnapsNet.Models
 			return false;
         }
 
-		/// <summary>
-		/// checkPoints
+        /// <summary>
+        /// CheckPoints
         /// </summary>
         /// <param name="ccard">index of computer card</param>
         /// <returns>points from the current hit, players points a positive vvalue, computer pinnts as negative value</returns>
-        public int checkPoints(int ccard)
+        public int CheckPoints(int ccard)
 		{
 			int tmppoints;
 			if (playersTurn)
 			{
-				if (playedOut.hitsCard(computer.hand[ccard], true))
+				if (playedOut.HitsCard(computer.hand[ccard], true))
 				{
 					playersTurn = true;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
@@ -318,7 +324,7 @@ namespace SchnapsNet.Models
 			}
 			else
 			{
-				if (computer.hand[ccard].hitsCard(playedOut, true))
+				if (computer.hand[ccard].HitsCard(playedOut, true))
 				{
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
@@ -342,11 +348,11 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
-        /// assignNewCard [Obsolete] assigns new cards to both player & computer		
+        /// AssignNewCard [Obsolete] assigns new cards to both player & computer		
         /// </summary>
         /// <returns>default 0, 1 if game entered colorGitRule; Players now must follow the suit led</returns>
-        [Obsolete("assignNewCard is obsolete", false)]
-		public int assignNewCard()
+        [Obsolete("AssignNewCard is obsolete", false)]
+		public int AssignNewCard()
 		{
 			int retval = 0;
 			if (!colorHitRule) // (colorHitRule == false)
@@ -388,11 +394,11 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
-        /// assignNextCard assigns the next card
+        /// AssignNextCard assigns the next card
         /// </summary>
         /// <param name="assignedCard">Card to be assigned (from game stack)</param>
         /// <returns>true, if the last card in talon has been assigned, otherwise false</returns>
-        public bool assignNextCard(Card assignedCard)
+        public bool AssignNextCard(Card assignedCard)
 		{
 			bool lastCard = false;
 			if (!colorHitRule)
@@ -425,8 +431,11 @@ namespace SchnapsNet.Models
 			else
 			{
 				assignedCard = null;
-				movs++;
-			}
+                if (++movs >= gambler.hand.Length)
+                {
+                    schnapState = SCHNAPSTATE.ZERO_CARD_REMAINS;
+                }
+            }
 			computer.SortHand();
 			gambler.SortHand();
 
@@ -434,7 +443,13 @@ namespace SchnapsNet.Models
         }
 
 
-        public int GetTournementPoints(PLAYERDEF whoWon)
+		/// <summary>
+		/// Get points for currently finished game for tournament
+		/// </summary>
+		/// <param name="whoWon"><see cref="PLAYERDEF">PLAYERDEF</see> 
+		/// could be either <see cref="PLAYERDEF.HUMAN"/> or <see cref="PLAYERDEF.COMPUTER"/></param>
+		/// <returns>1, 2 or 3 points</returns>
+        public int GetTournamentPoints(PLAYERDEF whoWon)
 		{
 			if (whoWon == PLAYERDEF.HUMAN)
 			{
@@ -455,8 +470,18 @@ namespace SchnapsNet.Models
 			return 0; // TODO Assertion
 		}
 
-		public void closeGame(PLAYERDEF whoCloses)
+        /// <summary>
+        /// Closes a running game
+        /// </summary>
+        /// <param name="whoCloses"><see cref="PLAYERDEF"/> who closes are valid for 
+        /// <seealso cref="PLAYERDEF.HUMAN"/> or <seealso cref="PLAYERDEF.COMPUTER"/></param>
+        public void CloseGame(PLAYERDEF whoCloses)
 		{
+			if (this.isGame == false || this.gambler == null || this.isClosed || this.colorHitRule)
+			{
+				throw new InvalidSchnapsStateException(JavaResReader.GetValueFromKey("exception_cannot_close_game"));
+			}
+
             schnapState = SCHNAPSTATE.GAME_CLOSED;
             isClosed = true;
             colorHitRule = true;
@@ -479,19 +504,19 @@ namespace SchnapsNet.Models
 			InsertMsg(statusMessage);
         }
 
-		/// <summary>
-		/// computerStarts() implementation of a move, where computer sraers (that move)
-		/// </summary>
-		/// <returns>card index of computer hand, tgar opebs the current move</returns>
-		public int computerStarts()
+        /// <summary>
+        /// ComputerStarts() implementation of a move, where computer sraers (that move)
+        /// </summary>
+        /// <returns>card index of computer hand, tgar opebs the current move</returns>
+        public int ComputerStarts()
 		{
 			computer.playerOptions = 0;
 			int i; int j = 0; int mark = 0;
 
 			#region changeAtou
-			if (atouIsChangable(computer))
+			if (AtouIsChangable(computer))
 			{
-				changeAtou(computer);
+				ChangeAtou(computer);
 				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.TwoLetterISOLanguageName));
             }
             #endregion changeAtou
@@ -511,12 +536,12 @@ namespace SchnapsNet.Models
 				{
 					for (i = 0; i < 5; i++)
 					{
-						if (!computer.hand[i].isValidCard)
+						if (!computer.hand[i].IsValidCard)
 							continue;
 						else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
 						{
-							int bestIdx = gambler.preferedInColorHitsContext(computer.hand[i]);
-							if (gambler.hand[bestIdx].isValidCard &&
+							int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
+							if (gambler.hand[bestIdx].IsValidCard &&
 									gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
 									gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
 							{
@@ -544,7 +569,7 @@ namespace SchnapsNet.Models
 						InsertFormated(JavaResReader.GetValueFromKey("computer_says_pair", globalAppSettings.TwoLetterISOLanguageName),
 							 printColor(csaid));
 
-                        if (computer.hand[j].isAtou)
+                        if (computer.hand[j].IsAtou)
 							computer.points += 40;
 						else
 							computer.points += 20;
@@ -552,7 +577,7 @@ namespace SchnapsNet.Models
 						if (computer.points > 65)
 						{
 							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
-							if (computer.hand[j].isAtou)
+							if (computer.hand[j].IsAtou)
 							{
 								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
 							}
@@ -579,12 +604,12 @@ namespace SchnapsNet.Models
 			{
 				for (i = 0; i < 5; i++)
 				{
-					if (!computer.hand[i].isValidCard)
+					if (!computer.hand[i].IsValidCard)
 						continue;
 					else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
 					{
-						int bestIdx = gambler.preferedInColorHitsContext(computer.hand[i]);
-						if (gambler.hand[bestIdx].isValidCard &&
+						int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
+						if (gambler.hand[bestIdx].IsValidCard &&
 							gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
 								gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
 						{
@@ -606,13 +631,13 @@ namespace SchnapsNet.Models
 				mark = 0;
 				for (i = 0; i < 5; i++)
 				{
-					if (computer.hand[i].isValidCard)
+					if (computer.hand[i].IsValidCard)
 					{
-						if (!computer.hand[i].isAtou && computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
+						if (!computer.hand[i].IsAtou && computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
 						{
-							int bestIdx = gambler.preferedInColorHitsContext(computer.hand[i]);
+							int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
 
-							if (gambler.hand[bestIdx].isValidCard && !gambler.hand[bestIdx].isAtou &&
+							if (gambler.hand[bestIdx].IsValidCard && !gambler.hand[bestIdx].IsAtou &&
 								gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
 									gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
 							{
@@ -624,11 +649,11 @@ namespace SchnapsNet.Models
 
 				for (i = 0; i < 5; i++)
 				{
-					if (computer.hand[i].isValidCard)
+					if (computer.hand[i].IsValidCard)
 					{
-						int bestIdx = gambler.preferedInColorHitsContext(computer.hand[i]);
+						int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
 
-						if (gambler.hand[bestIdx].isValidCard &&
+						if (gambler.hand[bestIdx].IsValidCard &&
 							gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
 								gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
 						{
@@ -639,7 +664,7 @@ namespace SchnapsNet.Models
 
 				for (i = 0; i < 5; i++)
 				{
-					if (computer.hand[i].isValidCard)
+					if (computer.hand[i].IsValidCard)
 					{
 						return i;
 					}
@@ -651,9 +676,9 @@ namespace SchnapsNet.Models
 			Card maxCard = null;
 			for (i = 0; i < 5; i++)
 			{
-				if (computer.hand[i].isValidCard)
+				if (computer.hand[i].IsValidCard)
 				{
-					if (!computer.hand[i].isAtou)
+					if (!computer.hand[i].IsAtou)
 					{
 						if (computer.hand[i].CardValue.GetValue() < min)
 						{
@@ -678,14 +703,14 @@ namespace SchnapsNet.Models
 			minIdx = -1; maxIdx = -1; min = 12; max = 1;
             for (i = 0; i < 5; i++)
             {
-                if (computer.hand[i].isValidCard)
+                if (computer.hand[i].IsValidCard)
                 {                    
                     if (computer.hand[i].CardValue.GetValue() < min)
                     {
                         minIdx = i;
                         min = computer.hand[i].CardValue.GetValue();
                     }
-                    if (computer.hand[i].CardValue.GetValue() > max && computer.hand[i].isAtou)
+                    if (computer.hand[i].CardValue.GetValue() > max && computer.hand[i].IsAtou)
                     {
                         maxIdx = i;
                         maxCard = computer.hand[i];
@@ -700,32 +725,32 @@ namespace SchnapsNet.Models
             return minIdx;
         }
 
-		/// <summary>
-		/// computersAnswer implementation of computer answr  move)
-		/// </summary>
-		/// <returns>card index of computer hand, that was played for answering</returns>
-		public int computersAnswer()
+        /// <summary>
+        /// ComputersAnswer implementation of computer answr  move)
+        /// </summary>
+        /// <returns>card index of computer hand, that was played for answering</returns>
+        public int ComputersAnswer()
 		{
-			int i = 0, j = 0;
+			int i = 0;
 			
 			if (colorHitRule)
 			{
-				i = computer.preferedInColorHitsContext(this.playedOut);
+				i = computer.PreferedInColorHitsContext(this.playedOut);
 				return (i);
 			}
 
             int tmpPair = computer.HasPair;
             for (i = 0; i < 5; i++)
 			{
-				if (computer.hand[i].hitsCard(playedOut, false))
+				if (computer.hand[i].HitsCard(playedOut, false))
 				{
-					if (computer.hand[i].isAtou && playedOut.CardValue.GetValue() > CARDVALUE.KING.GetValue())
+					if (computer.hand[i].IsAtou && playedOut.CardValue.GetValue() > CARDVALUE.KING.GetValue())
 					{
 						if (computer.hand[i].CardValue == CARDVALUE.JACK ||
 							computer.hand[i].CardValue == CARDVALUE.TEN)
 							return i;
 					}                      
-                    if (!computer.hand[i].isAtou && 
+                    if (!computer.hand[i].IsAtou && 
 						computer.hand[i].CardValue.GetValue() > CARDVALUE.KING.GetValue())
 					{
 						return i;
@@ -736,7 +761,7 @@ namespace SchnapsNet.Models
 			int min = 12, minIdx = -1;
 			for (i = 0; i < 5; i++)
 			{
-				if (computer.hand[i].isValidCard)
+				if (computer.hand[i].IsValidCard)
 				{
 					if (computer.hand[i].CardValue.GetValue() < min)
 					{

@@ -17,12 +17,29 @@ namespace SchnapsNet.Models
 	/// </summary>
 	public class TwoCards
     {
-        public Card[] cards = new Card[2]; // the 2 Cards, that represents the pair
-        public Card card1st = null;
-        public Card card2nd = null;
+        private Card[] cards = new Card[2]; // the 2 Cards, that represents the pair
+        private Card card1st = null;
+        private Card card2nd = null;
         internal int cardSumValue = 0;
 
+        #region properties
+        
+        /// <summary>
+        /// Pair of cards
+        /// </summary>
+        public Card[] Cards { get => cards; }
+        /// <summary>
+        /// 1st card of pair
+        /// </summary>
+        public Card Card1st { get => card1st; protected set => card1st = value; }
+        /// <summary>
+        /// 2nd card of pair
+        /// </summary>
+        public Card Card2nd { get => card2nd; protected set => card2nd = value; }
 
+        #endregion properties
+
+        #region ctor
         /// <summary>
         /// Constructor TwoCards()
         /// </summary>
@@ -33,9 +50,7 @@ namespace SchnapsNet.Models
             cards = new Card[2];
             cards[0] = card1st;
             cards[1] = card2nd;
-        }
-
-        
+        }   
         
         /// <summary>
         /// Constructor with two Cards as agrument
@@ -53,6 +68,7 @@ namespace SchnapsNet.Models
 
             this.cardSumValue = card1st.CardValue.GetValue() + card2nd.CardValue.GetValue();
         }
+        #endregion ctor
 
     }
 }

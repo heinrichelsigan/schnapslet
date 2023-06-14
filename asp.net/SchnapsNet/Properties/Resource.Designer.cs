@@ -565,6 +565,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot close game..
+        /// </summary>
+        internal static string exception_cannot_close_game {
+            get {
+                return ResourceManager.GetString("exception_cannot_close_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic SchnapsNet application exception..
+        /// </summary>
+        internal static string exception_generic_schnapsexception {
+            get {
+                return ResourceManager.GetString("exception_generic_schnapsexception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forty and enough !.
         /// </summary>
         internal static string fourty_and_enough {

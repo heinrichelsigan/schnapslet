@@ -13,19 +13,20 @@ using System.Drawing;
 namespace SchnapsNet.Models
 {
     /// <summary>
-    /// Port of class Tournement
+    /// Port of class Tournament
     /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
     /// </summary>
-    public class Tournement
+    public class Tournament
     {
-        public int GamblerTPoints { get; set; } = 7;
-        public int ComputerTPoints { get; set; } = 7;
+        public int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;
+        public int ComputerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;
 
         public List<Point> tHistory = new List<Point>();
 
         public PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
 
-        public PLAYERDEF NextGameStarter {
+        public PLAYERDEF NextGameStarter 
+        {
             get
             {
                 if (NextGameGiver == PLAYERDEF.HUMAN)
@@ -36,7 +37,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public PLAYERDEF WonTournement
+        public PLAYERDEF WonTournament
         {
             get
             {
@@ -52,18 +53,25 @@ namespace SchnapsNet.Models
         {
             get
             {
-                if ((WonTournement == PLAYERDEF.COMPUTER && GamblerTPoints == 7) ||
-                    (WonTournement == PLAYERDEF.HUMAN && ComputerTPoints == 7))
+                if ((WonTournament == PLAYERDEF.COMPUTER && GamblerTPoints == 7) ||
+                    (WonTournament == PLAYERDEF.HUMAN && ComputerTPoints == 7))
                     return true;
                 return false;
             }
         } 
         
 
-        public Tournement()
+        /// <summary>
+        /// default constructor for Tournament
+        /// </summary>
+        public Tournament()
         {
-            GamblerTPoints = 7;
-            ComputerTPoints = 7;
+            ComputerTPoints = Constants.PLAY_DOWN_FROM; // Constants.PLAY_DOWN_MOCK;
+#if MOCK
+            GamblerTPoints = Constants.PLAY_DOWN_MOCK;
+#else
+            GamblerTPoints = Constants.PLAY_DOWN_FROM; // Constants.PLAY_DOWN_MOCK;
+#endif
             tHistory = new List<Point>();
             Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
             tHistory.Add(ptStart);
@@ -71,12 +79,22 @@ namespace SchnapsNet.Models
             int rand = random.Next();
             NextGameGiver = (rand % 2 == 0) ? PLAYERDEF.HUMAN : PLAYERDEF.COMPUTER;
         }
-        
-        public Tournement(PLAYERDEF nextGiver) : this()
+
+        /// <summary>
+        /// ctor of Tournament with <see cref="PLAYERDEF"/> for next giver
+        /// </summary>
+        /// <param name="nextGiver"><see cref="PLAYERDEF">PLAYERDEF.HUMAN or PLAYERDEF.COMPUTER</see></param>
+        public Tournament(PLAYERDEF nextGiver) : this()
         {
             NextGameGiver = nextGiver;
         }
 
+        /// <summary>
+        /// Add points
+        /// </summary>
+        /// <param name="tournementPts"></param>
+        /// <param name="whoWon"></param>
+        /// <exception cref="InvalidProgramException"></exception>
         public void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             if (whoWon == PLAYERDEF.HUMAN)

@@ -23,7 +23,7 @@ namespace SchnapsNet.Models
         public Card emptyCard = null;
         public Card noneCard = null;
         public Game game = null;
-        public Tournement tournement = null;
+        public Tournament tournement = null;
         private static HttpContext context;
         private HttpSessionState session;
         private static HttpApplicationState application;
@@ -66,11 +66,13 @@ namespace SchnapsNet.Models
 
         public Game Game { get => game; }
 
-        public Tournement Tournement { get => tournement; set => tournement = value; }
+        public Tournament Tournement { get => tournement; set => tournement = value; }
 
         public Card CardEmpty { get => (emptyCard == null) ? new Card(-2, getContext()) : emptyCard; }
 
         public Card CardNone { get => (noneCard == null) ? noneCard = new Card(-1, getContext()) : noneCard; }
+
+        public Exception LastException { get; set; }
 
         #endregion properties
 
@@ -156,6 +158,7 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception e)
                 {
+                    LastException = e;
                     systemLocale = new CultureInfo("en");
                 }
             }
@@ -169,6 +172,7 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception e)
                 {
+                    LastException = e;
                     locale = new CultureInfo(systemLocale.TwoLetterISOLanguageName.ToLower());
                 }
             }
@@ -200,7 +204,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public void SetTournementGame(Tournement aTournement, Game aGame)
+        public void SetTournementGame(Tournament aTournement, Game aGame)
         {
             this.tournement = aTournement;
             this.game = aGame;            

@@ -285,6 +285,12 @@
   <data name="english_cards" xml:space="preserve">
     <value>english cards</value>
   </data>
+  <data name="exception_cannot_close_game" xml:space="preserve">
+    <value>Cannot close game.</value>
+  </data>
+  <data name="exception_generic_schnapsexception" xml:space="preserve">
+    <value>Generic SchnapsNet application exception.</value>
+  </data>
   <data name="fourty_and_enough" xml:space="preserve">
     <value>Forty and enough !</value>
   </data>

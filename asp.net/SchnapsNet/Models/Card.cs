@@ -1,4 +1,5 @@
-﻿using SchnapsNet.ConstEnum;
+﻿using Newtonsoft.Json.Linq;
+using SchnapsNet.ConstEnum;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,7 +25,7 @@ namespace SchnapsNet.Models
         char color = 'n';   // 4 colors and 'n' for unitialized
         int value = -1; // 5 values and 0 for unitialized
         string name = null;  // Human readable classifier
-        Uri pictureUri;
+        // Uri pictureUri;
         String picture;  // picture        
 
         // Resources r;
@@ -35,14 +36,14 @@ namespace SchnapsNet.Models
         #region properties
 
         /// <summary>
-        /// isAtou => true, uf current card is currently ab Atou in that game
+        /// IsAtou => true, uf current card is currently ab Atou in that game
         /// </summary>
-        public bool isAtou { get => this.atou; }
-        
+        public bool IsAtou { get => this.atou; }
+
         /// <summary>
-        /// isValidCard => true, if the current card is valid, false, if ut's av enory ir none reference
+        /// IsValidCard => true, if the current card is valid, false, if ut's av enory ir none reference
         /// </summary>
-        public bool isValidCard
+        public bool IsValidCard
         {
             get
             {
@@ -62,9 +63,30 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
+        /// Name of current Card per default: cardColor + "_" + cardValue
+        /// </summary>
+        public string Name
+        {
+            // get { (name ??= cardColor.ToString() + "_" + cardValue.ToString()); return name; }
+            get { if (string.IsNullOrWhiteSpace(name)) name = (cardColor.ToString() + "_" + cardValue.ToString()); return name; }
+        }
+
+        /// <summary>
         /// FullName => full card name identitfier
         /// </summary>
-        public String FullName { get => this.getFullName(cardColor, cardValue); }
+        public string FullName
+        {
+            get
+            {
+                string colorName = Enum.GetName(typeof(CARDCOLOR), this.cardColor);
+                // String colorName = Card.ParseColorChar(this.cardColor.GetChar().ToString();
+                string cardName = Enum.GetName(typeof(CARDVALUE), this.cardValue);
+                // String cardName = this.cardValue.ToString();
+
+                return (this.cardValue.GetValue() < 2) ?
+                    cardName : (colorName + Constants.OFDELIM + cardName);
+            }
+        }        
 
         /// <summary>
         /// CardColor => returns cardColor of Card
@@ -90,6 +112,51 @@ namespace SchnapsNet.Models
         /// ColorValue => returns String combined of card color + value
         /// </summary>
         public String ColorValue { get => CardColor.GetChar() + CardValue.GetValue().ToString(); }
+
+        /// <summary>        
+        /// PictureUri => returns a valid picture Uri to ab image in WWW  
+        /// </summary>        
+        public Uri PictureUri
+        {
+            get
+            {
+                Uri uri = null;
+                try
+                {
+                    string myUri = Constants.URLPREFIX + this.color + this.value + ".gif";
+                    uri = new Uri(myUri);
+                }
+                catch (Exception exi)
+                {
+                    System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
+                        Constants.URLPREFIX + this.color + this.value + ".gif" +
+                        "\r\n" + exi.StackTrace.ToString());
+                }
+                return uri;
+            }
+        }
+
+        /// <summary>
+        /// PictureUrlString => returns picture url beyond https://area23.at/schnapsen/cardpics/
+        /// </summary>
+        public String PictureUrlString
+        {
+            get
+            {
+                String uriString = "https://area23.at/mono/SchnapsNet/cardpics/notfound.gif";
+                try
+                {
+                    uriString = PictureUri.ToString();
+                }
+                catch (Exception exi)
+                {
+                    System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
+                        Constants.URLPREFIX + this.color + this.value + ".gif" +
+                        "\r\n" + exi.StackTrace.ToString());
+                }
+                return uriString;
+            }
+        }
 
         #endregion properties
 
@@ -189,7 +256,7 @@ namespace SchnapsNet.Models
             this.context = c;
             // r = c.getResources();
             // globalVariable = (GlobalAppSettings)c;
-            this.picture = this.getPictureUrl();
+            this.picture = this.PictureUrlString;
         }
 
         /// <summary>
@@ -226,7 +293,6 @@ namespace SchnapsNet.Models
         /// <param name="aCardValue">the current Card Value</param>
         public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue)
         {
-
             this.cardColor = aCardColor;
             this.cardValue = aCardValue;
 
@@ -248,7 +314,7 @@ namespace SchnapsNet.Models
             this.value = aCardValue.GetValue();
 
             this.name = cardColor.ToString() + "_" + cardValue.ToString();
-            this.picture = this.getPictureUrl();
+            this.picture = this.PictureUrlString;
         }
 
         /// <summary>
@@ -258,8 +324,7 @@ namespace SchnapsNet.Models
         /// <param name="aCardValue">current Card Value</param>
         /// <param name="atoudef">char of atou</param>
         public Card(CARDCOLOR aCardColor, CARDVALUE aCardValue, char atoudef) : this(aCardColor, aCardValue)
-        {
-            
+        {      
             if (this.color == atoudef)
             {
                 this.atou = true;
@@ -345,19 +410,19 @@ namespace SchnapsNet.Models
         #endregion ctor
 
         /// <summary>
-        /// setAtou() us to  set correct card as atou
+        /// SetAtou() us to  set correct card as atou
         /// </summary>
-        public void setAtou()
+        public void SetAtou()
         {
             this.atou = true;
         }
 
         /// <summary>
-        /// hitsValue
+        /// HitsValue
         /// </summary>
         /// <param name="otherCard">other card, which my card hits (or not)</param>
         /// <returns>true, if card hits value of otherCard, otherwise false</returns>
-        public bool hitsValue(Card otherCard)
+        public bool HitsValue(Card otherCard)
         {
             if (this.color == otherCard.color)
             {
@@ -368,12 +433,12 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
-        /// hitsCard
+        /// HitsCard
         /// </summary>
         /// <param name="otherCard">other card, which my card hits (or not)</param>
         /// <param name="active">is current card active card, if no clear rule for hitting otherCard</param>
         /// <returns>true, if current card hits otherCard, false otherwise</returns>
-        public bool hitsCard(Card otherCard, bool active)
+        public bool HitsCard(Card otherCard, bool active)
         {
             if (this.color == otherCard.color)
             {
@@ -382,11 +447,11 @@ namespace SchnapsNet.Models
                 else
                     return false;
             }
-            if ((this.isAtou) && (!otherCard.isAtou))
+            if ((this.IsAtou) && (!otherCard.IsAtou))
             {
                 return true;
             }
-            if ((!this.isAtou) && (otherCard.isAtou))
+            if ((!this.IsAtou) && (otherCard.IsAtou))
             {
                 return false;
             }
@@ -409,69 +474,47 @@ namespace SchnapsNet.Models
         */
 
         /// <summary>
-        /// getName => true, uf current card is currently ab Atou in that game
+        /// GetName => true, uf current card is currently ab Atou in that game
         /// </summary>
-        public String getName()
+        [Obsolete("GetName() is obsolete and replaced with property Name", false)]
+        public String GetName()
         {
-            return this.name;
+            return this.Name;
         }
       
         /// <summary>
-        /// getFullName        
+        /// GetFullName        
         /// </summary>
         /// <param name="aColor">CARDCOLOR aColor</param>
         /// <param name="aValue">CARDVALUE aValue</param>
         /// <returns>full card name identitfier</returns>
-        public String getFullName(CARDCOLOR aColor, CARDVALUE aValue)
+        [Obsolete("GetFullName(CARDCOLOR aColor, CARDVALUE aValue) is obsolete", false)]
+        public String GetFullName(CARDCOLOR aColor, CARDVALUE aValue)
         {
-            String colorName = Enum.GetName(typeof(CARDCOLOR), aColor);
-            // String colorName = Card.ParseColorChar(aColor.GetChar().ToString();
-            String cardName = Enum.GetName(typeof(CARDVALUE), aValue);
-            // String cardName = aValue.ToString();
-
-            return (aValue.GetValue() < 2) ? 
+            string colorName = Enum.GetName(typeof(CARDCOLOR), aColor); // Card.ParseColorChar(aColor.GetChar().ToString();
+            string cardName = Enum.GetName(typeof(CARDVALUE), aValue); // aValue.ToString();
+            return (aValue.GetValue() < 2) ?
                 cardName : (colorName + Constants.OFDELIM + cardName);
         }
 
         /// <summary>
-        /// getPictureUrl 
+        /// GetPictureUrl 
         /// </summary>
         /// <returns>picture url beyond https://area23.at/schnapsen/cardpics/</returns>
-        public String getPictureUrl()
+        [Obsolete("GetPictureUrl() is obsolete and replaced with property PictureUrlString", false)]
+        public String GetPictureUrl()
         {
-            String uriString = "https://area23.at/mono/SchnapsNet/cardpics/notfound.gif";
-            try
-            {
-                uriString = getPictureUri().ToString();
-            }
-            catch (Exception exi)
-            {
-                System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                    Constants.URLPREFIX + this.color + this.value + ".gif" +
-                    "\r\n" + exi.StackTrace.ToString());
-            }
-            return uriString;
+            return this.PictureUrlString;
         }
 
         /// <summary>
-        /// getPictureUri         
+        /// GetPictureUri         
         /// </summary>
         /// <returns>valid picture Uri to ab image in WWW</returns>
-        public Uri getPictureUri()
+        [Obsolete("GetPictureUri() is replaced with property PictureUri", false)]
+        public Uri GetPictureUri()
         {
-            Uri uri = null;
-            try
-            {
-                string myUri = Constants.URLPREFIX + this.color + this.value + ".gif";
-                uri = new Uri(myUri);
-            }
-            catch (Exception exi)
-            {
-                System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                    Constants.URLPREFIX + this.color + this.value + ".gif" +
-                    "\r\n" + exi.StackTrace.ToString());
-            }
-            return uri;
+            return this.PictureUri;
         }
 
         /**

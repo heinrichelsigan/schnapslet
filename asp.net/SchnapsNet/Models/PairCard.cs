@@ -1,14 +1,5 @@
 ﻿using SchnapsNet.ConstEnum;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Resources;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Policy;
-using System.Web;
-using System.Web.UI.WebControls;
 
 namespace SchnapsNet.Models
 {
@@ -17,20 +8,27 @@ namespace SchnapsNet.Models
 	/// </summary>
 	public class PairCard : TwoCards
 	{
-		bool atou = false;
-		CARDCOLOR cardColor = CARDCOLOR.NONE;	// Color of Pair
-		char color = 'n';			// 4 colors and 'n' for unitialized
-		int pairValue = 20;			// 5 values and 0 for unitialized
-		Card[] pairs = new Card[2]; // the 2 Cards, that represents the pair
+        #region fields
+        CARDCOLOR cardColor = CARDCOLOR.NONE;					// Color of Pair		
+		Card[] pairs = new Card[2];                             // the 2 Cards, that represents the pair
+        #endregion fields
 
-		/// <summary>
-		/// Constructor PairCard
-		/// </summary>
-		public PairCard()
+        #region properties
+        public char ColorChar { get; protected set; } = 'n';	// 4 colors and 'n' for unitialized
+        public bool Atou { get; protected set; }				// normal marriage 20 or atou marriage 40
+        public int PairValue { get; protected set; } = 20;      // value of 20 or 40
+        #endregion properties
+
+        #region ctor
+        /// <summary>
+        /// Constructor PairCard
+        /// </summary>
+        public PairCard()
 		{
 			// super();
-			this.color = 'n';
-			this.pairValue = 20;
+			this.ColorChar = 'n';
+			this.Atou = false;
+			this.PairValue = 20;
 		}
 
 		/// <summary>
@@ -41,7 +39,7 @@ namespace SchnapsNet.Models
 		public PairCard(CARDCOLOR cardColor, CARDCOLOR atouColor) : this()
 		{
 			this.cardColor = cardColor;
-			this.color = (char)cardColor.GetChar();
+			this.ColorChar = (char)cardColor.GetChar();
 
 			int queenNumValue = 1;
 			if (cardColor == CARDCOLOR.SPADES) queenNumValue += 5;
@@ -52,11 +50,11 @@ namespace SchnapsNet.Models
 			pairs[0] = new Card(queenNumValue, atouColor.GetChar());
 			pairs[1] = new Card(kingNumValue, atouColor.GetChar());
 
-			this.pairValue = 20;
+			this.PairValue = 20;
 			if (cardColor.GetChar() == atouColor.GetChar())
 			{
-				this.atou = true;
-				this.pairValue = 40;
+				this.Atou = true;
+				this.PairValue = 40;
 			}
 		}
 
@@ -68,11 +66,11 @@ namespace SchnapsNet.Models
 		public PairCard(Card queenCard, Card kingCard) : base(queenCard, kingCard)
 		{
             this.cardColor = queenCard.CardColor;
-            this.color = (char)queenCard.CardColor.GetChar();
+            this.ColorChar = (char)queenCard.CardColor.GetChar();
             char kingColor = (char)kingCard.CardColor.GetChar();
-            if (kingColor != this.color)
+            if (kingColor != this.ColorChar)
             {
-                throw new InvalidOperationException("Queen " + color + " & King " + kingColor + " must have same colors!");
+                throw new InvalidOperationException("Queen " + ColorChar + " & King " + kingColor + " must have same colors!");
             }
             if (cardSumValue != 7)
             {
@@ -81,11 +79,13 @@ namespace SchnapsNet.Models
             
             pairs[0] = new Card(queenCard);
 			pairs[1] = new Card(kingCard);
-			if (queenCard.isAtou)
+			if (queenCard.IsAtou)
 			{
-				this.atou = true;
-				this.pairValue = 40;
+				this.Atou = true;
+				this.PairValue = 40;
 			}
 		}
+        #endregion ctor
+    
 	}
 }

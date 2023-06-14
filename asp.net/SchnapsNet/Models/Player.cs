@@ -85,7 +85,7 @@ namespace SchnapsNet.Models
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    if ((hand[i].isAtou) && (hand[i].CardValue == CARDVALUE.JACK))
+                    if ((hand[i].IsAtou) && (hand[i].CardValue == CARDVALUE.JACK))
                     {
                         return i;
                     }
@@ -144,7 +144,7 @@ namespace SchnapsNet.Models
         {
             String retVal = "";
             for (int j = 0; j < 5; j++)
-                retVal = retVal + hand[j].getName() + " ";
+                retVal = retVal + hand[j].Name + " ";
             return retVal;
         }
 
@@ -183,7 +183,7 @@ namespace SchnapsNet.Models
         public void AssignCard(Card gotCard)
         {
             int i = 0;
-            while ((i < 5) && (hand[i] != null) && (hand[i].isValidCard)) i++;
+            while ((i < 5) && (hand[i] != null) && (hand[i].IsValidCard)) i++;
             if (i < 5)
             {
                 hand[i] = new Card(gotCard, context);
@@ -198,17 +198,15 @@ namespace SchnapsNet.Models
         /// <returns>true if played card is valid in color hit rule context, otherwise false</returns>
         public bool IsValidInColorHitsContext(int nynum, Card aCard)
         {
-            int i = 0;
-            int j = 0;
             int max = -1;
-            for (i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 // valid Card -> PRI 0
-                if (hand[i] == null || !hand[i].isValidCard)
+                if (hand[i] == null || !hand[i].IsValidCard)
                 {
                     colorHitArray[i] = (-1);
                 }
-                else if (hand[i].isValidCard)
+                else if (hand[i].IsValidCard)
                 {
                     colorHitArray[i] = 0;
                     if (max < 0) max = 0;
@@ -217,7 +215,7 @@ namespace SchnapsNet.Models
                     if ((hand[i].CardColor.GetChar()) != aCard.CardColor.GetChar())
                     {
                         // ich kann mit Atou stechen -> PRI 1
-                         if ((!aCard.isAtou) && (hand[i].isAtou))
+                        if ((!aCard.IsAtou) && (hand[i].IsAtou))
                         { 
                             colorHitArray[i] = 1;
                             if (max < 1) max = 1;
@@ -225,7 +223,6 @@ namespace SchnapsNet.Models
                     }
                     else if ((hand[i].CardColor.GetChar()) == aCard.CardColor.GetChar())
                     {
-
                         colorHitArray[i] = 2;
                         if (max < 2) max = 2;
 
@@ -239,27 +236,26 @@ namespace SchnapsNet.Models
                 }
             }
 
-            return (colorHitArray[nynum] == max); // return true;
-                                                  // return false;
+            return (colorHitArray[nynum] == max);
         }
 
 
         /// <summary>
-        /// preferedInColorHitsContext calculate best card number, that is valid s valid in color hit rule context
+        /// PreferedInColorHitsContext calculate best card number, that is valid s valid in color hit rule context
         /// </summary>
         /// <param name="aCard">another card</param>
         /// <returns>number of best card to be played, that is valid in color hit rule context</returns>
-        public int preferedInColorHitsContext(Card aCard)
+        public int PreferedInColorHitsContext(Card aCard)
         {
             int i = 0, j = 0, tmp = -1, min = -1, max = -1, mark = -1, markMin = -1, markMax = -1;
 
             for (i = 0; i < 5; i++)
             {
-                if (!hand[i].isValidCard)
+                if (!hand[i].IsValidCard)
                 {
                     tmp = -1;
                 }
-                else if (hand[i].isValidCard)
+                else if (hand[i].IsValidCard)
                 {
                     // valid card => max = CardValue
                     tmp = hand[i].CardValue.GetValue();
@@ -267,7 +263,7 @@ namespace SchnapsNet.Models
                     if (hand[i].CardColor.GetChar() != aCard.CardColor.GetChar()) 
                     {
                         // not same colors && atou => max is atou card value
-                        if ((hand[i].isAtou) && (!aCard.isAtou)) // can hit with atou -> PRI 1                        
+                        if ((hand[i].IsAtou) && (!aCard.IsAtou)) // can hit with atou -> PRI 1                        
                             tmp = 11 + hand[i].CardValue.GetValue();
                     }
                     else if (hand[i].CardColor.GetChar() == aCard.CardColor.GetChar())
@@ -321,8 +317,8 @@ namespace SchnapsNet.Models
                 }
                 mark = (markMin >= 0) ? markMin : markMax;
                 int tmpHasPair = HasPair;
-                if ((tmpHasPair == 1 && pairs[0].card1st.CardColor == tmpBestCard.CardColor) ||
-                    (tmpHasPair == 2 && pairs[1].card1st.CardColor == tmpBestCard.CardColor))
+                if ((tmpHasPair == 1 && pairs[0].Card1st.CardColor == tmpBestCard.CardColor) ||
+                    (tmpHasPair == 2 && pairs[1].Card1st.CardColor == tmpBestCard.CardColor))
                 {
                     markMax = -1; markMin = -1;
                     for (j = 0; j < 5; j++)
@@ -370,8 +366,8 @@ namespace SchnapsNet.Models
                 }
                 mark = (markMin >= 0) ? markMin : markMax;
                 int tmpHasPair = HasPair;
-                if ((tmpHasPair == 1 && pairs[0].card1st.CardColor == tmpBestCard.CardColor) ||
-                    (tmpHasPair == 2 && pairs[1].card1st.CardColor == tmpBestCard.CardColor))
+                if ((tmpHasPair == 1 && pairs[0].Card1st.CardColor == tmpBestCard.CardColor) ||
+                    (tmpHasPair == 2 && pairs[1].Card1st.CardColor == tmpBestCard.CardColor))
                 {
                     if (minBestCard.CardValue == CARDVALUE.JACK)
                         return markMin;
@@ -417,11 +413,11 @@ namespace SchnapsNet.Models
 
             for (i = 0; i < 5; i++)
             {
-                if (!hand[i].isValidCard)
+                if (!hand[i].IsValidCard)
                 {
                     colorHitArray[i] = (-1);
                 }
-                else if (hand[i].isValidCard)
+                else if (hand[i].IsValidCard)
                 {
                     colorHitArray[i] = 0;
                     if (max < 0) max = 0;
@@ -429,7 +425,7 @@ namespace SchnapsNet.Models
                     if (hand[i].CardColor.GetChar() != aCard.CardColor.GetChar())
                     {
                         // not same colors
-                        if ((hand[i].isAtou) && (!aCard.isAtou))
+                        if ((hand[i].IsAtou) && (!aCard.IsAtou))
                         {
                             // ich kann mit Atou stechen -> PRI 1
                             colorHitArray[i] = 1;
@@ -492,14 +488,14 @@ namespace SchnapsNet.Models
         {
             int i;
             // gleiche Farbe und groesser -> OK
-            if (hand[cidx].hitsValue(otherCard))
+            if (hand[cidx].HitsValue(otherCard))
                 return true;
 
             // Kann ich mit Farbe stechen ->
             for (i = 0; i < 5; i++)
             {
-                if (hand[i].isValidCard) 
-                    if (hand[i].hitsValue(otherCard))
+                if (hand[i].IsValidCard) 
+                    if (hand[i].HitsValue(otherCard))
                         return false;
             }
 
@@ -509,19 +505,19 @@ namespace SchnapsNet.Models
 
             for (i = 0; i < 5; i++)
             {
-                if (hand[i].isValidCard)
+                if (hand[i].IsValidCard)
                 {
                     if (hand[i].CardColor.GetChar() == otherCard.CardColor.GetChar())
                         return false;
                 }
             }
 
-            if (hand[cidx].isAtou)
+            if (hand[cidx].IsAtou)
                 return true;
 
             for (i = 0; i < 5; i++)
             {
-                if (hand[i].isAtou)
+                if (hand[i].IsAtou)
                     return false;
             }
 
