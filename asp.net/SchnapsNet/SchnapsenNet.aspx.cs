@@ -339,8 +339,21 @@ namespace SchnapsNet
 
         protected void ShowFistOrHand(SCHNAPSTATE gameState)
         {
+            im0.ImageUrl = emptyURL.ToString();
+            im1.ImageUrl = emptyURL.ToString();
+            im2.ImageUrl = emptyURL.ToString();
+            im3.ImageUrl = emptyURL.ToString();
+            im4.ImageUrl = emptyURL.ToString();
+
             imOut0.ImageUrl = notURL.ToString();
             imOut1.ImageUrl = notURL.ToString();
+            
+            int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
+            if (schnapStateVal > 1 && schnapStateVal <= 8)
+            {
+                imOut0.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a0.gif";
+                imOut1.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "f0.gif";
+            }
         }
 
         protected void Show1st3Player(SCHNAPSTATE gameState)
@@ -767,13 +780,37 @@ namespace SchnapsNet
         protected void ImOut1_Click(object sender, EventArgs e)
         {
             string msg = "ImOut1_Click";
-            preOut.InnerText += "\r\n" + msg;           
+            preOut.InnerText += "\r\n" + msg;
+
+            aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+
+            ShowMergeAnim(aGame.schnapState);
+
+            showAtouCard(aGame.schnapState);
+            showTalonCard(aGame.schnapState);
+
+            bStop.Enabled = true;
+
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+            GameTurn(0);
         }
 
         protected void ImOut0_Click(object sender, EventArgs e)
         {
             string msg = "ImOut1_Click";
             preOut.InnerText += "\r\n" + msg;
+
+            aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+
+            ShowMergeAnim(aGame.schnapState);
+
+            showAtouCard(aGame.schnapState);
+            showTalonCard(aGame.schnapState);
+
+            bStop.Enabled = true;
+
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+            GameTurn(0);
         }
 
 
@@ -976,6 +1013,8 @@ namespace SchnapsNet
             {
                 aGame.schnapState = SCHNAPSTATE.MERGE_COMPUTER;
                 RefreshGlobalVariableSession();
+                ShowFistOrHand(aGame.schnapState);
+                return;
             }
 
             ShowMergeAnim(aGame.schnapState);
