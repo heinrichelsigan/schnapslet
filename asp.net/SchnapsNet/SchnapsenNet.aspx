@@ -25,46 +25,57 @@
             var initSchnapsState = url.searchParams.get("initState");
             console.log(initSchnapsState);            
 
-            document.getElementById("ImageMerge").style.visibility = "visible";
+            if (document.getElementById("ImageMerge") != null)
+                document.getElementById("ImageMerge").style.visibility = "visible";
 
             if (initSchnapsState != null) {                
 
                 if (initSchnapsState == 4) {
-                    document.getElementById("ImageMerge").style.visibility = "hidden";
+                    if (document.getElementById("ImageMerge") != null)
+                        document.getElementById("ImageMerge").style.visibility = "hidden";
                     document.getElementById("im0").style.visibility = "visible";
                     document.getElementById("im1").style.visibility = "visible";
                     document.getElementById("im2").style.visibility = "visible";
-                    sleep(500);
+                    sleep(1000);
                     document.getElementById("imOut20").src = "cardpics/a3.gif";
-                    sleep(500);
-                    document.getElementById("imAtou10").style.visibility = "visible";
+                    sleep(1000);
+                    if (document.getElementById("imAtou10") != null)
+                        document.getElementById("imAtou10").style.visibility = "visible";
                     sleep(500);
                     document.getElementById("im3").style.visibility = "visible";
                     document.getElementById("im4").style.visibility = "visible";
-                    sleep(500);
+                    sleep(1000);
                     document.getElementById("imOut21").src = "cardpics/a2.gif";
-                    sleep(500);
+                    sleep(1000);
                     document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
                     document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    document.getElementById("imTalon").style.visibility = "visible";
+                    if (document.getElementById("imTalon") != null)
+                        document.getElementById("imTalon").style.visibility = "visible";
+                    sleep(1000);
+                    window.location.href = "SchnapsenNet.aspx"
                 }
                 if (initSchnapsState == 8) {
-                    document.getElementById("ImageMerge").style.visibility = "hidden";
+                    if (document.getElementById("ImageMerge") != null)
+                        document.getElementById("ImageMerge").style.visibility = "hidden";
 
                     document.getElementById("im0").style.visibility = "visible";
                     document.getElementById("im1").style.visibility = "visible";
                     document.getElementById("im2").style.visibility = "visible";
                     document.getElementById("im3").style.visibility = "visible";
                     document.getElementById("im4").style.visibility = "visible";
-                    sleep(500);
-                    document.getElementById("imAtou10").style.visibility = "visible";
-                    sleep(500);
+                    sleep(1000);
+                    if (document.getElementById("imAtou10") != null)
+                        document.getElementById("imAtou10").style.visibility = "visible";
+                    sleep(1000);
                     document.getElementById("imOut20").src = "cardpics/a3.gif";
                     document.getElementById("imOut21").src = "cardpics/a2.gif";
-                    sleep(500);
+                    sleep(1000);
                     document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
                     document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    document.getElementById("imTalon").style.visibility = "visible";
+                    if (document.getElementById("imTalon") != null)
+                        document.getElementById("imTalon").style.visibility = "visible";
+                    sleep(1000);
+                    window.location.href = "SchnapsenNet.aspx"
                 }
             }
         }

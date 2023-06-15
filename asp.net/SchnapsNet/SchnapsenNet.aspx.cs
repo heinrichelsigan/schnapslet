@@ -215,11 +215,6 @@ namespace SchnapsNet
                         im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
                         im3.ImageUrl = aGame.gambler.hand[3].PictureUrlString;
                         im4.ImageUrl = aGame.gambler.hand[4].PictureUrlString;
-                        im0.Style["visibility"] = "hidden";
-                        im1.Style["visibility"] = "hidden";
-                        im2.Style["visibility"] = "hidden";
-                        im3.Style["visibility"] = "hidden";
-                        im4.Style["visibility"] = "hidden";
                     }
                     catch (Exception exp)
                     {
@@ -1095,6 +1090,16 @@ namespace SchnapsNet
                         Show1st3Computer(myState);
                         Show2nd2Computer(myState);
                         showTalonCard(myState);
+
+                        aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+                        RefreshGlobalVariableSession();
+
+                        ShowMergeAnim(aGame.schnapState);
+                        showAtouCard(myState);
+                        showTalonCard(myState);
+
+                        bMerge.Enabled = false;
+                        bStop.Enabled = true;
                         break;
                     case SCHNAPSTATE.PLAYER_1ST_3:
                     case SCHNAPSTATE.PLAYER_1ST_5:
@@ -1134,7 +1139,7 @@ namespace SchnapsNet
                 }
 
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                Thread.Sleep(500);
+                // Thread.Sleep(500);
                 int schnapsTempParamVal = aGame.schnapsStack.Peek().GetValue();
                 string rawUrl = RawUrlInit(schnapsTempParamVal);
                 // this.Response.Redirect(rawUrl);
