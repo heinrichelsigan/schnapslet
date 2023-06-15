@@ -5,6 +5,11 @@ Austrian card game Schnapsen as either Java Applet or Java Application or Androi
 Documentation of Schnapsen a.k.a. 66 (sixty-six) card game can be found at Wikipedia:
 https://en.wikipedia.org/wiki/Sixty-six_(card_game) 
 
+## SchnapsNet Asp.Net C#
+
+https://area23.at/mono/SchnapsNet/
+> schnapslet/asp.net
+
 ## schnapslet java application or applet
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.
@@ -12,13 +17,13 @@ Java Applet and Java applicatopm source Files are located at top level in root o
 ### Compile and build java sources with following commands:
 
 > javac.exe -Xlint:unchecked -Xlint:deprecation at\area23\*.java
->
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation card.java
->
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation player.java
->
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation game.java
->
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation schnapslet.java
 
 ### launch Schnapslet
@@ -41,12 +46,6 @@ Release build:
 https://github.com/heinrichelsigan/schnapslet/blob/master/android/app/build/outputs/apk/release/app-release.apk
 Latest debug build:
 https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outputs/apk/debug
-
-
-## SchnapsNet Asp.Net C#
-
-https://area23.at/mono/SchnapsNet/
-> schnapslet/asp.net
 
 YouTube Video: https://youtu.be/izqcm7XdHYY
 
