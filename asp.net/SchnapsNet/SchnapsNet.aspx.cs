@@ -311,10 +311,10 @@ namespace SchnapsNet
                 {
                     ImageComputerStitch0a.Visible = false;
                     ImageComputerStitch0b.Visible = false;
-                    ImagePlayerStitch0a.Visible = false;
-                    ImagePlayerStitch0b.Visible = false;
+                    // ImagePlayerStitch0a.Visible = false;
+                    // ImagePlayerStitch0b.Visible = false;
                     PlaceHolderComputerStitches.Visible = false;
-                    PlaceHolderPlayerStitches.Visible = false;
+                    // PlaceHolderPlayerStitches.Visible = false;
                 }
                 else
                 {
@@ -326,17 +326,17 @@ namespace SchnapsNet
                     }
                     if (aGame.gambler.cardStitches.Count > 0)
                     {
-                        PlaceHolderPlayerStitches.Visible = true;
-                        ImagePlayerStitch0a.Visible = true;
-                        ImagePlayerStitch0b.Visible = true;
+                        // PlaceHolderPlayerStitches.Visible = true;
+                        // ImagePlayerStitch0a.Visible = true;
+                        // ImagePlayerStitch0b.Visible = true;
                     }
                 }
                 if (whichStitch == -2)
                 {
                     ImageComputerStitch0a.ImageUrl = notURL.ToString();
                     ImageComputerStitch0b.ImageUrl = notURL.ToString();
-                    ImagePlayerStitch0a.ImageUrl = notURL.ToString();
-                    ImagePlayerStitch0b.ImageUrl = notURL.ToString();
+                    // ImagePlayerStitch0a.ImageUrl = notURL.ToString();
+                    // ImagePlayerStitch0b.ImageUrl = notURL.ToString();
                 }
                 if (whichStitch == -1 && aGame.computer.stitchCount > 0)
                 {
@@ -362,8 +362,8 @@ namespace SchnapsNet
                             TwoCards stitchPlayer0 = aGame.gambler.cardStitches[0];
                             if (stitchPlayer0 != null && stitchPlayer0.Card1st != null && stitchPlayer0.Card2nd != null)
                             {
-                                ImagePlayerStitch0a.ImageUrl = stitchPlayer0.Card1st.PictureUri.ToString();
-                                ImagePlayerStitch0b.ImageUrl = stitchPlayer0.Card2nd.PictureUri.ToString();
+                                // ImagePlayerStitch0a.ImageUrl = stitchPlayer0.Card1st.PictureUri.ToString();
+                                // ImagePlayerStitch0b.ImageUrl = stitchPlayer0.Card2nd.PictureUri.ToString();
                             }
                         }
                     }
