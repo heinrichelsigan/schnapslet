@@ -318,7 +318,6 @@ namespace SchnapsNet
             {
                 this.spanTalon.Visible = true;
                 this.spanTalon.Style["visibility"] = "visible";
-                this.spanTalon.Style["margin-top"] = "2%";
                 this.spanTalon.Style["margin-left"] = "-6%";
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 15 && schnapStateVal < 20)
