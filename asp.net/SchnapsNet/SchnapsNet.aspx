@@ -89,7 +89,7 @@
             <span style="width:8%; vertical-align:middle; text-align: left; font-size: x-large; height: 8%;" align="right" valign="middle">
                 <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" style="min-height: 40px; min-width: 40px; font-size: xx-large;">Points</asp:Label>
             </span>
-            <span style="width:75%; vertical-align:middle; text-align: left; font-size: larger; height: 8%;" align="middle" valign="middle">            
+            <span style="width:76%; vertical-align:middle; text-align: left; font-size: larger; height: 8%;" align="middle" valign="middle">            
                 <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="75%" Height="8%" style="font-size: larger">Short Information</asp:TextBox>
             </span>       
         </div>
