@@ -33,6 +33,7 @@ namespace SchnapsNet.Models
 		public bool pSaid = false;					// said pair in game
 
 		public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
+		public Stack<SCHNAPSTATE> schnapsStack = new Stack<SCHNAPSTATE>();
 		public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
 														// public char atouInGame = 'n';
 		public char said = 'n';							// player said pair char
@@ -110,6 +111,7 @@ namespace SchnapsNet.Models
 			csaid = 'n';
 			movs = 0;
 
+			schnapsStack = new Stack<SCHNAPSTATE>();
 			statusMessage = "";
 			sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", "");
 			sayMarriage40 = JavaResReader.GetValueFromKey("b20b_text", "");
@@ -136,6 +138,7 @@ namespace SchnapsNet.Models
             computer.points = 0;
 			isClosed = false;
 
+            schnapsStack = new Stack<SCHNAPSTATE>();
             MergeCards();
         }
 

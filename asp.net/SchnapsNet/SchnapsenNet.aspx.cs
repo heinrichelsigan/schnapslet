@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -83,8 +84,8 @@ namespace SchnapsNet
             im3.ImageUrl = emptyURL.ToString();
             im4.ImageUrl = emptyURL.ToString();
 
-            imOut0.ImageUrl = emptyURL.ToString();
-            imOut1.ImageUrl = emptyURL.ToString();
+            imOut20.ImageUrl = emptyURL.ToString();
+            imOut21.ImageUrl = emptyURL.ToString();
             imTalon.ImageUrl = emptyTalonUri.ToString();
             imTalon.Visible = true;
             imAtou10.ImageUrl = emptyURL.ToString();
@@ -167,6 +168,8 @@ namespace SchnapsNet
                 aGame = globalVariable.Game;
             
             DrawPointsTable();
+
+            ShowStateSchnapsStack();            
             
         }
 
@@ -190,31 +193,20 @@ namespace SchnapsNet
             }
             else
             {
-                if (SCHNAPSTATE_Extensions.StateValue(gameState) <= 4)
+                if ((SCHNAPSTATE_Extensions.StateValue(gameState) < 4) ||
+                    (gameState == SCHNAPSTATE.NONE))
                 {
                     im0.ImageUrl = emptyURL.ToString();
                     im1.ImageUrl = emptyURL.ToString();
                     im2.ImageUrl = emptyURL.ToString();
                     im3.ImageUrl = emptyURL.ToString();
                     im4.ImageUrl = emptyURL.ToString();
-                }
-                else if (gameState == SCHNAPSTATE.PLAYER_1ST_3)
-                {
-                    try
-                    {
-                        im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
-                        im1.ImageUrl = aGame.gambler.hand[1].PictureUrlString;
-                        im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
-                        im3.ImageUrl = emptyURL.ToString();
-                        im4.ImageUrl = emptyURL.ToString();
-                    }
-                    catch (Exception exp)
-                    {
-                        this.errHandler(exp);
-                    }
-                }
+                }                
                 else if ((gameState == SCHNAPSTATE.PLAYER_2ND_2) ||
-                        (gameState == SCHNAPSTATE.PLAYER_1ST_5))
+                        (gameState == SCHNAPSTATE.PLAYER_1ST_3) ||
+                        (gameState == SCHNAPSTATE.PLAYER_1ST_5) ||
+                        (gameState == SCHNAPSTATE.PLAYER_FIST) ||
+                        (gameState == SCHNAPSTATE.PLAYER_TAKES))
                 {
                     try
                     {
@@ -223,6 +215,11 @@ namespace SchnapsNet
                         im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
                         im3.ImageUrl = aGame.gambler.hand[3].PictureUrlString;
                         im4.ImageUrl = aGame.gambler.hand[4].PictureUrlString;
+                        im0.Style["visibility"] = "hidden";
+                        im1.Style["visibility"] = "hidden";
+                        im2.Style["visibility"] = "hidden";
+                        im3.Style["visibility"] = "hidden";
+                        im4.Style["visibility"] = "hidden";
                     }
                     catch (Exception exp)
                     {
@@ -245,7 +242,7 @@ namespace SchnapsNet
             }
             if (aGame == null && playedOutCard0 == null)
                 playedOutCard0 = globalVariable.CardEmpty;
-            imOut0.ImageUrl = playedOutCard0.PictureUrlString;
+            imOut20.ImageUrl = playedOutCard0.PictureUrlString;
 
             if ((aGame != null && aGame.playedOut1 != null && playedOutCard1 != null &&
                 aGame.playedOut1.ColorValue != playedOutCard1.ColorValue) ||
@@ -255,7 +252,7 @@ namespace SchnapsNet
             }
             if (playedOutCard1 == null)
                 playedOutCard1 = globalVariable.CardEmpty;
-            imOut1.ImageUrl = playedOutCard1.PictureUrlString;
+            imOut21.ImageUrl = playedOutCard1.PictureUrlString;
         }
 
         protected void ShowMergeAnim(SCHNAPSTATE gameState)
@@ -286,11 +283,17 @@ namespace SchnapsNet
             try
             {
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
+                PlaceHolderAtouTalon.Visible = true;
+
                 if (schnapStateVal >= 10 && schnapStateVal < 20)
                 {
                     PlaceHolderAtouTalon.Visible = true;
-                    if (gameState == SCHNAPSTATE.GAME_START)
-                        imAtou10.ImageUrl = emptyURL.ToString();
+                    if (gameState == SCHNAPSTATE.GAME_START ||
+                        gameState == SCHNAPSTATE.MERGING_CARDS ||
+                        gameState == SCHNAPSTATE.MERGE_COMPUTER ||
+                        gameState == SCHNAPSTATE.MERGE_PLAYER ||
+                        gameState == SCHNAPSTATE.NONE)
+                            imAtou10.ImageUrl = emptyURL.ToString();
                     else if (gameState == SCHNAPSTATE.GAME_CLOSED)
                         imAtou10.ImageUrl = notURL.ToString();
                     else
@@ -345,14 +348,14 @@ namespace SchnapsNet
             im3.ImageUrl = emptyURL.ToString();
             im4.ImageUrl = emptyURL.ToString();
 
-            imOut0.ImageUrl = notURL.ToString();
-            imOut1.ImageUrl = notURL.ToString();
+            imOut20.ImageUrl = notURL.ToString();
+            imOut21.ImageUrl = notURL.ToString();
             
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
             if (schnapStateVal > 1 && schnapStateVal <= 8)
             {
-                imOut0.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a0.gif";
-                imOut1.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "f0.gif";
+                imOut20.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a0.gif";
+                imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "f0.gif";
             }
         }
 
@@ -368,9 +371,8 @@ namespace SchnapsNet
         {
             if (gameState.GetValue() < 16)
             {
-                imOut0.ImageUrl = notURL.ToString();
-                imOut1.ImageUrl = notURL.ToString();
-                imAtou10.ImageUrl = notURL.ToString();
+                imOut20.ImageUrl = emptyURL.ToString();
+                imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a3.gif";                
             }
         }
 
@@ -378,8 +380,8 @@ namespace SchnapsNet
         {
             if (gameState.GetValue() > 6 && gameState.GetValue() < 16)
             {
-                imOut0.ImageUrl = notURL.ToString();
-                imOut1.ImageUrl = notURL.ToString();
+                imOut20.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a2.gif";
+                imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a3.gif";
             }
         }
 
@@ -459,7 +461,7 @@ namespace SchnapsNet
                         aGame.computer.hand[ci].CardColor == computerPlayedOut.CardColor &&
                         aGame.computer.hand[ci].CardValue == CARDVALUE.KING)
                 {
-                    imOut0.ImageUrl = aGame.computer.hand[ci].PictureUrlString;
+                    imOut20.ImageUrl = aGame.computer.hand[ci].PictureUrlString;
                     // imCOut1.ImageUrl = computerPlayedOut.getPictureUrl();
                     break;
                 }
@@ -468,12 +470,12 @@ namespace SchnapsNet
                         aGame.computer.hand[ci].CardValue == CARDVALUE.QUEEN)
                 {
                     // imCOut0.ImageUrl = computerPlayedOut.PictureUrlString;
-                    imOut0.ImageUrl = aGame.computer.hand[ci].PictureUrlString;
+                    imOut20.ImageUrl = aGame.computer.hand[ci].PictureUrlString;
                     break;
                 }
             }
             stage--;
-            imOut1.ImageUrl = computerPlayedOut.PictureUrlString;
+            imOut21.ImageUrl = computerPlayedOut.PictureUrlString;
         }
 
 
@@ -643,7 +645,12 @@ namespace SchnapsNet
             }
             if (sender is System.Web.UI.WebControls.ImageButton)
                 senderStr = ((System.Web.UI.WebControls.ImageButton)sender).ClientID;
-            senderStr = senderStr.StartsWith("imAtou") ? senderStr.Replace("imAtou", "") : senderStr.Replace("im", "");
+            if (senderStr.StartsWith("imAtou"))
+                senderStr = senderStr.Replace("imAtou", "");
+            else if (senderStr.Contains("imOut"))
+                senderStr = senderStr.Replace("imOut", "");
+            else 
+               senderStr = senderStr.Replace("im", "");
 
             if (!Int32.TryParse(senderStr, out ic))
             {
@@ -652,6 +659,16 @@ namespace SchnapsNet
 
             try
             {
+                if (ic == 20)
+                {
+                    ImOut0_Click(sender, e);
+                    return;
+                }
+                if (ic == 21)
+                {
+                    ImOut1_Click(sender, e);
+                    return;
+                }
                 if (ic == 10)
                 {
                     if (aGame.playersTurn && (!aGame.isClosed) && (!aGame.pSaid) && (aGame.index < 16))
@@ -741,7 +758,7 @@ namespace SchnapsNet
 
                 playedOutCard0 = aGame.gambler.hand[ic];
                 aGame.playedOut0 = playedOutCard0;
-                imOut0.ImageUrl = aGame.gambler.hand[ic].PictureUrlString;
+                imOut20.ImageUrl = aGame.gambler.hand[ic].PictureUrlString;
 
             }
             catch (Exception e156)
@@ -778,21 +795,36 @@ namespace SchnapsNet
         }
 
         protected void ImOut1_Click(object sender, EventArgs e)
-        {
-            string msg = "ImOut1_Click";
+        {           
+            string msg = "ImOut1_Click";            
             preOut.InnerText += "\r\n" + msg;
 
-            aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+            if (aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
+            {
+                aGame.schnapState = SCHNAPSTATE.PLAYER_FIST;
+                imOut20.ImageUrl = emptyURL.ToString();
+                imOut21.ImageUrl = emptyURL.ToString();
 
-            ShowMergeAnim(aGame.schnapState);
+                aGame.schnapsStack.Clear();
+                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_FIST);
 
-            showAtouCard(aGame.schnapState);
-            showTalonCard(aGame.schnapState);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_2ND_2);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_1ST_3);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_ATOU);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_1ST_5);
 
-            bStop.Enabled = true;
+                ShowMergeAnim(aGame.schnapState);
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
 
-            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            GameTurn(0);
+                int schnapsTempParamVal = SCHNAPSTATE.PLAYER_FIST.GetValue();
+                string rawUrl = RawUrlInit(schnapsTempParamVal);
+                this.Response.Redirect(rawUrl);
+            }
+            //showAtouCard(aGame.schnapState);
+            //showTalonCard(aGame.schnapState);
+            //bStop.Enabled = true;            
+            //GameTurn(0);
         }
 
         protected void ImOut0_Click(object sender, EventArgs e)
@@ -800,17 +832,36 @@ namespace SchnapsNet
             string msg = "ImOut1_Click";
             preOut.InnerText += "\r\n" + msg;
 
-            aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+            if (aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
+            {
+                aGame.schnapState = SCHNAPSTATE.PLAYER_TAKES;
+                imOut20.ImageUrl = emptyURL.ToString();
+                imOut21.ImageUrl = emptyURL.ToString();
 
-            ShowMergeAnim(aGame.schnapState);
+                aGame.schnapsStack.Clear();
+                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_TAKES);
 
-            showAtouCard(aGame.schnapState);
-            showTalonCard(aGame.schnapState);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_2ND_2);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_2ND_2);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_ATOU);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_1ST_3);
+                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_1ST_3);
 
-            bStop.Enabled = true;
+                ShowMergeAnim(aGame.schnapState);
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
 
-            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            GameTurn(0);
+                int schnapsTempParamVal = SCHNAPSTATE.PLAYER_TAKES.GetValue();
+                string rawUrl = RawUrlInit(schnapsTempParamVal);
+                this.Response.Redirect(rawUrl);
+            }
+            //aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+            //ShowMergeAnim(aGame.schnapState);
+            //showAtouCard(aGame.schnapState);
+            //showTalonCard(aGame.schnapState);
+            //bStop.Enabled = true;
+            //RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+            //GameTurn(0);
         }
 
 
@@ -857,8 +908,8 @@ namespace SchnapsNet
             {
                 try
                 {
-                    imOut0.ImageUrl = emptyURL.ToString();
-                    imOut1.ImageUrl = emptyURL.ToString();
+                    imOut20.ImageUrl = emptyURL.ToString();
+                    imOut21.ImageUrl = emptyURL.ToString();
                     playedOutCard0 = globalVariable.CardEmpty;
                     playedOutCard1 = globalVariable.CardEmpty;
                     aGame.playedOut0 = playedOutCard0;
@@ -1028,6 +1079,86 @@ namespace SchnapsNet
             GameTurn(0);
         }
 
+        void ShowStateSchnapsStack()
+        {
+            bool finishGivingWithTalon = false;
+            if (aGame != null && aGame.schnapsStack != null && aGame.schnapsStack.Count > 0)
+            {
+                SCHNAPSTATE myState = aGame.schnapsStack.Pop();
+                aGame.schnapState = myState;
+                switch(myState)
+                {
+                    case SCHNAPSTATE.PLAYER_TAKES:
+                    case SCHNAPSTATE.PLAYER_FIST:
+                        showPlayersCards(myState);
+                        showAtouCard(myState);
+                        Show1st3Computer(myState);
+                        Show2nd2Computer(myState);
+                        showTalonCard(myState);
+                        break;
+                    case SCHNAPSTATE.PLAYER_1ST_3:
+                    case SCHNAPSTATE.PLAYER_1ST_5:
+                    case SCHNAPSTATE.PLAYER_2ND_2:
+                        showPlayersCards(myState);
+                        break;
+                    case SCHNAPSTATE.GIVE_ATOU:
+                        showAtouCard(myState); break;
+                    case SCHNAPSTATE.COMPUTER_1ST_3:
+                        Show1st3Computer(myState); break;
+                    case SCHNAPSTATE.COMPUTER_2ND_2:
+                    case SCHNAPSTATE.COMPUTER_1ST_5:
+                        Show2nd2Computer(myState); break;
+                    case SCHNAPSTATE.GIVE_TALON:                        
+                        finishGivingWithTalon = true;
+                        break;
+                    default:
+                        string schnapsStateDbgS = myState.ToString();
+                        break;
+                }                
+                
+                finishGivingWithTalon = (finishGivingWithTalon || (aGame.schnapsStack != null && aGame.schnapsStack.Count == 0));
+                if (finishGivingWithTalon)
+                {
+                    aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+                    RefreshGlobalVariableSession();
+                    
+                    ShowMergeAnim(aGame.schnapState);
+                    showAtouCard(myState);
+                    showTalonCard(myState);
+
+                    bMerge.Enabled = false;
+                    bStop.Enabled = true;
+                    
+                    GameTurn(0);
+                    return;
+                }
+
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                Thread.Sleep(500);
+                int schnapsTempParamVal = aGame.schnapsStack.Peek().GetValue();
+                string rawUrl = RawUrlInit(schnapsTempParamVal);
+                // this.Response.Redirect(rawUrl);
+            }            
+        }
+
+        public string RawUrlInit(int schnapsInitParam)
+        {            
+            string rawUrl = Request.RawUrl;
+            if (rawUrl.Contains("initState="))
+            {
+                int stateReplIdx = rawUrl.LastIndexOf("initState=");
+                rawUrl = rawUrl.Substring(0, stateReplIdx);
+
+                rawUrl = rawUrl + "initState=" + schnapsInitParam;
+            }
+            else
+            {
+                rawUrl = rawUrl + "?initState=" + schnapsInitParam;
+            }
+
+            return rawUrl;
+        }
+
         /// <summary>
         /// CloseGame - implements closing game => Zudrehens
         /// </summary>
@@ -1076,14 +1207,14 @@ namespace SchnapsNet
                         {
                             playedOutCard0 = aGame.gambler.hand[xj];
                             aGame.playedOut0 = playedOutCard0;
-                            imOut0.ImageUrl = aGame.gambler.hand[xj].PictureUrlString;
+                            imOut20.ImageUrl = aGame.gambler.hand[xj].PictureUrlString;
                         }
                         if (colorCh0 == aGame.said &&
                                 aGame.gambler.hand[xj].CardValue == CARDVALUE.KING)
                         {
                             playedOutCard1 = aGame.gambler.hand[xj];
                             aGame.playedOut1 = playedOutCard1;
-                            imOut1.ImageUrl = aGame.gambler.hand[xj].PictureUrlString;
+                            imOut21.ImageUrl = aGame.gambler.hand[xj].PictureUrlString;
                         }
                     }
                 }
@@ -1114,14 +1245,14 @@ namespace SchnapsNet
                         {
                             playedOutCard0 = aGame.computer.hand[xj];
                             aGame.playedOut0 = playedOutCard0;
-                            imOut0.ImageUrl = aGame.computer.hand[xj].PictureUrlString;
+                            imOut20.ImageUrl = aGame.computer.hand[xj].PictureUrlString;
                         }
                         if (colorCh1 == aGame.csaid &&
                             aGame.computer.hand[xj].CardValue == CARDVALUE.KING)
                         {
                             playedOutCard1 = aGame.computer.hand[xj];
                             aGame.playedOut1 = playedOutCard1;
-                            imOut1.ImageUrl = aGame.computer.hand[xj].PictureUrlString;
+                            imOut21.ImageUrl = aGame.computer.hand[xj].PictureUrlString;
                         }
                     }
                 }
@@ -1164,10 +1295,10 @@ namespace SchnapsNet
                             {
                                 Uri enoughQueenUrl = new Uri(
                                     "https://area23.at/schnapsen/cardpics/" + aGame.said + "3.gif");                                
-                                imOut0.ImageUrl = enoughQueenUrl.ToString();
+                                imOut20.ImageUrl = enoughQueenUrl.ToString();
                                 Uri enoughKingUrl = new Uri(
                                     "https://area23.at/schnapsen/cardpics/" + aGame.said + "4.gif");
-                                imOut1.ImageUrl = enoughKingUrl.ToString();
+                                imOut21.ImageUrl = enoughKingUrl.ToString();
                                 xfinished = true;
                                 break;
                             }
@@ -1206,10 +1337,10 @@ namespace SchnapsNet
                             {
                                 Uri enoughCQueenUrl = new Uri(
                                     "https://area23.at/schnapsen/cardpics/" + aGame.csaid + "3.gif");
-                                imOut0.ImageUrl = enoughCQueenUrl.ToString();
+                                imOut20.ImageUrl = enoughCQueenUrl.ToString();
                                 Uri enoughCKingUrl = new Uri(
                                     "https://area23.at/schnapsen/cardpics/" + aGame.csaid + "4.gif");
-                                imOut1.ImageUrl = enoughCKingUrl.ToString();
+                                imOut21.ImageUrl = enoughCKingUrl.ToString();
                                 xfinished = true;
                                 break;
                             }
@@ -1240,8 +1371,8 @@ namespace SchnapsNet
             {
                 try
                 {
-                    imOut0.ImageUrl = emptyURL.ToString();
-                    imOut1.ImageUrl = emptyURL.ToString();
+                    imOut20.ImageUrl = emptyURL.ToString();
+                    imOut21.ImageUrl = emptyURL.ToString();
                     playedOutCard0 = globalVariable.CardEmpty;
                     playedOutCard1 = globalVariable.CardEmpty;
                     aGame.playedOut0 = playedOutCard0;
@@ -1361,7 +1492,7 @@ namespace SchnapsNet
                         showComputer20(playedOutCard1, 4);
                     }
 
-                    imOut1.ImageUrl = aGame.computer.hand[ccard].PictureUrlString;
+                    imOut21.ImageUrl = aGame.computer.hand[ccard].PictureUrlString;
                     aGame.playedOut1 = playedOutCard1;
                 }
                 catch (Exception jbpex)
@@ -1391,7 +1522,7 @@ namespace SchnapsNet
                 try
                 {
                     playedOutCard1 = aGame.computer.hand[ccard];
-                    imOut1.ImageUrl = aGame.computer.hand[ccard].PictureUrlString;
+                    imOut21.ImageUrl = aGame.computer.hand[ccard].PictureUrlString;
                     aGame.playedOut1 = playedOutCard1;
                 }
                 catch (Exception jbpvex)

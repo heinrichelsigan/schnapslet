@@ -87,22 +87,22 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Button bHelp;
 
         /// <summary>
-        /// imOut1 control.
+        /// imOut21 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imOut1;
+        protected global::System.Web.UI.WebControls.ImageButton imOut21;
 
         /// <summary>
-        /// imOut0 control.
+        /// imOut20 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imOut0;
+        protected global::System.Web.UI.WebControls.ImageButton imOut20;
 
         /// <summary>
         /// PlaceHolderAtouTalon control.

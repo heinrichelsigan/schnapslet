@@ -18,8 +18,9 @@ namespace SchnapsNet.ConstEnum
         PLAYER_FIST         = 8,
         PLAYER_1ST_5        = 9,
         GIVE_ATOU           = 10,
-        PLAYER_2ND_2        = 13,
-        COMPUTER_2ND_2      = 14,
+        PLAYER_2ND_2        = 12,
+        COMPUTER_2ND_2      = 13,
+        COMPUTER_1ST_5      = 14,
         GIVE_TALON          = 15,
 		GAME_STARTED        = 16,
 		COLOR_HIT_RULE      = 17,
@@ -47,12 +48,14 @@ namespace SchnapsNet.ConstEnum
                 case SCHNAPSTATE.PLAYER_TAKES: return 4;
                 case SCHNAPSTATE.PLAYER_1ST_3: return 5;
                 case SCHNAPSTATE.COMPUTER_1ST_3: return 6;
-                case SCHNAPSTATE.GIVE_ATOU: return 7;
-                
+                                
                 case SCHNAPSTATE.PLAYER_FIST: return 8;
                 case SCHNAPSTATE.PLAYER_1ST_5: return 9;
-                case SCHNAPSTATE.PLAYER_2ND_2: return 10;
-                case SCHNAPSTATE.COMPUTER_2ND_2: return 11;
+                case SCHNAPSTATE.GIVE_ATOU: return 10;
+
+                case SCHNAPSTATE.PLAYER_2ND_2: return 12;
+                case SCHNAPSTATE.COMPUTER_1ST_5: return 13;
+                case SCHNAPSTATE.COMPUTER_2ND_2: return 14;
 
                 case SCHNAPSTATE.GIVE_TALON: return 15;
 
@@ -82,12 +85,15 @@ namespace SchnapsNet.ConstEnum
                 case SCHNAPSTATE.PLAYER_TAKES: return 4;
                 case SCHNAPSTATE.PLAYER_1ST_3: return 5;
                 case SCHNAPSTATE.COMPUTER_1ST_3: return 6;
-                case SCHNAPSTATE.GIVE_ATOU: return 7;
-                
+
                 case SCHNAPSTATE.PLAYER_FIST: return 8;
                 case SCHNAPSTATE.PLAYER_1ST_5: return 9;
-                case SCHNAPSTATE.PLAYER_2ND_2: return 10;
-                case SCHNAPSTATE.COMPUTER_2ND_2: return 11;
+
+                case SCHNAPSTATE.GIVE_ATOU: return 10;
+
+                case SCHNAPSTATE.PLAYER_2ND_2: return 12;
+                case SCHNAPSTATE.COMPUTER_1ST_5: return 13;
+                case SCHNAPSTATE.COMPUTER_2ND_2: return 14;
 
                 case SCHNAPSTATE.GIVE_TALON: return 15;
 

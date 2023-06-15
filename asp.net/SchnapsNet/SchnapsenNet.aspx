@@ -6,8 +6,74 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnapsen.Net</title>
+    <script>
+        function sleep(ms) {
+            setTimeout(codingCourse, 3000);
+        }
+            
+        function codingCourse() {
+            console.log("freeCodeCamp");
+        }
+
+
+        function schnapsStateInit() {
+            const myUrl2 = new URL(window.location.toLocaleString());
+            // alert(myUrl2);
+
+            var url = new URL(myUrl2);
+
+            var initSchnapsState = url.searchParams.get("initState");
+            console.log(initSchnapsState);            
+
+            document.getElementById("ImageMerge").style.visibility = "visible";
+
+            if (initSchnapsState != null) {                
+
+                if (initSchnapsState == 4) {
+                    document.getElementById("ImageMerge").style.visibility = "hidden";
+                    document.getElementById("im0").style.visibility = "visible";
+                    document.getElementById("im1").style.visibility = "visible";
+                    document.getElementById("im2").style.visibility = "visible";
+                    sleep(500);
+                    document.getElementById("imOut20").src = "cardpics/a3.gif";
+                    sleep(500);
+                    document.getElementById("imAtou10").style.visibility = "visible";
+                    sleep(500);
+                    document.getElementById("im3").style.visibility = "visible";
+                    document.getElementById("im4").style.visibility = "visible";
+                    sleep(500);
+                    document.getElementById("imOut21").src = "cardpics/a2.gif";
+                    sleep(500);
+                    document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                    document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                    document.getElementById("imTalon").style.visibility = "visible";
+                }
+                if (initSchnapsState == 8) {
+                    document.getElementById("ImageMerge").style.visibility = "hidden";
+
+                    document.getElementById("im0").style.visibility = "visible";
+                    document.getElementById("im1").style.visibility = "visible";
+                    document.getElementById("im2").style.visibility = "visible";
+                    document.getElementById("im3").style.visibility = "visible";
+                    document.getElementById("im4").style.visibility = "visible";
+                    sleep(500);
+                    document.getElementById("imAtou10").style.visibility = "visible";
+                    sleep(500);
+                    document.getElementById("imOut20").src = "cardpics/a3.gif";
+                    document.getElementById("imOut21").src = "cardpics/a2.gif";
+                    sleep(500);
+                    document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                    document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                    document.getElementById("imTalon").style.visibility = "visible";
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="schnapsStateInit()">
+    <script>
+        window.loaded = schnapsStateInit();
+    </script>
     <form id="form1" runat="server">        
         <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">            
             <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
@@ -34,10 +100,10 @@
         </div>
         <div id="DivSchnapsStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="imOut1" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut1_Click" />
+                <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut1_Click" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imOut0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImOut0_Click"  />
+                <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImOut0_Click"  />
             </span>
             <asp:PlaceHolder ID="PlaceHolderAtouTalon" runat="server">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">

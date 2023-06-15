@@ -104,6 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cardpics\a0.gif" />
+    <Content Include="cardpics\a2.gif" />
+    <Content Include="cardpics\a3.gif" />
     <Content Include="cardpics\android.png" />
     <Content Include="cardpics\de_h10.gif" />
     <Content Include="cardpics\de_h11.gif" />
