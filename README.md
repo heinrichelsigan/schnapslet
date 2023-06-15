@@ -17,9 +17,13 @@ Java Applet and Java applicatopm source Files are located at top level in root o
 ### Compile and build java sources with following commands:
 
 > javac.exe -Xlint:unchecked -Xlint:deprecation at\area23\*.java
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation card.java
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation player.java
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation game.java
+> 
 > javac.exe -Xlint:unchecked -Xlint:deprecation schnapslet.java
 
 ### launch Schnapslet
