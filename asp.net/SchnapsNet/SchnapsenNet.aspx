@@ -125,7 +125,7 @@
             <span id="spanTalon" runat="server" style="visibility: hidden; min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
                 <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit" Width="18%" />
             </span>               
-            <span id="spanComputerStitches" runat="server" visible="false" style="visibility: hidden; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: right; font-size: medium">
+            <span id="spanComputerStitches" runat="server" visible="false" style="visibility: hidden; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10; text-align: right; font-size: medium">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
                 <asp:ImageButton ID="ImageComputerStitch0b" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -8%; margin-top: 1px" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
             </span>            
