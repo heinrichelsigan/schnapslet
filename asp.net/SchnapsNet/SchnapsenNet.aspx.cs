@@ -398,7 +398,7 @@ namespace SchnapsNet
                     ImageComputerStitch0b.Visible = false;
                     // ImagePlayerStitch0a.Visible = false;
                     // ImagePlayerStitch0b.Visible = false;
-                    spanComputerStitches.Visible = false;
+                    // spanComputerStitches.Visible = false;
                     spanComputerStitches.Style["visibility"] = "hidden";
                     // PlaceHolderPlayerStitches.Visible = false;
                 }
