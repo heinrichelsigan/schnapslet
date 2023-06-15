@@ -105,31 +105,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imOut20;
 
         /// <summary>
-        /// PlaceHolderAtouTalon control.
+        /// spanMerge control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderAtouTalon;
-
-        /// <summary>
-        /// imAtou10 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imAtou10;
-
-        /// <summary>
-        /// imTalon control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imTalon;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanMerge;
 
         /// <summary>
         /// ImageMerge control.
@@ -141,13 +123,49 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Image ImageMerge;
 
         /// <summary>
-        /// PlaceHolderComputerStitches control.
+        /// spanAtou control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderComputerStitches;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAtou;
+
+        /// <summary>
+        /// imAtou10 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton imAtou10;
+
+        /// <summary>
+        /// spanTalon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanTalon;
+
+        /// <summary>
+        /// imTalon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imTalon;
+
+        /// <summary>
+        /// spanComputerStitches control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanComputerStitches;
 
         /// <summary>
         /// ImageComputerStitch0a control.
@@ -256,32 +274,5 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
-
-        /// <summary>
-        /// PlaceHolderPlayerStitches control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderPlayerStitches;
-
-        /// <summary>
-        /// ImagePlayerStitch0a control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImagePlayerStitch0a;
-
-        /// <summary>
-        /// ImagePlayerStitch0b control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImagePlayerStitch0b;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -258,11 +259,13 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
-                    ImageMerge.Visible = true;
+                    this.spanMerge.Style["visibility"] = "visible";
+                    ImageMerge.Visible = true;                    
                     // PlaceHolderMerge.Visible = true;
                 }
                 else
                 {
+                    this.spanMerge.Style["visibility"] = "hidden";
                     ImageMerge.Visible = false;
                     // PlaceHolderMerge.Visible = false;
                 }
@@ -278,11 +281,11 @@ namespace SchnapsNet
             try
             {
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
-                PlaceHolderAtouTalon.Visible = true;
+                this.spanAtou.Style["visibility"] = "visible";
 
                 if (schnapStateVal >= 10 && schnapStateVal < 20)
                 {
-                    PlaceHolderAtouTalon.Visible = true;
+                    this.spanAtou.Visible = true;
                     if (gameState == SCHNAPSTATE.GAME_START ||
                         gameState == SCHNAPSTATE.MERGING_CARDS ||
                         gameState == SCHNAPSTATE.MERGE_COMPUTER ||
@@ -299,7 +302,8 @@ namespace SchnapsNet
                 {
                     imAtou10.ImageUrl = emptyURL.ToString();
                     imAtou10.Visible = false;
-                    PlaceHolderAtouTalon.Visible = false;
+                    this.spanAtou.Style["visibility"] = "hidden";
+                    // this.spanAtou.Visible = false;
                 }
             }
             catch (Exception exAtou1)
@@ -312,7 +316,10 @@ namespace SchnapsNet
         {
             try
             {
-                PlaceHolderAtouTalon.Visible = true;
+                this.spanTalon.Visible = true;
+                this.spanTalon.Style["visibility"] = "visible";
+                this.spanTalon.Style["margin-top"] = "2%";
+                this.spanTalon.Style["margin-left"] = "-6%";
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 15 && schnapStateVal < 20)
                 {
@@ -326,7 +333,9 @@ namespace SchnapsNet
                 {
                     imTalon.ImageUrl = emptyURL.ToString();
                     imTalon.Visible = false;
-                    PlaceHolderAtouTalon.Visible = false;
+                    this.spanTalon.Style["margin-left"] = "0px";
+                    this.spanTalon.Style["visibility"] = "hidden";
+                    // this.spanTalon.Visible = false;
                 }
             }
             catch (Exception imTalonEx)
@@ -388,32 +397,34 @@ namespace SchnapsNet
                 {
                     ImageComputerStitch0a.Visible = false;
                     ImageComputerStitch0b.Visible = false;
-                    ImagePlayerStitch0a.Visible = false;
-                    ImagePlayerStitch0b.Visible = false;
-                    PlaceHolderComputerStitches.Visible = false;
-                    PlaceHolderPlayerStitches.Visible = false;
+                    // ImagePlayerStitch0a.Visible = false;
+                    // ImagePlayerStitch0b.Visible = false;
+                    spanComputerStitches.Visible = false;
+                    spanComputerStitches.Style["visibility"] = "hidden";
+                    // PlaceHolderPlayerStitches.Visible = false;
                 }
                 else
                 {
                     if (aGame.computer.cardStitches.Count > 0)
                     {
-                        PlaceHolderComputerStitches.Visible = true;
+                        spanComputerStitches.Visible = true;
+                        spanComputerStitches.Style["visibility"] = "visible";
                         ImageComputerStitch0a.Visible = true;
                         ImageComputerStitch0b.Visible = true;
                     }
                     if (aGame.gambler.cardStitches.Count > 0)
                     {
-                        PlaceHolderPlayerStitches.Visible = true;
-                        ImagePlayerStitch0a.Visible = true;
-                        ImagePlayerStitch0b.Visible = true;
+                        // PlaceHolderPlayerStitches.Visible = true;
+                        // ImagePlayerStitch0a.Visible = true;
+                        // ImagePlayerStitch0b.Visible = true;
                     }
                 }
                 if (whichStitch == -2)
                 {
                     ImageComputerStitch0a.ImageUrl = notURL.ToString();
                     ImageComputerStitch0b.ImageUrl = notURL.ToString();
-                    ImagePlayerStitch0a.ImageUrl = notURL.ToString();
-                    ImagePlayerStitch0b.ImageUrl = notURL.ToString();
+                    // ImagePlayerStitch0a.ImageUrl = notURL.ToString();
+                    // ImagePlayerStitch0b.ImageUrl = notURL.ToString();
                 }
                 if (whichStitch == -1 && aGame.computer.stitchCount > 0)
                 {
@@ -439,8 +450,8 @@ namespace SchnapsNet
                             TwoCards stitchPlayer0 = aGame.gambler.cardStitches[0];
                             if (stitchPlayer0 != null && stitchPlayer0.Card1st != null && stitchPlayer0.Card2nd != null)
                             {
-                                ImagePlayerStitch0a.ImageUrl = stitchPlayer0.Card1st.PictureUri.ToString();
-                                ImagePlayerStitch0b.ImageUrl = stitchPlayer0.Card2nd.PictureUri.ToString();
+                                // ImagePlayerStitch0a.ImageUrl = stitchPlayer0.Card1st.PictureUri.ToString();
+                                // ImagePlayerStitch0b.ImageUrl = stitchPlayer0.Card2nd.PictureUri.ToString();
                             }
                         }
                     }
@@ -1544,6 +1555,10 @@ namespace SchnapsNet
 
             tmppoints = aGame.CheckPoints(ccard);
             aGame.computer.hand[ccard] = globalVariable.CardEmpty;
+#if MOCK
+            aGame.gambler.points = (tmppoints > 0) ? tmppoints : Math.Min(aGame.gambler.points, 33);
+            aGame.computer.points = (tmppoints < 0) ? tmppoints : Math.Min(aGame.computer.points, 33);
+#endif
             tPoints.Text = aGame.gambler.points.ToString();
 
             if (tmppoints > 0)
@@ -1671,24 +1686,22 @@ namespace SchnapsNet
                     }
                     return;
                 }
+
+                if (tmppoints > 0)
+                {
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                    string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
+                    int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
+                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
+                }
                 else
                 {
-                    if (tmppoints > 0)
-                    {
-                        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                        string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
-                        int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                        stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
-                    }
-                    else
-                    {
-                        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                        string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
-                        int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                        stopGame(tPts, PLAYERDEF.HUMAN, sEnds9);
-                    }
-                    return;
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                    string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
+                    int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
+                    stopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
                 }
+                return;
             }
 
             if (aGame != null)

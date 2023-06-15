@@ -1422,7 +1422,7 @@ namespace SchnapsNet
                         RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
                         int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                        stopGame(tPts, PLAYERDEF.HUMAN, sEnds9);
+                        stopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
                     }
                     return;
                 }
