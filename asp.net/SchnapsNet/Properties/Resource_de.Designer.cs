@@ -511,6 +511,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Du bekommst einen Schneider..
+        /// </summary>
+        internal static string computer_won_taylor {
+            get {
+                return ResourceManager.GetString("computer_won_taylor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Du bekommst ein Bummerl..
+        /// </summary>
+        internal static string computer_won_tournement {
+            get {
+                return ResourceManager.GetString("computer_won_tournement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erzeuge neuer Spieler Instanzen.
         /// </summary>
         internal static string creating_players {
@@ -597,6 +615,24 @@ namespace SchnapsNet.Properties {
         internal static string help_text {
             get {
                 return ResourceManager.GetString("help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auf Atou klicken für &quot;Zudrehen&quot;.
+        /// </summary>
+        internal static string imageAtou_AltText {
+            get {
+                return ResourceManager.GetString("imageAtou_AltText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hier klicken um ein Spiel zu starten..
+        /// </summary>
+        internal static string imageMerge_AltText {
+            get {
+                return ResourceManager.GetString("imageMerge_AltText", resourceCulture);
             }
         }
         
@@ -786,6 +822,24 @@ namespace SchnapsNet.Properties {
         internal static string you_say_pair {
             get {
                 return ResourceManager.GetString("you_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Computer bekommt einen Schneider..
+        /// </summary>
+        internal static string you_won_taylor {
+            get {
+                return ResourceManager.GetString("you_won_taylor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Computer bekommt ein Bummerl..
+        /// </summary>
+        internal static string you_won_tournement {
+            get {
+                return ResourceManager.GetString("you_won_tournement", resourceCulture);
             }
         }
         

@@ -267,6 +267,12 @@
   <data name="computer_wins_last_hit" xml:space="preserve">
     <value>Letzter Stich: Computer hat gewonnen !</value>
   </data>
+  <data name="computer_won_taylor" xml:space="preserve">
+    <value>Du bekommst einen Schneider.</value>
+  </data>
+  <data name="computer_won_tournement" xml:space="preserve">
+    <value>Du bekommst ein Bummerl.</value>
+  </data>
   <data name="creating_players" xml:space="preserve">
     <value>Erzeuge neuer Spieler Instanzen</value>
   </data>
@@ -310,6 +316,12 @@ Zudrehen ist implementiert:
 Man muss einfach auf die Atou Karte klicken.
 
 Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
+  </data>
+  <data name="imageAtou_AltText" xml:space="preserve">
+    <value>Auf Atou klicken für "Zudrehen"</value>
+  </data>
+  <data name="imageMerge_AltText" xml:space="preserve">
+    <value>Hier klicken um ein Spiel zu starten.</value>
   </data>
   <data name="last_hit_you_have_won" xml:space="preserve">
     <value>Letzter Stich: Sie haben gewonnen !</value>
@@ -376,5 +388,11 @@ Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>Sie sagen Paar in {0} an!</value>
+  </data>
+  <data name="you_won_taylor" xml:space="preserve">
+    <value>Computer bekommt einen Schneider.</value>
+  </data>
+  <data name="you_won_tournement" xml:space="preserve">
+    <value>Computer bekommt ein Bummerl.</value>
   </data>
 </root>

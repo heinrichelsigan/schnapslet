@@ -280,6 +280,7 @@ DateTime.Now.Day.ToString() + "_"
                 else
                     imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
                 imAtou10.Visible = true;
+                imAtou10.AlternateText = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
             }
             else
             {

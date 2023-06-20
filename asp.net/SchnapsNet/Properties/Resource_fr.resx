@@ -267,6 +267,12 @@
   <data name="computer_wins_last_hit" xml:space="preserve">
     <value>dernier point: l'ordinateur a gagné!</value>
   </data>
+  <data name="computer_won_taylor" xml:space="preserve">
+    <value>Du bekommst einen Schneider.</value>
+  </data>
+  <data name="computer_won_tournement" xml:space="preserve">
+    <value>Du bekommst ein Bummerl.</value>
+  </data>
   <data name="creating_players" xml:space="preserve">
     <value>créer de nouvelles instances de joueur</value>
   </data>
@@ -326,6 +332,12 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   </data>
   <data name="im4_text" xml:space="preserve">
     <value>carte 5 de joueur</value>
+  </data>
+  <data name="imageAtou_AltText" xml:space="preserve">
+    <value>clicker pour la clôture</value>
+  </data>
+  <data name="imageMerge_AltText" xml:space="preserve">
+    <value>clicker pour commencer un jeu.</value>
   </data>
   <data name="imAtou_text" xml:space="preserve">
     <value>carte d'atou</value>
@@ -434,5 +446,11 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>vous annoucez mariage à {0}!</value>
+  </data>
+  <data name="you_won_taylor" xml:space="preserve">
+    <value>Computer bekommt einen Schneider.</value>
+  </data>
+  <data name="you_won_tournement" xml:space="preserve">
+    <value>Computer bekommt ein Bummerl.</value>
   </data>
 </root>

@@ -340,7 +340,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to closes game.
+        ///   Looks up a localized string similar to close game.
         /// </summary>
         internal static string close_game {
             get {
@@ -511,7 +511,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Du bist im Schneider!.
+        ///   Looks up a localized string similar to You got a taylor..
         /// </summary>
         internal static string computer_won_taylor {
             get {
@@ -520,7 +520,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Du hast des Bummerl!.
+        ///   Looks up a localized string similar to You&apos;ve been marked with a fat point..
         /// </summary>
         internal static string computer_won_tournement {
             get {
@@ -688,6 +688,24 @@ namespace SchnapsNet.Properties {
         internal static string im4_text {
             get {
                 return ResourceManager.GetString("im4_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on atou to close game!.
+        /// </summary>
+        internal static string imageAtou_AltText {
+            get {
+                return ResourceManager.GetString("imageAtou_AltText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click here to start a new game..
+        /// </summary>
+        internal static string imageMerge_AltText {
+            get {
+                return ResourceManager.GetString("imageMerge_AltText", resourceCulture);
             }
         }
         
@@ -1034,7 +1052,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer bekommt einen Schneider!.
+        ///   Looks up a localized string similar to Computer is marked as a taylor..
         /// </summary>
         internal static string you_won_taylor {
             get {

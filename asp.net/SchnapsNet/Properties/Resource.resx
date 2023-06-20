@@ -211,7 +211,7 @@
     <value>Click on Continue!</value>
   </data>
   <data name="close_game" xml:space="preserve">
-    <value>closes game</value>
+    <value>close game</value>
   </data>
   <data name="closing_failed" xml:space="preserve">
     <value>You failed to close this game, computer wins!</value>
@@ -268,10 +268,10 @@
     <value>Last trick: computer wins!</value>
   </data>
   <data name="computer_won_taylor" xml:space="preserve">
-    <value>Du bist im Schneider!</value>
+    <value>You got a taylor.</value>
   </data>
   <data name="computer_won_tournement" xml:space="preserve">
-    <value>Du hast des Bummerl!</value>
+    <value>You've been marked with a fat point.</value>
   </data>
   <data name="creating_players" xml:space="preserve">
     <value>Creating new players</value>
@@ -342,6 +342,12 @@ Rules correspond to the Austrian Schnapsen
   </data>
   <data name="im4_text" xml:space="preserve">
     <value>Player card 5</value>
+  </data>
+  <data name="imageAtou_AltText" xml:space="preserve">
+    <value>Click on atou to close game!</value>
+  </data>
+  <data name="imageMerge_AltText" xml:space="preserve">
+    <value>Click here to start a new game.</value>
   </data>
   <data name="imAtou_text" xml:space="preserve">
     <value>Atou card</value>
@@ -461,7 +467,7 @@ Rules correspond to the Austrian Schnapsen
     <value>Thou announce a marriages in color {0}!</value>
   </data>
   <data name="you_won_taylor" xml:space="preserve">
-    <value>Computer bekommt einen Schneider!</value>
+    <value>Computer is marked as a taylor.</value>
   </data>
   <data name="you_won_tournement" xml:space="preserve">
     <value>Computer hats Bummerl!</value>
