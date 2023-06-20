@@ -24,15 +24,6 @@ namespace SchnapsNet
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// bMerge control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bMerge;
-
-        /// <summary>
         /// bContinue control.
         /// </summary>
         /// <remarks>
@@ -69,6 +60,15 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Button b20b;
 
         /// <summary>
+        /// bMerge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button bMerge;
+
+        /// <summary>
         /// bStop control.
         /// </summary>
         /// <remarks>
@@ -87,31 +87,31 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Button bHelp;
 
         /// <summary>
-        /// imOut1 control.
+        /// imOut21 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imOut1;
+        protected global::System.Web.UI.WebControls.ImageButton imOut21;
 
         /// <summary>
-        /// imOut0 control.
+        /// imOut20 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imOut0;
+        protected global::System.Web.UI.WebControls.ImageButton imOut20;
 
         /// <summary>
-        /// PlaceHolderAtouTalon control.
+        /// spanAtou control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderAtouTalon;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAtou;
 
         /// <summary>
         /// imAtou10 control.
@@ -123,6 +123,15 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imAtou10;
 
         /// <summary>
+        /// spanTalon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanTalon;
+
+        /// <summary>
         /// imTalon control.
         /// </summary>
         /// <remarks>
@@ -132,13 +141,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Image imTalon;
 
         /// <summary>
-        /// ImageMerge control.
+        /// imMerge11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageMerge;
+        protected global::System.Web.UI.WebControls.ImageButton imMerge11;
 
         /// <summary>
         /// PlaceHolderComputerStitches control.

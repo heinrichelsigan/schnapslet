@@ -266,7 +266,7 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
                     this.spanMerge.Style["visibility"] = "visible";
-                    ImageMerge.Visible = true;                    
+                    ImageMerge.Visible = true;
                     // PlaceHolderMerge.Visible = true;
                 }
                 else
@@ -297,13 +297,21 @@ namespace SchnapsNet
                         gameState == SCHNAPSTATE.MERGE_COMPUTER ||
                         gameState == SCHNAPSTATE.MERGE_PLAYER ||
                         gameState == SCHNAPSTATE.NONE)
-                            imAtou10.ImageUrl = emptyURL.ToString();
+                    {
+                        imAtou10.ImageUrl = emptyURL.ToString();
+                        imAtou10.ToolTip = "";
+                    }
                     else if (gameState == SCHNAPSTATE.GAME_CLOSED)
+                    {
                         imAtou10.ImageUrl = notURL.ToString();
+                        imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
+                    }
                     else
+                    {
                         imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
+                        imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                    }
                     imAtou10.Visible = true;
-                    imAtou10.AlternateText = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
                 }
                 else
                 {
@@ -791,19 +799,21 @@ namespace SchnapsNet
         /// <param name="e">EventArgs e</param>
         protected void bContinue_Click(object sender, EventArgs e)
         {
-            string msg = "bContinue_Click";
-            preOut.InnerText += "\r\n" + msg;
+            // string msg = "bContinue_Click";
+            // preOut.InnerText += "\r\n" + msg;
             if (aGame == null || !aGame.isGame)
             {
                 startGame();
                 return;
             }
-            if (aGame != null)
+            if (aGame.shouldContinue)
+            {
                 aGame.shouldContinue = false;
-            bContinue.Enabled = false;
-            tMsg.Visible = false;
-            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            GameTurn(0);
+                bContinue.Enabled = false;
+                tMsg.Visible = false;
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                GameTurn(0);
+            }
         }
 
         protected void ImOut1_Click(object sender, EventArgs e)
@@ -920,6 +930,8 @@ namespace SchnapsNet
             {
                 try
                 {
+                    // imOut0.ImageUrl = emptyURL.ToString();
+                    // imOut1.ImageUrl = emptyURL.ToString();
                     imOut20.ImageUrl = emptyURL.ToString();
                     imOut21.ImageUrl = emptyURL.ToString();
                     playedOutCard0 = globalVariable.CardEmpty;

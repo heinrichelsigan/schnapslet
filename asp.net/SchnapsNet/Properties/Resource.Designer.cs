@@ -529,6 +529,15 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click here to continue..
+        /// </summary>
+        internal static string continue_ToolTip {
+            get {
+                return ResourceManager.GetString("continue_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating new players.
         /// </summary>
         internal static string creating_players {
@@ -692,7 +701,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click on atou to close game!.
+        ///   Looks up a localized string similar to Game is closed!.
         /// </summary>
         internal static string imageAtou_AltText {
             get {
@@ -701,11 +710,20 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click on atou to close game!.
+        /// </summary>
+        internal static string imageAtou_ToolTip {
+            get {
+                return ResourceManager.GetString("imageAtou_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click here to start a new game..
         /// </summary>
-        internal static string imageMerge_AltText {
+        internal static string imageMerge_ToolTip {
             get {
-                return ResourceManager.GetString("imageMerge_AltText", resourceCulture);
+                return ResourceManager.GetString("imageMerge_ToolTip", resourceCulture);
             }
         }
         

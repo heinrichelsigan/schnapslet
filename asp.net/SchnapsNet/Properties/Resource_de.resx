@@ -273,6 +273,9 @@
   <data name="computer_won_tournement" xml:space="preserve">
     <value>Du bekommst ein Bummerl.</value>
   </data>
+  <data name="continue_ToolTip" xml:space="preserve">
+    <value>Klicken sie hier auf weiter!</value>
+  </data>
   <data name="creating_players" xml:space="preserve">
     <value>Erzeuge neuer Spieler Instanzen</value>
   </data>
@@ -318,9 +321,12 @@ Man muss einfach auf die Atou Karte klicken.
 Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
   </data>
   <data name="imageAtou_AltText" xml:space="preserve">
-    <value>Auf Atou klicken für "Zudrehen"</value>
+    <value>Spiel ist zugedreht.</value>
   </data>
-  <data name="imageMerge_AltText" xml:space="preserve">
+  <data name="imageAtou_ToolTip" xml:space="preserve">
+    <value>Auf Atou klicken für Zudrehen.</value>
+  </data>
+  <data name="imageMerge_ToolTip" xml:space="preserve">
     <value>Hier klicken um ein Spiel zu starten.</value>
   </data>
   <data name="last_hit_you_have_won" xml:space="preserve">

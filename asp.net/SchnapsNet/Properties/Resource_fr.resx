@@ -273,6 +273,9 @@
   <data name="computer_won_tournement" xml:space="preserve">
     <value>Du bekommst ein Bummerl.</value>
   </data>
+  <data name="continue_ToolTip" xml:space="preserve">
+    <value>Clicker ice pour continuer.</value>
+  </data>
   <data name="creating_players" xml:space="preserve">
     <value>créer de nouvelles instances de joueur</value>
   </data>
@@ -334,9 +337,12 @@ Les règles correspondent aux schnapsen autrichiens.</value>
     <value>carte 5 de joueur</value>
   </data>
   <data name="imageAtou_AltText" xml:space="preserve">
+    <value>Le jeu est fermé.</value>
+  </data>
+  <data name="imageAtou_ToolTip" xml:space="preserve">
     <value>clicker pour la clôture</value>
   </data>
-  <data name="imageMerge_AltText" xml:space="preserve">
+  <data name="imageMerge_ToolTip" xml:space="preserve">
     <value>clicker pour commencer un jeu.</value>
   </data>
   <data name="imAtou_text" xml:space="preserve">

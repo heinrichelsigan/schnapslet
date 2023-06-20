@@ -86,7 +86,7 @@
         backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
         // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
         talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-        emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");        
+        emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
     }
 
     public void InitSchnaps()
@@ -183,7 +183,7 @@ DateTime.Now.Day.ToString() + "_"
                 aTournement = globalVariable.Tournement;
             if (aGame == null)
                 aGame = globalVariable.Game;
-            
+
             DrawPointsTable();
         }
     }
@@ -192,7 +192,7 @@ DateTime.Now.Day.ToString() + "_"
     {
         int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
         if (schnapStateVal >= 16 && schnapStateVal < 22 && gameState != SCHNAPSTATE.GAME_START)
-        { 
+        {
             try
             {
                 im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
@@ -273,14 +273,19 @@ DateTime.Now.Day.ToString() + "_"
             if (schnapStateVal >= 10 && schnapStateVal < 20)
             {
                 PlaceHolderAtouTalon.Visible = true;
-                if (gameState == SCHNAPSTATE.GAME_START)
-                    imAtou10.ImageUrl = emptyURL.ToString();
-                else if (gameState == SCHNAPSTATE.GAME_CLOSED)
+                if (gameState == SCHNAPSTATE.GAME_CLOSED)
+                {
                     imAtou10.ImageUrl = notURL.ToString();
+                    imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
+                }
                 else
+                {
                     imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
+                    imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                }
+
                 imAtou10.Visible = true;
-                imAtou10.AlternateText = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
+                imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_ToolTip", globalVariable.TwoLetterISOLanguageName);
             }
             else
             {
@@ -695,19 +700,21 @@ DateTime.Now.Day.ToString() + "_"
     /// <param name="e">EventArgs e</param>
     protected void bContinue_Click(object sender, EventArgs e)
     {
-        string msg = "bContinue_Click";
-        preOut.InnerText += "\r\n" + msg;
+        // string msg = "bContinue_Click";
+        // preOut.InnerText += "\r\n" + msg;
         if (aGame == null || !aGame.isGame)
         {
             startGame();
             return;
         }
-        if (aGame != null)
+        if (aGame.shouldContinue)
+        {
             aGame.shouldContinue = false;
-        bContinue.Enabled = false;
-        tMsg.Visible = false;
-        RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-        GameTurn(0);
+            bContinue.Enabled = false;
+            tMsg.Visible = false;
+            RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+            GameTurn(0);
+        }
     }
 
 
@@ -801,10 +808,10 @@ DateTime.Now.Day.ToString() + "_"
             tr.Cells.Add(tdY);
             tableTournement.Rows.Add(tr);
         }
-        if (whoWon != PLAYERDEF.UNKNOWN) 
+        if (whoWon != PLAYERDEF.UNKNOWN)
         {
             if (displayBummerlOrTaylor == 1)
-            {                   
+            {
                 TableRow tr = new TableRow();
                 tr.Style["font-size"] = "large";
                 tdX = new TableCell() { Text = "." }; // computer first
@@ -814,7 +821,7 @@ DateTime.Now.Day.ToString() + "_"
                 tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "." : "";
                 tr.Cells.Add(tdX);
                 tr.Cells.Add(tdY);
-                tableTournement.Rows.Add(tr);                    
+                tableTournement.Rows.Add(tr);
             }
             if (displayBummerlOrTaylor == 2)
             {
@@ -1053,7 +1060,7 @@ DateTime.Now.Day.ToString() + "_"
                                 "https://area23.at/schnapsen/cardpics/" + aGame.said + "3.gif");
                             imOut0.ImageUrl = enoughQueenUrl.ToString();
                             Uri enoughKingUrl = new Uri(
-                                "https://area23.at/schnapsen/cardpics/" + aGame.said + "4.gif");                           
+                                "https://area23.at/schnapsen/cardpics/" + aGame.said + "4.gif");
                             imOut1.ImageUrl = enoughKingUrl.ToString();
                             xfinished = true;
                             break;
@@ -1113,12 +1120,12 @@ DateTime.Now.Day.ToString() + "_"
             {
                 this.errHandler(jbpvex);
             }
-            
+
             printMsg();
-            
+
             string msg40 = andEnough + "Computer hat gewonnen mit " + aGame.computer.points + " Punkten !";
             int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
-            
+
             stopGame(tPts, PLAYERDEF.COMPUTER, msg40);
         }
 
@@ -1441,7 +1448,7 @@ DateTime.Now.Day.ToString() + "_"
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 stopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
             }
-            return;            
+            return;
         }
 
         if (aGame != null)
