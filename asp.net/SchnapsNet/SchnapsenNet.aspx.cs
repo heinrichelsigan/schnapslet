@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
@@ -212,10 +213,15 @@ namespace SchnapsNet
                     try
                     {
                         im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
+                        im0.Style["visibility"] = "hidden";
                         im1.ImageUrl = aGame.gambler.hand[1].PictureUrlString;
+                        im1.Style["visibility"] = "hidden";
                         im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
+                        im2.Style["visibility"] = "hidden";
                         im3.ImageUrl = aGame.gambler.hand[3].PictureUrlString;
+                        im3.Style["visibility"] = "hidden";
                         im4.ImageUrl = aGame.gambler.hand[4].PictureUrlString;
+                        im4.Style["visibility"] = "hidden";
                     }
                     catch (Exception exp)
                     {
@@ -283,7 +289,7 @@ namespace SchnapsNet
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 this.spanAtou.Style["visibility"] = "visible";
 
-                if (schnapStateVal >= 10 && schnapStateVal < 20)
+                if (schnapStateVal >= 4 && schnapStateVal < 20)
                 {
                     this.spanAtou.Visible = true;
                     if (gameState == SCHNAPSTATE.GAME_START ||
@@ -326,12 +332,12 @@ namespace SchnapsNet
                         imTalon.ImageUrl = emptyTalonUri.ToString();
                     else
                         imTalon.ImageUrl = talonURL.ToString();
-                    imTalon.Visible = true;
+                    imTalon.Style["visibility"] = "visible";
                 }
                 else
                 {
-                    imTalon.ImageUrl = emptyURL.ToString();
-                    imTalon.Visible = false;
+                    imTalon.ImageUrl = talonURL.ToString();
+                    imTalon.Style["visibility"] = "hidden";
                     this.spanTalon.Style["margin-left"] = "0px";
                     this.spanTalon.Style["visibility"] = "hidden";
                     // this.spanTalon.Visible = false;
@@ -1087,51 +1093,61 @@ namespace SchnapsNet
         void ShowStateSchnapsStack()
         {
             bool finishGivingWithTalon = false;
-            if (aGame != null && aGame.schnapsStack != null && aGame.schnapsStack.Count > 0)
+            bool enterStage = Request.RawUrl.Contains("initState=15");
+            
+            if (aGame != null && (aGame.schnapsStack != null && aGame.schnapsStack.Count > 0) || enterStage)
             {
-                SCHNAPSTATE myState = aGame.schnapsStack.Pop();
-                aGame.schnapState = myState;
-                switch(myState)
+                SCHNAPSTATE myState = aGame.schnapState;
+                if (enterStage)
                 {
-                    case SCHNAPSTATE.PLAYER_TAKES:
-                    case SCHNAPSTATE.PLAYER_FIST:
-                        showPlayersCards(myState);
-                        showAtouCard(myState);
-                        Show1st3Computer(myState);
-                        Show2nd2Computer(myState);
-                        showTalonCard(myState);
+                    finishGivingWithTalon = true;
+                }
+                else
+                {
+                    myState = aGame.schnapsStack.Pop();
+                    aGame.schnapState = myState;
+                    switch (myState)
+                    {
+                        case SCHNAPSTATE.PLAYER_TAKES:
+                        case SCHNAPSTATE.PLAYER_FIST:
+                            showPlayersCards(myState);
+                            showAtouCard(myState);
+                            // Show1st3Computer(myState);
+                            // Show2nd2Computer(myState);
+                            showTalonCard(myState);
 
-                        aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
-                        RefreshGlobalVariableSession();
+                            aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
+                            RefreshGlobalVariableSession();
 
-                        ShowMergeAnim(aGame.schnapState);
-                        showAtouCard(myState);
-                        showTalonCard(myState);
+                            ShowMergeAnim(aGame.schnapState);
+                            showAtouCard(myState);
+                            showTalonCard(myState);
 
-                        bMerge.Enabled = false;
-                        bStop.Enabled = true;
-                        break;
-                    case SCHNAPSTATE.PLAYER_1ST_3:
-                    case SCHNAPSTATE.PLAYER_1ST_5:
-                    case SCHNAPSTATE.PLAYER_2ND_2:
-                        showPlayersCards(myState);
-                        break;
-                    case SCHNAPSTATE.GIVE_ATOU:
-                        showAtouCard(myState); break;
-                    case SCHNAPSTATE.COMPUTER_1ST_3:
-                        Show1st3Computer(myState); break;
-                    case SCHNAPSTATE.COMPUTER_2ND_2:
-                    case SCHNAPSTATE.COMPUTER_1ST_5:
-                        Show2nd2Computer(myState); break;
-                    case SCHNAPSTATE.GIVE_TALON:                        
-                        finishGivingWithTalon = true;
-                        break;
-                    default:
-                        string schnapsStateDbgS = myState.ToString();
-                        break;
-                }                
-                
-                finishGivingWithTalon = (finishGivingWithTalon || (aGame.schnapsStack != null && aGame.schnapsStack.Count == 0));
+                            bMerge.Enabled = false;
+                            bStop.Enabled = true;
+                            break;
+                        case SCHNAPSTATE.PLAYER_1ST_3:
+                        case SCHNAPSTATE.PLAYER_1ST_5:
+                        case SCHNAPSTATE.PLAYER_2ND_2:
+                            showPlayersCards(myState);
+                            break;
+                        case SCHNAPSTATE.GIVE_ATOU:
+                            showAtouCard(myState); break;
+                        case SCHNAPSTATE.COMPUTER_1ST_3:
+                            Show1st3Computer(myState); break;
+                        case SCHNAPSTATE.COMPUTER_2ND_2:
+                        case SCHNAPSTATE.COMPUTER_1ST_5:
+                            Show2nd2Computer(myState); break;
+                        case SCHNAPSTATE.GIVE_TALON:
+                        case SCHNAPSTATE.GAME_STARTED:
+                            finishGivingWithTalon = true;
+                            break;
+                        default:
+                            string schnapsStateDbgS = myState.ToString();
+                            break;
+                    }
+                }
+                // finishGivingWithTalon = (finishGivingWithTalon || (aGame.schnapsStack != null && aGame.schnapsStack.Count == 0));
                 if (finishGivingWithTalon)
                 {
                     aGame.schnapState = SCHNAPSTATE.GAME_STARTED;

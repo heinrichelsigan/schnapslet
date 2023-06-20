@@ -7,6 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnapsen.Net</title>
     <script>
+        var atouUrl = "";
+
         function sleep(ms) {
             setTimeout(codingCourse, 3000);
         }
@@ -29,44 +31,42 @@
             if (initSchnapsState != null) {                
 
                 if (initSchnapsState == 4) {
-                    schnapsStateSwitch(1);
-                    schnapsStateSwitch(3);
-                    setTimeout(schnapsStateSwitch(201), 1000);
-                    setTimeout(schnapsStateSwitch(10), 2000);
-                    setTimeout(schnapsStateSwitch(2), 3000);
-                    setTimeout(schnapsStateSwitch(211), 4000);
-                    setTimeout(schnapsStateSwitch(210), 5000);
-                    setTimeout(schnapsStateSwitch(11), 6000);
-                    setTimeout(schnapsStateSwitch(11), 10000);
-
-                    document.getElementById("imOut20").src = "cardpics/a3.gif";
-                    sleep(1000);
-                    if (document.getElementById("imAtou10") != null)
-                        document.getElementById("imAtou10").style.visibility = "visible";
-                    sleep(500);
-                    document.getElementById("im3").style.visibility = "visible";
-                    document.getElementById("im4").style.visibility = "visible";
-                    sleep(1000);
-                    document.getElementById("imOut21").src = "cardpics/a2.gif";
-                    sleep(1000);
-                    document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    if (document.getElementById("imTalon") != null)
-                        document.getElementById("imTalon").style.visibility = "visible";
-                    sleep(1000);
-                    window.location.href = "SchnapsenNet.aspx"
+                    initSchnapsState4();
                 }
                 if (initSchnapsState == 8) {
-                    schnapsStateSwitch(1);
-                    schnapsStateSwitch(3);
-                    schnapsStateSwitch(2);
-                    setTimeout(schnapsStateSwitch(10), 1000);
-                    setTimeout(schnapsStateSwitch(211), 2000);
-                    setTimeout(schnapsStateSwitch(210), 3000);
-                    setTimeout(schnapsStateSwitch(11), 4000);
-                    setTimeout(schnapsStateSwitch(1000), 5000);
+                    // alert(initSchnapsState);
+                    initSchnapsState8();                    
                 }   
+                if (initSchnapsState == 15) {
+                    schnapsStateRedirect();
+                }
             }
+        }
+
+        function initSchnapsState4() {
+            // atouUrl = document.getElementById("imAtou").src;
+            setTimeout(allInvisibleInit, 100);
+            setTimeout(playerCards1st3Visible, 1000);
+            setTimeout(imOut20a3, 2000);
+            setTimeout(imOut21Empty, 2500);
+            setTimeout(atouCardVisible, 3000);
+            setTimeout(playerCardsVisible, 4000);
+            setTimeout(imOut21a2, 5000);
+            setTimeout(imOut21Empty, 6000);
+            setTimeout(talonCardVisible, 7000);
+            setTimeout(schnapsStateRedirect15, 8000);  
+        }
+
+        function initSchnapsState8() {
+            // atouUrl = document.getElementById("imAtou").src;
+            setTimeout(allInvisibleInit(), 100);
+            // schnapsStateSwitch(3);
+            setTimeout(playerCardsVisible, 1000);
+            setTimeout(atouCardVisible, 2000);
+            setTimeout(imOut21a2, 3000);
+            setTimeout(imOut21Empty, 4000);
+            setTimeout(talonCardVisible, 5000);
+            setTimeout(schnapsStateRedirect15, 6000);
         }
 
         function schnapsStateSwitch(stage) {
@@ -75,46 +75,117 @@
 
             if (stage == 0) {
                 if (document.getElementById("ImageMerge") != null)
-                    document.getElementById("ImageMerge").style.visibility = "visible";
+                    document.getElementById("ImageMerge").style.visibility = "visible";                
             }
             if (stage == 1) {
-                if (document.getElementById("ImageMerge") != null)
-                    document.getElementById("ImageMerge").style.visibility = "hidden";
+                allInvisibleInit();
             }
             if (stage == 2) {
-                document.getElementById("im3").style.visibility = "visible";
-                document.getElementById("im4").style.visibility = "visible";
+                playerCardsVisible();
             }
             if (stage == 3) {
-                document.getElementById("im0").style.visibility = "visible";
-                document.getElementById("im1").style.visibility = "visible";
-                document.getElementById("im2").style.visibility = "visible";
+                playerCards1st3Visible();
             }
             if (stage == 10) {
-                if (document.getElementById("imAtou10") != null)
-                    document.getElementById("imAtou10").style.visibility = "visible";
+                atouCardVisible();
             }
             if (stage == 11) {
-                if (document.getElementById("imTalon") != null)
-                    document.getElementById("imTalon").style.visibility = "visible";
+                talonCardVisible();
             }
             if (stage == 200) {
-                document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                imOut20Empty();
             }
             if (stage == 201) {
-                document.getElementById("imOut20").src = "cardpics/a3.gif";
+                imOut20a3();
             }
             if (stage == 210) {
-                document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                imOut21Empty();
             }
             if (stage == 211) {
-                document.getElementById("imOut20").src = "cardpics/a3.gif";
-                document.getElementById("imOut21").src = "cardpics/a2.gif";
+                imOut21a2();
             }
             if (stage == 1000) {
-                window.location.href = "SchnapsenNet.aspx"
+                schnapsStateRedirect15();
             }
+        }
+
+
+        function allInvisibleInit() {
+            if (document.getElementById("ImageMerge") != null)
+                document.getElementById("ImageMerge").style.visibility = "hidden";
+            document.getElementById("im0").style.visibility = "hidden";
+            document.getElementById("im1").style.visibility = "hidden";
+            document.getElementById("im2").style.visibility = "hidden";
+            document.getElementById("im3").style.visibility = "hidden";
+            document.getElementById("im4").style.visibility = "hidden";
+            document.getElementById("spanAtou").style.visibility = "hidden";
+            document.getElementById("spanTalon").style.visibility = "hidden";
+        }
+
+        function playerCardsVisible() {
+            document.getElementById("im0").style.visibility = "visible";
+            document.getElementById("im1").style.visibility = "visible";
+            document.getElementById("im2").style.visibility = "visible";
+            document.getElementById("im3").style.visibility = "visible";
+            document.getElementById("im4").style.visibility = "visible";
+        }
+
+        function playerCards1st3Visible() {
+            document.getElementById("im0").style.visibility = "visible";
+            document.getElementById("im1").style.visibility = "visible";
+            document.getElementById("im2").style.visibility = "visible";
+        }
+
+        function atouCardVisible() {            
+            if (document.getElementById("spanAtou") != null)
+                document.getElementById("spanAtou").style.visibility = "visible";
+            if (document.getElementById("imAtou10") != null) {
+                document.getElementById("imAtou10").style.visibility = "visible";
+                // document.getElementById("imAtou10").src = atouUrl;
+            }
+        }
+
+        function talonCardVisible() {
+            if (document.getElementById("spanTalon") != null)
+                document.getElementById("spanTalon").style.visibility = "visible";
+            if (document.getElementById("imTalon") != null)
+                document.getElementById("imTalon").style.visibility = "visible";
+        }
+
+        function imOut20Empty() {
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";
+        }
+
+        function imOut21Empty() {
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";
+            document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";
+        }
+
+        function imOut20a3() {
+            
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            // if (document.getElementById("spanAtou") != null)
+            //     document.getElementById("spanAtou").style.visibility = "visible";
+            // if (document.getElementById("imAtou10") != null) {
+            //     document.getElementById("imAtou10").style.visibility = "visible";
+            //     imAtou.src = "https://area23.at/mono/SchnapsNet/cardpics/n0.gif";
+            // }            
+        }
+
+        function imOut21a2() {
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+        }
+
+        function schnapsStateRedirect() {
+            // alert("SchnapsenNet.aspx");
+            window.location.href = "SchnapsenNet.aspx";
+        }
+
+        function schnapsStateRedirect15() {
+            // alert("SchnapsenNet.aspx?initState=15");
+            window.location.href = "SchnapsenNet.aspx?initState=15";
         }
 
     </script>
@@ -152,7 +223,7 @@
                 <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut1_Click" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImOut0_Click"  />
+                <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut0_Click"  />
             </span>
             <span id="spanMerge" runat="server" style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
                 <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" BorderStyle="None" />&nbsp;
