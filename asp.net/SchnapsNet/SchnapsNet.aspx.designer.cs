@@ -105,6 +105,15 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imOut20;
 
         /// <summary>
+        /// imMerge11 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton imMerge11;
+
+        /// <summary>
         /// PlaceHolderAtouTalon control.
         /// </summary>
         /// <remarks>
@@ -130,15 +139,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imTalon;
-
-        /// <summary>
-        /// imMerge11 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imMerge11;
 
         /// <summary>
         /// PlaceHolderComputerStitches control.
