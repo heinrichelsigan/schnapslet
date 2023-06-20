@@ -105,13 +105,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imOut20;
 
         /// <summary>
-        /// spanAtou control.
+        /// PlaceHolderAtouTalon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAtou;
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderAtouTalon;
 
         /// <summary>
         /// imAtou10 control.
@@ -121,15 +121,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton imAtou10;
-
-        /// <summary>
-        /// spanTalon control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanTalon;
 
         /// <summary>
         /// imTalon control.

@@ -114,9 +114,13 @@ namespace SchnapsNet
             // tRest.Enabled = false;
             // tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);            
             // lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
-            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            try
+            {
+                this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            }
+            catch (Exception) { }
 
             lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
 
@@ -241,16 +245,24 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
                     this.imMerge11.Visible = true;
-                    this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-                    this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-                    this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                    try
+                    {
+                        this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                        this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                        this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+                    }
+                    catch (Exception) { }
                     // ImageMerge.Visible = true;
                 }
                 else
                 {
                     this.imMerge11.Visible = false;
-                    this.imOut20.ToolTip = "";
-                    this.imOut21.ToolTip = "";
+                    try
+                    {
+                        this.imOut20.ToolTip = "";
+                        this.imOut21.ToolTip = "";
+                    }
+                    catch (Exception) { }
                     // ImageMerge.Visible = false;
                 }
             }
@@ -267,8 +279,8 @@ namespace SchnapsNet
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 10 && schnapStateVal < 20)
                 {
-                    this.spanAtou.Style["visibility"] = "visible";
-                    this.imAtou10.Style["visibility"] = "visible";
+                    PlaceHolderAtouTalon.Visible = true;
+                    this.imAtou10.Visible = true;
 
                     if (gameState == SCHNAPSTATE.GAME_CLOSED)
                     {
@@ -283,8 +295,8 @@ namespace SchnapsNet
                 }
                 else
                 {
-                    this.spanAtou.Style["visibility"] = "hidden";
-                    this.imAtou10.Style["visibility"] = "hidden";
+                    PlaceHolderAtouTalon.Visible = false;
+                    this.imAtou10.Visible = false;
                     this.imAtou10.ImageUrl = emptyURL.ToString();
                 }
             }
@@ -298,9 +310,7 @@ namespace SchnapsNet
         {
             try
             {
-                this.spanTalon.Visible = true;
-                this.spanTalon.Style["visibility"] = "visible";
-                this.spanTalon.Style["margin-left"] = "-6%";
+                this.PlaceHolderAtouTalon.Visible = true;         
 
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 15 && schnapStateVal < 20)
@@ -309,15 +319,14 @@ namespace SchnapsNet
                         imTalon.ImageUrl = emptyTalonUri.ToString();
                     else
                         imTalon.ImageUrl = talonURL.ToString();
-                    imTalon.Style["visibility"] = "visible";
+                    imTalon.Visible = true;
                 }
                 else
                 {
                     imTalon.ImageUrl = emptyURL.ToString();
                     imTalon.ImageUrl = talonURL.ToString();
-                    imTalon.Style["visibility"] = "hidden";
-                    this.spanTalon.Style["margin-left"] = "0px";
-                    this.spanTalon.Style["visibility"] = "hidden";
+                    imTalon.Visible = false;
+                    this.PlaceHolderAtouTalon.Visible = true;
                 }
             }
             catch (Exception imTalonEx)
@@ -889,9 +898,12 @@ namespace SchnapsNet
             bStop.Enabled = false;
             bStop.Visible = false;
             bContinue.Enabled = true;
-            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
-            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
-            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            try
+            {
+                this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            } catch (Exception) { }
 
             if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
             {
@@ -1495,9 +1507,13 @@ namespace SchnapsNet
             }
 
             aGame.shouldContinue = true;
-            imOut20.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
-            imOut21.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
-            bContinue.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            try
+            {
+                imOut20.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                imOut21.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
+                bContinue.ToolTip = JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            }
+            catch (Exception) { }
             bContinue.Enabled = true;
             aGame.isReady = false;
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
