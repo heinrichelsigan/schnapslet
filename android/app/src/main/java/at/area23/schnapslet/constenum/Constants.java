@@ -29,6 +29,11 @@ import java.util.Date;
 public class Constants {
 
 	public final static String APP_NAME = "Schnapslet";
+	public final static String VERSION     = "v2.4.23";
+	public const string GITURL      = "https://github.com/heinrichelsigan/schnapslet";
+	public const string WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
+	public const string URLPREFIX   = "https://area23.at/schnapsen/cardpics/";
+	public const string URLPIC      = "https://area23.at/schnapsen/cardpics/";
 
 	public final static String PARAM1_INDEX = "Index";
 	public final static String PARAM2_POINTS = "Points";
@@ -42,6 +47,16 @@ public class Constants {
 
 	public final static String FILE_TXT_SUFFIX = ".txt";
 	public final static String FILE_JSON_SUFFIX = ".json";
+
+	public final static String COLOR_K     = "♦";  //  "&#9830;";    //  "&diams;"
+	public final static String COLOR_H     = "♥";  //  "&#9829;";    //  "&hearts;"
+	public final static String COLOR_P     = "♠";  //  "&#9824;";    //  "&spades;"
+	public final static String COLOR_T     = "♣";  //  "&#9827;";    //  "&clubs;"
+	public final static String COLOR_N     = "NOCOLOR";
+	public final static String COLOR_E     = "EMPTYCOLOR";
+	public final static String TAYLOR_SYM0 = "&#x2702;";       // ✂
+	public final static String TAYLOR_SYM1 = "&#9986;";
+	public final static String TAYLOR_SYM2 = "&#x2704;";       // ✄
 
 	/**
 	 * getSaveImageFileName

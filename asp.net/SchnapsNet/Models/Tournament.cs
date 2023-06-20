@@ -107,11 +107,8 @@ namespace SchnapsNet.Models
             }
             Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
             tHistory.Add(ptStart);
-            if (NextGameGiver == PLAYERDEF.COMPUTER)
-                NextGameGiver = PLAYERDEF.HUMAN;
-            else if (NextGameGiver == PLAYERDEF.HUMAN)
-                NextGameGiver = PLAYERDEF.COMPUTER;
-            else if (NextGameGiver == PLAYERDEF.UNKNOWN)
+            NextGameGiver = this.NextGameStarter;
+            if (NextGameGiver == PLAYERDEF.UNKNOWN)
                 throw new InvalidProgramException("Unknown game state to determine next giver");
         }
 

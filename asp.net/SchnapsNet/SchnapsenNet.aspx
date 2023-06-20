@@ -20,23 +20,25 @@
             const myUrl2 = new URL(window.location.toLocaleString());
             // alert(myUrl2);
 
-            var url = new URL(myUrl2);
-
-            var initSchnapsState = url.searchParams.get("initState");
+            var myUrl = new URL(myUrl2);
+            var initSchnapsState = myUrl.searchParams.get("initState");
             console.log(initSchnapsState);            
 
-            if (document.getElementById("ImageMerge") != null)
-                document.getElementById("ImageMerge").style.visibility = "visible";
+            schnapsStateSwitch(0);
 
             if (initSchnapsState != null) {                
 
                 if (initSchnapsState == 4) {
-                    if (document.getElementById("ImageMerge") != null)
-                        document.getElementById("ImageMerge").style.visibility = "hidden";
-                    document.getElementById("im0").style.visibility = "visible";
-                    document.getElementById("im1").style.visibility = "visible";
-                    document.getElementById("im2").style.visibility = "visible";
-                    sleep(1000);
+                    schnapsStateSwitch(1);
+                    schnapsStateSwitch(3);
+                    setTimeout(schnapsStateSwitch(201), 1000);
+                    setTimeout(schnapsStateSwitch(10), 2000);
+                    setTimeout(schnapsStateSwitch(2), 3000);
+                    setTimeout(schnapsStateSwitch(211), 4000);
+                    setTimeout(schnapsStateSwitch(210), 5000);
+                    setTimeout(schnapsStateSwitch(11), 6000);
+                    setTimeout(schnapsStateSwitch(11), 10000);
+
                     document.getElementById("imOut20").src = "cardpics/a3.gif";
                     sleep(1000);
                     if (document.getElementById("imAtou10") != null)
@@ -55,30 +57,66 @@
                     window.location.href = "SchnapsenNet.aspx"
                 }
                 if (initSchnapsState == 8) {
-                    if (document.getElementById("ImageMerge") != null)
-                        document.getElementById("ImageMerge").style.visibility = "hidden";
-
-                    document.getElementById("im0").style.visibility = "visible";
-                    document.getElementById("im1").style.visibility = "visible";
-                    document.getElementById("im2").style.visibility = "visible";
-                    document.getElementById("im3").style.visibility = "visible";
-                    document.getElementById("im4").style.visibility = "visible";
-                    sleep(1000);
-                    if (document.getElementById("imAtou10") != null)
-                        document.getElementById("imAtou10").style.visibility = "visible";
-                    sleep(1000);
-                    document.getElementById("imOut20").src = "cardpics/a3.gif";
-                    document.getElementById("imOut21").src = "cardpics/a2.gif";
-                    sleep(1000);
-                    document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
-                    if (document.getElementById("imTalon") != null)
-                        document.getElementById("imTalon").style.visibility = "visible";
-                    sleep(1000);
-                    window.location.href = "SchnapsenNet.aspx"
+                    schnapsStateSwitch(1);
+                    schnapsStateSwitch(3);
+                    schnapsStateSwitch(2);
+                    setTimeout(schnapsStateSwitch(10), 1000);
+                    setTimeout(schnapsStateSwitch(211), 2000);
+                    setTimeout(schnapsStateSwitch(210), 3000);
+                    setTimeout(schnapsStateSwitch(11), 4000);
+                    setTimeout(schnapsStateSwitch(1000), 5000);
                 }   
             }
         }
+
+        function schnapsStateSwitch(stage) {
+            if (stage == null)
+                stage = 0;
+
+            if (stage == 0) {
+                if (document.getElementById("ImageMerge") != null)
+                    document.getElementById("ImageMerge").style.visibility = "visible";
+            }
+            if (stage == 1) {
+                if (document.getElementById("ImageMerge") != null)
+                    document.getElementById("ImageMerge").style.visibility = "hidden";
+            }
+            if (stage == 2) {
+                document.getElementById("im3").style.visibility = "visible";
+                document.getElementById("im4").style.visibility = "visible";
+            }
+            if (stage == 3) {
+                document.getElementById("im0").style.visibility = "visible";
+                document.getElementById("im1").style.visibility = "visible";
+                document.getElementById("im2").style.visibility = "visible";
+            }
+            if (stage == 10) {
+                if (document.getElementById("imAtou10") != null)
+                    document.getElementById("imAtou10").style.visibility = "visible";
+            }
+            if (stage == 11) {
+                if (document.getElementById("imTalon") != null)
+                    document.getElementById("imTalon").style.visibility = "visible";
+            }
+            if (stage == 200) {
+                document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
+            }
+            if (stage == 201) {
+                document.getElementById("imOut20").src = "cardpics/a3.gif";
+            }
+            if (stage == 210) {
+                document.getElementById("imOut20").src = "https://area23.at/schnapsen/cardpics/e.gif";
+                document.getElementById("imOut21").src = "https://area23.at/schnapsen/cardpics/e.gif";
+            }
+            if (stage == 211) {
+                document.getElementById("imOut20").src = "cardpics/a3.gif";
+                document.getElementById("imOut21").src = "cardpics/a2.gif";
+            }
+            if (stage == 1000) {
+                window.location.href = "SchnapsenNet.aspx"
+            }
+        }
+
     </script>
 </head>
 <body onload="schnapsStateInit()">

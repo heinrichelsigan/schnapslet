@@ -98,5 +98,9 @@
     <string name="ukraine_cards">ukraine card deck</string>
     <string name="polish_cards">polish card deck</string>
 	<string name="us_cards">US future card set</string>
+    <string name="you_won_tournement">Computer is marked with a fat point.</string>
+    <string name="you_won_taylor">Computer is marked as a taylor!</string>
+    <string name="computer_won_tournement">You have been marked with a fat point.</string>
+    <string name="computer_won_taylor">You have been marked as a taylor!</string>
 </resources>
 

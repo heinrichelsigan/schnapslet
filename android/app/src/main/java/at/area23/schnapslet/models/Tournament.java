@@ -24,6 +24,7 @@ import android.graphics.Point;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 
 import at.area23.schnapslet.*;
@@ -54,10 +55,15 @@ public class Tournament extends SchnapsAtom {
         this.name = "aTournament_" + Constants.getDateString();
 		gamblerTPoints = 7;
 		computerTPoints = 7;
+
 		tHistory = new HashSet<>();
 		Point ptStart = new Point(gamblerTPoints, computerTPoints);
 		tHistory.add(ptStart);
-		nextGameGiver = PLAYERDEF.COMPUTER;
+
+		Random random = new Random();
+		int rand = random.nextInt();
+		rand = (rand >= 0) ? rand : -rand;
+		nextGameGiver = (rand % 2 == 0) ? PLAYERDEF.HUMAN : PLAYERDEF.COMPUTER;
     }
 
 	/**
@@ -90,8 +96,8 @@ public class Tournament extends SchnapsAtom {
      * @return true, if opposite of winner made no game in entire Tournament
 	 */
 	public boolean hasTaylor() {
-		return ((getTournamentWinner() != PLAYERDEF.UNKNOWN) &&
-				(gamblerTPoints == 7 || computerTPoints == 7));
+		return ((getTournamentWinner() == PLAYERDEF.COMPUTER && gamblerTPoints == 7) ||
+				(getTournamentWinner() == PLAYERDEF.HUMAN && computerTPoints == 7));
 	}
 	
 	/**
@@ -122,6 +128,44 @@ public class Tournament extends SchnapsAtom {
 			nextGameGiver = PLAYERDEF.COMPUTER;
 		else if (nextGameGiver == PLAYERDEF.UNKNOWN)
 			throw new IllegalStateException("Unknown game state to determine next giver");
+	}
+
+	/**
+	 * addPointsRotateGiver
+	 * @param tournamentPoints substracting last game points from tounnaments table
+	 * @param whoWon PLAYERDEF enum for PLAYERDEF.HUMAN or PLAYERDEF.COMPUTER
+	 */
+	public void addPointsRotateGiver(int tournamentPoints, PLAYERDEF whoWon) {
+		// substructs points from down playing tournament
+		if (whoWon == PLAYERDEF.HUMAN)
+			gamblerTPoints -= tournamentPoints;
+		else if (whoWon == PLAYERDEF.COMPUTER)
+			computerTPoints -= tournamentPoints;
+		// write down tournament table history
+		Point ptStart = new Point(gamblerTPoints, computerTPoints);
+		tHistory.Add(ptStart);
+		// rotate next game giver
+		nextGameGiver = getNextGameStarter();
+	}
+
+	/**
+	 * getTournamentsTable
+	 * @return full tournaments table as ascii string with new lines
+	 */
+	public String getTournamentsTable() {
+		String tourTable = "P | C\n";
+		for (Point tPt : tHistory) {
+			tourTable += tPt.x + " | " + tPt.Y;
+		}
+		PLAYERDEF whoWon = getTournamentWinner();
+		if (whoWon != PLAYERDEF.UNKNOWN) {
+			if (hasTaylor()) {
+				tourTable += (whoWon == PLAYERDEF.HUMAN) ?
+						"  | " + Constants.TAYLOR_SYM0 :
+						Constants.TAYLOR_SYM2 + " |  ";
+			}
+		}
+
 	}
 
 }

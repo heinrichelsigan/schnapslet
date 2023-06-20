@@ -134,7 +134,7 @@ namespace SchnapsNet.Models
 
             gambler = new Player(playersTurn, context);
             gambler.points = 0;
-            computer = new Player(playersTurn, context);
+            computer = new Player(!playersTurn, context);
             computer.points = 0;
 			isClosed = false;
 

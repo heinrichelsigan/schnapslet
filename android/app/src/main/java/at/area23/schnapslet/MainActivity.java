@@ -69,6 +69,7 @@ import at.area23.schnapslet.constenum.SCHNAPSTATE;
 import at.area23.schnapslet.models.Card;
 import at.area23.schnapslet.models.Game;
 import at.area23.schnapslet.models.PairCard;
+import at.area23.schnapslet.models.Tournament;
 import at.area23.schnapslet.models.TwoCards;
 
 /**
@@ -99,7 +100,7 @@ public class MainActivity
             imgPlayerStitch1a, imgPlayerStitch1b,
             imgPlayerStitch2a, imgPlayerStitch2b,
             imOut0, imOut1, imAtou, imTalon, imMerge;
-    TextView tRest, tPoints, tMes, tDbg;
+    TextView tRest, tPoints, tMes, tDbg, tTournamentPoints;
     ConstraintLayout constraintRoot;
     RelativeLayout relativeTop, relativeLayoutStitches;
     // Menu myMenu;
@@ -122,6 +123,7 @@ public class MainActivity
     HashMap<Integer, Drawable> dragNDropMap = new HashMap<>();
     HashMap<Integer, LinearLayout> toFields = new HashMap<>();
     Game aGame;
+    Tournament aTournament;
     // Calling Application class (see application tag in AndroidManifest.xml)
     // GlobalAppSettings globalVariable;
 
@@ -278,6 +280,8 @@ public class MainActivity
         tDbg = (TextView) findViewById(R.id.tDbg);
         // tDbg.setText(layoutMes);
         tMes.setVisibility(View.INVISIBLE);
+        tPlayerTournamentPoints = (TextView) findViewById(R.id.tTournamentPoints);
+
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         toggleEnabled(bChange, false, getString(R.string.bChange_text),
                 getString(R.string.bChange_text));
@@ -290,6 +294,8 @@ public class MainActivity
         addListenerOnClickables();
         // initURLBase();
 
+        aTournament = globalVariable.getTournament();
+        tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
         Game bGame = globalVariable.getGame();
         if (bGame != null && bGame.isGame &&
             bGame.phoneDirection != phoneDirection)
@@ -352,7 +358,7 @@ public class MainActivity
             showStitches(-2);
             showPlayersCards();
             showPlayedOutCards();
-            globalVariable.setGame(aGame);
+            globalVariable.setTournamentGame(aTournament, aGame);
         }
         else {
             resetButtons(0);
@@ -428,7 +434,7 @@ public class MainActivity
         }
         if (mItemId == R.id.action_restart) {
             if (aGame != null && aGame.isGame)
-                stopGame(3, getString(R.string.ending_game));
+                stopGame(PLAYERDEF.UNKNOWN,3, getString(R.string.ending_game));
             return true;
         }
         if (mItemId == R.id.action_help) {
@@ -596,7 +602,8 @@ public class MainActivity
             showAtouCard(aGame.schnapState);
             showPlayersCards();
 
-            globalVariable.setGame(aGame);
+            globalVariable.setTournamentGame(aTournament, aGame);
+
             gameTurn(1);
         } catch (Exception e) {
             this.errHandler(e);
@@ -1085,7 +1092,9 @@ public class MainActivity
         }
         aGame.gambler.hand[ic] = globalVariable.cardEmpty();
         aGame.isReady = false;
-        globalVariable.setGame(aGame);
+
+        globalVariable.setTournamentGame(aTournament, aGame);
+
         endTurn();
 
     }
@@ -1600,7 +1609,7 @@ public class MainActivity
             }
         }
         if (aGame != null) {
-            globalVariable.setGame(aGame);
+            globalVariable.setTournamentGame(aTournament, aGame);
         }
     }
 
@@ -1615,11 +1624,16 @@ public class MainActivity
         toggleMenuItem(myMenu, R.id.action_start, false);
         aGame = null;
 
+        if (aTournament.getTournamentWinner() != PLAYERDEF.UNKNOWN) {
+            aTournament = globalVariable.newTournament();
+            tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
+        }
+
         // runtime = java.lang.Runtime.getRuntime();
         // runtime.runFinalization();
         // runtime.gc();
 
-        aGame = new Game(getApplicationContext());
+        aGame = new Game(getApplicationContext(), aTournament.nextGameGiver);
         aGame.isReady = true;
         tMes.setVisibility(View.INVISIBLE);
 
@@ -1641,16 +1655,17 @@ public class MainActivity
         toggleMenuItem(myMenu, R.id.action_restart, true);
         toggleMenuItem(myMenu, R.id.action_start, false);
 
-        globalVariable.setGame(aGame);
+        globalVariable.setTournamentGame(aTournament, aGame);
         gameTurn(0);
     }
 
     /**
      * stop current game
+     * @param whoWon PLAYERDEF who won game
      * @param levela level of stop
      * @param stopMessage ending game message
      */
-    protected void stopGame(int levela, String stopMessage) {
+    protected void stopGame(PLAYERDEF whoWon, int levela, String stopMessage) {
 
         if (stopMessage != null && stopMessage.length() > 0) {
             setTextMessage(stopMessage);
@@ -1663,7 +1678,7 @@ public class MainActivity
         toggleMenuItem(myMenu, R.id.action_restart, true);
 
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
-            aGame.stopGame();
+            aGame.stopGame(whoWon);
 
         resetButtons(levela);
         showStitches(-3);
@@ -1680,10 +1695,12 @@ public class MainActivity
         aGame.playedOut0 = playedOutCard0;
         aGame.playedOut1 = playedOutCard1;
 
+        aTournament.addPointsRotateGiver(aGame.whoWon);
+        tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
+        globalVariable.setTournamentGame(aTournament, aGame);
+
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.destroyGame();
-
-        globalVariable.setGame(aGame);
 
         if (levela <= 0 || levela >= 3) {
             mergeCardAnim(true);
@@ -1714,7 +1731,7 @@ public class MainActivity
         showTalonCard(aGame.schnapState);
         showAtouCard(aGame.schnapState);
 
-        globalVariable.setGame(aGame);
+        globalVariable.setTournamentGame(aTournament, aGame);
         if (whoCloses == PLAYERDEF.HUMAN) {
             gameTurn(0);
         }
@@ -1736,7 +1753,7 @@ public class MainActivity
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-            globalVariable.setGame(aGame);
+            globalVariable.setTournamentGame(aTournament, aGame);
             showPlayersCards();
             pSaid = false;
             aGame.said = 'n';
@@ -1822,7 +1839,7 @@ public class MainActivity
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
                 aGame.isReady = false;
-                globalVariable.setGame(aGame);
+                globalVariable.setTournamentGame(aTournament, aGame);
                 return;
             }
 
@@ -1850,7 +1867,7 @@ public class MainActivity
 
         aGame.isReady = true;
         printMes();
-        globalVariable.setGame(aGame);
+        globalVariable.setTournamentGame(aTournament, aGame);
     }
 
     /**
@@ -1874,7 +1891,8 @@ public class MainActivity
 
             tMes.setVisibility(View.INVISIBLE);
 
-            globalVariable.setGame(aGame);
+            globalVariable.setTournamentGame(aTournament, aGame);
+
             gameTurn(0);
         } catch (Exception e) {
             this.errHandler(e);
@@ -1916,8 +1934,10 @@ public class MainActivity
             }
 
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
-                globalVariable.setGame(aGame);
-                stopGame(1, getString(R.string.computer_closing_failed));
+
+                globalVariable.setTournamentGame(aTournament, aGame);
+
+                stopGame(PLAYERDEF.HUMAN,1, getString(R.string.computer_closing_failed));
                 return;
             }
         } else {
@@ -1933,8 +1953,10 @@ public class MainActivity
 
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
-                globalVariable.setGame(aGame);
-                stopGame(1, getString(R.string.closing_failed));
+
+                globalVariable.setTournamentGame(aTournament, aGame);
+
+                stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 return;
             }
         }
@@ -1961,14 +1983,14 @@ public class MainActivity
 
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
-                globalVariable.setGame(aGame);
-                stopGame(1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+                globalVariable.setTournamentGame(aTournament, aGame);
+                stopGame(PLAYERDEF.HUMAN,1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
-                globalVariable.setGame(aGame);
-                stopGame(1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+                globalVariable.setTournamentGame(aTournament, aGame);
+                stopGame(PLAYERDEF.COMPUTER, 1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
                 return;
             }
         }
@@ -1976,13 +1998,13 @@ public class MainActivity
         if (aGame.movs >= 5) {
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
-                    globalVariable.setGame(aGame);
-                    stopGame(1, getString(R.string.closing_failed));
+                    globalVariable.setTournamentGame(aTournament, aGame);
+                    stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 }
                 try {
                     if (aGame.computer.hasClosed) {
-                        globalVariable.setGame(aGame);
-                        stopGame(1, getString(R.string.computer_closing_failed));
+                        globalVariable.setTournamentGame(aTournament, aGame);
+                        stopGame(PLAYERDEF.HUMAN, 1, getString(R.string.computer_closing_failed));
                     }
                 } catch (Exception jbpvex) {
                     this.errHandler(jbpvex);
@@ -1990,11 +2012,11 @@ public class MainActivity
                 return ;
             } else {
                 if (tmppoints > 0) {
-                    globalVariable.setGame(aGame);
-                    stopGame(1, getString(R.string.last_hit_you_have_won));
+                    globalVariable.setTournamentGame(aTournament, aGame);
+                    stopGame(PLAYERDEF.HUMAN,1, getString(R.string.last_hit_you_have_won));
                 } else {
-                    globalVariable.setGame(aGame);
-                    stopGame(1, getString(R.string.computer_wins_last_hit));
+                    globalVariable.setTournamentGame(aTournament, aGame);
+                    stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.computer_wins_last_hit));
                 }
                 return;
             }
@@ -2005,7 +2027,7 @@ public class MainActivity
                 getString(R.string.bContinue_text));
         imTalon.setOnClickListener(this::bContinue_Clicked);
         aGame.isReady = false;
-        globalVariable.setGame(aGame);
+        globalVariable.setTournamentGame(aTournament, aGame);
     }
 
     /**
@@ -2040,7 +2062,7 @@ public class MainActivity
                 this.errHandler(jbpvex);
             }
 
-            stopGame(2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+            stopGame(PLAYERDEF.HUMAN,2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
 
         } else {
             if (aGame.csaid == aGame.atouInGame()) {
@@ -2067,10 +2089,10 @@ public class MainActivity
 
             printMes();
             String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
-            stopGame(2, tsEndMes1);
+            stopGame(PLAYERDEF.COMPUTER,2, tsEndMes1);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
         }
-        globalVariable.setGame(aGame);
+        globalVariable.setTournamentGame(aTournament, aGame);
         return;
     }
 

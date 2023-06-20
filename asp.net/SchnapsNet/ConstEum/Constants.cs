@@ -8,7 +8,7 @@ namespace SchnapsNet.ConstEnum
     public class Constants
     {
         public const string APPNAME     = "Schnaps.Net";
-        public const string VERSION     = "v2.4.6";
+        public const string VERSION     = "v2.4.23";
         public const string GITURL      = "https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
         public const string URLPREFIX   = "https://area23.at/schnapsen/cardpics/";

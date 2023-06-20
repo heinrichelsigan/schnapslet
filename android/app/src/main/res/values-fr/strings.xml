@@ -98,4 +98,8 @@
     <string name="ukraine_cards">cartes de Minsk</string>
     <string name="polish_cards">cartes de Bologne</string>
     <string name="us_cards">cartes futuristes des États-Unis</string>
+    <string name="you_won_tournement">Vous avez marqué l'ordinateur avec un gros point.</string>
+    <string name="you_won_taylor">Vous avez marqué l'ordinateur comme un tailleur!</string>
+    <string name="computer_won_tournement">L'ordinateur t'a marqué avec gros point.</string>
+    <string name="computer_won_taylor">L'ordinateur t'a marqué comme un tailleur!</string>
 </resources>

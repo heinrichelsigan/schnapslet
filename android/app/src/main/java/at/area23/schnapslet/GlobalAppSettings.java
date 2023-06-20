@@ -154,6 +154,16 @@ public class GlobalAppSettings extends Application {
             tournament = new Tournament(getContext());
         return tournament;
     }
+
+    /**
+     * newTournament creates a new tournament
+     * @return
+     */
+    public Tournament newTournament() {
+        tournament = new Tournament();
+        return tournament;
+    }
+
     /**
      * setTournamentGame sets current tournament & game to statefull GlobalAppSettings
      * @param aTournament Tournament current tournament
@@ -163,6 +173,7 @@ public class GlobalAppSettings extends Application {
         tournament = aTournament;
         game = aGame;
     }
+
     public Card cardEmpty() {
         if (emptyCard == null)
             emptyCard = new Card(-2, getApplication().getApplicationContext());

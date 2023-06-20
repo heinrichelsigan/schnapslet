@@ -66,31 +66,14 @@
                 android:layout_marginTop="0dp">
 
                 <TextView
-                    android:layout_width="30dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="0dp"
+                    android:id="@+id/tTournamentPoints"
+                    android:layout_width="48dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginTop="0dp"
-                    android:text="P"></TextView>
-                <TextView
-                    android:layout_width="30dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="0dp"
-                    android:text="C"></TextView>
-                <TextView
-                    android:id="@+id/player7text"
-                    android:layout_width="30dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="24dp"
-                    android:text="7"></TextView>
-                <TextView
-                    android:id="@+id/computer7text"
-                    android:layout_width="30dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="24dp"
-                    android:text="7"></TextView>
+                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:text="P | C\n7 | 7"></TextView>
             </RelativeLayout>
 
         <LinearLayout

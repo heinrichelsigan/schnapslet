@@ -98,5 +98,9 @@
     <string name="ukraine_cards">Ukraine Kartendeck</string>
     <string name="polish_cards">Polnische Karten</string>
 	<string name="us_cards">USA futuristische Karten</string>
+    <string name="you_won_tournement">Computer hats Bummmerl.</string>
+    <string name="you_won_taylor">Computer hat einen Schneider!</string>
+    <string name="computer_won_tournement">Du hast des Bummerl.</string>
+    <string name="computer_won_taylor">Du bist im Schneider!</string>
 </resources>
 

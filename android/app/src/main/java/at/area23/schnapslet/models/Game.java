@@ -65,7 +65,8 @@ public class Game {
     public Card playedOut, playedOut0, playedOut1;
 
     public Player gambler, computer;
-	// java.applet.Applet masterApplet = null;
+    public PLAYERDEF whoStarts = PLAYERDEF.HUMAN, whoWon = PLAYERDEF.UNKNOWN;
+
     Random random;
     Resources r;
     Context context;
@@ -108,11 +109,22 @@ public class Game {
         statusMessage = "";
         sayMarriage20 = r.getString(R.string.b20a_text);
         sayMarriage40 = r.getString(R.string.b20b_text);
+    }
+
+    /**
+     * constructor of game
+     * @param c Context
+     * @param whoStarts PLAYERDEF who starts
+     */
+    public Game(Context c, PLAYERDEF whichPlayerStarts) {
+        this(c);
+        whoStarts = whichPlayerStarts;
+        playersTurn = (whoStarts == PLAYERDEF.COMPUTER) ? false : true;
 
         mqueue.insert(r.getString(R.string.creating_players));
-        gambler = new Player( context, PLAYERDEF.HUMAN, true);
+        gambler = new Player( context, PLAYERDEF.HUMAN, playersTurn);
         gambler.points = 0;
-        computer = new Player(context,  PLAYERDEF.COMPUTER, false);
+        computer = new Player(context,  PLAYERDEF.COMPUTER, !playersTurn);
         computer.points = 0;
 
         mergeCards();
@@ -210,8 +222,9 @@ public class Game {
 
     /**
      * stopGame - stops softley a game
+     * @param winner PLAYERDEF who won game
      */
-    public void stopGame() {
+    public void stopGame(PLAYERDEF winner) {
         isGame = false;
         atouColor = CARDCOLOR.NONE;
        
@@ -224,6 +237,7 @@ public class Game {
             if (computer != null && computer.hand != null)
                 computer.hand[i] = playedOut;
         }
+        whoWon = winner;
         schnapState = SCHNAPSTATE.NONE;
         mqueue.insert(context.getResources().getString(R.string.ending_game));
 	}
