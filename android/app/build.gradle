@@ -9,7 +9,7 @@ android {
             storePassword 'schnapslet'
         }
     }
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId "at.area23.schnapslet"
         minSdkVersion 25

@@ -143,7 +143,7 @@ public class Tournament extends SchnapsAtom {
 			computerTPoints -= tournamentPoints;
 		// write down tournament table history
 		Point ptStart = new Point(gamblerTPoints, computerTPoints);
-		tHistory.Add(ptStart);
+		tHistory.add(ptStart);
 		// rotate next game giver
 		nextGameGiver = getNextGameStarter();
 	}
@@ -155,7 +155,7 @@ public class Tournament extends SchnapsAtom {
 	public String getTournamentsTable() {
 		String tourTable = "P | C\n";
 		for (Point tPt : tHistory) {
-			tourTable += tPt.x + " | " + tPt.Y;
+			tourTable += tPt.x + " | " + tPt.y + "\n";
 		}
 		PLAYERDEF whoWon = getTournamentWinner();
 		if (whoWon != PLAYERDEF.UNKNOWN) {
@@ -165,7 +165,7 @@ public class Tournament extends SchnapsAtom {
 						Constants.TAYLOR_SYM2 + " |  ";
 			}
 		}
-
+		return tourTable;
 	}
 
 }

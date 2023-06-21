@@ -280,7 +280,7 @@ public class MainActivity
         tDbg = (TextView) findViewById(R.id.tDbg);
         // tDbg.setText(layoutMes);
         tMes.setVisibility(View.INVISIBLE);
-        tPlayerTournamentPoints = (TextView) findViewById(R.id.tTournamentPoints);
+        tTournamentPoints = (TextView) findViewById(R.id.tTournamentPoints);
 
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
         toggleEnabled(bChange, false, getString(R.string.bChange_text),
@@ -295,7 +295,7 @@ public class MainActivity
         // initURLBase();
 
         aTournament = globalVariable.getTournament();
-        tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
+        tTournamentPoints.setText(aTournament.getTournamentsTable());
         Game bGame = globalVariable.getGame();
         if (bGame != null && bGame.isGame &&
             bGame.phoneDirection != phoneDirection)
@@ -1626,7 +1626,7 @@ public class MainActivity
 
         if (aTournament.getTournamentWinner() != PLAYERDEF.UNKNOWN) {
             aTournament = globalVariable.newTournament();
-            tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
+            tTournamentPoints.setText(aTournament.getTournamentsTable());
         }
 
         // runtime = java.lang.Runtime.getRuntime();
@@ -1689,18 +1689,52 @@ public class MainActivity
 
         showPlayersCards();
 
-
         playedOutCard0 = globalVariable.cardEmpty();
         playedOutCard1 = globalVariable.cardEmpty();
         aGame.playedOut0 = playedOutCard0;
         aGame.playedOut1 = playedOutCard1;
 
-        aTournament.addPointsRotateGiver(aGame.whoWon);
-        tPlayerTournamentPoints.setText(aTournament.getTournamentsTable());
+        int tournamentPoints = 1;
+        if (whoWon == PLAYERDEF.HUMAN) {
+            if (aGame.computer.points == 0)
+                tournamentPoints = 3;
+            else if (aGame.computer.points < 33)
+                tournamentPoints = 2;
+            else
+                tournamentPoints = 1;
+        }
+        if (whoWon == PLAYERDEF.COMPUTER) {
+            if (aGame.gambler.points == 0)
+                tournamentPoints = 3;
+            else if (aGame.gambler.points < 33)
+                tournamentPoints = 2;
+            else
+                tournamentPoints = 1;
+        }
+
+        aTournament.addPointsRotateGiver(tournamentPoints, aGame.whoWon);
+        tTournamentPoints.setText(aTournament.getTournamentsTable());
         globalVariable.setTournamentGame(aTournament, aGame);
 
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.destroyGame();
+
+        PLAYERDEF playerWon = aTournament.getTournamentWinner();
+        if (playerWon != PLAYERDEF.UNKNOWN) {
+            String tournamentWonMsg = "";
+            if (playerWon == PLAYERDEF.COMPUTER) {
+                tournamentWonMsg = (aTournament.hasTaylor()) ?
+                    getString(R.string.computer_won_taylor) :
+                    getString(R.string.computer_won_tournement);
+            }
+            if (playerWon == PLAYERDEF.HUMAN) {
+                tournamentWonMsg = (aTournament.hasTaylor()) ?
+                        getString(R.string.you_won_taylor) :
+                        getString(R.string.you_won_tournement);
+            }
+            setTextMessage(tournamentWonMsg);
+            saySchnapser(SCHNAPSOUNDS.NONE, tournamentWonMsg);
+        }
 
         if (levela <= 0 || levela >= 3) {
             mergeCardAnim(true);

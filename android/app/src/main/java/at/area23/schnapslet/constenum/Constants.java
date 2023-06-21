@@ -30,10 +30,10 @@ public class Constants {
 
 	public final static String APP_NAME = "Schnapslet";
 	public final static String VERSION     = "v2.4.23";
-	public const string GITURL      = "https://github.com/heinrichelsigan/schnapslet";
-	public const string WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
-	public const string URLPREFIX   = "https://area23.at/schnapsen/cardpics/";
-	public const string URLPIC      = "https://area23.at/schnapsen/cardpics/";
+	public final static String GITURL      = "https://github.com/heinrichelsigan/schnapslet";
+	public final static String WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
+	public final static String URLPREFIX   = "https://area23.at/schnapsen/cardpics/";
+	public final static String URLPIC      = "https://area23.at/schnapsen/cardpics/";
 
 	public final static String PARAM1_INDEX = "Index";
 	public final static String PARAM2_POINTS = "Points";

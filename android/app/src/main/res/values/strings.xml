@@ -99,9 +99,9 @@
     <string translatable="true" name="polish_cards">polish card deck</string>
     <string translatable="true" name="us_cards">US future card set</string>
     <string translatable="true" name="you_won_tournement">Computer is marked with a fat point.</string>
-    <string translatable="true" name="you_won_taylor">Computer is marked as a taylor!</string>
-    <string translatable="true" name="computer_won_tournement">You're marked with a fat point.</string>
-    <string translatable="true" name="computer_won_taylor">You're marked as a taylor!</string>
+    <string translatable="true" name="you_won_taylor">Computer is marked as a taylor.</string>
+    <string translatable="true" name="computer_won_tournement">You were marked with a fat point.</string>
+    <string translatable="true" name="computer_won_taylor">You were marked as a taylor.</string>
     <string translatable="false" name="app_name">Schnapslet</string>
     <string translatable="false" name="version_name">v2.4.6</string>
     <string translatable="false" name="param1_index">Index</string>

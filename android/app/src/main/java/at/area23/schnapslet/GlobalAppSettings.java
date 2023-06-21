@@ -160,7 +160,7 @@ public class GlobalAppSettings extends Application {
      * @return
      */
     public Tournament newTournament() {
-        tournament = new Tournament();
+        tournament = new Tournament(getContext());
         return tournament;
     }
 
