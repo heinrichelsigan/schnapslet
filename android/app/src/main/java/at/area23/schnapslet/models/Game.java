@@ -57,6 +57,7 @@ public class Game {
     public int phoneDirection = -1;
     public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
+    public int tournamentPoints = 1;
 
     public String sayMarriage20, sayMarriage40, statusMessage = "";
 
@@ -80,6 +81,8 @@ public class Game {
     public Game(Context c) {
         super();
         globalAppSettings = (GlobalAppSettings) c;
+        this.context = c;
+        this.r = c.getResources();
         isGame = true;
         atouChanged = false;
         playersTurn = true;
@@ -87,9 +90,9 @@ public class Game {
         isClosed = false;
         shouldContinue = false;
 
-        this.context = c;
-        this.r = c.getResources();
         this.schnapState = SCHNAPSTATE.GAME_START;
+        whoWon = PLAYERDEF.UNKNOWN;
+        tournamentPoints = 0;
         mqueue.clear();
         mqueue.insert(r.getString(R.string.newgame_starts));
 
@@ -114,7 +117,7 @@ public class Game {
     /**
      * constructor of game
      * @param c Context
-     * @param whoStarts PLAYERDEF who starts
+     * @param whichPlayerStarts PLAYERDEF who starts
      */
     public Game(Context c, PLAYERDEF whichPlayerStarts) {
         this(c);
@@ -128,6 +131,58 @@ public class Game {
         computer.points = 0;
 
         mergeCards();
+    }
+
+    /**
+     * Game constructor
+     * @param c Context
+     * @param bGame blue print to clone / copy
+     */
+    public Game(Context c, Game bGame) {
+        this(c);
+        if (bGame != null) {
+            globalAppSettings = (GlobalAppSettings) c;
+            context = c;
+            r = c.getResources();
+            isGame = bGame.isGame;
+
+            atouChanged = bGame.atouChanged;
+            playersTurn = bGame.playersTurn;
+            colorHitRule = bGame.colorHitRule;
+            isClosed = bGame.isClosed;
+            isReady = bGame.isReady;
+            shouldContinue = bGame.shouldContinue;
+            a20 = bGame.a20;
+            b20 = bGame.b20;
+            bChange = bGame.bChange;
+
+            schnapState = bGame.schnapState;
+            atouColor = bGame.atouColor;
+            said = bGame.said;
+            csaid = bGame.csaid;
+
+            index = bGame.index;
+            movs = bGame.movs;
+            phoneDirection = bGame.phoneDirection;
+            inGame = bGame.inGame;
+            tournamentPoints = bGame.tournamentPoints;
+
+            sayMarriage20 = bGame.sayMarriage20;
+            sayMarriage40 = bGame.sayMarriage40;
+            statusMessage = bGame.statusMessage;
+
+            playedOut = bGame.playedOut;
+            playedOut0 = bGame.playedOut0;
+            playedOut1 = bGame.playedOut1;
+            gambler = bGame.gambler;
+            computer = bGame.computer;
+            whoStarts = bGame.whoStarts;
+
+            set = new Card[20];
+            for (int ij = 0; ij < 19; ij++) {
+                set[ij] = new Card(bGame.set[ij], c);
+            }
+        }
     }
 
     /**
@@ -241,6 +296,28 @@ public class Game {
         schnapState = SCHNAPSTATE.NONE;
         mqueue.insert(context.getResources().getString(R.string.ending_game));
 	}
+
+    public int getTournamentPoints(PLAYERDEF winner) {
+        tournamentPoints = 1;
+        whoWon = winner;
+        if (whoWon == PLAYERDEF.HUMAN) {
+            if (computer.points == 0)
+                tournamentPoints = 3;
+            else if (computer.points < 33)
+                tournamentPoints = 2;
+            else
+                tournamentPoints = 1;
+        }
+        if (whoWon == PLAYERDEF.COMPUTER) {
+            if (gambler.points == 0)
+                tournamentPoints = 3;
+            else if (gambler.points < 33)
+                tournamentPoints = 2;
+            else
+                tournamentPoints = 1;
+        }
+        return tournamentPoints;
+    }
 
     /**
      * change Atou Card in game

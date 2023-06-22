@@ -99,6 +99,7 @@ public class MainActivity
             imgPlayerStitch0a, imgPlayerStitch0b,
             imgPlayerStitch1a, imgPlayerStitch1b,
             imgPlayerStitch2a, imgPlayerStitch2b,
+            imgPlayerStitch3a, imgPlayerStitch3b,
             imOut0, imOut1, imAtou, imTalon, imMerge;
     TextView tRest, tPoints, tMes, tDbg, tTournamentPoints;
     ConstraintLayout constraintRoot;
@@ -110,11 +111,9 @@ public class MainActivity
 
     LinearLayout playerCard0, playerCard1, playerCard2, playerCard3, playerCard4,
             linLayoutCard0, linLayoutCard1,
-            linLayoutComputerStitch0a, linLayoutComputerStitch0b,
-            linLayoutPlayerStitch0a, linLayoutPlayerStitch0b,
-            linLayoutPlayerStitch1a, linLayoutPlayerStitch1b,
-            linLayoutPlayerStitch2a, linLayoutPlayerStitch2b,
             playedCard0, playedCard1, atouCard, talonCard;
+
+    RelativeLayout linLayoutComputerStitch0, linLayoutPlayerStitch0, linLayoutPlayerStitch1, linLayoutPlayerStitch2, linLayoutPlayerStitch3;
 
     volatile Card touchedCard, draggedCard, playedOutCard0, playedOutCard1;
     final Card assignedCard = null;
@@ -215,25 +214,19 @@ public class MainActivity
         relativeLayoutStitches = (RelativeLayout)findViewById(R.id.relativeLayoutStitches);
         linLayoutCard0 = (LinearLayout) findViewById(R.id.linLayoutCard0);
         linLayoutCard1 = (LinearLayout) findViewById(R.id.linLayoutCard1);
-        linLayoutComputerStitch0a = (LinearLayout) findViewById(R.id.linLayoutComputerStitch0a);
-        linLayoutComputerStitch0b = (LinearLayout) findViewById(R.id.linLayoutComputerStitch0b);
-        linLayoutPlayerStitch0a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch0a);
-        linLayoutPlayerStitch0b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch0b);
-        linLayoutPlayerStitch1a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch1a);
-        linLayoutPlayerStitch1b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch1b);
-        linLayoutPlayerStitch2a = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch2a);
-        linLayoutPlayerStitch2b = (LinearLayout) findViewById(R.id.linLayoutPlayerStitch2b);
+        linLayoutComputerStitch0 = (RelativeLayout) findViewById(R.id.linLayoutComputerStitch0);
+        linLayoutPlayerStitch0 = (RelativeLayout) findViewById(R.id.linLayoutPlayerStitch0);
+        linLayoutPlayerStitch1 = (RelativeLayout) findViewById(R.id.linLayoutPlayerStitch1);
+        linLayoutPlayerStitch2 = (RelativeLayout) findViewById(R.id.linLayoutPlayerStitch2);
+        linLayoutPlayerStitch3 = (RelativeLayout) findViewById(R.id.linLayoutPlayerStitch3);
         relativeLayoutStitches.setVisibility(View.INVISIBLE);
         linLayoutCard0.setVisibility(View.INVISIBLE);
         linLayoutCard1.setVisibility(View.INVISIBLE);
-        linLayoutComputerStitch0a.setVisibility(View.INVISIBLE);
-        linLayoutComputerStitch0b.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch0a.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch0b.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch1a.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch1b.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch2a.setVisibility(View.INVISIBLE);
-        linLayoutPlayerStitch2b.setVisibility(View.INVISIBLE);
+        linLayoutComputerStitch0.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch0.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch1.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch2.setVisibility(View.INVISIBLE);
+        linLayoutPlayerStitch3.setVisibility(View.INVISIBLE);
         playedCard0 = (LinearLayout) findViewById(R.id.playedCard0);
         playedCard1 = (LinearLayout) findViewById(R.id.playedCard1);
         atouCard = (LinearLayout) findViewById(R.id.atouCard);
@@ -260,6 +253,8 @@ public class MainActivity
         imgPlayerStitch1b = (ImageView) findViewById(R.id.imgPlayerStitch1b);
         imgPlayerStitch2a = (ImageView) findViewById(R.id.imgPlayerStitch2a);
         imgPlayerStitch2b = (ImageView) findViewById(R.id.imgPlayerStitch2b);
+        imgPlayerStitch3a = (ImageView) findViewById(R.id.imgPlayerStitch3a);
+        imgPlayerStitch3b = (ImageView) findViewById(R.id.imgPlayerStitch3b);
         imOut0 = (ImageView) findViewById(R.id.imOut0);
         imOut1 = (ImageView) findViewById(R.id.imOut1);
         imTalon = (ImageView) findViewById(R.id.imTalon);
@@ -300,7 +295,7 @@ public class MainActivity
         if (bGame != null && bGame.isGame &&
             bGame.phoneDirection != phoneDirection)
         {
-            aGame = bGame;
+            aGame = new Game(getApplicationContext(), bGame);
             aGame.phoneDirection = phoneDirection;
             mergeCardAnim(false);
 
@@ -433,8 +428,9 @@ public class MainActivity
             return true;
         }
         if (mItemId == R.id.action_restart) {
-            if (aGame != null && aGame.isGame)
-                stopGame(PLAYERDEF.UNKNOWN,3, getString(R.string.ending_game));
+            if (aGame != null && aGame.isGame) {
+                stopGame(7, PLAYERDEF.COMPUTER, 3, getString(R.string.ending_game));
+            }
             return true;
         }
         if (mItemId == R.id.action_help) {
@@ -527,6 +523,8 @@ public class MainActivity
         imgPlayerStitch1b.setOnClickListener(v -> showStitches(1));
         imgPlayerStitch2a.setOnClickListener(v -> showStitches(2));
         imgPlayerStitch2b.setOnClickListener(v -> showStitches(2));
+        imgPlayerStitch3a.setOnClickListener(v -> showStitches(3));
+        imgPlayerStitch3b.setOnClickListener(v -> showStitches(3));
 
         im0 = (ImageView) findViewById(R.id.im0);
         im0.setOnTouchListener((view, motionEvent) -> image_OnTouchListener(view, motionEvent, 0));
@@ -1132,6 +1130,8 @@ public class MainActivity
         imgPlayerStitch1b.setImageResource(R.drawable.n1);
         imgPlayerStitch2a.setImageResource(R.drawable.n1);
         imgPlayerStitch2b.setImageResource(R.drawable.n1);
+        imgPlayerStitch3a.setImageResource(R.drawable.n1);
+        imgPlayerStitch3b.setImageResource(R.drawable.n1);
         imTalon.setVisibility(View.INVISIBLE);
         imAtou.setVisibility(View.INVISIBLE);
         playedOutCard0 = null;
@@ -1262,7 +1262,7 @@ public class MainActivity
      */
     protected void showTalonCard(SCHNAPSTATE gameState) {
         try {
-            if (gameState.getValue() < 6) {
+            if (gameState.getValue() > 0 && gameState.getValue() < 6) {
                 imTalon.setImageResource(R.drawable.t);
                 imTalon.setVisibility(View.VISIBLE);
                 talonCard.setVisibility(View.VISIBLE);
@@ -1282,9 +1282,8 @@ public class MainActivity
      */
     protected void showAtouCard(SCHNAPSTATE gameState) {
         try {
-            if (gameState.getValue() < 6) {
-                if (gameState == SCHNAPSTATE.GAME_CLOSED ||
-                        gameState == SCHNAPSTATE.GAME_START)
+            if (gameState.getValue() > 0 && gameState.getValue() < 6) {
+                if (gameState == SCHNAPSTATE.GAME_CLOSED)
                     imAtou.setImageResource(R.drawable.n1);
                 else
                     imAtou.setImageDrawable(aGame.set[19].getDrawable());
@@ -1388,8 +1387,7 @@ public class MainActivity
             if (whichStitch < -2) {
                 imgComputerStitch0a.setImageResource(R.drawable.n1);
                 imgComputerStitch0b.setImageResource(R.drawable.n1);
-                linLayoutComputerStitch0a.setVisibility(View.INVISIBLE);
-                linLayoutComputerStitch0b.setVisibility(View.INVISIBLE);
+                linLayoutComputerStitch0.setVisibility(View.INVISIBLE);
 
                 imgPlayerStitch0a.setImageResource(R.drawable.n1);
                 imgPlayerStitch0b.setImageResource(R.drawable.n1);
@@ -1397,12 +1395,12 @@ public class MainActivity
                 imgPlayerStitch1b.setImageResource(R.drawable.n1);
                 imgPlayerStitch2a.setImageResource(R.drawable.n1);
                 imgPlayerStitch2b.setImageResource(R.drawable.n1);
-                linLayoutPlayerStitch0a.setVisibility(View.INVISIBLE);
-                linLayoutPlayerStitch0b.setVisibility(View.INVISIBLE);
-                linLayoutPlayerStitch1a.setVisibility(View.INVISIBLE);
-                linLayoutPlayerStitch1b.setVisibility(View.INVISIBLE);
-                linLayoutPlayerStitch2a.setVisibility(View.INVISIBLE);
-                linLayoutPlayerStitch2b.setVisibility(View.INVISIBLE);
+                imgPlayerStitch3a.setImageResource(R.drawable.n1);
+                imgPlayerStitch3b.setImageResource(R.drawable.n1);
+                linLayoutPlayerStitch0.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch1.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch2.setVisibility(View.INVISIBLE);
+                linLayoutPlayerStitch3.setVisibility(View.INVISIBLE);
 
                 relativeLayoutStitches.setVisibility(View.INVISIBLE);
             }
@@ -1418,6 +1416,8 @@ public class MainActivity
                 imgPlayerStitch1b.setImageResource(R.drawable.n1);
                 imgPlayerStitch2a.setImageResource(R.drawable.n1);
                 imgPlayerStitch2b.setImageResource(R.drawable.n1);
+                imgPlayerStitch3a.setImageResource(R.drawable.n1);
+                imgPlayerStitch3b.setImageResource(R.drawable.n1);
             }
             else {
                 relativeLayoutStitches.setVisibility(View.VISIBLE);
@@ -1425,16 +1425,16 @@ public class MainActivity
 
             //region playersStitches
             if (aGame.gambler.stitchCount > 0) {
-                linLayoutPlayerStitch0a.setVisibility(View.VISIBLE);
-                linLayoutPlayerStitch0b.setVisibility(View.VISIBLE);
+                linLayoutPlayerStitch0.setVisibility(View.VISIBLE);
 
                 if (aGame.gambler.stitchCount > 1) {
-                    linLayoutPlayerStitch1a.setVisibility(View.VISIBLE);
-                    linLayoutPlayerStitch1b.setVisibility(View.VISIBLE);
+                    linLayoutPlayerStitch1.setVisibility(View.VISIBLE);
                 }
                 if (aGame.gambler.stitchCount > 2) {
-                    linLayoutPlayerStitch2a.setVisibility(View.VISIBLE);
-                    linLayoutPlayerStitch2b.setVisibility(View.VISIBLE);
+                    linLayoutPlayerStitch2.setVisibility(View.VISIBLE);
+                }
+                if (aGame.gambler.stitchCount > 3) {
+                    linLayoutPlayerStitch3.setVisibility(View.VISIBLE);
                 }
 
                 for (HashMap.Entry<Integer, TwoCards> stitchEntry : aGame.gambler.cardStitchs.entrySet()) {
@@ -1453,11 +1453,18 @@ public class MainActivity
                                 imgPlayerStitch1b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
                             }
                         }
-                        if (stitchEntry.getKey() == 1 && whichStitch == 1) {
+                        if (stitchEntry.getKey() == 2 && whichStitch == 2) {
                             TwoCards playerStitch2 = stitchEntry.getValue();
                             if (playerStitch2 != null && playerStitch2.card1st != null && playerStitch2.card2nd != null) {
                                 imgPlayerStitch2a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
                                 imgPlayerStitch2b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
+                            }
+                        }
+                        if (stitchEntry.getKey() == 3 && whichStitch == 3) {
+                            TwoCards playerStitch3 = stitchEntry.getValue();
+                            if (playerStitch3 != null && playerStitch3.card1st != null && playerStitch3.card2nd != null) {
+                                imgPlayerStitch3a.setImageDrawable(stitchEntry.getValue().card1st.getDrawable());
+                                imgPlayerStitch3b.setImageDrawable(stitchEntry.getValue().card2nd.getDrawable());
                             }
                         }
                     }
@@ -1467,8 +1474,7 @@ public class MainActivity
 
             //region computerStitches
             if (aGame.computer.stitchCount > 0) {
-                linLayoutComputerStitch0a.setVisibility(View.VISIBLE);
-                linLayoutComputerStitch0b.setVisibility(View.VISIBLE);
+                linLayoutComputerStitch0.setVisibility(View.VISIBLE);
 
                 for (HashMap.Entry<Integer, TwoCards> stitchEntry : aGame.computer.cardStitchs.entrySet()) {
                     if (stitchEntry != null && stitchEntry.getKey() == 0 && whichStitch == -1) {
@@ -1665,7 +1671,7 @@ public class MainActivity
      * @param levela level of stop
      * @param stopMessage ending game message
      */
-    protected void stopGame(PLAYERDEF whoWon, int levela, String stopMessage) {
+    protected void stopGame(int tournamentPoints, PLAYERDEF whoWon, int levela, String stopMessage) {
 
         if (stopMessage != null && stopMessage.length() > 0) {
             setTextMessage(stopMessage);
@@ -1693,24 +1699,6 @@ public class MainActivity
         playedOutCard1 = globalVariable.cardEmpty();
         aGame.playedOut0 = playedOutCard0;
         aGame.playedOut1 = playedOutCard1;
-
-        int tournamentPoints = 1;
-        if (whoWon == PLAYERDEF.HUMAN) {
-            if (aGame.computer.points == 0)
-                tournamentPoints = 3;
-            else if (aGame.computer.points < 33)
-                tournamentPoints = 2;
-            else
-                tournamentPoints = 1;
-        }
-        if (whoWon == PLAYERDEF.COMPUTER) {
-            if (aGame.gambler.points == 0)
-                tournamentPoints = 3;
-            else if (aGame.gambler.points < 33)
-                tournamentPoints = 2;
-            else
-                tournamentPoints = 1;
-        }
 
         aTournament.addPointsRotateGiver(tournamentPoints, aGame.whoWon);
         tTournamentPoints.setText(aTournament.getTournamentsTable());
@@ -1968,10 +1956,9 @@ public class MainActivity
             }
 
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
-
+                int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 globalVariable.setTournamentGame(aTournament, aGame);
-
-                stopGame(PLAYERDEF.HUMAN,1, getString(R.string.computer_closing_failed));
+                stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.computer_closing_failed));
                 return;
             }
         } else {
@@ -1985,12 +1972,10 @@ public class MainActivity
                 aGame.computer.stitchCount++;
             }
 
-
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
-
+                int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 globalVariable.setTournamentGame(aTournament, aGame);
-
-                stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
+                stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 return;
             }
         }
@@ -2018,13 +2003,15 @@ public class MainActivity
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
                 globalVariable.setTournamentGame(aTournament, aGame);
-                stopGame(PLAYERDEF.HUMAN,1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+                int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
                 globalVariable.setTournamentGame(aTournament, aGame);
-                stopGame(PLAYERDEF.COMPUTER, 1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+                int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
+                stopGame(tPts, PLAYERDEF.COMPUTER, 1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
                 return;
             }
         }
@@ -2032,13 +2019,15 @@ public class MainActivity
         if (aGame.movs >= 5) {
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
+                    int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     globalVariable.setTournamentGame(aTournament, aGame);
-                    stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
+                    stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 }
                 try {
                     if (aGame.computer.hasClosed) {
+                        int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                         globalVariable.setTournamentGame(aTournament, aGame);
-                        stopGame(PLAYERDEF.HUMAN, 1, getString(R.string.computer_closing_failed));
+                        stopGame(tPts, PLAYERDEF.HUMAN, 1, getString(R.string.computer_closing_failed));
                     }
                 } catch (Exception jbpvex) {
                     this.errHandler(jbpvex);
@@ -2046,11 +2035,13 @@ public class MainActivity
                 return ;
             } else {
                 if (tmppoints > 0) {
+                    int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     globalVariable.setTournamentGame(aTournament, aGame);
-                    stopGame(PLAYERDEF.HUMAN,1, getString(R.string.last_hit_you_have_won));
+                    stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.last_hit_you_have_won));
                 } else {
+                    int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     globalVariable.setTournamentGame(aTournament, aGame);
-                    stopGame(PLAYERDEF.COMPUTER,1, getString(R.string.computer_wins_last_hit));
+                    stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.computer_wins_last_hit));
                 }
                 return;
             }
@@ -2095,8 +2086,8 @@ public class MainActivity
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-
-            stopGame(PLAYERDEF.HUMAN,2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+            int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
+            stopGame(tPts, PLAYERDEF.HUMAN,2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
 
         } else {
             if (aGame.csaid == aGame.atouInGame()) {
@@ -2123,7 +2114,8 @@ public class MainActivity
 
             printMes();
             String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
-            stopGame(PLAYERDEF.COMPUTER,2, tsEndMes1);
+            int tPts = aGame.getTournamentPoints(PLAYERDEF.COMPUTER);
+            stopGame(tPts, PLAYERDEF.COMPUTER,2, tsEndMes1);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
         }
         globalVariable.setTournamentGame(aTournament, aGame);

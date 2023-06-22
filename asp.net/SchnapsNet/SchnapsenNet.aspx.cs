@@ -1074,7 +1074,9 @@ namespace SchnapsNet
                             showTalonCard(myState);
 
                             bMerge.Enabled = false;
+                            bMerge.Visible = false;
                             bStop.Enabled = true;
+                            bStop.Visible = true;
                             break;
                         case SCHNAPSTATE.PLAYER_1ST_3:
                         case SCHNAPSTATE.PLAYER_1ST_5:
@@ -1103,8 +1105,11 @@ namespace SchnapsNet
                     showTalonCard(myState);
 
                     bMerge.Enabled = false;
+                    bMerge.Visible = false;
                     bStop.Enabled = true;
-                    
+                    bStop.Visible = true;
+
+
                     GameTurn(0);
                     return;
                 }

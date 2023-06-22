@@ -54,9 +54,9 @@ public class Constants {
 	public final static String COLOR_T     = "♣";  //  "&#9827;";    //  "&clubs;"
 	public final static String COLOR_N     = "NOCOLOR";
 	public final static String COLOR_E     = "EMPTYCOLOR";
-	public final static String TAYLOR_SYM0 = "&#x2702;";       // ✂
+	public final static String TAYLOR_SYM0 = "✂"; // "&#x2702;";       // ✂
 	public final static String TAYLOR_SYM1 = "&#9986;";
-	public final static String TAYLOR_SYM2 = "&#x2704;";       // ✄
+	public final static String TAYLOR_SYM2 =  "✄"; // "&#x2704;";       // ✄
 
 	/**
 	 * getSaveImageFileName
