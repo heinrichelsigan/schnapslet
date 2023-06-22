@@ -310,7 +310,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.4.8 - Pre Alpha Release
+    <value>Schnapslet v2.4.23 - Pre Alpha Release
 Implementation of the card game Schnapsen as a simple Asp.Net WebApp
 by Heinrich Elsigan (heinrich.elsigan@area23.at)
 
@@ -449,7 +449,7 @@ Rules correspond to the Austrian Schnapsen
     <value>future_us_cards</value>
   </data>
   <data name="version_name" xml:space="preserve">
-    <value>v2.4.6</value>
+    <value>v2.4.23</value>
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>

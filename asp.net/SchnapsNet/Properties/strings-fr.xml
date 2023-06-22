@@ -1,7 +1,7 @@
 <resources>
 	<string name="action_settings">paramètres</string>
 	<string name="action_start">début</string>
-	<string name="action_stop">fin</string>
+	<string name="action_stop">finit ce jeu</string>
 	<string name="action_restart">recommencer</string>
 	<string name="action_options">paramètres</string>
 	<string name="action_help">aide</string>
@@ -30,6 +30,16 @@
 	<string name="imgCOut2_text">carte d\'ordinateur 2</string>
 	<string name="imgCOut3_text">carte d\'ordinateur 3</string>
 	<string name="imgCOut4_text">carte d\'ordinateur 4</string>
+	<string name="imgStitchC0a_text">1ère maille 1ère carte d\'ordinateur</string>
+	<string name="imgStitchC0b_text">1ère maille 2ème carte d\'ordinateur</string>
+	<string name="imgStitch0a_text">1ère maille 1ère carte</string>
+	<string name="imgStitch0b_text">1ère maille 2ème carte</string>
+	<string name="imgStitch1a_text">2ème maille 1ère carte</string>
+	<string name="imgStitch1b_text">2ème maille 2ème carte</string>
+	<string name="imgStitch2a_text">3ème maille 1ère carte</string>
+	<string name="imgStitch2b_text">3ème maille 2ème carte</string>
+	<string name="imgStitch3a_text">4ème maille 1ère carte</string>
+	<string name="imgStitch3b_text">4ème maille 2ème carte</string>
 	<string name="imAtou_text">carte d\'atou</string>
 	<string name="imTalon_text">carte de talon</string>
 	<string name="imMerge_text">animation de fusion</string>
@@ -84,8 +94,8 @@
 	<string name="atou_is">atou c\'est {0}!</string>
 	<string name="best_card_would_be">la meilleure carte serait: {0}</string>
 	<string name="ending_game">terminez la partie en cours!</string>
-	<string name="help_text">Schnapslet v2.2.4 - Jeu de cartes Schnapsen application android de Heinrich Elsigan (root@darkstar.work) \nLe jeu est conçu pour jouer contre l\'ordinateur. Si c\'est votre tour, vous pouvez jouer une carte en cliquant sur son icône et en la faisant glisser dans le presse-papiers. Pour échanger Atou, vous pouvez tirer le Jack Atou sur la carte Atou ci-dessus et pour annoncer une paire, vous appelez la reine au roi correspondant ou inversement. "échanger" ou "quelques annonces" peuvent également être lus via les boutons correspondants; Si l\'ordinateur est sur le tour, il joue une carte et vous pouvez ensuite sélectionner votre propre carte puis tirer sur le clip ou le poignarder. Le tournage se fait en cliquant sur la carte Atou. \n\nLes règles correspondent aux schnapsen autrichiens.</string>
-	<string name="build_with">produit avec VisualStudio 2022 .Net C#</string>
+	<string name="help_text">Schnapslet v2.4.23 - Jeu de cartes Schnapsen application android de Heinrich Elsigan (root@darkstar.work) \nLe jeu est conçu pour jouer contre l\'ordinateur. Si c\'est votre tour, vous pouvez jouer une carte en cliquant sur son icône et en la faisant glisser dans le presse-papiers. Pour échanger Atou, vous pouvez tirer le Jack Atou sur la carte Atou ci-dessus et pour annoncer une paire, vous appelez la reine au roi correspondant ou inversement. "échanger" ou "quelques annonces" peuvent également être lus via les boutons correspondants; Si l\'ordinateur est sur le tour, il joue une carte et vous pouvez ensuite sélectionner votre propre carte puis tirer sur le clip ou le poignarder. Le tournage se fait en cliquant sur la carte Atou. \n\nLes règles correspondent aux schnapsen autrichiens.</string>
+	<string name="build_with">produit avec Android Studio Flamingo 2022.2.1</string>
 	<string name="learn_more">en savoir plus</string>
 	<string name="back_button">précédent </string>
 	<string name="landscape_mode">Screen switched to Landscape mode</string>
@@ -98,5 +108,8 @@
 	<string name="ukraine_cards">cartes de Minsk</string>
 	<string name="polish_cards">cartes de Bologne</string>
 	<string name="us_cards">cartes futuristes des États-Unis</string>
-	<string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
+	<string name="you_won_tournement">Vous avez marqué l\'ordinateur avec un gros point.</string>
+	<string name="you_won_taylor">Vous avez marqué l\'ordinateur comme un tailleur.</string>
+	<string name="computer_won_tournement">L\'ordinateur t\'a marqué avec gros point.</string>
+	<string name="computer_won_taylor">L\'ordinateur t\'a marqué comme un tailleur.</string>
 </resources>

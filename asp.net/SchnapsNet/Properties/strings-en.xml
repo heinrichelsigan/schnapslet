@@ -30,6 +30,16 @@
 	<string name="imgCOut2_text">Computer card 2</string>
 	<string name="imgCOut3_text">Computer card 3</string>
 	<string name="imgCOut4_text">Computer card 4</string>
+	<string name="imgStitchC0a_text">computers 1st stitch 1st card</string>
+	<string name="imgStitchC0b_text">computers 1st stitch 2nd card</string>
+	<string name="imgStitch0a_text">1st stitch 1st card</string>
+	<string name="imgStitch0b_text">1st stitch 2nd card</string>
+	<string name="imgStitch1a_text">2nd stitch 1st card</string>
+	<string name="imgStitch1b_text">2nd stitch 2nd card</string>
+	<string name="imgStitch2a_text">3rd stitch 1st card</string>
+	<string name="imgStitch2b_text">3rd stitch 2nd card</string>
+	<string name="imgStitch3a_text">4th stitch 1st card</string>
+	<string name="imgStitch3b_text">4th stitch 2nd card</string>
 	<string name="imAtou_text">Trump card</string>
 	<string name="imTalon_text">Talon card</string>
 	<string name="imMerge_text">Merging animation</string>
@@ -86,11 +96,11 @@
 	<string name="ending_game">Ending game!</string>
 	<string name="landscape_mode">Screen switched to Landscape mode</string>
 	<string name="portrait_mode">Screen switched to Portrait mode</string>
-	<string name="help_text">Schnapslet v2.2.4 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change Trump, drag the Trump Jack card to the Trump card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange Trump" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on Trump card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
-	<string name="build_with">Built with VisualStudio 2022 C# .Net</string>
+	<string name="help_text">Schnapslet v2.4.23 - Card game Schnapsen as an android app by Heinrich Elsigan (root@darkstar.work) \n\nThe game is designed to play against the computer. If it is the turn, you can play a card by clicking on the card symbol and dragging the card image. \nTo change Trump, drag the Trump Jack card to the Trump card above. \nTo announce a marriage, drag king or queen to the other card of the pair. \n"exchange Trump" or "announce a marriage" can also be played, by clicking on the specific button; \nIf the computer is on the turn, it plays a card and you can drag one of your own cards to answer. \nTo close the current game, you have to click on Trump card. \n\nRules correspond to the Austrian Schnapsen [ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</string>
+	<string name="build_with">Built with Android Studio Flamingo 2022.2.1</string>
 	<string name="learn_more">Learn more</string>
 	<string name="back_button">Back</string>
-	<string name="carddeck">cardset</string>
+	<string name="carddeck">CardSet</string>
 	<string name="default_cards">default card set</string>
 	<string name="english_cards">english card deck</string>
 	<string name="german_cards">german card deck</string>
@@ -98,5 +108,9 @@
 	<string name="ukraine_cards">ukraine card deck</string>
 	<string name="polish_cards">polish card deck</string>
 	<string name="us_cards">US future card set</string>
-	<string name="github_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
+	<string name="you_won_tournement">Computer is marked with a fat point.</string>
+	<string name="you_won_taylor">Computer is marked as a taylor!</string>
+	<string name="computer_won_tournement">You have been marked with a fat point.</string>
+	<string name="computer_won_taylor">You have been marked as a taylor!</string>
 </resources>
+
