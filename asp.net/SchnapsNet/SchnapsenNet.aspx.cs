@@ -115,13 +115,17 @@ namespace SchnapsNet
             // tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);            
             // lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
 
+            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+
             lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
 
             tMsg.Enabled = false;
             tMsg.Text = JavaResReader.GetValueFromKey("clickon_start", Locale.TwoLetterISOLanguageName);
             tMsg.Visible = true;
 
-            showStitches(-3);
+            ShowStitches(-3);
         }
 
         public void RefreshGlobalVariableSession()
@@ -266,13 +270,13 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
                     this.spanMerge.Style["visibility"] = "visible";
-                    ImageMerge.Visible = true;
+                    imMerge11.Visible = true;
                     // PlaceHolderMerge.Visible = true;
                 }
                 else
                 {
                     this.spanMerge.Style["visibility"] = "hidden";
-                    ImageMerge.Visible = false;
+                    imMerge11.Visible = false;
                     // PlaceHolderMerge.Visible = false;
                 }
             }
@@ -377,33 +381,7 @@ namespace SchnapsNet
             }
         }
 
-        protected void Show1st3Player(SCHNAPSTATE gameState)
-        {
-            if (gameState.GetValue() < 16)
-            {
-                gameState = SCHNAPSTATE.PLAYER_1ST_3;
-            }
-        }
-
-        protected void Show1st3Computer(SCHNAPSTATE gameState)
-        {
-            if (gameState.GetValue() < 16)
-            {
-                imOut20.ImageUrl = emptyURL.ToString();
-                imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a3.gif";                
-            }
-        }
-
-        protected void Show2nd2Computer(SCHNAPSTATE gameState)
-        {
-            if (gameState.GetValue() > 6 && gameState.GetValue() < 16)
-            {
-                imOut20.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a2.gif";
-                imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a3.gif";
-            }
-        }
-
-        protected void showStitches(int whichStitch)
+        protected void ShowStitches(int whichStitch)
         {
             if (aGame != null && aGame.gambler != null && aGame.computer != null)
             {
@@ -679,14 +657,14 @@ namespace SchnapsNet
 
             try
             {
-                if (ic == 20)
+                if (ic == 20 || ic == 21)
                 {
-                    ImOut0_Click(sender, e);
+                    ImOut_Click(sender, e);
                     return;
                 }
-                if (ic == 21)
+                if (ic == 11)
                 {
-                    ImOut1_Click(sender, e);
+                    bContinue_Click(sender, e);
                     return;
                 }
                 if (ic == 10)
@@ -798,94 +776,80 @@ namespace SchnapsNet
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void bContinue_Click(object sender, EventArgs e)
-        {
-            // string msg = "bContinue_Click";
-            // preOut.InnerText += "\r\n" + msg;
+        {            
             if (aGame == null || !aGame.isGame)
             {
+                ToggleTorunament(true);
                 startGame();
                 return;
             }
             if (aGame.shouldContinue)
             {
-                aGame.shouldContinue = false;
-                bContinue.Enabled = false;
+                ToggleContinue(false);
                 tMsg.Visible = false;
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 GameTurn(0);
             }
         }
 
-        protected void ImOut1_Click(object sender, EventArgs e)
-        {           
-            string msg = "ImOut1_Click";            
-            preOut.InnerText += "\r\n" + msg;
-
-            if (aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
-            {
-                aGame.schnapState = SCHNAPSTATE.PLAYER_FIST;
-                imOut20.ImageUrl = emptyURL.ToString();
-                imOut21.ImageUrl = emptyURL.ToString();
-
-                aGame.schnapsStack.Clear();
-                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
-                aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_FIST);
-
-                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_2ND_2);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_1ST_3);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_ATOU);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_1ST_5);
-
-                ShowMergeAnim(aGame.schnapState);
-                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-
-                int schnapsTempParamVal = SCHNAPSTATE.PLAYER_FIST.GetValue();
-                string rawUrl = RawUrlInit(schnapsTempParamVal);
-                this.Response.Redirect(rawUrl);
-            }
-            //showAtouCard(aGame.schnapState);
-            //showTalonCard(aGame.schnapState);
-            //bStop.Enabled = true;            
-            //GameTurn(0);
-        }
-
-        protected void ImOut0_Click(object sender, EventArgs e)
+        protected void ToggleContinue(bool continueEnabled = true)
         {
-            string msg = "ImOut1_Click";
-            preOut.InnerText += "\r\n" + msg;
-
-            if (aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
-            {
-                aGame.schnapState = SCHNAPSTATE.PLAYER_TAKES;
-                imOut20.ImageUrl = emptyURL.ToString();
-                imOut21.ImageUrl = emptyURL.ToString();
-
-                aGame.schnapsStack.Clear();
-                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
-                aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_TAKES);
-
-                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_2ND_2);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_2ND_2);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_ATOU);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.COMPUTER_1ST_3);
-                //aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_1ST_3);
-
-                ShowMergeAnim(aGame.schnapState);
-                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-
-                int schnapsTempParamVal = SCHNAPSTATE.PLAYER_TAKES.GetValue();
-                string rawUrl = RawUrlInit(schnapsTempParamVal);
-                this.Response.Redirect(rawUrl);
-            }
-            //aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
-            //ShowMergeAnim(aGame.schnapState);
-            //showAtouCard(aGame.schnapState);
-            //showTalonCard(aGame.schnapState);
-            //bStop.Enabled = true;
-            //RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            //GameTurn(0);
+            aGame.shouldContinue = continueEnabled;
+            imOut20.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            imOut21.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            bContinue.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            bContinue.Enabled = continueEnabled;
         }
 
+        protected void ImOut_Click(object sender, EventArgs e)
+        {
+            string senderString = "";
+            if (sender != null && sender is System.Web.UI.WebControls.ImageButton)
+            {
+                senderString = ((System.Web.UI.WebControls.ImageButton)sender).ID.ToString();
+            }
+
+            if (senderString.StartsWith("imOut") &&
+                (aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER))
+            {
+                if (senderString == "imOut21")
+                {
+                    aGame.schnapState = SCHNAPSTATE.PLAYER_FIST;
+                    imOut20.ImageUrl = emptyURL.ToString();
+                    imOut21.ImageUrl = emptyURL.ToString();
+
+                    aGame.schnapsStack.Clear();
+                    aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                    aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_FIST);
+
+                    ShowMergeAnim(aGame.schnapState);
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+
+                    int schnapsTempParamVal = SCHNAPSTATE.PLAYER_FIST.GetValue();
+                    string rawUrl = RawUrlInit(schnapsTempParamVal);
+                    this.Response.Redirect(rawUrl);
+                }
+                if (senderString == "imOut20")
+                {
+                    aGame.schnapState = SCHNAPSTATE.PLAYER_TAKES;
+                    imOut20.ImageUrl = emptyURL.ToString();
+                    imOut21.ImageUrl = emptyURL.ToString();
+
+                    aGame.schnapsStack.Clear();
+                    aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                    aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_TAKES);
+
+                    ShowMergeAnim(aGame.schnapState);
+                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+
+                    int schnapsTempParamVal = SCHNAPSTATE.PLAYER_TAKES.GetValue();
+                    string rawUrl = RawUrlInit(schnapsTempParamVal);
+                    this.Response.Redirect(rawUrl);
+                }
+                return;
+            }
+            this.bContinue_Click(sender, e);
+        }
 
         void resetButtons(int level)
         {
@@ -1019,59 +983,34 @@ namespace SchnapsNet
                 setTextMessage(endMessage);
             }
             aTournement.AddPointsRotateGiver(tournementPts, whoWon);
-            bStop.Enabled = false;
             aGame.StopGame();
 
             resetButtons(tournementPts);
-            showStitches(-3);
+            ShowStitches(-3);
             DrawPointsTable();
 
             showPlayersCards(aGame.schnapState);
             aGame.Dispose();
-            // java.lang.System.runFinalization();
-            // java.lang.System.gc();
 
             bMerge.Enabled = true;
-            if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-            {
-                string endTournementMsg = "";
-                if (aTournement.WonTournament == PLAYERDEF.HUMAN)
-                {
-                    if (aTournement.Taylor)
-                    {
-                        endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
-                        DrawPointsTable(2, aTournement.WonTournament);
-                    }
-                    else
-                    {
-                        endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
-                        DrawPointsTable(1, aTournement.WonTournament);
-                    }
-                }
-                else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
-                {
-                    if (aTournement.Taylor)
-                    {
-                        endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
-                        DrawPointsTable(2, aTournement.WonTournament);
-                    }
-                    else
-                    {
-                        endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
-                        DrawPointsTable(1, aTournement.WonTournament);
-                    }
-                }
-                setTextMessage(endTournementMsg);
-                // TODO: excited end animation
-            }
+            bMerge.Visible = true;
+            bStop.Enabled = false;
+            bStop.Visible = false;
+            this.bContinue.Enabled = true;
+            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.TwoLetterISOLanguageName);
+
+            ToggleTorunament(false);
         }
 
         void startGame()
         {  /* Mischen */
             bMerge.Enabled = false;
-            // runtime = java.lang.Runtime.getRuntime();
-            // runtime.runFinalization();
-            // runtime.gc();
+            bMerge.Visible = false;
+            bStop.Visible = true;
+            bStop.Enabled = true;
+
             aGame = null;
             aGame = new Game(HttpContext.Current, aTournement.NextGameGiver);
             aGame.isReady = true;
@@ -1080,7 +1019,7 @@ namespace SchnapsNet
             preOut.InnerText = "";
             // tRest.Text = (19 - aGame.index).ToString();
 
-            showStitches(-3);
+            ShowStitches(-3);
             emptyTmpCard = new Card(-2, HttpContext.Current);
             tPoints.Text = "" + aGame.gambler.points;
 
@@ -1096,8 +1035,6 @@ namespace SchnapsNet
 
             showAtouCard(aGame.schnapState);
             showTalonCard(aGame.schnapState);
-            
-            bStop.Enabled = true;
 
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             GameTurn(0);
@@ -1146,11 +1083,6 @@ namespace SchnapsNet
                             break;
                         case SCHNAPSTATE.GIVE_ATOU:
                             showAtouCard(myState); break;
-                        case SCHNAPSTATE.COMPUTER_1ST_3:
-                            Show1st3Computer(myState); break;
-                        case SCHNAPSTATE.COMPUTER_2ND_2:
-                        case SCHNAPSTATE.COMPUTER_1ST_5:
-                            Show2nd2Computer(myState); break;
                         case SCHNAPSTATE.GIVE_TALON:
                         case SCHNAPSTATE.GAME_STARTED:
                             finishGivingWithTalon = true;
@@ -1432,7 +1364,7 @@ namespace SchnapsNet
                 aGame.csaid = 'n';
             }
 
-            showStitches(-2);
+            ShowStitches(-2);
             aGame.bChange = false;
             aGame.a20 = false;
             aGame.b20 = false;
@@ -1732,11 +1664,7 @@ namespace SchnapsNet
                 return;
             }
 
-            if (aGame != null)
-            {
-                aGame.shouldContinue = true;
-            }
-            bContinue.Enabled = true;
+            ToggleContinue(true);
             aGame.isReady = false;
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
@@ -1778,26 +1706,69 @@ namespace SchnapsNet
 
         protected void bMerge_Click(object sender, EventArgs e)
         {
-            if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-            {
-                globalVariable = new GlobalAppSettings(this.Context, this.Session);
-                aTournement = new Tournament();
-                globalVariable.Tournement = aTournement;
-                this.Context.Session[Constants.APPNAME] = globalVariable;
-                DrawPointsTable();
-            }
+            ToggleTorunament(true);
             startGame();
+        }
+
+        protected void ToggleTorunament(bool starts = true)
+        {
+            if (starts)
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
+                    aTournement = new Tournament();
+                    globalVariable.Tournement = aTournement;
+                    this.Context.Session[Constants.APPNAME] = globalVariable;
+                    DrawPointsTable();
+                }
+            }
+            else // toggle at the end
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    string endTournementMsg = "";
+                    if (aTournement.WonTournament == PLAYERDEF.HUMAN)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    setTextMessage(endTournementMsg);
+                    // TODO: excited end animation
+                }
+            }
         }
 
 
         protected void ImageComputerStitch_Click(object sender, EventArgs e)
         {
-            showStitches(-1);
+            ShowStitches(-1);
         }
 
         protected void ImagePlayerStitch_Click(object sender, EventArgs e)
         {
-            showStitches(0);
+            ShowStitches(0);
         }
     }
 }

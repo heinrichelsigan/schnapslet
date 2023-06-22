@@ -196,12 +196,13 @@
     </script>
     <form id="form1" runat="server">        
         <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; background-color: #fefb56; background-image: url('cardpics/schnapslet248.gif'); table-layout: fixed; inset-block-start: initial;">            
-            <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" style="min-height: 40px; min-width: 40px; font-size: x-large" Text="Start"  OnClick="bMerge_Click" Enabled="true" />
-            </span>            
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
                 <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;                
             </span>
+            <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
+                <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" style="min-height: 40px; min-width: 40px; font-size: x-large" Text="Start"  OnClick="bMerge_Click" Visible="true" Enabled="true" />
+                <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Stop" OnClick="bStop_Click" Visible="false" Enabled="true" />
+            </span>            
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
                 <asp:Button ID="bChange" Width="15%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
             </span>
@@ -210,23 +211,20 @@
             </span>
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
                 <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
-            </span>
-            <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
-                <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Stop" OnClick="bStop_Click" Enabled="true" />
-            </span>            
+            </span>          
             <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
                 <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Help" OnClick="bHelp_Click" Enabled="true" />                
             </span>            
         </div>
         <div id="DivSchnapsStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; background-color: #fefb56; table-layout: fixed; inset-block-start: auto;">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut1_Click" />
+                <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut_Click" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut0_Click"  />
+                <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut_Click"  />
             </span>
             <span id="spanMerge" runat="server" style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
-                <asp:Image ID="ImageMerge" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" BorderStyle="None" />&nbsp;
+                <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" OnClick="bMerge_Click" BorderStyle="None" />&nbsp;
             </span>
             <span id="spanAtou" runat="server" style="visibility: hidden; min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" style="z-index: 1" />

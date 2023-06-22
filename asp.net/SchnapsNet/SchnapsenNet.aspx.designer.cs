@@ -24,6 +24,15 @@ namespace SchnapsNet
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// bContinue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button bContinue;
+
+        /// <summary>
         /// bMerge control.
         /// </summary>
         /// <remarks>
@@ -33,13 +42,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Button bMerge;
 
         /// <summary>
-        /// bContinue control.
+        /// bStop control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bContinue;
+        protected global::System.Web.UI.WebControls.Button bStop;
 
         /// <summary>
         /// bChange control.
@@ -67,15 +76,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button b20b;
-
-        /// <summary>
-        /// bStop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bStop;
 
         /// <summary>
         /// bHelp control.
@@ -114,13 +114,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanMerge;
 
         /// <summary>
-        /// ImageMerge control.
+        /// imMerge11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageMerge;
+        protected global::System.Web.UI.WebControls.ImageButton imMerge11;
 
         /// <summary>
         /// spanAtou control.
