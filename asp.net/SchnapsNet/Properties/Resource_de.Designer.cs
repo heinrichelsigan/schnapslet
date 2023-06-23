@@ -628,6 +628,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draufklopfen!.
+        /// </summary>
+        internal static string image_fist {
+            get {
+                return ResourceManager.GetString("image_fist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abheben!.
+        /// </summary>
+        internal static string image_take {
+            get {
+                return ResourceManager.GetString("image_take", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spiel ist zugedreht..
         /// </summary>
         internal static string imageAtou_AltText {

@@ -681,6 +681,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Appuyez pour commencer!.
+        /// </summary>
+        internal static string image_fist {
+            get {
+                return ResourceManager.GetString("image_fist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Décoller pour commencer!.
+        /// </summary>
+        internal static string image_take {
+            get {
+                return ResourceManager.GetString("image_take", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Le jeu est fermé..
         /// </summary>
         internal static string imageAtou_AltText {

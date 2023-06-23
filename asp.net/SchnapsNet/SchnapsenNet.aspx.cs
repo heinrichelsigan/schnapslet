@@ -182,10 +182,17 @@ namespace SchnapsNet
         protected void showPlayersCards(SCHNAPSTATE gameState)
         {
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
-            if (schnapStateVal >= 16 && schnapStateVal < 22 && gameState != SCHNAPSTATE.GAME_START)
+            if (schnapStateVal >= 15 && schnapStateVal < 22 && gameState != SCHNAPSTATE.GAME_START)
             {
                 try
                 {
+                    imOut20.Style["visibility"] = "visible";
+                    imOut21.Style["visibility"] = "visible";
+                    im0.Style["visibility"] = "visible";
+                    im1.Style["visibility"] = "visible";
+                    im2.Style["visibility"] = "visible";
+                    im3.Style["visibility"] = "visible";
+                    im4.Style["visibility"] = "visible";
                     im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
                     im1.ImageUrl = aGame.gambler.hand[1].PictureUrlString;
                     im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
@@ -202,36 +209,47 @@ namespace SchnapsNet
                 if ((SCHNAPSTATE_Extensions.StateValue(gameState) < 4) ||
                     (gameState == SCHNAPSTATE.NONE))
                 {
+                    imOut20.Style["visibility"] = "hidden";
+                    imOut21.Style["visibility"] = "hidden";
+
+                    if ((gameState == SCHNAPSTATE.NONE) ||
+                        (gameState == SCHNAPSTATE.GAME_START))
+                    {
+                        imOut20.Style["visibility"] = "visible";
+                        imOut21.Style["visibility"] = "visible";
+                    }
+
+                    im0.Style["visibility"] = "hidden";
                     im0.ImageUrl = emptyURL.ToString();
+                    im1.Style["visibility"] = "hidden";
                     im1.ImageUrl = emptyURL.ToString();
+                    im2.Style["visibility"] = "hidden";
                     im2.ImageUrl = emptyURL.ToString();
+                    im3.Style["visibility"] = "hidden";
                     im3.ImageUrl = emptyURL.ToString();
+                    im4.Style["visibility"] = "hidden";
                     im4.ImageUrl = emptyURL.ToString();
-                }                
+                }
                 else if ((gameState == SCHNAPSTATE.PLAYER_2ND_2) ||
                         (gameState == SCHNAPSTATE.PLAYER_1ST_3) ||
                         (gameState == SCHNAPSTATE.PLAYER_1ST_5) ||
+                        (gameState == SCHNAPSTATE.GIVE_PLAYER) ||
                         (gameState == SCHNAPSTATE.PLAYER_FIST) ||
                         (gameState == SCHNAPSTATE.PLAYER_TAKES))
                 {
-                    try
-                    {
-                        im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
-                        im0.Style["visibility"] = "hidden";
-                        im1.ImageUrl = aGame.gambler.hand[1].PictureUrlString;
-                        im1.Style["visibility"] = "hidden";
-                        im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
-                        im2.Style["visibility"] = "hidden";
-                        im3.ImageUrl = aGame.gambler.hand[3].PictureUrlString;
-                        im3.Style["visibility"] = "hidden";
-                        im4.ImageUrl = aGame.gambler.hand[4].PictureUrlString;
-                        im4.Style["visibility"] = "hidden";
-                    }
-                    catch (Exception exp)
-                    {
-                        this.errHandler(exp);
-                    }
-                }               
+                    imOut20.Style["visibility"] = "hidden";
+                    imOut21.Style["visibility"] = "hidden";
+                    im0.ImageUrl = aGame.gambler.hand[0].PictureUrlString;
+                    im0.Style["visibility"] = "hidden";
+                    im1.ImageUrl = aGame.gambler.hand[1].PictureUrlString;
+                    im1.Style["visibility"] = "hidden";
+                    im2.ImageUrl = aGame.gambler.hand[2].PictureUrlString;
+                    im2.Style["visibility"] = "hidden";
+                    im3.ImageUrl = aGame.gambler.hand[3].PictureUrlString;
+                    im3.Style["visibility"] = "hidden";
+                    im4.ImageUrl = aGame.gambler.hand[4].PictureUrlString;
+                    im4.Style["visibility"] = "hidden";
+                }                  
             }
         }
 
@@ -292,22 +310,15 @@ namespace SchnapsNet
         {
             try
             {
-                int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
-                this.spanAtou.Style["visibility"] = "visible";
+                int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);                
 
-                if (schnapStateVal >= 4 && schnapStateVal < 20)
+                if (schnapStateVal >= 10 && schnapStateVal < 20)
                 {
                     this.spanAtou.Visible = true;
-                    if (gameState == SCHNAPSTATE.GAME_START ||
-                        gameState == SCHNAPSTATE.MERGING_CARDS ||
-                        gameState == SCHNAPSTATE.MERGE_COMPUTER ||
-                        gameState == SCHNAPSTATE.MERGE_PLAYER ||
-                        gameState == SCHNAPSTATE.NONE)
-                    {
-                        imAtou10.ImageUrl = emptyURL.ToString();
-                        imAtou10.ToolTip = "";
-                    }
-                    else if (gameState == SCHNAPSTATE.GAME_CLOSED)
+                    this.spanAtou.Style["visibility"] = "visible";
+                    imAtou10.Visible = true;
+
+                    if (gameState == SCHNAPSTATE.GAME_CLOSED)
                     {
                         imAtou10.ImageUrl = notURL.ToString();
                         imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.TwoLetterISOLanguageName);
@@ -316,15 +327,36 @@ namespace SchnapsNet
                     {
                         imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
                         imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_ToolTip", globalVariable.TwoLetterISOLanguageName);
-                    }
-                    imAtou10.Visible = true;
+                    }                    
                 }
                 else
                 {
-                    imAtou10.ImageUrl = emptyURL.ToString();
-                    imAtou10.Visible = false;
                     this.spanAtou.Style["visibility"] = "hidden";
-                    // this.spanAtou.Visible = false;
+                    this.imAtou10.ToolTip = "";
+                    this.imAtou10.ImageUrl = emptyURL.ToString();
+
+                    if (gameState == SCHNAPSTATE.GAME_START ||
+                        gameState == SCHNAPSTATE.MERGING_CARDS ||
+                        gameState == SCHNAPSTATE.MERGE_PLAYER ||
+                        gameState == SCHNAPSTATE.MERGE_COMPUTER ||
+                        gameState == SCHNAPSTATE.TALON_CONSUMED ||
+                        gameState == SCHNAPSTATE.ZERO_CARD_REMAINS ||
+                        gameState == SCHNAPSTATE.NONE)
+                    {
+                        this.imAtou10.Visible = false;                        
+                    }
+                    else if (
+                        gameState == SCHNAPSTATE.PLAYER_1ST_3 ||
+                        gameState == SCHNAPSTATE.COMPUTER_1ST_3 ||
+                        gameState == SCHNAPSTATE.PLAYER_1ST_5 ||
+                        gameState == SCHNAPSTATE.GIVE_PLAYER ||
+                        gameState == SCHNAPSTATE.PLAYER_TAKES ||
+                        gameState == SCHNAPSTATE.PLAYER_FIST)                        
+                    {
+                        imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
+                        this.imAtou10.Visible = true;
+                    }
+
                 }
             }
             catch (Exception exAtou1)
@@ -337,25 +369,25 @@ namespace SchnapsNet
         {
             try
             {
-                this.spanTalon.Visible = true;
-                this.spanTalon.Style["visibility"] = "visible";
-                this.spanTalon.Style["margin-left"] = "-6%";
+                this.spanTalon.Visible = true;                
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 15 && schnapStateVal < 20)
                 {
-                    if (gameState == SCHNAPSTATE.GAME_START)
-                        imTalon.ImageUrl = emptyTalonUri.ToString();
-                    else
-                        imTalon.ImageUrl = talonURL.ToString();
+                    imTalon.ImageUrl = talonURL.ToString();
                     imTalon.Style["visibility"] = "visible";
+                    this.spanTalon.Style["visibility"] = "visible";
+                    this.spanTalon.Style["margin-left"] = "-6%";
                 }
                 else
                 {
-                    imTalon.ImageUrl = talonURL.ToString();
+                    if (gameState == SCHNAPSTATE.GAME_START || gameState == SCHNAPSTATE.NONE)
+                        imTalon.ImageUrl = emptyTalonUri.ToString();
+                    else 
+                        imTalon.ImageUrl = talonURL.ToString();
+
                     imTalon.Style["visibility"] = "hidden";
                     this.spanTalon.Style["margin-left"] = "0px";
-                    this.spanTalon.Style["visibility"] = "hidden";
-                    // this.spanTalon.Visible = false;
+                    this.spanTalon.Style["visibility"] = "hidden";                    
                 }
             }
             catch (Exception imTalonEx)
@@ -374,12 +406,16 @@ namespace SchnapsNet
 
             imOut20.ImageUrl = notURL.ToString();
             imOut21.ImageUrl = notURL.ToString();
-            
+            imOut21.Style["visibility"] = "visible";
+            imOut20.Style["visibility"] = "visible";
+
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
             if (schnapStateVal > 1 && schnapStateVal <= 8)
             {
                 imOut20.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "a0.gif";
+                imOut20.ToolTip = JavaResReader.GetValueFromKey("image_take", globalVariable.TwoLetterISOLanguageName);
                 imOut21.ImageUrl = "https://area23.at/mono/SchnapsNet/cardpics/" + "f0.gif";
+                imOut21.ToolTip = JavaResReader.GetValueFromKey("image_fist", globalVariable.TwoLetterISOLanguageName);
             }
         }
 
@@ -803,6 +839,32 @@ namespace SchnapsNet
             bContinue.Enabled = continueEnabled;
         }
 
+
+        protected void imMerge11_Click(object sender, EventArgs e)
+        {
+            if (aGame != null && aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
+            {
+                aGame.schnapState = SCHNAPSTATE.PLAYER_TAKES;
+                imOut20.ImageUrl = emptyURL.ToString();
+                imOut21.ImageUrl = emptyURL.ToString();
+
+                aGame.schnapsStack.Clear();
+                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                aGame.schnapsStack.Push(SCHNAPSTATE.PLAYER_TAKES);
+
+                ShowMergeAnim(aGame.schnapState);
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+
+                int schnapsTempParamVal = SCHNAPSTATE.PLAYER_TAKES.GetValue();
+                string rawUrl = RawUrlInit(schnapsTempParamVal);
+                this.Response.Redirect(rawUrl);
+
+                return;
+            }
+
+            bMerge_Click(sender, e);
+        }
+
         protected void ImOut_Click(object sender, EventArgs e)
         {
             string senderString = "";
@@ -1032,6 +1094,22 @@ namespace SchnapsNet
                 ShowFistOrHand(aGame.schnapState);
                 return;
             }
+            else if (aTournement.NextGameGiver == PLAYERDEF.COMPUTER)
+            {
+                aGame.schnapState = SCHNAPSTATE.MERGE_PLAYER;               
+                
+                aGame.schnapsStack.Clear();
+                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_TALON);
+                aGame.schnapsStack.Push(SCHNAPSTATE.GIVE_PLAYER);
+
+                // ShowMergeAnim(aGame.schnapState);
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+
+                int schnapsTempParamVal = SCHNAPSTATE.GIVE_PLAYER.GetValue();
+                string rawUrl = RawUrlInit(schnapsTempParamVal);
+                this.Response.Redirect(rawUrl);
+                return;
+            }
 
             ShowMergeAnim(aGame.schnapState);
 
@@ -1047,6 +1125,25 @@ namespace SchnapsNet
             bool finishGivingWithTalon = false;
             bool enterStage = Request.RawUrl.Contains("initState=15");
             
+            if (aGame == null || !aGame.isGame)
+            {
+                bContinue.Enabled = true;
+                imOut20.Style["visibility"] = "hidden";
+                imOut21.Style["visibility"] = "hidden";                
+                im0.Style["visibility"] = "hidden";
+                im1.Style["visibility"] = "hidden";
+                im2.Style["visibility"] = "hidden";
+                im3.Style["visibility"] = "hidden";
+                im4.Style["visibility"] = "hidden";
+            }
+
+            if (Request.RawUrl.Contains("initState=4") || Request.RawUrl.Contains("initState=7") || Request.RawUrl.Contains("initState=8"))
+            {
+                bContinue.Enabled = false;
+                bMerge.Enabled = false;
+                bStop.Enabled = false;
+            }
+
             if (aGame != null && (aGame.schnapsStack != null && aGame.schnapsStack.Count > 0) || enterStage)
             {
                 SCHNAPSTATE myState = aGame.schnapState;
@@ -1062,6 +1159,7 @@ namespace SchnapsNet
                     {
                         case SCHNAPSTATE.PLAYER_TAKES:
                         case SCHNAPSTATE.PLAYER_FIST:
+                        case SCHNAPSTATE.GIVE_PLAYER:
                             showPlayersCards(myState);
                             showAtouCard(myState);
                             // Show1st3Computer(myState);

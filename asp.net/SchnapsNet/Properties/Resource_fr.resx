@@ -345,6 +345,12 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   <data name="imageMerge_ToolTip" xml:space="preserve">
     <value>clicker pour commencer un jeu.</value>
   </data>
+  <data name="image_fist" xml:space="preserve">
+    <value>Appuyez pour commencer!</value>
+  </data>
+  <data name="image_take" xml:space="preserve">
+    <value>Décoller pour commencer!</value>
+  </data>
   <data name="imAtou_text" xml:space="preserve">
     <value>carte d'atou</value>
   </data>

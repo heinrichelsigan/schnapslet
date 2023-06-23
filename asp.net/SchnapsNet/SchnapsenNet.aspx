@@ -33,8 +33,10 @@
                 if (initSchnapsState == 4) {
                     initSchnapsState4();
                 }
+                if (initSchnapsState == 7) {
+                    initSchnapsState7();
+                }
                 if (initSchnapsState == 8) {
-                    // alert(initSchnapsState);
                     initSchnapsState8();                    
                 }   
                 if (initSchnapsState == 15) {
@@ -44,17 +46,31 @@
         }
 
         function initSchnapsState4() {
-            // atouUrl = document.getElementById("imAtou").src;
+            // atouUrl = document.getElementById("imAtou").src;            
             setTimeout(allInvisibleInit, 100);
             setTimeout(playerCards1st3Visible, 1000);
             setTimeout(imOut20a3, 2000);
-            setTimeout(imOut21Empty, 2500);
+            setTimeout(imOut21Empty, 3000);
+            setTimeout(atouCardVisible, 3250);
+            setTimeout(playerCardsVisible, 4250);
+            setTimeout(imOut21a2, 5250);
+            setTimeout(talonCardVisible, 6250);
+            setTimeout(imOut21Empty, 6500);            
+            setTimeout(schnapsStateRedirect15, 7500);  
+        }
+
+        function initSchnapsState7() {
+            // atouUrl = document.getElementById("imAtou").src;
+            setTimeout(allInvisibleInit, 100);
+            setTimeout(imOut20a3, 1000);
+            setTimeout(playerCards1st3Visible, 2000);            
+            setTimeout(imOut21Empty, 2250);
             setTimeout(atouCardVisible, 3000);
-            setTimeout(playerCardsVisible, 4000);
-            setTimeout(imOut21a2, 5000);
-            setTimeout(imOut21Empty, 6000);
-            setTimeout(talonCardVisible, 7000);
-            setTimeout(schnapsStateRedirect15, 8000);  
+            setTimeout(imOut21a2, 4000);
+            setTimeout(playerCardsVisible, 5000);
+            setTimeout(imOut21Empty, 5250);
+            setTimeout(talonCardVisible, 6500);
+            setTimeout(schnapsStateRedirect15, 7500);
         }
 
         function initSchnapsState8() {
@@ -65,8 +81,8 @@
             setTimeout(atouCardVisible, 2000);
             setTimeout(imOut21a2, 3000);
             setTimeout(imOut21Empty, 4000);
-            setTimeout(talonCardVisible, 5000);
-            setTimeout(schnapsStateRedirect15, 6000);
+            setTimeout(talonCardVisible, 4250);
+            setTimeout(schnapsStateRedirect15, 5000);
         }
 
         function schnapsStateSwitch(stage) {
@@ -74,8 +90,8 @@
                 stage = 0;
 
             if (stage == 0) {
-                if (document.getElementById("ImageMerge") != null)
-                    document.getElementById("ImageMerge").style.visibility = "visible";                
+                if (document.getElementById("imMerge11") != null)
+                    document.getElementById("imMerge11").style.visibility = "visible";                
             }
             if (stage == 1) {
                 allInvisibleInit();
@@ -110,9 +126,13 @@
         }
 
 
-        function allInvisibleInit() {
-            if (document.getElementById("ImageMerge") != null)
-                document.getElementById("ImageMerge").style.visibility = "hidden";
+        function allInvisibleInit() {            
+            if (document.getElementById("imOut21") != null)
+                document.getElementById("imOut21").style.visibility = "hidden";
+            if (document.getElementById("imOut20") != null)
+                document.getElementById("imOut20").style.visibility = "hidden";
+            if (document.getElementById("imMerge11") != null)
+                document.getElementById("imMerge11").style.visibility = "hidden";            
             document.getElementById("im0").style.visibility = "hidden";
             document.getElementById("im1").style.visibility = "hidden";
             document.getElementById("im2").style.visibility = "hidden";
@@ -157,14 +177,21 @@
         }
 
         function imOut21Empty() {
-            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";
+            if (document.getElementById("imOut21") != null)
+                document.getElementById("imOut21").style.visibility = "visible";
+            if (document.getElementById("imOut20") != null)
+                document.getElementById("imOut20").style.visibility = "visible";
             document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/e.gif";            
         }
 
-        function imOut20a3() {
-            
-            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+        function imOut20a3() {            
+            if (document.getElementById("imOut21") != null)
+                document.getElementById("imOut21").style.visibility = "visible";            
+            if (document.getElementById("imOut20") != null)
+                document.getElementById("imOut20").style.visibility = "visible";
             document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";            
             // if (document.getElementById("spanAtou") != null)
             //     document.getElementById("spanAtou").style.visibility = "visible";
             // if (document.getElementById("imAtou10") != null) {
@@ -174,6 +201,10 @@
         }
 
         function imOut21a2() {
+            if (document.getElementById("imOut21") != null)
+                document.getElementById("imOut21").style.visibility = "visible";
+            if (document.getElementById("imOut20") != null)
+                document.getElementById("imOut20").style.visibility = "visible";
             document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
             document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
         }
@@ -224,7 +255,7 @@
                 <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut_Click"  />
             </span>
             <span id="spanMerge" runat="server" style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
-                <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" OnClick="bMerge_Click" BorderStyle="None" />&nbsp;
+                <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" OnClick="imMerge11_Click" BorderStyle="None" />&nbsp;
             </span>
             <span id="spanAtou" runat="server" style="visibility: hidden; min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" style="z-index: 1" />

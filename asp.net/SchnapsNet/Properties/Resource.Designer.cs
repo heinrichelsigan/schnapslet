@@ -701,6 +701,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap deck with fist to start..
+        /// </summary>
+        internal static string image_fist {
+            get {
+                return ResourceManager.GetString("image_fist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Take half of merged deck to start..
+        /// </summary>
+        internal static string image_take {
+            get {
+                return ResourceManager.GetString("image_take", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game is closed!.
         /// </summary>
         internal static string imageAtou_AltText {

@@ -329,6 +329,12 @@ Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
   <data name="imageMerge_ToolTip" xml:space="preserve">
     <value>Hier klicken um ein Spiel zu starten.</value>
   </data>
+  <data name="image_fist" xml:space="preserve">
+    <value>Draufklopfen!</value>
+  </data>
+  <data name="image_take" xml:space="preserve">
+    <value>Abheben!</value>
+  </data>
   <data name="last_hit_you_have_won" xml:space="preserve">
     <value>Letzter Stich: Sie haben gewonnen !</value>
   </data>

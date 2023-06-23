@@ -355,6 +355,12 @@ Rules correspond to the Austrian Schnapsen
   <data name="imageMerge_ToolTip" xml:space="preserve">
     <value>Click here to start a new game.</value>
   </data>
+  <data name="image_fist" xml:space="preserve">
+    <value>Tap deck with fist to start.</value>
+  </data>
+  <data name="image_take" xml:space="preserve">
+    <value>Take half of merged deck to start.</value>
+  </data>
   <data name="imAtou_text" xml:space="preserve">
     <value>Atou card</value>
   </data>
