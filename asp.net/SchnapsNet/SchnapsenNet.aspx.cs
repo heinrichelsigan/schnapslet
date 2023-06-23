@@ -269,8 +269,10 @@ namespace SchnapsNet
                 gameState == SCHNAPSTATE.MERGE_COMPUTER || gameState == SCHNAPSTATE.MERGE_PLAYER ||
                 gameState == SCHNAPSTATE.MERGING_CARDS)
                 {
+                    this.spanMerge.Visible = true;
                     this.spanMerge.Style["visibility"] = "visible";
-                    imMerge11.Visible = true;
+                    this.imMerge11.Visible = true;
+                    this.imMerge11.Style["visibility"] = "visible";
                     // PlaceHolderMerge.Visible = true;
                 }
                 else

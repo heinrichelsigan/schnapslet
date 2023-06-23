@@ -289,7 +289,7 @@ namespace SchnapsNet.Models
 				schnapState == SCHNAPSTATE.TALON_ONE_REMAINS ||
 				schnapState == SCHNAPSTATE.TALON_CONSUMED)
 				return false;
-			if (aPlayer.CanChangeAtou >= 0) return true;
+				if (aPlayer.CanChangeAtou >= 0) return true;
 			return false;
         }
 
