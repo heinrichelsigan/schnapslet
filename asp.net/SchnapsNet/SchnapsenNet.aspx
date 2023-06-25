@@ -227,24 +227,24 @@
     </script>
     <form id="form1" runat="server">        
         <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; background-color: #fefb56; background-image: url('cardpics/schnapslet248.gif'); table-layout: fixed; inset-block-start: initial;">            
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
+                <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: large" Text="Continue" OnClick="bContinue_Click" Enabled="false" />&nbsp;
             </span>                        
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="bChange" Width="15%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
+                <asp:Button ID="bChange" Width="15%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 56px; font-size:large" Text="Change Atou Card" OnClick="bChange_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="b20a" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
+                <asp:Button ID="b20a" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 56px; font-size: large" Text="Marriage 20" OnClick="b20a_Click" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
-                <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 56px; font-size: x-large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
+            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
+                <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 56px; font-size: large" Text="Marriage 40" OnClick="b20b_Click" Enabled="false" />&nbsp;                
             </span>   
-            <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="left" valign="middle">
-                <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" style="min-height: 40px; min-width: 40px; font-size: x-large" Text="Start"  OnClick="bMerge_Click" Visible="true" Enabled="true" />
-                <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Stop" OnClick="bStop_Click" Visible="false" Enabled="true" />
+            <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
+                <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" style="min-height: 40px; min-width: 40px; font-size: large" Text="Start"  OnClick="bMerge_Click" Visible="true" Enabled="true" />
+                <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: large" Text="Stop" OnClick="bStop_Click" Visible="false" Enabled="true" />
             </span>
-            <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: x-large" align="right" valign="middle">
-                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: x-large" Text="Help" OnClick="bHelp_Click" Enabled="true" />                
+            <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
+                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: large" Text="Help" OnClick="bHelp_Click" Enabled="true" /> 
             </span>            
         </div>
         <div id="DivSchnapsStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; background-color: #fefb56; table-layout: fixed; inset-block-start: auto;">
@@ -294,13 +294,13 @@
             </span>
         </div>        
         <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: larger; margin-top: 8px; background-color: #fefb56; table-layout: fixed; inset-block-start: initial">
-            <span style="width:5%; vertical-align:middle; text-align: left; font-size: larger; height: 8%;" align="left" valign="middle">
-                <asp:TextBox ID="tPoints" Width="5%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 32px; font-size: x-large" Enabled="false">0</asp:TextBox>                
+            <span style="width:5%; vertical-align: central; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
+                <asp:TextBox ID="tPoints" Width="5%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 32px; font-size: large" Enabled="false">0</asp:TextBox>                
             </span>
-            <span style="width:8%; vertical-align:middle; text-align: left; font-size: x-large; height: 8%;" align="right" valign="middle">
-                <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" style="min-height: 40px; min-width: 40px; font-size: xx-large;">Points</asp:Label>
+            <span style="width:8%; vertical-align:central; text-align: left; font-size: large; height: 8%;" align="right" valign="middle">
+                <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" style="min-height: 40px; min-width: 40px; font-size: large;">Points</asp:Label>
             </span>
-            <span style="width:75%; vertical-align:middle; text-align: left; font-size: larger; height: 8%;" align="middle" valign="middle">            
+            <span style="width:75%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="middle" valign="middle">            
                 <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="75%" Height="8%" style="font-size: larger">Short Information</asp:TextBox>
             </span>            
         </div>
