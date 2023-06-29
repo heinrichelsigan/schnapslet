@@ -159,7 +159,10 @@ namespace SchnapsNet
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
-                    Log(initMsg);   
+                    Log(initMsg);
+                    string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
+                    string appPath = HttpContext.Current.Request.ApplicationPath;
+                    Log("AppPath=" + appPath + " logging to " + MapPath(appPath) + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapnet.log");
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
