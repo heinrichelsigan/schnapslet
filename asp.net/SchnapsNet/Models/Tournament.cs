@@ -67,17 +67,19 @@ namespace SchnapsNet.Models
         public Tournament()
         {
             ComputerTPoints = Constants.PLAY_DOWN_FROM; // Constants.PLAY_DOWN_MOCK;
-#if MOCK
-            GamblerTPoints = Constants.PLAY_DOWN_MOCK;
-#else
             GamblerTPoints = Constants.PLAY_DOWN_FROM; // Constants.PLAY_DOWN_MOCK;
-#endif
+
             tHistory = new List<Point>();
             Point ptStart = new Point(GamblerTPoints, ComputerTPoints);
             tHistory.Add(ptStart);
             Random random = new Random();
             int rand = random.Next();
             NextGameGiver = (rand % 2 == 0) ? PLAYERDEF.HUMAN : PLAYERDEF.COMPUTER;
+//#if MOCK
+//            NextGameGiver = PLAYERDEF.HUMAN;
+//            GamblerTPoints = Constants.PLAY_DOWN_MOCK;
+//            ComputerTPoints = Constants.PLAY_DOWN_MOCK;
+//#endif
         }
 
         /// <summary>

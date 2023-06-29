@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace SchnapsNet
         long errNum = 0; // Errors Ticker
         int ccard = -1; // Computers Card played
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
-        volatile byte psaychange = 0;
+        volatile byte psaychange = 0;        
 
         Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
         Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
@@ -157,6 +158,8 @@ namespace SchnapsNet
 
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
+                    string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
+                    Log(initMsg);   
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
@@ -1149,7 +1152,7 @@ namespace SchnapsNet
                 SCHNAPSTATE myState = aGame.schnapState;
                 if (enterStage)
                 {
-                    finishGivingWithTalon = true;
+                    ; // finishGivingWithTalon = true;
                 }
                 else
                 {
@@ -1539,7 +1542,7 @@ namespace SchnapsNet
                     String computerSaysPair = string.Format(
                         JavaResReader.GetValueFromKey("computer_says_pair", globalVariable.TwoLetterISOLanguageName),
                         aGame.printColor(aGame.csaid));
-                    outPutMessage = outPutMessage + " " + computerSaysPair;
+                    outPutMessage += (string.IsNullOrEmpty(outPutMessage) ? "" : " ") + computerSaysPair;
                 }
                 if (outPutMessage == "")
                     outPutMessage = JavaResReader.GetValueFromKey("computer_plays_out", globalVariable.TwoLetterISOLanguageName);
@@ -1620,10 +1623,6 @@ namespace SchnapsNet
 
             tmppoints = aGame.CheckPoints(ccard);
             aGame.computer.hand[ccard] = globalVariable.CardEmpty;
-#if MOCK
-            aGame.gambler.points = (tmppoints > 0) ? tmppoints : Math.Min(aGame.gambler.points, 33);
-            aGame.computer.points = (tmppoints < 0) ? tmppoints : Math.Min(aGame.computer.points, 33);
-#endif
             tPoints.Text = aGame.gambler.points.ToString();
 
             if (tmppoints > 0)
@@ -1778,6 +1777,13 @@ namespace SchnapsNet
         void printMsg()
         {
             preOut.InnerText = aGame.FetchMsg();
+            string[] msgs = aGame.FetchMsgArray();
+            
+            for (int i = aGame.fetchedMsgCount; i < msgs.Length; i++) 
+            {
+                Log(msgs[i]);
+            }
+            aGame.fetchedMsgCount = msgs.Length;
         }
 
         void errHandler(Exception myErr)
@@ -1800,6 +1806,7 @@ namespace SchnapsNet
 
             tMsg.Visible = true;
             tMsg.Text = msgSet;
+            Log(msgSet);
         }
 
         void Help_Click(object sender, EventArgs e)
@@ -1807,6 +1814,14 @@ namespace SchnapsNet
             preOut.InnerHtml = "-------------------------------------------------------------------------\n";
             preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
             preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+        }
+
+        void Log(string msg)
+        {
+            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
+            string appPath = HttpContext.Current.Request.ApplicationPath;
+            string fn = MapPath(appPath) + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapnet.log";
+            File.AppendAllText(fn, preMsg + msg + "\r\n");
         }
 
         protected void bMerge_Click(object sender, EventArgs e)

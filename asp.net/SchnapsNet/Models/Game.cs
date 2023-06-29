@@ -10,6 +10,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
 using System.Web;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 
 namespace SchnapsNet.Models
 {
@@ -41,7 +42,8 @@ namespace SchnapsNet.Models
 
 		public int index = 9;
 		public int movs = 0;
-		public int phoneDirection = -1;
+		// public int phoneDirection = -1;
+		public int fetchedMsgCount = 0;
 		public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 						10,11,12,13,14,15,16,17,18,19 };
 
@@ -110,8 +112,9 @@ namespace SchnapsNet.Models
 			said = 'n';
 			csaid = 'n';
 			movs = 0;
+            fetchedMsgCount = 0;
 
-			schnapsStack = new Stack<SCHNAPSTATE>();
+            schnapsStack = new Stack<SCHNAPSTATE>();
 			statusMessage = "";
 			sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", "");
 			sayMarriage40 = JavaResReader.GetValueFromKey("b20b_text", "");
@@ -192,11 +195,14 @@ namespace SchnapsNet.Models
 				inGame[j] = tmp;
 			}
 
-			set[19] = new Card(inGame[19], context);
+            set[19] = new Card(inGame[19], context);
 			set[19].SetAtou();						
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
+			string atouMsg = String.Format(JavaResReader.GetValueFromKey("atou_is", globalAppSettings.TwoLetterISOLanguageName),
+                printColor(CARDCOLOR_Extensions.ColorChar(set[19].CardColor)));
+			InsertMsg(atouMsg);
 
-			for (i = 0; i < 19; i++)
+            for (i = 0; i < 19; i++)
 			{
 				set[i] = new Card(inGame[i], this.AtouInGame, context);
 				if (i < 5)
@@ -522,7 +528,7 @@ namespace SchnapsNet.Models
 				ChangeAtou(computer);
 				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.TwoLetterISOLanguageName));
             }
-            #endregion changeAtou
+			#endregion changeAtou
 
             int cBestCloseCard = -1;
 			#region has20_has40
@@ -598,7 +604,7 @@ namespace SchnapsNet.Models
 					}
 				}
 			}
-            #endregion has20_has40
+			#endregion has20_has40
 
             computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
 			// TODO: Computer closes game
@@ -673,7 +679,7 @@ namespace SchnapsNet.Models
 					}
 				}
 			}
-            #endregion colorHitRule
+			#endregion colorHitRule
 
             int min = 10, max = 1, minIdx = -1, maxIdx = -1;
 			Card maxCard = null;
@@ -798,7 +804,7 @@ namespace SchnapsNet.Models
 			return "NoColor";
         }
 
-        #region internalMessageQueue
+		#region internalMessageQueue
 
         /// <summary>
         /// InsertMsg - inserts msg into internal message queue
@@ -848,6 +854,25 @@ namespace SchnapsNet.Models
         }
 
 		/// <summary>
+		/// Fetches last message in message queue
+		/// </summary>
+		/// <returns>string last message</returns>
+		public String[] FetchMsgArray()
+		{
+            string retMsg = "";
+			List<string> msgs = new List<string>();
+            if (mqueue != null && mqueue.Count > 0)
+            {
+                foreach (string mesg in mqueue)
+                {
+					msgs.Add(mesg);
+
+                }
+            }
+			return msgs.ToArray();
+        }
+
+		/// <summary>
 		/// Clears internal message queue
 		/// </summary>
 		public void ClearMsg()
@@ -855,7 +880,7 @@ namespace SchnapsNet.Models
 			mqueue.Clear();
         }
 
-        #endregion internalMessageQueue
+		#endregion internalMessageQueue
     }
 
 }
