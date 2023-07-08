@@ -46,7 +46,8 @@
         }
 
         function initSchnapsState4() {
-            // atouUrl = document.getElementById("imAtou").src;            
+            atouUrl = document.getElementById("imAtou10").src;
+            // alert(atouUrl);
             setTimeout(allInvisibleInit, 100);
             setTimeout(playerCards1st3Visible, 1000);
             setTimeout(imOut20a3, 2000);
@@ -60,7 +61,8 @@
         }
 
         function initSchnapsState7() {
-            // atouUrl = document.getElementById("imAtou").src;
+            atouUrl = document.getElementById("imAtou10").src;
+            // alert(atouUrl);
             setTimeout(allInvisibleInit, 100);
             setTimeout(imOut20a3, 1000);
             setTimeout(playerCards1st3Visible, 2000);            
@@ -74,7 +76,8 @@
         }
 
         function initSchnapsState8() {
-            // atouUrl = document.getElementById("imAtou").src;
+            atouUrl = document.getElementById("imAtou10").src;
+            // alert(atouUrl);
             setTimeout(allInvisibleInit(), 100);
             // schnapsStateSwitch(3);
             setTimeout(playerCardsVisible, 1000);
@@ -161,7 +164,7 @@
                 document.getElementById("spanAtou").style.visibility = "visible";
             if (document.getElementById("imAtou10") != null) {
                 document.getElementById("imAtou10").style.visibility = "visible";
-                // document.getElementById("imAtou10").src = atouUrl;
+                document.getElementById("imAtou10").src = atouUrl;
             }
         }
 
@@ -186,18 +189,23 @@
         }
 
         function imOut20a3() {            
-            if (document.getElementById("imOut21") != null)
-                document.getElementById("imOut21").style.visibility = "visible";            
-            if (document.getElementById("imOut20") != null)
+            if (document.getElementById("imOut21") != null) {
+                document.getElementById("imOut21").style.visibility = "visible";
+                document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            }                
+            if (document.getElementById("imOut20") != null) {
                 document.getElementById("imOut20").style.visibility = "visible";
-            document.getElementById("imOut21").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
-            document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";            
-            // if (document.getElementById("spanAtou") != null)
-            //     document.getElementById("spanAtou").style.visibility = "visible";
-            // if (document.getElementById("imAtou10") != null) {
-            //     document.getElementById("imAtou10").style.visibility = "visible";
-            //     imAtou.src = "https://area23.at/mono/SchnapsNet/cardpics/n0.gif";
-            // }            
+                document.getElementById("imOut20").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            }                        
+            if (document.getElementById("imAtou10") != null) {
+                document.getElementById("imAtou10").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            }
+            if (document.getElementById("spanAtou") != null)
+                document.getElementById("spanAtou").style.visibility = "visible";
+            if (document.getElementById("imAtou10") != null) {
+                document.getElementById("imAtou10").style.visibility = "visible";
+                document.getElementById("imAtou10").src = "https://area23.at/mono/SchnapsNet/cardpics/n1.gif";
+            }            
         }
 
         function imOut21a2() {
