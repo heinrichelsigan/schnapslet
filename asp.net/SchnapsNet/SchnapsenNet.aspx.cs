@@ -16,9 +16,8 @@ using SchnapsNet.Models;
 
 namespace SchnapsNet
 {
-    public partial class SchnapsenNet : System.Web.UI.Page
+    public partial class SchnapsenNet : Area23BasePage
     {
-        System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         Models.Game aGame;
         Models.Tournament aTournement;
         long errNum = 0; // Errors Ticker
@@ -26,53 +25,11 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;        
 
-        Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-        Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-        Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-        Uri emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
-        Uri notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-
-        Models.GlobalAppSettings globalVariable;
-        System.Globalization.CultureInfo locale;
-
         // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
         // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
         // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
         // static String talonJarStr = "/schnapsen/cardpics/t.gif";
         // Thread t0;
-
-        public System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    try
-                    {
-                        string defaultLang = Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        locale = new System.Globalization.CultureInfo("en");
-                    }
-                }
-                return locale;
-            }
-        }
-
-
-        void InitURLBase()
-        {
-            notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-            emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-            backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-            // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
-            talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-            emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
-        }
 
         public void InitSchnaps()
         {
@@ -162,7 +119,7 @@ namespace SchnapsNet
                     Log(initMsg);
                     string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
                     string appPath = HttpContext.Current.Request.ApplicationPath;
-                    Log("AppPath=" + appPath + " logging to " + MapPath(appPath) + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapnet.log");
+                    Log("AppPath=" + appPath + " logging to " + LogFile);
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
@@ -1817,14 +1774,6 @@ namespace SchnapsNet
             preOut.InnerHtml = "-------------------------------------------------------------------------\n";
             preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
             preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-        }
-
-        void Log(string msg)
-        {
-            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
-            string appPath = HttpContext.Current.Request.ApplicationPath;
-            string fn = MapPath(appPath) + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapnet.log";
-            File.AppendAllText(fn, preMsg + msg + "\r\n");
         }
 
         protected void bMerge_Click(object sender, EventArgs e)

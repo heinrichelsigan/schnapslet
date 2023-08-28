@@ -50,12 +50,6 @@
     GlobalAppSettings globalVariable;
     System.Globalization.CultureInfo locale;
 
-    // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
-    // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
-    // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
-    // static String talonJarStr = "/schnapsen/cardpics/t.gif";
-    // Thread t0;
-
     public System.Globalization.CultureInfo Locale
     {
         get
@@ -78,6 +72,24 @@
         }
     }
 
+    public string SepChar { get => System.IO.Path.DirectorySeparatorChar.ToString(); }
+
+    public string LogFile
+    {
+        get
+        {
+            string logAppPath = MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+            if (!logAppPath.Contains("SchnapsNet"))
+                logAppPath += "SchnapsNet" + SepChar;
+            if (!System.IO.Directory.Exists(logAppPath))
+                System.IO.Directory.CreateDirectory(logAppPath);
+            logAppPath += "log" + SepChar;
+            if (System.IO.Directory.Exists(logAppPath))
+                System.IO.Directory.CreateDirectory(logAppPath);
+            logAppPath += DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
+            return logAppPath;
+        }
+    }
 
     void InitURLBase()
     {
@@ -169,6 +181,9 @@ DateTime.Now.Day.ToString() + "_"
 
             if (this.Context.Session[Constants.APPNAME] == null)
             {
+                string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
+                Log(initMsg);
+                Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + LogFile);
                 globalVariable = new GlobalAppSettings(this.Context, this.Session);
                 aTournement = new Tournament();
                 globalVariable.Tournement = aTournement;
@@ -1464,6 +1479,13 @@ DateTime.Now.Day.ToString() + "_"
     void printMsg()
     {
         preOut.InnerText = aGame.FetchMsg();
+        string[] msgs = aGame.FetchMsgArray();
+            
+        for (int i = aGame.fetchedMsgCount; i < msgs.Length; i++) 
+        {
+            Log(msgs[i]);
+        }
+        aGame.fetchedMsgCount = msgs.Length;
     }
 
     void errHandler(Exception myErr)
@@ -1486,14 +1508,9 @@ DateTime.Now.Day.ToString() + "_"
 
         tMsg.Visible = true;
         tMsg.Text = msgSet;
+        Log(msgSet);
     }
-
-    void Help_Click(object sender, EventArgs e)
-    {
-        preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-        preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
-        preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-    }
+    
 
     protected void bMerge_Click(object sender, EventArgs e)
     {
@@ -1508,7 +1525,6 @@ DateTime.Now.Day.ToString() + "_"
         startGame();
     }
 
-
     protected void ImageComputerStitch_Click(object sender, EventArgs e)
     {
         showStitches(-1);
@@ -1517,6 +1533,22 @@ DateTime.Now.Day.ToString() + "_"
     protected void ImagePlayerStitch_Click(object sender, EventArgs e)
     {
         showStitches(0);
+    }
+
+
+    void Help_Click(object sender, EventArgs e)
+    {
+        preOut.InnerHtml = "-------------------------------------------------------------------------\n";
+        preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
+        preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+    }
+
+    public void Log(string msg)
+    {
+        string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
+        string appPath = HttpContext.Current.Request.ApplicationPath;
+        string fn = this.LogFile;
+        System.IO.File.AppendAllText(fn, preMsg + msg + "\r\n");
     }
 
 </script>

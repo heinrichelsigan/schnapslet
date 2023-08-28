@@ -12,9 +12,8 @@ using SchnapsNet.Models;
 
 namespace SchnapsNet
 {
-    public partial class SchnapsNet : System.Web.UI.Page
+    public partial class SchnapsNet : Area23BasePage
     {
-        System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         Models.Game aGame;
         Models.Tournament aTournement;
         long errNum = 0; // Errors Ticker
@@ -22,53 +21,11 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
-        Uri emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-        Uri backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-        Uri talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-        Uri emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
-        Uri notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-
-        Models.GlobalAppSettings globalVariable;
-        System.Globalization.CultureInfo locale;
-
         // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
         // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
         // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
         // static String talonJarStr = "/schnapsen/cardpics/t.gif";
         // Thread t0;
-
-        public System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    try
-                    {
-                        string defaultLang = Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        locale = new System.Globalization.CultureInfo("en");
-                    }
-                }
-                return locale;
-            }
-        }
-
-
-        void InitURLBase()
-        {
-            notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-            emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-            backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-            // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
-            talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-            emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
-        }
 
         public void InitSchnaps()
         {
@@ -157,6 +114,9 @@ namespace SchnapsNet
 
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
+                    string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
+                    Log(initMsg);
+                    Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + LogFile);
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
@@ -1479,6 +1439,13 @@ namespace SchnapsNet
         void printMsg()
         {
             preOut.InnerText = aGame.FetchMsg();
+            string[] msgs = aGame.FetchMsgArray();
+
+            for (int i = aGame.fetchedMsgCount; i < msgs.Length; i++)
+            {
+                Log(msgs[i]);
+            }
+            aGame.fetchedMsgCount = msgs.Length;
         }
 
         void errHandler(Exception myErr)
@@ -1501,6 +1468,7 @@ namespace SchnapsNet
 
             tMsg.Visible = true;
             tMsg.Text = msgSet;
+            Log(msgSet);
         }
 
         void Help_Click(object sender, EventArgs e)

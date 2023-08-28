@@ -859,7 +859,6 @@ namespace SchnapsNet.Models
 		/// <returns>string last message</returns>
 		public String[] FetchMsgArray()
 		{
-            string retMsg = "";
 			List<string> msgs = new List<string>();
             if (mqueue != null && mqueue.Count > 0)
             {
