@@ -32,28 +32,7 @@ namespace SchnapsNet.ConstEnum
                     return retVal_fr;
                 }
             }
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
-            /*
-            string retAttr = null;
-            string myUri = Constants.URLXML + "-" + langCode + ".xml";
-            XmlReader xmlReader = XmlReader.Create(myUri);
-            while (xmlReader.Read())
-            {
-                if ((xmlReader.NodeType == XmlNodeType.Element) && (xmlReader.Name == "string"))
-                {
-                    if (xmlReader.HasAttributes)
-                    {
-                        retAttr = xmlReader.GetAttribute(0).ToString();
-                        if (!string.IsNullOrEmpty(retAttr) && retAttr == key)
-                        {
-                            retVal = xmlReader.Value;
-                            if (!string.IsNullOrEmpty(retVal))
-                                return retVal;
-                        }
-                    }
-                }
-            }
-            */
+            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;            
         }
 
     }

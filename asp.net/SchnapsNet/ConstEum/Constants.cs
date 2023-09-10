@@ -10,6 +10,7 @@ namespace SchnapsNet.ConstEnum
         public const string APPNAME     = "Schnaps.Net";
         public const string APPDIR      = "SchnapsNet";
         public const string VERSION     = "v2.11.33";
+        public const string MUTEX =     "SchnapsMutex";
         public const string GITURL      = "https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
         public const string URLPREFIX   = "https://area23.at/schnapsen/cardpics/";

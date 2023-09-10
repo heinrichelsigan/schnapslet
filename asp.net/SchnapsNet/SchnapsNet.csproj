@@ -349,6 +349,18 @@
     <Content Include="Default.aspx" />
     <Content Include="Fortune.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="log\20230601_schnapsnet.log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log\20230701_schnapsnet.log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log\20230801_schnapsnet.log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log\20230901_schnapsnet.log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\strings-de.xml" />
     <Content Include="Properties\strings-en.xml" />
     <Content Include="Properties\strings-fr.xml" />
@@ -436,7 +448,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">

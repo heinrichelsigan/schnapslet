@@ -27,6 +27,7 @@ namespace SchnapsNet
 
         protected Models.GlobalAppSettings globalVariable;
         protected System.Globalization.CultureInfo locale;
+        public Mutex schnapsMutex;
 
         public System.Globalization.CultureInfo Locale
         {
