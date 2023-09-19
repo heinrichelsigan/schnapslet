@@ -539,21 +539,21 @@ namespace SchnapsNet
                 {
                     aGame.gambler.points += 40;
                     sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                        " " + aGame.printColor(aGame.said);
+                        " " + aGame.PrintColor(aGame.said);
                 }
                 else
                 {
                     aGame.gambler.points += 20;
                     sayPair = JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                        " " + aGame.printColor(aGame.said);
+                        " " + aGame.PrintColor(aGame.said);
                 }
                 aGame.pSaid = true;
                 resetButtons(0);
 
                 string msg0 = string.Format(
                     JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
-                    aGame.printColor(aGame.said));
-                setTextMessage(msg0);
+                    aGame.PrintColor(aGame.said));
+                SetTextMessage(msg0);
                 aGame.InsertMsg(msg0);
                 printMsg();
 
@@ -590,20 +590,20 @@ namespace SchnapsNet
                 {
                     aGame.gambler.points += 40;
                     sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                        " " + aGame.printColor(aGame.said);
+                        " " + aGame.PrintColor(aGame.said);
                 }
                 else
                 {
                     aGame.gambler.points += 20;
                     sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                        " " + aGame.printColor(aGame.said);
+                        " " + aGame.PrintColor(aGame.said);
                 }
                 aGame.pSaid = true;
                 resetButtons(0);
 
                 string msg0 = string.Format(JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
-                    aGame.printColor(aGame.said));
-                setTextMessage(sayPair);
+                    aGame.PrintColor(aGame.said));
+                SetTextMessage(sayPair);
 
                 aGame.InsertMsg(msg0);
                 printMsg();
@@ -1243,7 +1243,7 @@ namespace SchnapsNet
                 }
                 try
                 {
-                    for (xj = 0; xj < 5; xj++)
+                    for (xj = 0; xj < aGame.gambler.HandCount; xj++)
                     {
                         char colorCh0 = CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xj].CardColor);
                         if (colorCh0 == aGame.said &&
@@ -1281,7 +1281,7 @@ namespace SchnapsNet
                 }
                 try
                 {
-                    for (xj = 0; xj < 5; xj++)
+                    for (xj = 0; xj < aGame.computer.HandCount; xj++)
                     {
                         char colorCh1 = CARDCOLOR_Extensions.ColorChar(aGame.computer.hand[xj].CardColor);
                         if (colorCh1 == aGame.csaid &&
@@ -1329,7 +1329,7 @@ namespace SchnapsNet
             {
                 try
                 {
-                    while ((xqueen < 5) && !xfinished)
+                    while ((xqueen < aGame.gambler.HandCount) && !xfinished)
                     {
                         if ((aGame.gambler.hand[xqueen] != null))
                         {
@@ -1369,7 +1369,7 @@ namespace SchnapsNet
                 {
                     xking = 0;
                     xfinished = false;
-                    while ((xking < 5) && !xfinished)
+                    while ((xking < aGame.computer.HandCount) && !xfinished)
                     {
                         if (aGame.computer.hand[xking] != null)
                         {
@@ -1456,18 +1456,18 @@ namespace SchnapsNet
                 if (a20 > 0)
                 {
                     psaychange += 2;
-                    b20a.Text = aGame.printColor(aGame.gambler.handpairs[0]) + " " +
+                    b20a.Text = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
                         JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
-                    aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " +
+                    aGame.sayMarriage20 = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
                         JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                     aGame.a20 = true;
                     b20a.Enabled = true;
                     if (a20 > 1)
                     {
-                        b20b.Text = aGame.printColor(aGame.gambler.handpairs[1]) + " " +
+                        b20b.Text = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
                             JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                         aGame.b20 = true;
-                        aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " +
+                        aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
                             JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                         b20b.Enabled = true;
                     }
@@ -1501,7 +1501,7 @@ namespace SchnapsNet
                     computerSaid20 = true;
                     String computerSaysPair = string.Format(
                         JavaResReader.GetValueFromKey("computer_says_pair", globalVariable.TwoLetterISOLanguageName),
-                        aGame.printColor(aGame.csaid));
+                        aGame.PrintColor(aGame.csaid));
                     outPutMessage += (string.IsNullOrEmpty(outPutMessage) ? "" : " ") + computerSaysPair;
                 }
                 if (outPutMessage == "")

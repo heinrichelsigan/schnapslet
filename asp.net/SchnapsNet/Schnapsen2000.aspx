@@ -977,7 +977,7 @@ DateTime.Now.Day.ToString() + "_"
             }
             try
             {
-                for (xj = 0; xj < 5; xj++)
+                for (xj = 0; xj < aGame.gambler.HandCount; xj++)
                 {
                     char colorCh0 = CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xj].CardColor);
                     if (colorCh0 == aGame.said &&
@@ -1015,7 +1015,7 @@ DateTime.Now.Day.ToString() + "_"
             }
             try
             {
-                for (xj = 0; xj < 5; xj++)
+                for (xj = 0; xj < aGame.computer.HandCount; xj++)
                 {
                     char colorCh1 = CARDCOLOR_Extensions.ColorChar(aGame.computer.hand[xj].CardColor);
                     if (colorCh1 == aGame.csaid &&
@@ -1063,7 +1063,7 @@ DateTime.Now.Day.ToString() + "_"
         {
             try
             {
-                while ((xqueen < 5) && !xfinished)
+                while ((xqueen < aGame.gambler.HandCount) && !xfinished)
                 {
                     if ((aGame.gambler.hand[xqueen] != null))
                     {
@@ -1103,7 +1103,7 @@ DateTime.Now.Day.ToString() + "_"
             {
                 xking = 0;
                 xfinished = false;
-                while ((xking < 5) && !xfinished)
+                while ((xking < aGame.computer.HandCount) && !xfinished)
                 {
                     if (aGame.computer.hand[xking] != null)
                     {

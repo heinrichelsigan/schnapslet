@@ -16,8 +16,9 @@ namespace SchnapsNet.ConstEnum
         public const string URLPIC      = "https://area23.at/schnapsen/cardpics/";
         public const string URLXML      = "https://area23.at/mono/SchnapsNet/Properties/strings";
 
-        public const int PLAY_DOWN_FROM = 7;    // play down from 7 points
-        public const int PLAY_DOWN_MOCK = 1;    // play down mock 1 points            
+        public const int PLAY_DOWN_FROM     = 7;    // play down from 7 points
+        public const int PLAY_DOWN_FARMER   = 24;   // play down from 24 points in farmer game
+        public const int PLAY_DOWN_MOCK     = 1;    // play down mock 1 points            
 
         public const string COLOR_K     = "♦";  //  "&#9830;";    //  "&diams;"
         public const string COLOR_H     = "♥";  //  "&#9829;";    //  "&hearts;"

@@ -16,7 +16,7 @@ namespace SchnapsNet.Models
     /// <summary>
     /// Port of class Player
     /// </summary>
-    public class Player
+    public class Player : IDisposable
     {
         volatile bool begins;    // does this Player begin ?
         public Card[] hand = new Card[5];  // Cards in Players Hand
@@ -52,7 +52,7 @@ namespace SchnapsNet.Models
                 pairs[0] = null;
                 pairs[1] = null;   
 
-                for (i = 0; i < 4; i++)
+                for (i = 0; i < (HandCount - 1); i++)
                 {
                     if (hand[i].CardColor.GetChar() == hand[i + 1].CardColor.GetChar())
                     {
@@ -83,7 +83,7 @@ namespace SchnapsNet.Models
         {
             get
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < HandCount; i++)
                 {
                     if ((hand[i].IsAtou) && (hand[i].CardValue == CARDVALUE.JACK))
                     {
@@ -93,19 +93,25 @@ namespace SchnapsNet.Models
                 return (-1);
             }
         }
-        
+
+        /// <summary>
+        /// Number of Cards in Players Hand
+        /// </summary>
+        public int HandCount { get => this.hand.Length; }
+
         #endregion properties
 
         /// <summary>
         /// Constructor of Player
         /// </summary>
         /// <param name="c">HttpContext c</param>
-        public Player(HttpContext c)
+        public Player(HttpContext c, int handCount = 5)
         {            
             this.context = c;
-            // this.r = c.getResources();
+            hand = new Card[handCount];
             hasClosed = false;
-            for (int i = 0; i < 5; i++)
+            points = 0;
+            for (int i = 0; i < handCount; i++)
             {
                 hand[i] = new Card(c);
                 colorHitArray[i] = (-1);
@@ -118,9 +124,18 @@ namespace SchnapsNet.Models
         /// </summary>
         /// <param name="starts">true if this player starts the game, otherwise false</param>
         /// <param name="c">HttpContext of app</param>
-        public Player(bool starts, HttpContext c) : this(c)
+        public Player(bool starts, HttpContext c, int handCount = 5) : this(c, handCount)
         {
             this.begins = starts;
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < HandCount; i++)
+                hand[i] = null;
+
+            stitchCount = 0;
+            cardStitches.Clear();
         }
 
         /// <summary>
@@ -128,14 +143,19 @@ namespace SchnapsNet.Models
         /// </summary>
         public void Stop()
         {
-            int i;
-            for (i = 0; i < 5; i++)
+            handpairs[0] = 'n';
+            handpairs[1] = 'n';
+            pairs[0] = null;
+            pairs[1] = null;
+            for (int i = 0; i < HandCount; i++)
                 hand[i] = null;
 
             stitchCount = 0;
             cardStitches.Clear();
         }
         
+
+
         /// <summary>
         /// Show players hand cards
         /// </summary>
@@ -143,7 +163,7 @@ namespace SchnapsNet.Models
         public String ShowHand()
         {
             String retVal = "";
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < this.HandCount; j++)
                 retVal = retVal + hand[j].Name + " ";
             return retVal;
         }
@@ -155,11 +175,11 @@ namespace SchnapsNet.Models
         { 
             int j, k, min, mark;
             Card tmpCard;
-            for (k = 0; k < 4; k++) // Bubble
+            for (k = 0; k < (HandCount - 1); k++) // Bubble
             { 
                 min = 20;
                 mark = -1;
-                for (j = k; j < 5; j++) // Bubble
+                for (j = k; j < HandCount; j++) // Bubble
                 {
                     if (hand[j].intern < min)
                     {
@@ -183,8 +203,8 @@ namespace SchnapsNet.Models
         public void AssignCard(Card gotCard)
         {
             int i = 0;
-            while ((i < 5) && (hand[i] != null) && (hand[i].IsValidCard)) i++;
-            if (i < 5)
+            while ((i < HandCount) && (hand[i] != null) && (hand[i].IsValidCard)) i++;
+            if (i < HandCount)
             {
                 hand[i] = new Card(gotCard, context);
             }
@@ -199,7 +219,7 @@ namespace SchnapsNet.Models
         public bool IsValidInColorHitsContext(int nynum, Card aCard)
         {
             int max = -1;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < HandCount; i++)
             {
                 // valid Card -> PRI 0
                 if (hand[i] == null || !hand[i].IsValidCard)
@@ -249,7 +269,7 @@ namespace SchnapsNet.Models
         {
             int i = 0, j = 0, tmp = -1, min = -1, max = -1, mark = -1, markMin = -1, markMax = -1;
 
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < HandCount; i++)
             {
                 if (!hand[i].IsValidCard)
                 {
@@ -283,7 +303,7 @@ namespace SchnapsNet.Models
             if (max > 0 && max <= 11)
             {
                 min = max; markMin = -1; markMax = -1;
-                for (j = 0; j < 5; j++)
+                for (j = 0; j < HandCount; j++)
                 {
                     if (colorHitArray[j] >= 0 && colorHitArray[j] <= 11 && colorHitArray[j] == max)
                         markMax = j;
@@ -299,7 +319,7 @@ namespace SchnapsNet.Models
             {
                 min = max; markMin = -1; markMax = -1;
                 Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
-                for (j = 0; j < 5; j++)
+                for (j = 0; j < HandCount; j++)
                 {
                     if (colorHitArray[j] > 11 && colorHitArray[j] <= 22 && colorHitArray[j] == max)
                     {
@@ -321,7 +341,7 @@ namespace SchnapsNet.Models
                     (tmpHasPair == 2 && pairs[1].Card1st.CardColor == tmpBestCard.CardColor))
                 {
                     markMax = -1; markMin = -1;
-                    for (j = 0; j < 5; j++)
+                    for (j = 0; j < HandCount; j++)
                     {
                         if (colorHitArray[j] > 11 && colorHitArray[j] <= 22 && colorHitArray[j] > 20)
                             markMax = j;
@@ -348,7 +368,7 @@ namespace SchnapsNet.Models
             {
                 min = max; markMin = -1; markMax = -1;
                 Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
-                for (j = 0; j < 5; j++)
+                for (j = 0; j < HandCount; j++)
                 {
                     if (colorHitArray[j] > 22 && colorHitArray[j] <= 33 && colorHitArray[j] == max)
                     {
@@ -378,7 +398,7 @@ namespace SchnapsNet.Models
             {
                 min = max; markMin = -1; markMax = -1;
                 Card maxBestCard = null, minBestCard = null, tmpBestCard = null;
-                for (j = 0; j < 5; j++)
+                for (j = 0; j < HandCount; j++)
                 {
                     if (colorHitArray[j] > 33 && colorHitArray[j] <= 44 && colorHitArray[j] == max)
                     {
@@ -411,7 +431,7 @@ namespace SchnapsNet.Models
         {
             int i = 0, j = 0, mark = -1, max = -1;
 
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < HandCount; i++)
             {
                 if (!hand[i].IsValidCard)
                 {
@@ -447,7 +467,7 @@ namespace SchnapsNet.Models
                 }
             }
 
-            for (j = 0; j < 5; j++)
+            for (j = 0; j < HandCount; j++)
             {
                 if (colorHitArray[j] == max)
                 {
@@ -492,7 +512,7 @@ namespace SchnapsNet.Models
                 return true;
 
             // Kann ich mit Farbe stechen ->
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < HandCount; i++)
             {
                 if (hand[i].IsValidCard) 
                     if (hand[i].HitsValue(otherCard))
@@ -503,7 +523,7 @@ namespace SchnapsNet.Models
             if (hand[cidx].CardColor.GetChar() == otherCard.CardColor.GetChar())
                 return true;
 
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < HandCount; i++)
             {
                 if (hand[i].IsValidCard)
                 {
@@ -515,7 +535,7 @@ namespace SchnapsNet.Models
             if (hand[cidx].IsAtou)
                 return true;
 
-            for (i = 0; i < 5; i++)
+            for (i = 0; i < HandCount; i++)
             {
                 if (hand[i].IsAtou)
                     return false;

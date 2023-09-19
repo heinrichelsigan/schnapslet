@@ -431,6 +431,7 @@
     <Compile Include="ConstEum\CARDVALUE.cs" />
     <Compile Include="ConstEum\Constants.cs" />
     <Compile Include="ConstEum\JavaResReader.cs" />
+    <Compile Include="ConstEum\GAMECALL.cs" />
     <Compile Include="ConstEum\PLAYERDEF.cs" />
     <Compile Include="ConstEum\PLAYEROPTIONS.cs" />
     <Compile Include="ConstEum\SCHNAPSTATE.cs" />
@@ -438,11 +439,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\GameDreier.cs" />
+    <Compile Include="Models\GameBase.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\SchnapsException.cs" />
     <Compile Include="Models\GlobalAppSettings.cs" />
     <Compile Include="Models\PairCard.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\TournamentThree.cs" />
     <Compile Include="Models\Tournament.cs" />
     <Compile Include="Models\TwoCards.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

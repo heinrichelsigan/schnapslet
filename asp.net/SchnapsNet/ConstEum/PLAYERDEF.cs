@@ -9,7 +9,10 @@ namespace SchnapsNet.ConstEnum
     {
         UNKNOWN     = 0,
         HUMAN       = 1,
-        COMPUTER    = 2
+        COMPUTER    = 2,
+        COMPUTER1   = 3,    // for Schnapsen with 3 or 4 players
+        COMPUTER2   = 4,    // for Schnapsen with 3 or 4 players
+        COMPUTER3   = 5     // for Schnapsen with 3 or 4 players
     }
     
     public static class PLAYERDEF_Extensions
