@@ -142,7 +142,7 @@ namespace SchnapsNet
             
         }
 
-        protected void showPlayersCards(SCHNAPSTATE gameState)
+        protected void ShowPlayersCards(SCHNAPSTATE gameState)
         {
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
             if (schnapStateVal >= 15 && schnapStateVal < 22 && gameState != SCHNAPSTATE.GAME_START)
@@ -164,7 +164,7 @@ namespace SchnapsNet
                 }
                 catch (Exception exp)
                 {
-                    this.errHandler(exp);
+                    this.ErrHandler(exp);
                 }
             }
             else
@@ -265,11 +265,11 @@ namespace SchnapsNet
             }
             catch (Exception mergeAnimEx)
             {
-                this.errHandler(mergeAnimEx);
+                this.ErrHandler(mergeAnimEx);
             }
         }
 
-        protected void showAtouCard(SCHNAPSTATE gameState)
+        protected void ShowAtouCard(SCHNAPSTATE gameState)
         {
             try
             {
@@ -324,11 +324,11 @@ namespace SchnapsNet
             }
             catch (Exception exAtou1)
             {
-                this.errHandler(exAtou1);
+                this.ErrHandler(exAtou1);
             }
         }
 
-        protected void showTalonCard(SCHNAPSTATE gameState)
+        protected void ShowTalonCard(SCHNAPSTATE gameState)
         {
             try
             {
@@ -355,7 +355,7 @@ namespace SchnapsNet
             }
             catch (Exception imTalonEx)
             {
-                errHandler(imTalonEx);
+                ErrHandler(imTalonEx);
             }
         }
 
@@ -452,7 +452,7 @@ namespace SchnapsNet
             }
         }
 
-        protected void showComputer20(Card computerPlayedOut, int stage)
+        protected void ShowComputer20(Card computerPlayedOut, int stage)
         {
             for (int ci = 0; ci < aGame.computer.hand.Length; ci++)
             {
@@ -478,21 +478,15 @@ namespace SchnapsNet
         }
 
 
-        protected void bHelp_Click(object sender, EventArgs e)
-        {
-            Help_Click(sender, e);
-        }
-
-
-        protected void bStop_Click(object sender, EventArgs e)
+        protected void Stop_Click(object sender, EventArgs e)
         {
             try
             {
-                stopGame(7, PLAYERDEF.COMPUTER);
+                StopGame(7, PLAYERDEF.COMPUTER);
             }
             catch (Exception e23)
             {
-                this.errHandler(e23);
+                this.ErrHandler(e23);
             }
         }
 
@@ -501,32 +495,32 @@ namespace SchnapsNet
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void bChange_Click(object sender, EventArgs e)
+        protected void Change_Click(object sender, EventArgs e)
         {
             preOut.InnerText += "bChange_Click\r\n";
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = JavaResReader.GetValueFromKey("bChange_text", globalVariable.TwoLetterISOLanguageName);
-            setTextMessage(msgChange);
+            SetTextMessage(msgChange);
 
             bChange.Enabled = false;
-            showAtouCard(aGame.schnapState);
-            showPlayersCards(aGame.schnapState);
+            ShowAtouCard(aGame.schnapState);
+            ShowPlayersCards(aGame.schnapState);
             GameTurn(1);
         }
 
         /// <summary>
-        /// b20a_Click - say marriage in first pair
+        /// A20_Click - say marriage in first pair
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void b20a_Click(object sender, EventArgs e)
+        protected void A20_Click(object sender, EventArgs e)
         {
             if (globalVariable != null && aGame == null)
             {
                 aGame = globalVariable.Game;
             }
-            preOut.InnerText += "b20a_Click\r\n";
+            preOut.InnerText += "A20_Click\r\n";
             try
             {
                 if ((aGame.pSaid) || (aGame.gambler.handpairs[0] == 'n'))
@@ -548,24 +542,24 @@ namespace SchnapsNet
                         " " + aGame.PrintColor(aGame.said);
                 }
                 aGame.pSaid = true;
-                resetButtons(0);
+                ResetButtons(0);
 
                 string msg0 = string.Format(
                     JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
                     aGame.PrintColor(aGame.said));
                 SetTextMessage(msg0);
                 aGame.InsertMsg(msg0);
-                printMsg();
+                PrintMsg();
 
                 tPoints.Text = aGame.gambler.points.ToString();
                 if (aGame.gambler.points > 65)
                 {
-                    twentyEnough(PLAYERDEF.HUMAN);
+                    TwentyEnough(PLAYERDEF.HUMAN);
                 }
             }
             catch (Exception ex22)
             {
-                this.errHandler(ex22);
+                this.ErrHandler(ex22);
             }
         }
 
@@ -574,9 +568,9 @@ namespace SchnapsNet
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void b20b_Click(object sender, EventArgs e)
+        protected void B20_Click(object sender, EventArgs e)
         {
-            string msg = "b20b_Click";
+            string msg = "B20_Click";
             preOut.InnerText += "\r\n" + msg;
             try
             {
@@ -599,24 +593,24 @@ namespace SchnapsNet
                         " " + aGame.PrintColor(aGame.said);
                 }
                 aGame.pSaid = true;
-                resetButtons(0);
+                ResetButtons(0);
 
                 string msg0 = string.Format(JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
                     aGame.PrintColor(aGame.said));
                 SetTextMessage(sayPair);
 
                 aGame.InsertMsg(msg0);
-                printMsg();
+                PrintMsg();
 
                 tPoints.Text = aGame.gambler.points.ToString();
                 if (aGame.gambler.points > 65)
                 {
-                    twentyEnough(PLAYERDEF.HUMAN);
+                    TwentyEnough(PLAYERDEF.HUMAN);
                 }
             }
             catch (Exception ex33)
             {
-                this.errHandler(ex33);
+                this.ErrHandler(ex33);
             }
         }
 
@@ -665,23 +659,23 @@ namespace SchnapsNet
                 }
                 if (ic == 11)
                 {
-                    bContinue_Click(sender, e);
+                    Continue_Click(sender, e);
                     return;
                 }
                 if (ic == 10)
                 {
                     if (aGame.playersTurn && (!aGame.isClosed) && (!aGame.pSaid) && (aGame.index < 16))
                     {
-                        closeGame(PLAYERDEF.HUMAN);
+                        CloseGame(PLAYERDEF.HUMAN);
                     }
                     return;
                 }
                 if (!aGame.gambler.hand[ic].IsValidCard)
                 {
                     String msgVC = JavaResReader.GetValueFromKey("this_is_no_valid_card", globalVariable.TwoLetterISOLanguageName);
-                    setTextMessage(msgVC);
+                    SetTextMessage(msgVC);
                     aGame.InsertMsg(msgVC);
-                    printMsg();
+                    PrintMsg();
                     return;
                 }
                 if (aGame.pSaid)
@@ -696,9 +690,9 @@ namespace SchnapsNet
                     else
                     {
                         String msgPlayPair = JavaResReader.GetValueFromKey("you_must_play_pair_card", globalVariable.TwoLetterISOLanguageName);
-                        setTextMessage(msgPlayPair);
+                        SetTextMessage(msgPlayPair);
                         aGame.InsertMsg(msgPlayPair);
-                        printMsg();
+                        PrintMsg();
                         return;
                     }
                 }
@@ -713,7 +707,7 @@ namespace SchnapsNet
                     if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
                         String msgColorHitRule = JavaResReader.GetValueFromKey("you_must_play_color_hit_force_rules", globalVariable.TwoLetterISOLanguageName);
-                        setTextMessage(msgColorHitRule);
+                        SetTextMessage(msgColorHitRule);
                         aGame.InsertMsg(msgColorHitRule);
                         int tmpint = aGame.gambler.PreferedInColorHitsContext(aGame.computer.hand[ccard]);
                         // for (j = 0; j < 5; j++) {
@@ -724,14 +718,14 @@ namespace SchnapsNet
                         String msgBestWouldBe = string.Format(JavaResReader.GetValueFromKey("best_card_would_be", globalVariable.TwoLetterISOLanguageName),
                             aGame.gambler.hand[tmpint].Name);
                         aGame.InsertMsg(msgBestWouldBe);
-                        printMsg();
-                        showPlayersCards(aGame.schnapState);
+                        PrintMsg();
+                        ShowPlayersCards(aGame.schnapState);
                         return;
                     }
                 }
                 if (psaychange > 0)
                 {
-                    resetButtons(0);
+                    ResetButtons(0);
                     psaychange = 0;
                 }
                 aGame.playedOut = aGame.gambler.hand[ic];
@@ -762,12 +756,12 @@ namespace SchnapsNet
             }
             catch (Exception e156)
             {
-                this.errHandler(e156);
+                this.ErrHandler(e156);
             }
             aGame.gambler.hand[ic] = globalVariable.CardEmpty;
             aGame.isReady = false;
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            endTurn();
+            EndTurn();
 
         }
 
@@ -776,12 +770,12 @@ namespace SchnapsNet
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void bContinue_Click(object sender, EventArgs e)
+        protected void Continue_Click(object sender, EventArgs e)
         {            
             if (aGame == null || !aGame.isGame)
             {
                 ToggleTorunament(true);
-                startGame();
+                StartGame();
                 return;
             }
             if (aGame.shouldContinue)
@@ -803,7 +797,7 @@ namespace SchnapsNet
         }
 
 
-        protected void imMerge11_Click(object sender, EventArgs e)
+        protected void ImMerge11_Click(object sender, EventArgs e)
         {
             if (aGame != null && aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
             {
@@ -825,7 +819,7 @@ namespace SchnapsNet
                 return;
             }
 
-            bMerge_Click(sender, e);
+            Merge_Click(sender, e);
         }
 
         protected void ImOut_Click(object sender, EventArgs e)
@@ -875,10 +869,10 @@ namespace SchnapsNet
                 }
                 return;
             }
-            this.bContinue_Click(sender, e);
+            this.Continue_Click(sender, e);
         }
 
-        void resetButtons(int level)
+        void ResetButtons(int level)
         {
             if (level >= 0)
             {
@@ -912,8 +906,8 @@ namespace SchnapsNet
                 bContinue.ToolTip = bContinue.Text;
                 bContinue.Enabled = false;
 
-                showAtouCard(SCHNAPSTATE.GAME_START);
-                showTalonCard(SCHNAPSTATE.GAME_START);
+                ShowAtouCard(SCHNAPSTATE.GAME_START);
+                ShowTalonCard(SCHNAPSTATE.GAME_START);
                 ShowMergeAnim(SCHNAPSTATE.GAME_START);
             }
 
@@ -932,7 +926,7 @@ namespace SchnapsNet
                 }
                 catch (Exception exL2)
                 {
-                    this.errHandler(exL2);
+                    this.ErrHandler(exL2);
                 }
             }
             if (aGame != null)
@@ -1003,20 +997,20 @@ namespace SchnapsNet
             }
         }
 
-        void stopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
+        void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
-                setTextMessage(endMessage);
+                SetTextMessage(endMessage);
             }
             aTournement.AddPointsRotateGiver(tournementPts, whoWon);
             aGame.StopGame();
 
-            resetButtons(tournementPts);
+            ResetButtons(tournementPts);
             ShowStitches(-3);
             DrawPointsTable();
 
-            showPlayersCards(aGame.schnapState);
+            ShowPlayersCards(aGame.schnapState);
             aGame.Dispose();
 
             bMerge.Enabled = true;
@@ -1031,7 +1025,7 @@ namespace SchnapsNet
             ToggleTorunament(false);
         }
 
-        void startGame()
+        void StartGame()
         {  /* Mischen */
             bMerge.Enabled = false;
             bMerge.Visible = false;
@@ -1042,7 +1036,7 @@ namespace SchnapsNet
             aGame = new Game(HttpContext.Current, aTournement.NextGameGiver);
             aGame.isReady = true;
             tMsg.Visible = false;
-            resetButtons(1);
+            ResetButtons(1);
             preOut.InnerText = "";
             // tRest.Text = (19 - aGame.index).ToString();
 
@@ -1076,8 +1070,8 @@ namespace SchnapsNet
 
             ShowMergeAnim(aGame.schnapState);
 
-            showAtouCard(aGame.schnapState);
-            showTalonCard(aGame.schnapState);
+            ShowAtouCard(aGame.schnapState);
+            ShowTalonCard(aGame.schnapState);
 
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             GameTurn(0);
@@ -1123,18 +1117,18 @@ namespace SchnapsNet
                         case SCHNAPSTATE.PLAYER_TAKES:
                         case SCHNAPSTATE.PLAYER_FIST:
                         case SCHNAPSTATE.GIVE_PLAYER:
-                            showPlayersCards(myState);
-                            showAtouCard(myState);
+                            ShowPlayersCards(myState);
+                            ShowAtouCard(myState);
                             // Show1st3Computer(myState);
                             // Show2nd2Computer(myState);
-                            showTalonCard(myState);
+                            ShowTalonCard(myState);
 
                             aGame.schnapState = SCHNAPSTATE.GAME_STARTED;
                             RefreshGlobalVariableSession();
 
                             ShowMergeAnim(aGame.schnapState);
-                            showAtouCard(myState);
-                            showTalonCard(myState);
+                            ShowAtouCard(myState);
+                            ShowTalonCard(myState);
 
                             bMerge.Enabled = false;
                             bMerge.Visible = false;
@@ -1144,10 +1138,10 @@ namespace SchnapsNet
                         case SCHNAPSTATE.PLAYER_1ST_3:
                         case SCHNAPSTATE.PLAYER_1ST_5:
                         case SCHNAPSTATE.PLAYER_2ND_2:
-                            showPlayersCards(myState);
+                            ShowPlayersCards(myState);
                             break;
                         case SCHNAPSTATE.GIVE_ATOU:
-                            showAtouCard(myState); break;
+                            ShowAtouCard(myState); break;
                         case SCHNAPSTATE.GIVE_TALON:
                         case SCHNAPSTATE.GAME_STARTED:
                             finishGivingWithTalon = true;
@@ -1164,8 +1158,8 @@ namespace SchnapsNet
                     RefreshGlobalVariableSession();
                     
                     ShowMergeAnim(aGame.schnapState);
-                    showAtouCard(myState);
-                    showTalonCard(myState);
+                    ShowAtouCard(myState);
+                    ShowTalonCard(myState);
 
                     bMerge.Enabled = false;
                     bMerge.Visible = false;
@@ -1207,19 +1201,19 @@ namespace SchnapsNet
         /// CloseGame - implements closing game => Zudrehens
         /// </summary>
         /// <param name="whoCloses">PLAYERDEF player or computer</param>
-        void closeGame(PLAYERDEF whoCloses)
+        void CloseGame(PLAYERDEF whoCloses)
         {
             if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
             {
-                setTextMessage(JavaResReader.GetValueFromKey("nogame_started", globalVariable.TwoLetterISOLanguageName));
+                SetTextMessage(JavaResReader.GetValueFromKey("nogame_started", globalVariable.TwoLetterISOLanguageName));
                 return;
             }   
 
             aGame.CloseGame(whoCloses);
 
-            setTextMessage(aGame.statusMessage);
-            showTalonCard(aGame.schnapState);
-            showAtouCard(aGame.schnapState);
+            SetTextMessage(aGame.statusMessage);
+            ShowTalonCard(aGame.schnapState);
+            ShowAtouCard(aGame.schnapState);
             ShowMergeAnim(aGame.schnapState);
 
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
@@ -1229,7 +1223,7 @@ namespace SchnapsNet
             }
         }
 
-        protected void twentyEnough(PLAYERDEF whoWon)
+        protected void TwentyEnough(PLAYERDEF whoWon)
         {
             int xj = 0;
             String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalVariable.TwoLetterISOLanguageName);
@@ -1264,14 +1258,14 @@ namespace SchnapsNet
                 }
                 catch (Exception jbex)
                 {
-                    this.errHandler(jbex);
+                    this.ErrHandler(jbex);
                 }
 
                 string sEnds11 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                stopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
+                StopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
             }
             else // Computer won
             {
@@ -1302,23 +1296,23 @@ namespace SchnapsNet
                 }
                 catch (Exception enoughEx1)
                 {
-                    this.errHandler(enoughEx1);
+                    this.ErrHandler(enoughEx1);
                 }
 
-                printMsg();
+                PrintMsg();
                 string sEnds12 = andEnough + " " + string.Format(
                     JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                     aGame.computer.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
-                stopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);
-                // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
+                StopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);
+                // StopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
             }
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
             return;
         }
 
-        [Obsolete("twentyEnough_Old(bool who) is obsolete and replaced with protected void twentyEnough(PLAYERDEF whoWon)", false)]
-        void twentyEnough_Old(bool who)
+        [Obsolete("TwentyEnough_Old(bool who) is obsolete and replaced with protected void TwentyEnough(PLAYERDEF whoWon)", false)]
+        void TwentyEnough_Old(bool who)
         {
             int xking = 0;
             int xqueen = 0;
@@ -1357,11 +1351,11 @@ namespace SchnapsNet
                 }
                 catch (Exception jbpvex)
                 {
-                    this.errHandler(jbpvex);
+                    this.ErrHandler(jbpvex);
                 }
                 string anEnPairMsg = andEnough + " Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !";
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                stopGame(tPts, PLAYERDEF.HUMAN, andEnough);
+                StopGame(tPts, PLAYERDEF.HUMAN, andEnough);
             }
             else
             {
@@ -1399,12 +1393,12 @@ namespace SchnapsNet
                 }
                 catch (Exception jbpvex)
                 {
-                    this.errHandler(jbpvex);
+                    this.ErrHandler(jbpvex);
                 }
-                printMsg();
+                PrintMsg();
                 string msg40 = andEnough + "Computer hat gewonnen mit " + aGame.computer.points + " Punkten !";
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
-                stopGame(tPts, PLAYERDEF.COMPUTER, msg40);
+                StopGame(tPts, PLAYERDEF.COMPUTER, msg40);
             }
             return;
         }
@@ -1424,9 +1418,9 @@ namespace SchnapsNet
                 }
                 catch (Exception jbpvex)
                 {
-                    this.errHandler(jbpvex);
+                    this.ErrHandler(jbpvex);
                 }
-                showPlayersCards(aGame.schnapState);
+                ShowPlayersCards(aGame.schnapState);
                 aGame.pSaid = false;
                 aGame.said = 'n';
                 aGame.csaid = 'n';
@@ -1478,7 +1472,7 @@ namespace SchnapsNet
                     }
                 }
                 // Info 
-                setTextMessage(JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName));
+                SetTextMessage(JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName));
             }
             else
             {
@@ -1490,7 +1484,7 @@ namespace SchnapsNet
                 int bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.CHANGEATOU);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
-                    this.showAtouCard(aGame.schnapState);
+                    this.ShowAtouCard(aGame.schnapState);
                     outPutMessage += JavaResReader.GetValueFromKey("computer_changes_atou", globalVariable.TwoLetterISOLanguageName);
                 }
 
@@ -1506,12 +1500,12 @@ namespace SchnapsNet
                 }
                 if (outPutMessage == "")
                     outPutMessage = JavaResReader.GetValueFromKey("computer_plays_out", globalVariable.TwoLetterISOLanguageName);
-                setTextMessage(outPutMessage);
+                SetTextMessage(outPutMessage);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
-                    twentyEnough(PLAYERDEF.COMPUTER);
+                    TwentyEnough(PLAYERDEF.COMPUTER);
                     aGame.isReady = false;
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     return;
@@ -1522,8 +1516,8 @@ namespace SchnapsNet
                 {
                     aGame.isClosed = true;
                     outPutMessage += JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.TwoLetterISOLanguageName);
-                    setTextMessage(outPutMessage);
-                    closeGame(PLAYERDEF.COMPUTER);
+                    SetTextMessage(outPutMessage);
+                    CloseGame(PLAYERDEF.COMPUTER);
                 }
 
 
@@ -1533,7 +1527,7 @@ namespace SchnapsNet
                     if (computerSaid20)
                     {
                         // TODO: implement it
-                        showComputer20(playedOutCard1, 4);
+                        ShowComputer20(playedOutCard1, 4);
                     }
 
                     imOut21.ImageUrl = aGame.computer.hand[ccard].PictureUrlString;
@@ -1541,19 +1535,19 @@ namespace SchnapsNet
                 }
                 catch (Exception jbpex)
                 {
-                    this.errHandler(jbpex);
+                    this.ErrHandler(jbpex);
                 }
 
                 String msgTxt33 = JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName);
-                // setTextMessage(msgTxt33);            
+                // SetTextMessage(msgTxt33);            
             }
 
             aGame.isReady = true;
-            printMsg();
+            PrintMsg();
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
-        void endTurn()
+        void EndTurn()
         {
             int tmppoints;
             String msgText = "";
@@ -1571,7 +1565,7 @@ namespace SchnapsNet
                 }
                 catch (Exception jbpvex)
                 {
-                    this.errHandler(jbpvex);
+                    this.ErrHandler(jbpvex);
                 }
             }
 
@@ -1591,7 +1585,7 @@ namespace SchnapsNet
                     tmppoints.ToString()) + " " +
                     JavaResReader.GetValueFromKey("click_continue", globalVariable.TwoLetterISOLanguageName);
 
-                setTextMessage(msgText);
+                SetTextMessage(msgText);
 
                 TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.gambler.cardStitches.Keys.Contains(aGame.gambler.stitchCount))
@@ -1604,7 +1598,7 @@ namespace SchnapsNet
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    stopGame(3, PLAYERDEF.HUMAN, sEnds0);
+                    StopGame(3, PLAYERDEF.HUMAN, sEnds0);
                     return;
                 }
             }
@@ -1613,7 +1607,7 @@ namespace SchnapsNet
                 msgText = string.Format(JavaResReader.GetValueFromKey("computer_hit_points", globalVariable.TwoLetterISOLanguageName),
                     (-tmppoints).ToString()) + " " +
                     JavaResReader.GetValueFromKey("click_continue", globalVariable.TwoLetterISOLanguageName);
-                setTextMessage(msgText);
+                SetTextMessage(msgText);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.computer.cardStitches.Keys.Contains(aGame.computer.stitchCount))
@@ -1626,7 +1620,7 @@ namespace SchnapsNet
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds1 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                    stopGame(3, PLAYERDEF.COMPUTER, sEnds1);
+                    StopGame(3, PLAYERDEF.COMPUTER, sEnds1);
                     return;
                 }
             }
@@ -1637,23 +1631,23 @@ namespace SchnapsNet
                 /* NOW WE HAVE NO MORE TALON */
                 try
                 {
-                    showTalonCard(aGame.schnapState);
-                    showAtouCard(aGame.schnapState);
+                    ShowTalonCard(aGame.schnapState);
+                    ShowAtouCard(aGame.schnapState);
                     ShowMergeAnim(aGame.schnapState);
                 }
                 catch (Exception jbpvex)
                 {
-                    this.errHandler(jbpvex);
+                    this.ErrHandler(jbpvex);
                 }
 
                 string msgChFrc = JavaResReader.GetValueFromKey("color_hit_force_mode", globalVariable.TwoLetterISOLanguageName);
-                setTextMessage(msgChFrc);
+                SetTextMessage(msgChFrc);
             }
 
             // tRest.Text = (19 - aGame.index).ToString();
-            printMsg();
+            PrintMsg();
 
-            // resetButtons(0);
+            // ResetButtons(0);
             aGame.pSaid = false;
             aGame.said = 'n';
             aGame.csaid = 'n';
@@ -1667,7 +1661,7 @@ namespace SchnapsNet
                         JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
                         aGame.gambler.points.ToString());
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
+                    StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
                     return;
                 }
             }
@@ -1680,7 +1674,7 @@ namespace SchnapsNet
                         JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
                         aGame.computer.points.ToString());
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
+                    StopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
                     return;
                 }
             }
@@ -1693,7 +1687,7 @@ namespace SchnapsNet
                     {
                         RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                         string sEnds6 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.TwoLetterISOLanguageName);
-                        stopGame(3, PLAYERDEF.COMPUTER, sEnds6);
+                        StopGame(3, PLAYERDEF.COMPUTER, sEnds6);
                     }
                     try
                     {
@@ -1701,12 +1695,12 @@ namespace SchnapsNet
                         {
                             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                             string sEnds7 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.TwoLetterISOLanguageName);
-                            stopGame(3, PLAYERDEF.HUMAN, sEnds7);
+                            StopGame(3, PLAYERDEF.HUMAN, sEnds7);
                         }
                     }
                     catch (Exception jbpvex)
                     {
-                        this.errHandler(jbpvex);
+                        this.ErrHandler(jbpvex);
                     }
                     return;
                 }
@@ -1716,14 +1710,14 @@ namespace SchnapsNet
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.TwoLetterISOLanguageName);
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
+                    StopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
                 }
                 else
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                     string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.TwoLetterISOLanguageName);
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    stopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
+                    StopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
                 }
                 return;
             }
@@ -1734,7 +1728,7 @@ namespace SchnapsNet
         }
 
 
-        void printMsg()
+        void PrintMsg()
         {
             preOut.InnerText = aGame.FetchMsg();
             string[] msgs = aGame.FetchMsgArray();
@@ -1746,7 +1740,7 @@ namespace SchnapsNet
             aGame.fetchedMsgCount = msgs.Length;
         }
 
-        void errHandler(Exception myErr)
+        void ErrHandler(Exception myErr)
         {
             preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
             preOut.InnerText += "\nMessage: " + myErr.Message;
@@ -1755,10 +1749,10 @@ namespace SchnapsNet
         }
 
         /// <summary>
-        /// setTextMessage shows a new Toast dynamic message
+        /// SetTextMessage shows a new Toast dynamic message
         /// </summary>
         /// <param name="textMsg">text to display</param>
-        void setTextMessage(string textMsg)
+        void SetTextMessage(string textMsg)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             if (aGame != null)
@@ -1776,10 +1770,10 @@ namespace SchnapsNet
             preOut.InnerHtml += "-------------------------------------------------------------------------\n";
         }
 
-        protected void bMerge_Click(object sender, EventArgs e)
+        protected void Merge_Click(object sender, EventArgs e)
         {
             ToggleTorunament(true);
-            startGame();
+            StartGame();
         }
 
         protected void ToggleTorunament(bool starts = true)
@@ -1826,7 +1820,7 @@ namespace SchnapsNet
                             DrawPointsTable(1, aTournement.WonTournament);
                         }
                     }
-                    setTextMessage(endTournementMsg);
+                    SetTextMessage(endTournementMsg);
                     // TODO: excited end animation
                 }
             }
