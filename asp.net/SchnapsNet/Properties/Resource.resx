@@ -186,6 +186,38 @@
   <data name="build_with" xml:space="preserve">
     <value>VisualStudio 2022 C# 4.8</value>
   </data>
+  <data name="call_10_hole" xml:space="preserve">
+    <value>10 hole</value>
+    <comment>10</comment>
+  </data>
+  <data name="call_ace_beggar" xml:space="preserve">
+    <value>Ace beggar</value>
+    <comment>4</comment>
+  </data>
+  <data name="call_beggar" xml:space="preserve">
+    <value>Beggar</value>
+    <comment>2</comment>
+  </data>
+  <data name="call_default_game" xml:space="preserve">
+    <value>Default game</value>
+    <comment>1</comment>
+  </data>
+  <data name="call_farmers_schnapser" xml:space="preserve">
+    <value>Farmer's Schnapser</value>
+    <comment>12</comment>
+  </data>
+  <data name="call_march_through" xml:space="preserve">
+    <value>March through</value>
+    <comment>8</comment>
+  </data>
+  <data name="call_schnapser" xml:space="preserve">
+    <value>Schnapser</value>
+    <comment>6</comment>
+  </data>
+  <data name="call_sirs_schnapser" xml:space="preserve">
+    <value>Sir's Schnapser</value>
+    <comment>24</comment>
+  </data>
   <data name="carddeck" xml:space="preserve">
     <value>carddeck</value>
   </data>
@@ -310,7 +342,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.4.23 - Pre Alpha Release
+    <value>Schnapslet v2.23.43 - Pre Alpha Release
 Implementation of the card game Schnapsen as a simple Asp.Net WebApp
 by Heinrich Elsigan (heinrich.elsigan@area23.at)
 

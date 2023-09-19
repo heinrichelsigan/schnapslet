@@ -268,6 +268,78 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 10 hole.
+        /// </summary>
+        internal static string call_10_hole {
+            get {
+                return ResourceManager.GetString("call_10_hole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ace beggar.
+        /// </summary>
+        internal static string call_ace_beggar {
+            get {
+                return ResourceManager.GetString("call_ace_beggar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beggar.
+        /// </summary>
+        internal static string call_beggar {
+            get {
+                return ResourceManager.GetString("call_beggar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default game.
+        /// </summary>
+        internal static string call_default_game {
+            get {
+                return ResourceManager.GetString("call_default_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Farmer&apos;s Schnapser.
+        /// </summary>
+        internal static string call_farmers_schnapser {
+            get {
+                return ResourceManager.GetString("call_farmers_schnapser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to March through.
+        /// </summary>
+        internal static string call_march_through {
+            get {
+                return ResourceManager.GetString("call_march_through", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schnapser.
+        /// </summary>
+        internal static string call_schnapser {
+            get {
+                return ResourceManager.GetString("call_schnapser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sir&apos;s Schnapser.
+        /// </summary>
+        internal static string call_sirs_schnapser {
+            get {
+                return ResourceManager.GetString("call_sirs_schnapser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to carddeck.
         /// </summary>
         internal static string carddeck {
@@ -637,7 +709,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.4.23 - Pre Alpha Release
+        ///   Looks up a localized string similar to Schnapslet v2.23.43 - Pre Alpha Release
         ///Implementation of the card game Schnapsen as a simple Asp.Net WebApp
         ///by Heinrich Elsigan (heinrich.elsigan@area23.at)
         ///
@@ -647,7 +719,7 @@ namespace SchnapsNet.Properties {
         ///Other options, such as &quot;Exchange Atou&quot; or &quot;Announce a pair in [CardColor]&quot; 
         ///are possible via the buttons below the card symbols; 
         ///these options must be chosen before playing a card!
-        ///When it is the computer&apos; [rest of string was truncated]&quot;;.
+        ///When it is the computer [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {

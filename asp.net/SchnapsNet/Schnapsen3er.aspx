@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Schnapsen.Net</title>
+    <title>3er Schnapsen.Net</title>
     <script>
         var atouUrl = "";
 
@@ -239,7 +239,7 @@
                 <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: large" Text="Continue" OnClick="Continue_Click" Enabled="false" />&nbsp;
             </span>                        
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
-                <asp:DropDownList ID="ddSayGame" runat="server" ><asp:ListItem Enabled="true" Text="Default Game" Value="1"></asp:ListItem><asp:ListItem Text="Begar" Value="2"></asp:ListItem><asp:ListItem Text="AceBegar" Value="4"></asp:ListItem><asp:ListItem Text="Schnapser" Value="6"></asp:ListItem><asp:ListItem Text="March through" Value="8"></asp:ListItem><asp:ListItem Text="10 hole" Value="10"></asp:ListItem><asp:ListItem Text="Farmer's Schnapser" Value="12"></asp:ListItem></asp:DropDownList>
+                <asp:DropDownList ID="ddSayGame" runat="server" ><asp:ListItem Enabled="true" Text="Default Game" Value="1"></asp:ListItem><asp:ListItem Text="Beggar" Value="2"></asp:ListItem><asp:ListItem Text="Ace Beggar" Value="4"></asp:ListItem><asp:ListItem Text="Schnapser" Value="6"></asp:ListItem><asp:ListItem Text="March through" Value="8"></asp:ListItem><asp:ListItem Text="10 hole" Value="10"></asp:ListItem><asp:ListItem Text="Farmer's Schnapser" Value="12"></asp:ListItem></asp:DropDownList>
             </span>
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
                 <asp:Button ID="b20a" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 56px; font-size: large" Text="Marriage 20" OnClick="A20_Click" Enabled="false" />&nbsp;                
