@@ -16,20 +16,14 @@ using SchnapsNet.Models;
 
 namespace SchnapsNet
 {
-    public partial class SchnapsenNet : Area23BasePage
+    public partial class Schnapsen3er : Area23BasePage
     {
         Models.Game aGame;
         Models.Tournament aTournement;
         long errNum = 0; // Errors Ticker
         int ccard = -1; // Computers Card played
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
-        volatile byte psaychange = 0;        
-
-        // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
-        // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
-        // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
-        // static String talonJarStr = "/schnapsen/cardpics/t.gif";
-        // Thread t0;
+        volatile byte psaychange = 0;
 
         public void InitSchnaps()
         {
@@ -53,13 +47,10 @@ namespace SchnapsNet
             bMerge.Text = JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);
             bStop.Text = JavaResReader.GetValueFromKey("bStop_text", Locale.TwoLetterISOLanguageName);
             bStop.Enabled = false;
-            b20b.Text = JavaResReader.GetValueFromKey("b20b_text", Locale.TwoLetterISOLanguageName);
-            b20b.Enabled = false;
             b20a.Text = JavaResReader.GetValueFromKey("b20a_text", Locale.TwoLetterISOLanguageName);
             b20a.Enabled = false;
 
-            bChange.Text = JavaResReader.GetValueFromKey("bChange_text", Locale.TwoLetterISOLanguageName);
-            bChange.Enabled = false;
+            
 
             tPoints.Enabled = false;
             tPoints.Text = JavaResReader.GetValueFromKey("tPoints_text", Locale.TwoLetterISOLanguageName);
@@ -502,8 +493,7 @@ namespace SchnapsNet
 
             string msgChange = JavaResReader.GetValueFromKey("bChange_text", globalVariable.TwoLetterISOLanguageName);
             SetTextMessage(msgChange);
-
-            bChange.Enabled = false;
+            
             ShowAtouCard(aGame.schnapState);
             ShowPlayersCards(aGame.schnapState);
             GameTurn(1);
@@ -885,15 +875,7 @@ namespace SchnapsNet
 
                 b20a.Text = JavaResReader.GetValueFromKey("b20a_text", globalVariable.TwoLetterISOLanguageName);
                 b20a.ToolTip = b20a.Text;
-                b20a.Enabled = false;
-
-                b20b.Text = JavaResReader.GetValueFromKey("b20b_text", globalVariable.TwoLetterISOLanguageName);
-                b20b.ToolTip = b20b.Text;
-                b20b.Enabled = false;
-
-                bChange.Text = JavaResReader.GetValueFromKey("bChange_text", globalVariable.TwoLetterISOLanguageName);
-                bChange.ToolTip = bChange.Text;
-                bChange.Enabled = false;
+                b20a.Enabled = false;                
             }
 
             if (level >= 1)
@@ -1441,7 +1423,6 @@ namespace SchnapsNet
                     if (aGame.AtouIsChangable(aGame.gambler) && (!aGame.pSaid))
                     {
                         psaychange += 1;
-                        bChange.Enabled = true;
                         aGame.bChange = true;
                     }
                 }
@@ -1455,21 +1436,7 @@ namespace SchnapsNet
                     aGame.sayMarriage20 = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
                         JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
                     aGame.a20 = true;
-                    b20a.Enabled = true;
-                    if (a20 > 1)
-                    {
-                        b20b.Text = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
-                            JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
-                        aGame.b20 = true;
-                        aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
-                            JavaResReader.GetValueFromKey("say_pair", globalVariable.TwoLetterISOLanguageName);
-                        b20b.Enabled = true;
-                    }
-                    else
-                    {
-                        aGame.sayMarriage40 = JavaResReader.GetValueFromKey("no_second_pair", globalVariable.TwoLetterISOLanguageName);
-                        b20b.Text = JavaResReader.GetValueFromKey("no_second_pair", globalVariable.TwoLetterISOLanguageName);
-                    }
+                    b20a.Enabled = true;                    
                 }
                 // Info 
                 SetTextMessage(JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.TwoLetterISOLanguageName));

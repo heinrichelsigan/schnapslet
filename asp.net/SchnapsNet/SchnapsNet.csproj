@@ -355,6 +355,7 @@
     <Content Include="Properties\strings.xml" />
     <Content Include="Schnapsen2000.aspx" />
     <Content Include="SchnapsApplet.html" />
+    <Content Include="Schnapsen3er.aspx" />
     <Content Include="SchnapsenNet.aspx" />
     <Content Include="SchnapsNet.aspx" />
     <Content Include="Web.config" />
@@ -401,6 +402,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource_fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Schnapsen3er.aspx.cs">
+      <DependentUpon>Schnapsen3er.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schnapsen3er.aspx.designer.cs">
+      <DependentUpon>Schnapsen3er.aspx</DependentUpon>
     </Compile>
     <Compile Include="SchnapsenNet.aspx.cs">
       <DependentUpon>SchnapsenNet.aspx</DependentUpon>
