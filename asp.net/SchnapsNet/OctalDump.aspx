@@ -36,8 +36,10 @@
     long seekBytes = 0;
     long readBytes = 1024;
     string device = "urandom";
-    const string odCmdPath = "/usr/local/sbin/od";
+    const string odCmdPath = "/usr/bin/od";
+    const string odSuidCmdPath = "/usr/local/sbin/od";
     const string odArgsFormat = " -A {0} -t x{1}z -w{2} -v -j {3} -N {4} /dev/{5}";
+    const string odDefaultArgs = "-A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom";
     private readonly string[] allowDevices = { "core", "random", "vga_arbiter", "xvda", "xvda1", "xvda14", "xvda15", "zero" };
 
     protected string OdArgs
@@ -47,13 +49,15 @@
             if (RBL_Radix != null && RBL_Radix.SelectedItem != null && RBL_Radix.SelectedItem.Value != null && RBL_Radix.SelectedItem.Value.Length > 0)
                 radix = RBL_Radix.SelectedItem.Value.ToString()[0];
             if (!Int32.TryParse(DropDown_HexWidth.SelectedItem.Value.ToString(), out hexWidth))
-                hexWidth = 0;
+                hexWidth = 8;
             if (!Int32.TryParse(DropDown_WordWidth.SelectedItem.Value.ToString(), out wordWidth))
                 wordWidth = 32;
             if (!Int64.TryParse(TextBox_Seek.Text, out seekBytes))
                 seekBytes = 0;
+            seekBytes = (seekBytes > int.MaxValue) ? int.MaxValue : seekBytes;
             if (!Int64.TryParse(DropDown_ReadBytes.SelectedItem.Value.ToString(), out readBytes))
                 readBytes = 1024;
+            readBytes = (readBytes > 4194304) ? 4194304 : readBytes;
             if (DropDown_Device != null && DropDown_Device.SelectedItem != null && DropDown_Device.SelectedItem.Value != null)
             {
                 foreach (string devStr in allowDevices)
@@ -82,14 +86,19 @@
     protected void Perform_Od()
     {
         TextBox_OdCmd.Text = odCmdPath + OdArgs;
-        preOut.InnerText = Process_Od(odCmdPath, OdArgs);
+        preOut.InnerText = Process_Od(odSuidCmdPath, OdArgs);
     }
 
     protected string Process_Od(
-        string filepath = odCmdPath,
+        string filepath = odSuidCmdPath,
         string args = "-A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom")
     {
-        string consoleOutput = "Exec: " + filepath + " " + args + "\n";
+        string consoleOutput = filepath + args;
+        if (consoleOutput.Length > 64)
+        {
+            filepath = odCmdPath;
+            args = odDefaultArgs;
+        }
         try
         {
             using (Process compiler = new Process())
@@ -172,8 +181,6 @@
                     <asp:ListItem>16384</asp:ListItem>
                     <asp:ListItem>65536</asp:ListItem>
                     <asp:ListItem>262144</asp:ListItem>
-                    <asp:ListItem>1048576</asp:ListItem>
-                    <asp:ListItem>4194304</asp:ListItem>
                 </asp:DropDownList>
             </span>
             <span style="width:25%; vertical-align:middle; text-align: right; font-size: small; height: 24pt" align="right" valign="middle">
