@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schnapsen3er.aspx.cs" Inherits="SchnapsNet.Schnapsen3er" %>
+﻿    <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schnapsen3er.aspx.cs" Inherits="SchnapsNet.Schnapsen3er" %>
 
 <!DOCTYPE html>
 
