@@ -3,126 +3,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="at.area23.schnapsen.MainActivity">
     <item
-        android:id="@+id/action_start"
+        android:id="@+id/id_action_start"
         android:orderInCategory="100"
         android:title="@string/action_start"
+        android:titleCondensed="@string/meta_action_start"
+        android:contentDescription="@string/meta_action_start"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_restart"
+        android:id="@+id/id_action_restart"
         android:orderInCategory="200"
         android:title="@string/action_restart"
+        android:titleCondensed="@string/meta_action_restart"
+        android:contentDescription="@string/meta_action_restart"
         android:enabled="true"
         app:showAsAction="never" />
 
     <group android:menuCategory="secondary"
-        android:id="@+id/group_carddeck"
+        android:id="@+id/id_group_carddeck"
         android:visible="true">
         <item
-            android:id="@+id/action_carddeck"
+            android:id="@+id/id_action_carddeck"
             android:orderInCategory="1000"
-            android:title="@string/carddeck"
+            android:title="@string/action_carddeck"
+            android:titleCondensed="@string/meta_action_carddeck"
+            android:contentDescription="@string/meta_action_carddeck"
             app:showAsAction="collapseActionView">
 
             <menu>
                 <item
-                    android:id="@+id/action_default_cards"
+                    android:id="@+id/id_action_default_cards"
                     android:orderInCategory="1100"
-                    android:title="@string/default_cards"
+                    android:title="@string/action_default_cards"
+                    android:titleCondensed="@string/meta_action_default_cards"
+                    android:contentDescription="@string/meta_action_default_cards"
                     android:checkable="true"
                     android:visible="false"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
                 <item
-                    android:id="@+id/action_english_cards"
+                    android:id="@+id/id_action_english_cards"
                     android:orderInCategory="1200"
-                    android:title="@string/english_cards"
+                    android:title="@string/action_english_cards"
+                    android:titleCondensed="@string/meta_action_english_cards"
+                    android:contentDescription="@string/meta_action_english_cards"
                     android:checkable="true"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
                 <item
-                    android:id="@+id/action_german_cards"
+                    android:id="@+id/id_action_german_cards"
                     android:orderInCategory="1300"
-                    android:title="@string/german_cards"
+                    android:title="@string/action_german_cards"
+                    android:titleCondensed="@string/meta_action_german_cards"
+                    android:contentDescription="@string/meta_action_german_cards"
                     android:checkable="true"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
                 <item
-                    android:id="@+id/action_french_cards"
+                    android:id="@+id/id_action_french_cards"
                     android:orderInCategory="1400"
-                    android:title="@string/french_cards"
+                    android:title="@string/action_french_cards"
+                    android:titleCondensed="@string/meta_action_french_cards"
+                    android:contentDescription="@string/meta_action_french_cards"
                     android:checkable="true"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
                 <item
-                    android:id="@+id/action_ukraine_cards"
+                    android:id="@+id/id_action_ukraine_cards"
                     android:orderInCategory="1500"
-                    android:title="@string/ukraine_cards"
+                    android:title="@string/action_ukraine_cards"
+                    android:titleCondensed="@string/meta_action_ukraine_cards"
                     android:checkable="true"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
                 <item
-                    android:id="@+id/action_us_cards"
+                    android:id="@+id/id_action_us_cards"
                     android:orderInCategory="1600"
-                    android:title="@string/us_cards"
+                    android:title="@string/action_us_cards"
+                    android:titleCondensed="@string/meta_action_us_cards"
                     android:checkable="true"
-                    app:showAsAction="never" />
+                    app:showAsAction="ifRoom" />
             </menu>
         </item>
     </group>
     <group android:menuCategory="secondary"
-        android:id="@+id/group_options"
+        android:id="@+id/id_group_options"
         android:visible="true">
         <item
-            android:id="@+id/action_options"
+            android:id="@+id/id_action_options"
             android:orderInCategory="1000"
             android:title="@string/action_options"
+            android:titleCondensed="@string/meta_action_options"
+            android:contentDescription="@string/meta_action_options"
             app:showAsAction="collapseActionView">
             <menu>
                 <item
-                    android:id="@+id/action_help"
+                    android:id="@+id/id_action_help"
                     android:orderInCategory="2100"
                     android:title="@string/action_help"
+                    android:titleCondensed="@string/meta_action_help"
+                    android:contentDescription="@string/meta_action_help"
                     android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_load"
+                    android:id="@+id/id_action_load"
                     android:orderInCategory="2200"
                     android:title="@string/action_load"
+                    android:titleCondensed="@string/meta_action_load"
+                    android:contentDescription="@string/meta_action_load"
                     android:enabled="false"
                     android:visible="false"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_save"
+                    android:id="@+id/id_action_save"
                     android:orderInCategory="2300"
                     android:title="@string/action_save"
+                    android:titleCondensed="@string/meta_action_save"
+                    android:contentDescription="@string/meta_action_save"
                     android:enabled="false"
                     android:visible="false"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_sound"
+                    android:id="@+id/id_action_sound"
                     android:orderInCategory="4100"
                     android:title="@string/action_sound"
+                    android:titleCondensed="@string/meta_action_sound"
+                    android:contentDescription="@string/meta_action_sound"
                     android:enabled="true"
                     android:checkable="true"
                     android:checked="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_screenshot"
+                    android:id="@+id/id_action_screenshot"
                     android:orderInCategory="4200"
                     android:title="@string/action_screenshot"
+                    android:titleCondensed="@string/meta_action_screenshot"
+                    android:contentDescription="@string/meta_action_screenshot"
                     android:enabled="true"
                     app:showAsAction="never" />
             </menu>
         </item>
     </group>
     <group android:menuCategory="secondary"
-        android:id="@+id/group_about"
+        android:id="@+id/id_group_about"
         android:visible="true">
         <item
-            android:id="@+id/action_about"
+            android:id="@+id/id_action_about"
             android:orderInCategory="9800"
             android:title="@string/action_about"
+            android:titleCondensed="@string/meta_action_about"
+            android:contentDescription="@string/meta_action_about"
             android:enabled="true"
             app:showAsAction="never" />
         <item
-            android:id="@+id/action_exit"
+            android:id="@+id/id_action_exit"
             android:orderInCategory="9900"
             android:title="@string/action_exit"
+            android:titleCondensed="@string/meta_action_exit"
+            android:contentDescription="@string/meta_action_exit"
             android:enabled="true"
             app:showAsAction="never" />
     </group>

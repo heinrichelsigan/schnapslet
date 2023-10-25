@@ -11,6 +11,14 @@
     <string translatable="true" name="action_save">Save game</string>
     <string translatable="true" name="action_screenshot">ScreenShot</string>
     <string translatable="true" name="action_exit">Exit</string>
+    <string translatable="true" name="action_carddeck">Cardset</string>
+    <string translatable="true" name="action_default_cards">default card set</string>
+    <string translatable="true" name="action_english_cards">english card deck</string>
+    <string translatable="true" name="action_german_cards">german card deck</string>
+    <string translatable="true" name="action_french_cards">french card deck</string>
+    <string translatable="true" name="action_ukraine_cards">ukraine card deck</string>
+    <string translatable="true" name="action_polish_cards">polish card deck</string>
+    <string translatable="true" name="action_us_cards">US future card set</string>
     <string translatable="true" name="bStart_text">Start</string>
     <string translatable="true" name="bStop_text">Stop</string>
     <string translatable="true" name="bHelp_text">Help</string>
@@ -100,29 +108,42 @@
     <string translatable="true" name="build_with">Built with Android Studio Flamingo 2022.2.1</string>
     <string translatable="true" name="learn_more">Learn more</string>
     <string translatable="true" name="back_button">Back</string>
-    <string translatable="true" name="carddeck">Cardset</string>
-    <string translatable="true" name="default_cards">default card set</string>
-    <string translatable="true" name="english_cards">english card deck</string>
-    <string translatable="true" name="german_cards">german card deck</string>
-    <string translatable="true" name="french_cards">french card deck</string>
-    <string translatable="true" name="ukraine_cards">ukraine card deck</string>
-    <string translatable="true" name="polish_cards">polish card deck</string>
-    <string translatable="true" name="us_cards">US future card set</string>
     <string translatable="true" name="you_won_tournement">Computer is marked with a fat point.</string>
     <string translatable="true" name="you_won_taylor">Computer is marked as a taylor.</string>
     <string translatable="true" name="computer_won_tournement">You were marked with a fat point.</string>
     <string translatable="true" name="computer_won_taylor">You were marked as a taylor.</string>
+
+    <string translatable="false" name="meta_action_settings">id_action_settings</string>
+    <string translatable="false" name="meta_action_start">id_action_start</string>
+    <string translatable="false" name="meta_action_stop">id_action_stop</string>
+    <string translatable="false" name="meta_action_restart">id_action_restart</string>
+    <string translatable="false" name="meta_action_options">id_action_options</string>
+    <string translatable="false" name="meta_action_help">id_action_help</string>
+    <string translatable="false" name="meta_action_about">id_action_about</string>
+    <string translatable="false" name="meta_action_continue">id_action_continue</string>
+    <string translatable="false" name="meta_action_load">id_action_load</string>
+    <string translatable="false" name="meta_action_save">id_action_save</string>
+    <string translatable="false" name="action_sound">Sound (On/Off)</string>
+    <string translatable="false" name="meta_action_sound">id_action_sound</string>
+    <string translatable="false" name="meta_action_screenshot">id_action_screenshot</string>
+    <string translatable="false" name="meta_action_exit">id_action_exit</string>
+    <string translatable="false" name="meta_action_carddeck">id_action_carddeck</string>
+    <string translatable="false" name="meta_action_default_cards">id_action_default_cards</string>
+    <string translatable="false" name="meta_action_english_cards">id_action_english_cards</string>
+    <string translatable="false" name="meta_action_german_cards">id_action_german_cards</string>
+    <string translatable="false" name="meta_action_french_cards">id_action_french_cards</string>
+    <string translatable="false" name="meta_action_ukraine_cards">id_action_ukraine_cards</string>
+    <string translatable="false" name="meta_action_polish_cards">id_action_polish_cards</string>
+    <string translatable="false" name="meta_action_us_cards">id_action_us_cards</string>
     <string translatable="false" name="app_name">Schnapslet</string>
     <string translatable="false" name="version_name">v2.4.23</string>
     <string translatable="false" name="param1_index">Index</string>
     <string translatable="false" name="param2_points">Points</string>
-    <string translatable="false" name="tDbg_text" formatted="false"> </string>
+    <string translatable="false" name="tDbg_text" formated="false"> </string>
     <string translatable="false" name="github_uri">https://github.com/heinrichelsigan/schnapslet</string>
     <string translatable="false" name="wiki_uri">https://github.com/heinrichelsigan/schnapslet/wiki</string>
-    <string translatable="false" name="action_sound">Sound (On/Off)</string>
     <string translatable="false" name="width_400">(width: 400px)</string>
     <string translatable="false" name="msg_null_pointer_toggle_text_view">public void toggleEnabled(TextView anytTextView, boolean enabled, String text2Set, String toolTip) { ... }  => anytTextView is null!</string>
     <string translatable="false" name="msg_null_pointer_toggle_any_view">public void toggleEnabled(View anyView, boolean enabled) { ... }  => anyView is null!</string>
     <string translatable="false" name="msg_null_pointer_toggle_menu_item">public void toggleMenuItem(MenuItem aMenuItem, boolean enabled) { ... }  => aMenuItem is null!</string>
 </resources>
-

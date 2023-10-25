@@ -120,36 +120,36 @@ public class BaseAppActivity extends AppCompatActivity {
      */
     public void setCardDeckFromSystemLocale() {
         String defaultLocale = "en";
-        int localeItemId = R.id.action_english_cards;
+        int localeItemId = R.id.id_action_english_cards;
 
         defaultLocale = getGlobalAppSettings().getSystemLLocale().getISO3Country().toLowerCase();
 
         if (defaultLocale.startsWith("de") || defaultLocale.equals("aut") || defaultLocale.startsWith("ch"))
-            localeItemId = R.id.action_german_cards;
+            localeItemId = R.id.id_action_german_cards;
         else if (defaultLocale.startsWith("en"))
-            localeItemId = R.id.action_english_cards;
+            localeItemId = R.id.id_action_english_cards;
         else if (defaultLocale.startsWith("fr"))
-            localeItemId = R.id.action_french_cards;
+            localeItemId = R.id.id_action_french_cards;
         else if (defaultLocale.equals("uk"))
-            localeItemId = R.id.action_ukraine_cards;
+            localeItemId = R.id.id_action_ukraine_cards;
         else if (defaultLocale.startsWith("us"))
-            localeItemId = R.id.action_us_cards;
+            localeItemId = R.id.id_action_us_cards;
 
         String defaultISO3Language = getGlobalAppSettings().getSystemLLocale().getISO3Language().toLowerCase();
 
         if (defaultISO3Language.startsWith("de"))
-            localeItemId = R.id.action_german_cards;
+            localeItemId = R.id.id_action_german_cards;
         else if (defaultISO3Language.startsWith("en"))
-            localeItemId = R.id.action_english_cards;
+            localeItemId = R.id.id_action_english_cards;
         else if (defaultISO3Language.startsWith("fe"))
-            localeItemId = R.id.action_french_cards;
+            localeItemId = R.id.id_action_french_cards;
 
         if (myMenu != null) {
             MenuItem mnuItm = myMenu.findItem(localeItemId);
             if (mnuItm != null && mnuItm.isCheckable())
                 mnuItm.setChecked(true); // TODO: remove check at top menu level
 
-            mnuItm = myMenu.findItem(R.id.action_carddeck);
+            mnuItm = myMenu.findItem(R.id.id_action_carddeck);
             if (mnuItm != null && mnuItm.hasSubMenu()) {
                 MenuItem cardSetItm = mnuItm.getSubMenu().findItem(localeItemId);
                 if (cardSetItm != null && cardSetItm.isCheckable())
@@ -177,12 +177,11 @@ public class BaseAppActivity extends AppCompatActivity {
 
             if (menuId >= 0) {
                 getMenuInflater().inflate(menuId, menu);
-                MenuItem cardDeckItem = myMenu.findItem(R.id.action_carddeck);
-                if (cardDeckItem != null && cardDeckItem.hasSubMenu()) {
-                    menuResetCheckboxes(cardDeckItem.getSubMenu());
-                    setCardDeckFromSystemLocale();
-                }
-                checkSoundMenuItem(true);
+                myMenu = menu;
+                menuResetLanguageCheckboxes(myMenu);
+                setCardDeckFromSystemLocale();
+                if (getGlobalAppSettings().getSound())
+                    checkSoundMenuItem(true);
                 return true;
             }
         } catch (Exception menuEx) {
@@ -205,35 +204,35 @@ public class BaseAppActivity extends AppCompatActivity {
             // reset now all checkboxes for language menu items
             // menuResetCheckboxes(myMenu);
 
-            if (mItemId == R.id.action_default_cards) {
+            if (mItemId == R.id.id_action_default_cards) {
                 //Sets application locale in GlobalAppSettings from default app locale
                 Locale primaryLocale = getApplicationContext().getResources().getConfiguration().getLocales().get(0);
                 return setLocale(primaryLocale, item);
             }
-            if (mItemId == R.id.action_english_cards) { // sets locale in GlobalAppSettings with english
+            if (mItemId == R.id.id_action_english_cards) { // sets locale in GlobalAppSettings with english
                 return setLanguage("en", item);
             }
-            if (mItemId == R.id.action_german_cards) { // changes locale in GlobalAppSettings to Deutsch
+            if (mItemId == R.id.id_action_german_cards) { // changes locale in GlobalAppSettings to Deutsch
                 return setLanguage("de", item);
             }
-            if (mItemId == R.id.action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
+            if (mItemId == R.id.id_action_french_cards) { // Overwrites application locale in GlobalAppSettings with french
                 return setLanguage("fr", item);
             }
-            if (mItemId == R.id.action_ukraine_cards) { //  ukrainian
+            if (mItemId == R.id.id_action_ukraine_cards) { //  ukrainian
                 return setLanguage("uk", item);
             }
-            if (mItemId == R.id.action_us_cards) { // Overwrites application locale in GlobalAppSettings with french
+            if (mItemId == R.id.id_action_us_cards) { // Overwrites application locale in GlobalAppSettings with french
                 return setLanguage("us", item);
             }
-            if (mItemId == R.id.action_screenshot) {
+            if (mItemId == R.id.id_action_screenshot) {
                 takeScreenShot(rootView, true);
                 return true;
             }
-            if (mItemId == R.id.action_sound) {
+            if (mItemId == R.id.id_action_sound) {
                 toggleSoundOnOff();
                 return true;
             }
-            if (mItemId == R.id.action_exit) {
+            if (mItemId == R.id.id_action_exit) {
                 exitGame();
                 return true;
             }
@@ -242,23 +241,44 @@ public class BaseAppActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
-     * reset menu checkboxes from all checkable menu items
-     * @param recusriveMenu   - menu or submenu to enter recursion
+     * menuResetLanguageCheckboxes
+     *  set all title text in menu items to local language,
+     *  unchcck all checked checkboxes from all checkable menu items
+     * @param recusriveMenu Menu  or SubMenu to enter recursion
      */
-    protected void menuResetCheckboxes(Menu recusriveMenu) {
-        if (recusriveMenu == null) {
+    protected void menuResetLanguageCheckboxes(Menu recusriveMenu) {
+
+        if (recusriveMenu == null)
             recusriveMenu = myMenu;
-        }
+
         if (recusriveMenu != null) {
             for (int i = 0; i < recusriveMenu.size(); i++) {
                 MenuItem mItem = recusriveMenu.getItem(i);
                 if (mItem != null) {
+                    // set MenuItem title text to new language
+                    String titleLanguage = mItem.getTitle().toString();
+                    if (mItem.getTitleCondensed() != null) {
+                        String rActionIdName = mItem.getTitleCondensed().toString();
+                        String rActionStringName = rActionIdName.toString().substring(3);
+                        int resId = getApplicationContext().getResources().getIdentifier(
+                                rActionIdName, "id", getApplicationContext().getPackageName());
+
+                        int resStrId = getApplicationContext().getResources().getIdentifier(
+                                rActionStringName, "string", getApplicationContext().getPackageName());
+                        titleLanguage = getLocaleStringRes(resStrId);
+                        if (titleLanguage != null || titleLanguage.length() > 0)
+                            mItem.setTitle(titleLanguage);
+                    }
+
+                    // Uncheck MenuItem mItem
                     if (mItem.isCheckable() && mItem.isChecked())
                         mItem.setChecked(false);
+
+                    // Go into recursion, if MenuItem mItem.hasSubMenu()
                     if (mItem.hasSubMenu()) {
-                        Menu subMenu = mItem.getSubMenu();
-                        menuResetCheckboxes(subMenu);
+                        menuResetLanguageCheckboxes(mItem.getSubMenu());
                     }
                 }
             }
@@ -273,11 +293,11 @@ public class BaseAppActivity extends AppCompatActivity {
      */
     protected boolean checkSoundMenuItem(boolean soundOnOff) {
 
-        MenuItem soundMenuItem = myMenu.findItem(R.id.action_sound);
+        MenuItem soundMenuItem = myMenu.findItem(R.id.id_action_sound);
         if (soundMenuItem == null) {
-            MenuItem optMnuItm = myMenu.findItem(R.id.action_options);
+            MenuItem optMnuItm = myMenu.findItem(R.id.id_action_options);
             if (optMnuItm != null && optMnuItm.hasSubMenu())
-                soundMenuItem = optMnuItm.getSubMenu().findItem(R.id.action_sound);
+                soundMenuItem = optMnuItm.getSubMenu().findItem(R.id.id_action_sound);
         }
 
         if (soundMenuItem != null) {
@@ -299,9 +319,12 @@ public class BaseAppActivity extends AppCompatActivity {
      * @return String translated to Locale language
      */
     public String getLocaleStringRes(int resourceId) {
-        Context appContext = getApplicationContext();
+        if (resourceId <= 0)
+            return null;
+        Context appContext = getGlobalAppSettings().getApplicationContext();
         Locale requestedLocale = getGlobalAppSettings().getLocale();
-        return getGlobalAppSettings().getLocaleStringResource(requestedLocale, resourceId, appContext);
+        String translatedString = getGlobalAppSettings().getLocaleStringResource(requestedLocale, resourceId, appContext);
+        return translatedString;
     }
 
     /**
@@ -312,10 +335,11 @@ public class BaseAppActivity extends AppCompatActivity {
      * @return true in case of succcess, otherwise false
      */
     protected boolean setLocale(Locale aLocale, MenuItem item) {
-        if (item != null) {
-            Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
-            menuResetCheckboxes(mySubMenu);
+        if (myMenu !=  null && item != null) {
+            menuResetLanguageCheckboxes(myMenu);
             item.setChecked(true);
+            if (getGlobalAppSettings().getSound())
+                checkSoundMenuItem(true);
         }
         if (!getGlobalAppSettings().getLocale().getLanguage().equals(aLocale.getLanguage())) {
             //Overwrites application locale in GlobalAppSettings with english

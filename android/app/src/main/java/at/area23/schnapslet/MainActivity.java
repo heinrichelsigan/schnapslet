@@ -188,13 +188,13 @@ public class MainActivity
 
         if (width > height) {
             phoneDirection = 0;
-            layoutMes = getString(R.string.landscape_mode);
+            layoutMes = getLocaleStringRes(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
         } else {
             phoneDirection = 1;
-            layoutMes = getString(R.string.portrait_mode);
+            layoutMes = getLocaleStringRes(R.string.portrait_mode);
             if (width >= 392 && width < 500) {
-                layoutMes += " " + getString(R.string.width_400);
+                layoutMes += " " + getLocaleStringRes(R.string.width_400);
                 setContentView(R.layout.activity_main_400);
             }
             else {
@@ -278,8 +278,8 @@ public class MainActivity
         tTournamentPoints = (TextView) findViewById(R.id.tTournamentPoints);
 
         // bStop.setEnabled(false); bContinue.setEnabled(false); bStart.setEnabled(true); bHelp.setEnabled(true);
-        toggleEnabled(bChange, false, getString(R.string.bChange_text),
-                getString(R.string.bChange_text));
+        toggleEnabled(bChange, false, getLocaleStringRes(R.string.bChange_text),
+                getLocaleStringRes(R.string.bChange_text));
         // aGame.bChange = false;
 
         imMerge = (ImageView) findViewById(R.id.imMerge);
@@ -324,7 +324,8 @@ public class MainActivity
                         psaychange += 2;
                     }
                     aGame.a20 = true;
-                    aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " + getString(R.string.say_pair);
+                    aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) + " " +
+                            getLocaleStringRes(R.string.say_pair);
 
                     if (a20 > 1) {
                         syncLocker = Integer.valueOf(ticks);
@@ -333,14 +334,15 @@ public class MainActivity
                             psaychange += 4;
                         }
                         aGame.b20 = true;
-                        aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " + getString(R.string.say_pair);
+                        aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) + " " +
+                                getLocaleStringRes(R.string.say_pair);
                     }
                 }
             }
-            toggleEnabled(bContinue, aGame.shouldContinue, getString(R.string.bContinue_text),
-                    getString(R.string.bContinue_text));
-            toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
-                    getString(R.string.bChange_text));
+            toggleEnabled(bContinue, aGame.shouldContinue, getLocaleStringRes(R.string.bContinue_text),
+                    getLocaleStringRes(R.string.bContinue_text));
+            toggleEnabled(bChange, aGame.bChange, getLocaleStringRes(R.string.bChange_text),
+                    getLocaleStringRes(R.string.bChange_text));
             toggleEnabled(b20a, aGame.a20, aGame.sayMarriage20, aGame.sayMarriage20);
             toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
             setTextMessage(aGame.statusMessage);
@@ -376,15 +378,15 @@ public class MainActivity
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             phoneDirection = 0;
-            layoutMes = getString(R.string.landscape_mode);
+            layoutMes = getLocaleStringRes(R.string.landscape_mode);
             setContentView(R.layout.activity_main_vertical);
         }
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             phoneDirection = 1;
-            layoutMes = getString(R.string.portrait_mode);
+            layoutMes = getLocaleStringRes(R.string.portrait_mode);
             if (width >= 392 && width < 500) {
-                layoutMes += " " + getString(R.string.width_400);
+                layoutMes += " " + getLocaleStringRes(R.string.width_400);
                 setContentView(R.layout.activity_main_400);
             }
             else {
@@ -406,12 +408,12 @@ public class MainActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
-        MenuItem cardDeckItem = myMenu.findItem(R.id.action_carddeck);
-        if (cardDeckItem != null && cardDeckItem.hasSubMenu()) {
-            menuResetCheckboxes(cardDeckItem.getSubMenu());
+        if (myMenu != null) {
+            menuResetLanguageCheckboxes(myMenu);
             setCardDeckFromSystemLocale();
+            if (getGlobalAppSettings().getSound())
+                checkSoundMenuItem(true);
         }
-        checkSoundMenuItem(true);
         return true;
     }
 
@@ -423,32 +425,32 @@ public class MainActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int mItemId = (item != null) ?  item.getItemId() : -1;
 
-        if (mItemId == R.id.action_start) {
+        if (mItemId == R.id.id_action_start) {
             if (aGame == null || !aGame.isGame)
                 startGame();
             return true;
         }
-        if (mItemId == R.id.action_restart) {
+        if (mItemId == R.id.id_action_restart) {
             if (aGame != null && aGame.isGame) {
                 stopGame(7, PLAYERDEF.COMPUTER, 3,
                         getLocaleStringRes(R.string.ending_game));
             }
             return true;
         }
-        if (mItemId == R.id.action_help) {
+        if (mItemId == R.id.id_action_help) {
             showHelp();
             return true;
         }
-        if (mItemId == R.id.action_about) {
+        if (mItemId == R.id.id_action_about) {
             startAboutActivity();
             return true;
         }
-        if (mItemId == R.id.action_screenshot) {
+        if (mItemId == R.id.id_action_screenshot) {
             rootView.setDrawingCacheEnabled(false);
             takeScreenShot(rootView, true);
             return true;
         }
-        if (mItemId == R.id.action_sound) {
+        if (mItemId == R.id.id_action_sound) {
             toggleSoundOnOff();
             return true;
         }
@@ -467,12 +469,6 @@ public class MainActivity
     @Override
     protected boolean setLocale(Locale aLocale, MenuItem item) {
 
-        if (item != null) {
-            Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
-            menuResetCheckboxes(mySubMenu);
-            item.setChecked(true);
-        }
-
         if (getGlobalAppSettings().getLocale().getLanguage() != aLocale.getLanguage()) {
 
             playL8rHandler.postDelayed(delayPlayScreenshot, 100);
@@ -488,6 +484,14 @@ public class MainActivity
                 showPlayedOutCards();
             }
         }
+
+        if (myMenu != null && item != null) {
+            menuResetLanguageCheckboxes(myMenu);
+            item.setChecked(true);
+            if (getGlobalAppSettings().getSound())
+                checkSoundMenuItem(true);
+        }
+
         return true;
     }
 
@@ -600,8 +604,8 @@ public class MainActivity
             sayText(getLocaleStringRes(R.string.bChange_text));
 
             aGame.bChange = false;
-            toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
-                    getString(R.string.bChange_text));
+            toggleEnabled(bChange, aGame.bChange, getLocaleStringRes(R.string.bChange_text),
+                    getLocaleStringRes(R.string.bChange_text));
 
             showAtouCard(aGame.schnapState);
             showPlayersCards();
@@ -1608,25 +1612,25 @@ public class MainActivity
     protected void resetButtons(int level) {
 
         if (level >= 0 ) {
-            toggleEnabled(b20a, false, getString(R.string.b20a_text),
-                    getString(R.string.b20a_text));
+            toggleEnabled(b20a, false, getLocaleStringRes(R.string.b20a_text),
+                    getLocaleStringRes(R.string.b20a_text));
             if (aGame != null) {
                 aGame.a20 = false;
                 aGame.b20 = false;
                 aGame.bChange = false;
             }
-            toggleEnabled(b20b, false, getString(R.string.b20b_text),
-                    getString(R.string.b20b_text));
-            toggleEnabled(bChange, false, getString(R.string.bChange_text),
-                    getString(R.string.bChange_text));
+            toggleEnabled(b20b, false, getLocaleStringRes(R.string.b20b_text),
+                    getLocaleStringRes(R.string.b20b_text));
+            toggleEnabled(bChange, false, getLocaleStringRes(R.string.bChange_text),
+                    getLocaleStringRes(R.string.bChange_text));
         }
 
         if (level >= 1) {
             if (aGame != null) {
                 aGame.shouldContinue = false;
             }
-            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
-                    getString(R.string.bContinue_text));
+            toggleEnabled(bContinue, false, getLocaleStringRes(R.string.bContinue_text),
+                    getLocaleStringRes(R.string.bContinue_text));
 
             showAtouCard(SCHNAPSTATE.GAME_START);
             showTalonCard(SCHNAPSTATE.GAME_START);
@@ -1657,7 +1661,7 @@ public class MainActivity
     protected void startGame() {
 
         playL8rHandler.postDelayed(delayPlayScreenshot, 100);
-        toggleMenuItem(myMenu, R.id.action_start, false);
+        toggleMenuItem(myMenu, R.id.id_action_start, false);
         aGame = null;
 
         if (aTournament.getTournamentWinner() != PLAYERDEF.UNKNOWN) {
@@ -1688,8 +1692,8 @@ public class MainActivity
         showAtouCard(aGame.schnapState);
         showTalonCard(aGame.schnapState);
 
-        toggleMenuItem(myMenu, R.id.action_restart, true);
-        toggleMenuItem(myMenu, R.id.action_start, false);
+        toggleMenuItem(myMenu, R.id.id_action_restart, true);
+        toggleMenuItem(myMenu, R.id.id_action_start, false);
 
         getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         gameTurn(0);
@@ -1710,8 +1714,8 @@ public class MainActivity
 
         playL8rHandler.postDelayed(delayPlayScreenshot, 100);
 
-        toggleMenuItem(myMenu, R.id.action_start, true);
-        toggleMenuItem(myMenu, R.id.action_restart, true);
+        toggleMenuItem(myMenu, R.id.id_action_start, true);
+        toggleMenuItem(myMenu, R.id.id_action_restart, true);
 
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.stopGame(whoWon);
@@ -1719,9 +1723,9 @@ public class MainActivity
         resetButtons(levela);
         showStitches(-3);
 
-        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
-        toggleMenuItem(myMenu, R.id.action_start, true);
+        toggleEnabled(bContinue, true, getLocaleStringRes(R.string.bContinue_text),
+                getLocaleStringRes(R.string.bContinue_text));
+        toggleMenuItem(myMenu, R.id.id_action_start, true);
 
         showPlayersCards();
 
@@ -1821,8 +1825,8 @@ public class MainActivity
         aGame.bChange = false;
         aGame.a20 = false;
         aGame.b20 = false;
-        aGame.sayMarriage20= getString(R.string.b20a_text);
-        aGame.sayMarriage40 = getString(R.string.b20a_text);
+        aGame.sayMarriage20= getLocaleStringRes(R.string.b20a_text);
+        aGame.sayMarriage40 = getLocaleStringRes(R.string.b20a_text);
 
         if (aGame.playersTurn) {
             // Wann kann man austauschen ?
@@ -1835,8 +1839,8 @@ public class MainActivity
                     }
                     aGame.bChange = true;
                 }
-                toggleEnabled(bChange, (aGame.bChange), getString(R.string.bChange_text),
-                        getString(R.string.bChange_text));
+                toggleEnabled(bChange, (aGame.bChange), getLocaleStringRes(R.string.bChange_text),
+                        getLocaleStringRes(R.string.bChange_text));
             }
             // Gibts was zum Ansagen ?
             int a20 = aGame.gambler.hasPair();
@@ -1848,7 +1852,7 @@ public class MainActivity
                 }
                 aGame.a20 = true;
                 aGame.sayMarriage20 = aGame.printColor(aGame.gambler.handpairs[0]) +
-                        " " + getString(R.string.say_pair);
+                        " " + getLocaleStringRes(R.string.say_pair);
 
                 if (a20 > 1) {
                     syncLocker = Integer.valueOf(ticks);
@@ -1858,10 +1862,10 @@ public class MainActivity
                     }
                     aGame.b20 = true;
                     aGame.sayMarriage40 = aGame.printColor(aGame.gambler.handpairs[1]) +
-                        " " + getString(R.string.say_pair);
+                        " " + getLocaleStringRes(R.string.say_pair);
                 }
                 else {
-                    aGame.sayMarriage40 = getString(R.string.no_second_pair);
+                    aGame.sayMarriage40 = getLocaleStringRes(R.string.no_second_pair);
                 }
             }
 
@@ -1948,8 +1952,8 @@ public class MainActivity
             aGame.isReady = true;
 
             aGame.shouldContinue = false;
-            toggleEnabled(bContinue, false, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
+            toggleEnabled(bContinue, false, getLocaleStringRes(R.string.bContinue_text),
+                    getLocaleStringRes(R.string.bContinue_text));
 
             tMes.setVisibility(View.INVISIBLE);
 
@@ -2103,8 +2107,8 @@ public class MainActivity
         }
 
         aGame.shouldContinue = true;
-        toggleEnabled(bContinue, true, getString(R.string.bContinue_text),
-                getString(R.string.bContinue_text));
+        toggleEnabled(bContinue, true, getLocaleStringRes(R.string.bContinue_text),
+                getLocaleStringRes(R.string.bContinue_text));
         imTalon.setOnClickListener(this::bContinue_Clicked);
         aGame.isReady = false;
         getGlobalAppSettings().setTournamentGame(aTournament, aGame);

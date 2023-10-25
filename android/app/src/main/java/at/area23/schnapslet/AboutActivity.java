@@ -52,7 +52,7 @@ public class AboutActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        globalVariable = (GlobalAppSettings) getApplicationContext();
+        getGlobalAppSettings().initApplication();
         setContentView(R.layout.activity_about);
 
         linearRoot = (LinearLayout) findViewById(R.id.linearRoot);
@@ -64,12 +64,11 @@ public class AboutActivity extends BaseAppActivity {
         helpTextView = (TextView) findViewById(R.id.helpTextView);
         builtWithTextView = (TextView) findViewById(R.id.builtWithTextView);
 
-        addListenerOnClickables();
-
-        Game thatGame = globalVariable.getGame();
+        Game thatGame = getGlobalAppSettings().getGame();
         if (thatGame != null) // TODO: replace with constant
             thatGame.phoneDirection = 255;
 
+        addListenerOnClickables();
     }
 
     /**
@@ -92,15 +91,15 @@ public class AboutActivity extends BaseAppActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_start) {
+        if (id == R.id.id_action_start) {
             finish();
             return true;
         }
-        if (id == R.id.action_restart) {
+        if (id == R.id.id_action_restart) {
             finish();
             return true;
         }
-        if (id == R.id.action_help) {
+        if (id == R.id.id_action_help) {
             openUrl(getString(R.string.github_uri));
             return true;
         }
@@ -118,6 +117,10 @@ public class AboutActivity extends BaseAppActivity {
 
         learnMoreButton = (Button) findViewById(R.id.learnMoreButton);
         learnMoreButton.setOnClickListener(arg0 -> learnMoreButton_Clicked());
+
+        helpTextView = (TextView) findViewById(R.id.helpTextView);
+        helpTextView.setText(getLocaleStringRes(R.string.help_text));
+
     }
 
 
