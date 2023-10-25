@@ -8,6 +8,7 @@ gradle
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/deploymentTargetDropDown.xml
 /.idea/shelf/
 .DS_Store
 /app/build/generated
@@ -18,4 +19,3 @@ gradle
 /app/build/outputs/sdk-dependencies
 /captures
 .externalNativeBuild
-
