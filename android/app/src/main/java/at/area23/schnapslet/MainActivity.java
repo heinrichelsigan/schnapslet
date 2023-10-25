@@ -175,11 +175,12 @@ public class MainActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        getGlobalAppSettings().initApplication();
+
         String layoutMes;
         int width = getResources().getDisplayMetrics().widthPixels;
         int height = getResources().getDisplayMetrics().heightPixels;
-
-        super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
         // if (bundle != null) { }
@@ -199,8 +200,6 @@ public class MainActivity
                 setContentView(R.layout.activity_main);
             }
         }
-
-        globalVariable = (GlobalAppSettings) getApplicationContext();
 
         constraintRoot = (ConstraintLayout) findViewById(R.id.constraintRoot);
         constraintRoot.setDrawingCacheEnabled(false);
@@ -289,9 +288,9 @@ public class MainActivity
         addListenerOnClickables();
         // initURLBase();
 
-        aTournament = globalVariable.getTournament();
+        aTournament = getGlobalAppSettings().getTournament();
         tTournamentPoints.setText(aTournament.getTournamentsTable());
-        Game bGame = globalVariable.getGame();
+        Game bGame = getGlobalAppSettings().getGame();
         if (bGame != null && bGame.isGame &&
             bGame.phoneDirection != phoneDirection)
         {
@@ -353,7 +352,7 @@ public class MainActivity
             showStitches(-2);
             showPlayersCards();
             showPlayedOutCards();
-            globalVariable.setTournamentGame(aTournament, aGame);
+            getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         }
         else {
             resetButtons(0);
@@ -371,9 +370,7 @@ public class MainActivity
         int height = getResources().getDisplayMetrics().heightPixels;
 
         super.onConfigurationChanged(newConfig);
-        if (globalVariable == null) {
-            globalVariable = (GlobalAppSettings) getApplicationContext();
-        }
+        getGlobalAppSettings().initApplication();
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
@@ -408,9 +405,12 @@ public class MainActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
-        Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
-        menuResetCheckboxes(mySubMenu);
-        setCardDeckFromSystemLocale();
+        MenuItem cardDeckItem = myMenu.findItem(R.id.action_carddeck);
+        if (cardDeckItem != null && cardDeckItem.hasSubMenu()) {
+            menuResetCheckboxes(cardDeckItem.getSubMenu());
+            setCardDeckFromSystemLocale();
+        }
+        checkSoundMenuItem(true);
         return true;
     }
 
@@ -464,17 +464,19 @@ public class MainActivity
      */
     @Override
     protected boolean setLocale(Locale aLocale, MenuItem item) {
+
         if (item != null) {
             Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
             menuResetCheckboxes(mySubMenu);
             item.setChecked(true);
         }
-        if (globalVariable.getLocale().getLanguage() != aLocale.getLanguage()) {
 
-            playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        if (getGlobalAppSettings().getLocale().getLanguage() != aLocale.getLanguage()) {
+
+            playL8rHandler.postDelayed(delayPlayScreenshot, 100);
 
             //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale(aLocale);
+            getGlobalAppSettings().setLocale(aLocale);
             // Adjust language for text to speach
             // text2Speach.setLanguage(globalVariable.getLocale());
             if (aGame != null) {
@@ -591,7 +593,7 @@ public class MainActivity
     public void bChange_Clicked(View arg0) {
         try {
             aGame.changeAtou(aGame.gambler);
-            saySchnapser(SCHNAPSOUNDS.CHANGE_ATOU, getString(R.string.bChange_text));
+            sayText(getString(R.string.bChange_text));
 
             aGame.bChange = false;
             toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
@@ -600,7 +602,7 @@ public class MainActivity
             showAtouCard(aGame.schnapState);
             showPlayersCards();
 
-            globalVariable.setTournamentGame(aTournament, aGame);
+            getGlobalAppSettings().setTournamentGame(aTournament, aGame);
 
             gameTurn(1);
         } catch (Exception e) {
@@ -630,7 +632,7 @@ public class MainActivity
             resetButtons(0);
 
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
-            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+            sayText(sayPair);
 
             aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
@@ -667,7 +669,7 @@ public class MainActivity
             resetButtons(0);
 
             setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
-            saySchnapser(SCHNAPSOUNDS.NONE, sayPair);
+            sayText(sayPair);
 
             aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
             printMes();
@@ -924,7 +926,7 @@ public class MainActivity
 
                         String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
                         setTextMessage(sayMarriage);
-                        saySchnapser(SCHNAPSOUNDS.NONE, sayMarriage);
+                        sayText(sayMarriage);
                         aGame.insertMsg(sayMarriage);
                         printMes();
 
@@ -1001,7 +1003,6 @@ public class MainActivity
      * @param ic image counter, that represents which ImageView is clicked
      */
     protected void imageView_ClickEventHandler(View arg0, int ic) {
-
         int j;
         // don't let player drag and drop cards, when he shouldn't
         if (aGame != null && !aGame.isReady) {
@@ -1088,10 +1089,10 @@ public class MainActivity
         } catch (Exception e) {
             this.errHandler(e);
         }
-        aGame.gambler.hand[ic] = globalVariable.cardEmpty();
+        aGame.gambler.hand[ic] = getGlobalAppSettings().cardEmpty();
         aGame.isReady = false;
 
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
 
         endTurn();
 
@@ -1309,7 +1310,7 @@ public class MainActivity
             playedOutCard0 = aGame.playedOut0;
         }
         if (aGame == null && playedOutCard0 == null)
-            playedOutCard0 = globalVariable.cardEmpty();
+            playedOutCard0 = getGlobalAppSettings().cardEmpty();
         imOut0.setImageDrawable(playedOutCard0.getDrawable());
 
         if ((aGame != null && aGame.playedOut1 != null && playedOutCard1 != null &&
@@ -1318,7 +1319,7 @@ public class MainActivity
             playedOutCard1 = aGame.playedOut1;
         }
         if (playedOutCard1 == null)
-            playedOutCard1 = globalVariable.cardEmpty();
+            playedOutCard1 = getGlobalAppSettings().cardEmpty();
         imOut1.setImageDrawable(playedOutCard1.getDrawable());
     }
 
@@ -1330,7 +1331,7 @@ public class MainActivity
             Drawable normalShape = ResourcesCompat.getDrawable(getResources(), R.drawable.shape, null);
 
             Card handCard = (aGame.gambler != null && aGame.gambler.hand[0].isValidCard()) ?
-                    aGame.gambler.hand[0] : globalVariable.cardEmpty();
+                    aGame.gambler.hand[0] : getGlobalAppSettings().cardEmpty();
             playerCard0.setVisibility(View.VISIBLE);
             playerCard0.setBackground(normalShape);
             im0.setBackground(normalShape);
@@ -1338,7 +1339,7 @@ public class MainActivity
             im0.setVisibility(View.VISIBLE);
 
             handCard =  (aGame.gambler != null && aGame.gambler.hand[1].isValidCard()) ?
-                    aGame.gambler.hand[1] : globalVariable.cardEmpty();
+                    aGame.gambler.hand[1] : getGlobalAppSettings().cardEmpty();
             playerCard1.setVisibility(View.VISIBLE);
             playerCard1.setBackground(normalShape);
             im1.setBackground(normalShape);
@@ -1346,7 +1347,7 @@ public class MainActivity
             im1.setVisibility(View.VISIBLE);
 
             handCard = (aGame.gambler != null && aGame.gambler.hand[2].isValidCard()) ?
-                aGame.gambler.hand[2] : globalVariable.cardEmpty();
+                aGame.gambler.hand[2] : getGlobalAppSettings().cardEmpty();
             playerCard2.setVisibility(View.VISIBLE);
             playerCard2.setBackground(normalShape);
             im2.setBackground(normalShape);
@@ -1354,7 +1355,7 @@ public class MainActivity
             im2.setVisibility(View.VISIBLE);
 
             handCard = (aGame.gambler != null && aGame.gambler.hand[3].isValidCard()) ?
-                    aGame.gambler.hand[3] : globalVariable.cardEmpty();
+                    aGame.gambler.hand[3] : getGlobalAppSettings().cardEmpty();
             playerCard3.setVisibility(View.VISIBLE);
             playerCard3.setBackground(normalShape);
             im3.setBackground(normalShape);
@@ -1362,7 +1363,7 @@ public class MainActivity
             im3.setVisibility(View.VISIBLE);
 
             handCard = (aGame.gambler != null && aGame.gambler.hand[4].isValidCard()) ?
-                 aGame.gambler.hand[4] : globalVariable.cardEmpty();
+                 aGame.gambler.hand[4] : getGlobalAppSettings().cardEmpty();
             playerCard4.setVisibility(View.VISIBLE);
             playerCard4.setBackground(normalShape);
             im4.setBackground(normalShape);
@@ -1606,8 +1607,8 @@ public class MainActivity
             try {
                 imOut0.setImageResource(R.drawable.e);
                 imOut1.setImageResource(R.drawable.e);
-                playedOutCard0 = globalVariable.cardEmpty();
-                playedOutCard1 = globalVariable.cardEmpty();
+                playedOutCard0 = getGlobalAppSettings().cardEmpty();
+                playedOutCard1 = getGlobalAppSettings().cardEmpty();
                 aGame.playedOut0 = playedOutCard0;
                 aGame.playedOut1 = playedOutCard1;
             } catch (Exception ex) {
@@ -1615,7 +1616,7 @@ public class MainActivity
             }
         }
         if (aGame != null) {
-            globalVariable.setTournamentGame(aTournament, aGame);
+            getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         }
     }
 
@@ -1626,12 +1627,12 @@ public class MainActivity
      */
     protected void startGame() {
 
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        playL8rHandler.postDelayed(delayPlayScreenshot, 100);
         toggleMenuItem(myMenu, R.id.action_start, false);
         aGame = null;
 
         if (aTournament.getTournamentWinner() != PLAYERDEF.UNKNOWN) {
-            aTournament = globalVariable.newTournament();
+            aTournament = getGlobalAppSettings().newTournament();
             tTournamentPoints.setText(aTournament.getTournamentsTable());
         }
 
@@ -1661,7 +1662,7 @@ public class MainActivity
         toggleMenuItem(myMenu, R.id.action_restart, true);
         toggleMenuItem(myMenu, R.id.action_start, false);
 
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         gameTurn(0);
     }
 
@@ -1675,10 +1676,10 @@ public class MainActivity
 
         if (stopMessage != null && stopMessage.length() > 0) {
             setTextMessage(stopMessage);
-            saySchnapser(SCHNAPSOUNDS.NONE, stopMessage);
+            sayText(stopMessage);
         }
 
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        playL8rHandler.postDelayed(delayPlayScreenshot, 100);
 
         toggleMenuItem(myMenu, R.id.action_start, true);
         toggleMenuItem(myMenu, R.id.action_restart, true);
@@ -1695,14 +1696,14 @@ public class MainActivity
 
         showPlayersCards();
 
-        playedOutCard0 = globalVariable.cardEmpty();
-        playedOutCard1 = globalVariable.cardEmpty();
+        playedOutCard0 = getGlobalAppSettings().cardEmpty();
+        playedOutCard1 = getGlobalAppSettings().cardEmpty();
         aGame.playedOut0 = playedOutCard0;
         aGame.playedOut1 = playedOutCard1;
 
         aTournament.addPointsRotateGiver(tournamentPoints, aGame.whoWon);
         tTournamentPoints.setText(aTournament.getTournamentsTable());
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
 
         if (aGame.schnapState != SCHNAPSTATE.NONE && aGame.schnapState != SCHNAPSTATE.MERGING_CARDS)
             aGame.destroyGame();
@@ -1721,7 +1722,7 @@ public class MainActivity
                         getString(R.string.you_won_tournement);
             }
             setTextMessage(tournamentWonMsg);
-            saySchnapser(SCHNAPSOUNDS.NONE, tournamentWonMsg);
+            sayText(tournamentWonMsg);
         }
 
         if (levela <= 0 || levela >= 3) {
@@ -1749,11 +1750,11 @@ public class MainActivity
         aGame.closeGame(whoCloses);
 
         setTextMessage(aGame.statusMessage);
-        saySchnapser(SCHNAPSOUNDS.GAME_CLOSE, aGame.statusMessage);
+        sayText(aGame.statusMessage);
         showTalonCard(aGame.schnapState);
         showAtouCard(aGame.schnapState);
 
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         if (whoCloses == PLAYERDEF.HUMAN) {
             gameTurn(0);
         }
@@ -1768,14 +1769,14 @@ public class MainActivity
             try {
                 imOut0.setImageResource(R.drawable.e1);
                 imOut1.setImageResource(R.drawable.e1);
-                playedOutCard0 = globalVariable.cardEmpty();
-                playedOutCard1 = globalVariable.cardEmpty();
+                playedOutCard0 = getGlobalAppSettings().cardEmpty();
+                playedOutCard1 = getGlobalAppSettings().cardEmpty();
                 aGame.playedOut0 = playedOutCard0;
                 aGame.playedOut1 = playedOutCard1;
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
-            globalVariable.setTournamentGame(aTournament, aGame);
+            getGlobalAppSettings().setTournamentGame(aTournament, aGame);
             showPlayersCards();
             pSaid = false;
             aGame.said = 'n';
@@ -1856,12 +1857,12 @@ public class MainActivity
                 outPutMessage = outPutMessage + " " + computerSaysPair;
             }
             setTextMessage(outPutMessage);
-            saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+            sayText(outPutMessage);
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.ANDENOUGH.getValue()) == PLAYEROPTIONS.ANDENOUGH.getValue()) {
                 twentyEnough(false);
                 aGame.isReady = false;
-                globalVariable.setTournamentGame(aTournament, aGame);
+                getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 return;
             }
 
@@ -1869,7 +1870,7 @@ public class MainActivity
                 aGame.isClosed = true;
                 outPutMessage += getString(R.string.computer_closed_game);
                 setTextMessage(outPutMessage);
-                saySchnapser(SCHNAPSOUNDS.NONE, outPutMessage);
+                sayText(outPutMessage);
                 closeGame(PLAYERDEF.COMPUTER);
             }
 
@@ -1889,7 +1890,7 @@ public class MainActivity
 
         aGame.isReady = true;
         printMes();
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
     }
 
     /**
@@ -1913,7 +1914,7 @@ public class MainActivity
 
             tMes.setVisibility(View.INVISIBLE);
 
-            globalVariable.setTournamentGame(aTournament, aGame);
+            getGlobalAppSettings().setTournamentGame(aTournament, aGame);
 
             gameTurn(0);
         } catch (Exception e) {
@@ -1941,13 +1942,13 @@ public class MainActivity
         }
 
         tmppoints = aGame.checkPoints(ccard);
-        aGame.computer.hand[ccard] = globalVariable.cardEmpty();
+        aGame.computer.hand[ccard] = getGlobalAppSettings().cardEmpty();
         tPoints.setText(String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
             msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+            sayText(getString(R.string.your_hit_points, String.valueOf(tmppoints)));
 
             TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
             if (!aGame.gambler.cardStitchs.containsKey(aGame.gambler.stitchCount)) {
@@ -1957,14 +1958,14 @@ public class MainActivity
 
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                globalVariable.setTournamentGame(aTournament, aGame);
+                getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.computer_closing_failed));
                 return;
             }
         } else {
             msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
             setTextMessage(msgText);
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+            sayText(getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
 
             TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
             if (!aGame.computer.cardStitchs.containsKey(aGame.computer.stitchCount)) {
@@ -1974,7 +1975,7 @@ public class MainActivity
 
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                globalVariable.setTournamentGame(aTournament, aGame);
+                getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 return;
             }
@@ -1991,7 +1992,7 @@ public class MainActivity
             }
 
             setTextMessage(getString(R.string.color_hit_force_mode));
-            saySchnapser(SCHNAPSOUNDS.NONE, getString(R.string.color_hit_force_mode));
+            sayText(getString(R.string.color_hit_force_mode));
         }
         tRest.setText(String.valueOf((19-aGame.index)));
         printMes();
@@ -2002,14 +2003,14 @@ public class MainActivity
 
         if (aGame.playersTurn) {
             if (aGame.gambler.points > 65) {
-                globalVariable.setTournamentGame(aTournament, aGame);
+                getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
-                globalVariable.setTournamentGame(aTournament, aGame);
+                getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 stopGame(tPts, PLAYERDEF.COMPUTER, 1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
                 return;
@@ -2020,13 +2021,13 @@ public class MainActivity
             if (aGame.isClosed) {
                 if (aGame.gambler.hasClosed) {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                    globalVariable.setTournamentGame(aTournament, aGame);
+                    getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                     stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
                 }
                 try {
                     if (aGame.computer.hasClosed) {
                         int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                        globalVariable.setTournamentGame(aTournament, aGame);
+                        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                         stopGame(tPts, PLAYERDEF.HUMAN, 1, getString(R.string.computer_closing_failed));
                     }
                 } catch (Exception jbpvex) {
@@ -2036,11 +2037,11 @@ public class MainActivity
             } else {
                 if (tmppoints > 0) {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                    globalVariable.setTournamentGame(aTournament, aGame);
+                    getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                     stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.last_hit_you_have_won));
                 } else {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                    globalVariable.setTournamentGame(aTournament, aGame);
+                    getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                     stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.computer_wins_last_hit));
                 }
                 return;
@@ -2052,7 +2053,7 @@ public class MainActivity
                 getString(R.string.bContinue_text));
         imTalon.setOnClickListener(this::bContinue_Clicked);
         aGame.isReady = false;
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
     }
 
     /**
@@ -2118,7 +2119,7 @@ public class MainActivity
             stopGame(tPts, PLAYERDEF.COMPUTER,2, tsEndMes1);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
         }
-        globalVariable.setTournamentGame(aTournament, aGame);
+        getGlobalAppSettings().setTournamentGame(aTournament, aGame);
         return;
     }
 
@@ -2132,7 +2133,7 @@ public class MainActivity
      */
     protected void SetImageDrawable(ImageView imageView, Card card) {
         if (aGame != null && card == null)
-            card = globalVariable.cardEmpty();
+            card = getGlobalAppSettings().cardEmpty();
 
         String tmp = card.getCardColor().getChar() +
                 String.valueOf(card.getCardValue().getValue());
@@ -2208,10 +2209,10 @@ public class MainActivity
      */
     public void showHelpDialog() {
 
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        playL8rHandler.postDelayed(delayPlayScreenshot, 100);
 
         // Create an instance of the dialog fragment and show it
-        globalVariable.setDialog(DIALOGS.Help);
+        getGlobalAppSettings().setDialog(DIALOGS.Help);
         int idx = (aGame != null) ? aGame.index : 9;
         int ptx = (aGame != null && aGame.gambler != null) ? aGame.gambler.points : 0;
         DialogFragment dialog = new HelpDialog();
@@ -2226,17 +2227,17 @@ public class MainActivity
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        DIALOGS dialogOpen = globalVariable.getDialog();
+        DIALOGS dialogOpen = getGlobalAppSettings().getDialog();
         if (dialogOpen == DIALOGS.About || dialogOpen == DIALOGS.Help) {
             openUrl(getString(R.string.wiki_uri));
         }
-        globalVariable.setDialog(DIALOGS.None);
+        getGlobalAppSettings().setDialog(DIALOGS.None);
         dialog.dismiss();
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        globalVariable.setDialog(DIALOGS.None);
+        getGlobalAppSettings().setDialog(DIALOGS.None);
         dialog.dismiss();
     }
 

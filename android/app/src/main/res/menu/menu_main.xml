@@ -84,12 +84,14 @@
                     android:orderInCategory="2200"
                     android:title="@string/action_load"
                     android:enabled="false"
+                    android:visible="false"
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/action_save"
                     android:orderInCategory="2300"
                     android:title="@string/action_save"
                     android:enabled="false"
+                    android:visible="false"
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/action_sound"

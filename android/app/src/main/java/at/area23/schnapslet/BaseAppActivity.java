@@ -42,6 +42,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -88,18 +89,24 @@ public class BaseAppActivity extends AppCompatActivity {
     protected GlobalAppSettings globalVariable;
     protected final static Handler playL8rHandler = new Handler(Looper.getMainLooper());
 
+    protected GlobalAppSettings getGlobalAppSettings() {
+        if (globalVariable == null)
+            globalVariable = (GlobalAppSettings) getApplicationContext();
+        return globalVariable;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getGlobalAppSettings().initApplication();
 
-        globalVariable = (GlobalAppSettings) getApplicationContext();
         if (rootView == null)
             rootView = getWindow().getDecorView().getRootView();
         rootView.setDrawingCacheEnabled(false);
 
         text2Speach = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                text2Speach.setLanguage(globalVariable.getSystemLLocale());
+                text2Speach.setLanguage(getGlobalAppSettings().getSystemLLocale());
             }
         });
     }
@@ -113,9 +120,9 @@ public class BaseAppActivity extends AppCompatActivity {
     public void setCardDeckFromSystemLocale() {
         String defaultLocale = "en";
         int localeItemId = R.id.action_english_cards;
-        if (globalVariable != null) {
-            defaultLocale = globalVariable.getSystemLLocale().getISO3Country().toLowerCase();
-        }
+
+        defaultLocale = getGlobalAppSettings().getSystemLLocale().getISO3Country().toLowerCase();
+
         if (defaultLocale.equals("de"))
             localeItemId = R.id.action_german_cards;
         else if (defaultLocale.equals("en"))
@@ -127,8 +134,17 @@ public class BaseAppActivity extends AppCompatActivity {
         else if (defaultLocale.equals("us"))
             localeItemId = R.id.action_us_cards;
 
-        if (myMenu != null && myMenu.findItem(localeItemId) != null) {
-            myMenu.findItem(localeItemId).setChecked(true);
+        if (myMenu != null) {
+            MenuItem mnuItm = myMenu.findItem(localeItemId);
+            if (mnuItm != null && mnuItm.isCheckable())
+                mnuItm.setChecked(true); // TODO: remove check at top menu level
+
+            mnuItm = myMenu.findItem(R.id.action_carddeck);
+            if (mnuItm != null && mnuItm.hasSubMenu()) {
+                MenuItem cardSetItm = mnuItm.getSubMenu().findItem(localeItemId);
+                if (cardSetItm != null && cardSetItm.isCheckable())
+                    cardSetItm.setChecked(true);
+            }
         }
     }
 
@@ -151,8 +167,12 @@ public class BaseAppActivity extends AppCompatActivity {
 
             if (menuId >= 0) {
                 getMenuInflater().inflate(menuId, menu);
-                Menu mySubMenu = myMenu.findItem(R.id.action_carddeck).getSubMenu();
-                menuResetCheckboxes(mySubMenu);
+                MenuItem cardDeckItem = myMenu.findItem(R.id.action_carddeck);
+                if (cardDeckItem != null && cardDeckItem.hasSubMenu()) {
+                    menuResetCheckboxes(cardDeckItem.getSubMenu());
+                    setCardDeckFromSystemLocale();
+                }
+                checkSoundMenuItem(true);
                 return true;
             }
         } catch (Exception menuEx) {
@@ -235,19 +255,27 @@ public class BaseAppActivity extends AppCompatActivity {
         }
     }
 
-
     /**
-     * toggleSoundOnOff - toggle in submenu options Sound On/Off
+     * checkSoundMenuItem - checks or unchecks sound menu item
+     * @param soundOnOff   - menu or submenu to enter recursion
+     * @return  true, if checking or unchecking was successful,
+     *          otherwise false
      */
-    public void toggleSoundOnOff() {
-        boolean soundOnOff = globalVariable == null || globalVariable.getSound();
+    protected boolean checkSoundMenuItem(boolean soundOnOff) {
+
         MenuItem soundMenuItem = myMenu.findItem(R.id.action_sound);
-        if (soundMenuItem != null) {
-            soundMenuItem.setChecked(!soundOnOff);
-            if (globalVariable != null) {
-                globalVariable.setSound(!soundOnOff);
-            }
+        if (soundMenuItem == null) {
+            MenuItem optMnuItm = myMenu.findItem(R.id.action_options);
+            if (optMnuItm != null && optMnuItm.hasSubMenu())
+                soundMenuItem = optMnuItm.getSubMenu().findItem(R.id.action_sound);
         }
+
+        if (soundMenuItem != null) {
+            soundMenuItem.setChecked(soundOnOff);
+            return true;
+        }
+
+        return false;
     }
 
     //endregion
@@ -265,9 +293,9 @@ public class BaseAppActivity extends AppCompatActivity {
             menuResetCheckboxes(mySubMenu);
             item.setChecked(true);
         }
-        if (!globalVariable.getLocale().getLanguage().equals(aLocale.getLanguage())) {
+        if (!getGlobalAppSettings().getLocale().getLanguage().equals(aLocale.getLanguage())) {
             //Overwrites application locale in GlobalAppSettings with english
-            globalVariable.setLocale(aLocale);
+            getGlobalAppSettings().setLocale(aLocale);
         }
         return true;
     }
@@ -284,14 +312,28 @@ public class BaseAppActivity extends AppCompatActivity {
         return setLocale(newLocale, item);
     }
 
-    //region speakSaySound
+    //region playSound
+
+    /**
+     * toggleSoundOnOff - toggle in submenu options Sound On/Off
+     */
+    public void toggleSoundOnOff() {
+
+        boolean soundOnOff = globalVariable == null || getGlobalAppSettings().getSound();
+
+        if (checkSoundMenuItem(!soundOnOff) && globalVariable != null)  {
+            getGlobalAppSettings().setSound(!soundOnOff);
+        }
+    }
 
     /**
      * playMediaFromUri plays any sound media from an internet uri
      * @param url - the full quaöofoed url accessor
      */
     public void playMediaFromUri(String url) {
-        boolean soundOn = globalVariable == null || globalVariable.getSound();
+
+        boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
+
         if (soundOn) {
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioAttributes(
@@ -311,39 +353,23 @@ public class BaseAppActivity extends AppCompatActivity {
     }
 
     /**
-     * Play sound file stored in res/raw/ directory
-     * @param rawName - resource name or resource id
-     *   Name
-     *     Syntax  :  android.resource://[package]/[res type]/[res name]
-     *     Example : @<code>Uri.parse("android.resource://com.my.package/raw/sound1");</code>
-     *   Resource id
-     *     Syntax  : android.resource://[package]/[resource_id]
-     *     Example : @<code>Uri.parse("android.resource://com.my.package/" + R.raw.sound1); </code>
-     *
+     * playRawSound
+     *  Plays sound file stored in res/raw/ directory
+     * @param resRawId - resource id of R.raw.{soundResourceName}
      */
-    public void playRawSound(int rId, String rawName) {
-        boolean soundOn = globalVariable == null || globalVariable.getSound();
+    public void playRawSound(int resRawId) {
+
+        boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
+
         if (soundOn) {
             try {
                 Resources res = getResources();
-                int resId = rId;
-                if (rawName != null) {
-                    resId = getSoundRId(rawName);
-                }
-
-                if (resId != rId) {
-                    String RESOURCE_PATH = ContentResolver.SCHEME_ANDROID_RESOURCE + "://";
-                    String path = RESOURCE_PATH + getPackageName() + File.separator + resId;
-                    Uri soundUri = Uri.parse(path);
-                    showMessage("RawSound: Uri=" + soundUri.toString() + " path=" + path);
-                }
+                int resId = resRawId;
 
                 final MediaPlayer mMediaPlayer = new MediaPlayer();
                 mMediaPlayer.setVolume(1.0f, 1.0f);
                 mMediaPlayer.setLooping(false);
                 mMediaPlayer.setOnPreparedListener(mp -> {
-                    // Toast.makeText(getApplicationContext(),
-                    //         "start playing sound", Toast.LENGTH_SHORT).show();
                     mMediaPlayer.start();
                 });
                 mMediaPlayer.setOnErrorListener((mp, what, extra) -> {
@@ -370,16 +396,6 @@ public class BaseAppActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * getSoundRId
-     * @param rawSoundName - raw sound name
-     * @return getRessources.getIdentifier(rawSoundName, ...):
-     */
-    public int getSoundRId(String rawSoundName) {
-        // Build path using resource number
-        int resID = getResources().getIdentifier(rawSoundName, "raw", getPackageName());
-        return resID;
-    }
 
     /**
      * playSound
@@ -389,8 +405,10 @@ public class BaseAppActivity extends AppCompatActivity {
      *      Example : @<code>Uri.parse("android.resource://com.my.package/raw/sound1");</code>
      */
     public void playSound(String rawSoundName) {
-        int resID = getSoundRId(rawSoundName);
-        playRawSound(resID, rawSoundName);
+        // Build path using resource number
+        int resID = getResources().getIdentifier(rawSoundName, "raw", getPackageName());
+        if (resID >= 0)
+            playRawSound(resID);
     }
 
     // @SuppressLint("InlinedApi")
@@ -399,11 +417,9 @@ public class BaseAppActivity extends AppCompatActivity {
      */
     protected final Runnable delayPlayScreenshot = () -> playSound("sound_screenshot");
 
-    // @SuppressLint("InlinedApi")
-    /**
-     * delayPlayKissClickClick = new Runnable() -> { playSound("sound_kissclickclick"); }
-     */
-    protected final Runnable delayPlayKissClickClick = () -> playSound("sound_kissclickclick");
+    //endregion
+
+    //region speak
 
     /**
      * speak - say some text
@@ -416,7 +432,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param callbackId String - speaker callback identifier as String
      */
     public void speak(String text, Locale locLang, float rate, float pitch, float volume, String callbackId) {
-        boolean soundOn = globalVariable == null || globalVariable.getSound();
+        boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
         text2Speach.stop();
 
         if (soundOn) {
@@ -443,7 +459,7 @@ public class BaseAppActivity extends AppCompatActivity {
             );
 
             if (locLang == null)
-                locLang = globalVariable.getSystemLLocale();
+                locLang = getGlobalAppSettings().getSystemLLocale();
             text2Speach.setLanguage(locLang);
 
             text2Speach.setSpeechRate(rate);
@@ -466,23 +482,29 @@ public class BaseAppActivity extends AppCompatActivity {
     }
 
     /**
-     * saySchnapser text 2 speach
-     * @param schnapserl default enum
+     * sayText text 2 speach
      * @param text2Say special text to say
      */
-    public void saySchnapser(SCHNAPSOUNDS schnapserl, String text2Say) {
-        String sayPhrase = (text2Say != null && text2Say.length() > 0) ?
-                text2Say : schnapserl.saySpeach(getApplicationContext());
+    public void sayText(String text2Say) {
 
-        if (sayPhrase != null) {
+        if (text2Say != null && text2Say.length() > 0) {
             float floatRate = Float.parseFloat("1.15");
             float floatPitch = (float)(Math.E / 2);
             float floatVolume =  (float)Math.sqrt(Math.PI);
 
-            speak(sayPhrase, globalVariable.getSystemLLocale(),
+            speak(text2Say, getGlobalAppSettings().getSystemLLocale(),
                     floatRate, floatPitch, floatVolume, speakCallbackId);
         }
     }
+
+    /**
+     * saySchnapser enum SCHNAPSOUNDS 2 text and l8r 2 speach
+     * @param schnapserl enum SCHNAPSOUNDS predefined sentences
+     */
+    public void saySchnapser(SCHNAPSOUNDS schnapserl) {
+        sayText(schnapserl.saySpeach(getApplicationContext()));
+    }
+
     //endregion
 
     //region toggleEnabled
@@ -644,21 +666,6 @@ public class BaseAppActivity extends AppCompatActivity {
     //region showHelpMessageErrorException
 
     /**
-     * startAboutActivity
-     * starts About Activity
-     */
-    public void startAboutActivity() {
-        // try {
-        //     Thread.currentThread().sleep(10);
-        // } catch (Exception exInt) {
-        //     errHandler(exInt);
-        // }
-        // tDbg.setText(R.string.help_text);
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-    }
-
-    /**
      * showMessage shows a new Toast dynamic message
      *
      * @param text     to display
@@ -779,6 +786,21 @@ public class BaseAppActivity extends AppCompatActivity {
     }
 
     /**
+     * startAboutActivity
+     * starts About Activity
+     */
+    public void startAboutActivity() {
+        // try {
+        //     Thread.currentThread().sleep(10);
+        // } catch (Exception exInt) {
+        //     errHandler(exInt);
+        // }
+        // tDbg.setText(R.string.help_text);
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+    /**
      * openUrl opens a  defined url as ACTION_VIEW Intent
      * @param urlString url to open
      */
@@ -794,7 +816,7 @@ public class BaseAppActivity extends AppCompatActivity {
             openUri = android.net.Uri.parse(getString(R.string.github_uri));
         }
 
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        playL8rHandler.postDelayed(delayPlayScreenshot, 100);
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
@@ -806,7 +828,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * exitGame() exit game
      */
     public void exitGame() {
-        playL8rHandler.postDelayed(delayPlayKissClickClick, 100);
+        playL8rHandler.postDelayed(delayPlayScreenshot, 100);
         finishAffinity();
         System.exit(0);
     }

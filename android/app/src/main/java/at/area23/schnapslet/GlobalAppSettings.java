@@ -53,9 +53,20 @@ public class GlobalAppSettings extends Application {
     }
 
     //region ApplicationContext
-    public static Application getApplication() {
-        return sApplication;
+
+    /**
+     * initApplication - sets static sApplication to this
+     */
+    public void initApplication() {
+        if (sApplication == null)
+            sApplication = this;
     }
+
+    /**
+     * getApplication
+     * @return static Application sApplication
+     */
+    public static Application getApplication() { return sApplication; }
 
     @Override
     public Context createDeviceProtectedStorageContext() {
@@ -68,6 +79,10 @@ public class GlobalAppSettings extends Application {
     //endregion
 
     //region LocaleLanguage
+
+    /**
+     * intiLocale inits locale and languahe
+     */
     public void initLocale() {
         if (systemLocale == null) {
             try {
@@ -85,11 +100,19 @@ public class GlobalAppSettings extends Application {
         }
     }
 
+    /**
+     * getLocale
+     * @return Locale locale
+     */
     public Locale getLocale() {
         initLocale();
         return locale;
     }
 
+    /**
+     * getSystemLLocale
+     * @return Locale systemLocale
+     */
     public Locale getSystemLLocale() {
         initLocale();
         return systemLocale;
@@ -99,10 +122,18 @@ public class GlobalAppSettings extends Application {
         return getLocale().getDisplayName();
     }
 
+    /**
+     * getLocaleLanguage
+     * @return String locale.getLanguage()
+     */
     public String getLocaleLanguage() {
         return getLocale().getLanguage();
     }
 
+    /**
+     * setLocale
+     * @param setLocale Locale
+     */
     public void setLocale(Locale setLocale) {
         locale = setLocale;
     }
