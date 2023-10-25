@@ -35,6 +35,7 @@ import android.os.Looper;
 // import android.support.v13.view.DragAndDropPermissionsCompat;
 // import android.support.v13.view.DragStartHelper;
 // import android.support.v7.app.AppCompatActivity;
+import android.speech.tts.TextToSpeech;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -429,7 +430,8 @@ public class MainActivity
         }
         if (mItemId == R.id.action_restart) {
             if (aGame != null && aGame.isGame) {
-                stopGame(7, PLAYERDEF.COMPUTER, 3, getString(R.string.ending_game));
+                stopGame(7, PLAYERDEF.COMPUTER, 3,
+                        getLocaleStringRes(R.string.ending_game));
             }
             return true;
         }
@@ -479,6 +481,7 @@ public class MainActivity
             getGlobalAppSettings().setLocale(aLocale);
             // Adjust language for text to speach
             // text2Speach.setLanguage(globalVariable.getLocale());
+
             if (aGame != null) {
                 showAtouCard(aGame.schnapState);
                 showPlayersCards();
@@ -593,7 +596,8 @@ public class MainActivity
     public void bChange_Clicked(View arg0) {
         try {
             aGame.changeAtou(aGame.gambler);
-            sayText(getString(R.string.bChange_text));
+
+            sayText(getLocaleStringRes(R.string.bChange_text));
 
             aGame.bChange = false;
             toggleEnabled(bChange, aGame.bChange, getString(R.string.bChange_text),
@@ -623,18 +627,26 @@ public class MainActivity
             aGame.said = aGame.gambler.handpairs[0];
             if (aGame.gambler.handpairs[0] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
-                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
+                sayPair = getLocaleStringRes(
+                            R.string.fourty_in_color) +  " " + aGame.printColor(aGame.said);
             } else {
                 aGame.gambler.points += 20;
-                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
+                sayPair = getLocaleStringRes(
+                            R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
             pSaid = true;
             resetButtons(0);
 
-            setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            setTextMessage(String.format(getLocaleStringRes(R.string.you_say_pair),
+                    aGame.printColor(aGame.said)));
+            // setTextMessage(getString(
+            //    getLocaleStringRes(R.string.you_say_pair), aGame.printColor(aGame.said)));
             sayText(sayPair);
-
-            aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            aGame.insertMsg(String.format(getLocaleStringRes(R.string.you_say_pair),
+                    aGame.printColor(aGame.said)));
+            // aGame.insertMsg(getString(
+            //        getLocaleStringRes(R.string.you_say_pair), aGame.printColor(aGame.said)));
+            ;
             printMes();
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -659,19 +671,27 @@ public class MainActivity
             aGame.said = aGame.gambler.handpairs[1];
             if (aGame.gambler.handpairs[1] == aGame.atouInGame()) {
                 aGame.gambler.points += 40;
-                sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
+                // sayPair = getString(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
+                sayPair = getLocaleStringRes(R.string.fourty_in_color) + " " + aGame.printColor(aGame.said);
             }
             else {
                 aGame.gambler.points += 20;
-                sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
+                // sayPair = getString(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
+                sayPair = getLocaleStringRes(R.string.twenty_in_color) + " " + aGame.printColor(aGame.said);
             }
             pSaid = true;
             resetButtons(0);
 
-            setTextMessage(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            setTextMessage(String.format(getLocaleStringRes(R.string.you_say_pair),
+                    aGame.printColor(aGame.said)));
+            // setTextMessage(
+            //         getLocaleStringRes(R.string.you_say_pair), aGame.printColor(aGame.said));
             sayText(sayPair);
 
-            aGame.insertMsg(getString(R.string.you_say_pair,  aGame.printColor(aGame.said)));
+            aGame.insertMsg(String.format(getLocaleStringRes(R.string.you_say_pair),
+                    aGame.printColor(aGame.said)));
+            // aGame.insertMsg(
+            //         getLocaleStringRes(R.string.you_say_pair), aGame.printColor(aGame.said));
             printMes();
 
             tPoints.setText(String.valueOf(aGame.gambler.points));
@@ -704,8 +724,11 @@ public class MainActivity
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
             if (!aGame.gambler.hand[ic].isValidCard()) {
-                setTextMessage(getString(R.string.this_is_no_valid_card));
-                aGame.insertMsg(getString(R.string.this_is_no_valid_card));
+                String sNoValidCard = getLocaleStringRes(R.string.this_is_no_valid_card);
+                // setTextMessage(getString(R.string.this_is_no_valid_card));
+                setTextMessage(sNoValidCard);
+
+                aGame.insertMsg(sNoValidCard);
                 printMes();
                 return false;
             }
@@ -924,7 +947,8 @@ public class MainActivity
                         resetButtons(0);
                         aGame.said = dropCard.getCardColor().getChar();
 
-                        String sayMarriage= getString(R.string.you_say_pair,  aGame.printColor(aGame.said));
+                        String sayMarriage = String.format(
+                            getLocaleStringRes(R.string.you_say_pair),  aGame.printColor(aGame.said));
                         setTextMessage(sayMarriage);
                         sayText(sayMarriage);
                         aGame.insertMsg(sayMarriage);
@@ -1018,8 +1042,9 @@ public class MainActivity
                 return;
             }
             if (!aGame.gambler.hand[ic].isValidCard()) {
-                setTextMessage(getString(R.string.this_is_no_valid_card));
-                aGame.insertMsg(getString(R.string.this_is_no_valid_card));
+                String sInvalidCard = getLocaleStringRes(R.string.this_is_no_valid_card);
+                setTextMessage(sInvalidCard);
+                aGame.insertMsg(sInvalidCard);
                 printMes();
                 return;
             }
@@ -1029,8 +1054,9 @@ public class MainActivity
                         (aGame.gambler.hand[ic].getCardValue().getValue() < 5)) {
                     ; // we can continue
                 } else {
-                    setTextMessage(getString(R.string.you_must_play_pair_card));
-                    aGame.insertMsg(getString(R.string.you_must_play_pair_card));
+                    String sMustPlayOtherCard = getLocaleStringRes(R.string.you_must_play_pair_card);
+                    setTextMessage(sMustPlayOtherCard);
+                    aGame.insertMsg(sMustPlayOtherCard);
                     printMes();
                     return ;
                 }
@@ -1038,15 +1064,18 @@ public class MainActivity
             if (aGame.colorHitRule && (!aGame.playersTurn)) {
                 // CORRECT WAY ?
                 if ((!aGame.gambler.isValidInColorHitsContext(ic,aGame.computer.hand[ccard]))) {
-                    setTextMessage(getString(R.string.you_must_play_color_hit_force_rules));
-                    aGame.insertMsg(getString(R.string.you_must_play_color_hit_force_rules));
+                    String sMustColorHitRules = getLocaleStringRes(R.string.you_must_play_color_hit_force_rules);
+                    setTextMessage(sMustColorHitRules);
+                    aGame.insertMsg(sMustColorHitRules);
                     int tmpint = aGame.gambler.preferedInColorHitsContext(aGame.computer.hand[ccard]);
                     // for (j = 0; j < 5; j++) {
                     //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
                     // }
                     // aGame.mqueue.insert(c_array);
 
-                    aGame.insertMsg(getString(R.string.best_card_would_be, aGame.gambler.hand[tmpint].getName()));
+                    aGame.insertMsg(
+                            String.format(getLocaleStringRes(R.string.best_card_would_be),
+                                aGame.gambler.hand[tmpint].getName()));
                     printMes();
                     showPlayersCards();
                     return ;
@@ -1713,13 +1742,17 @@ public class MainActivity
             String tournamentWonMsg = "";
             if (playerWon == PLAYERDEF.COMPUTER) {
                 tournamentWonMsg = (aTournament.hasTaylor()) ?
-                    getString(R.string.computer_won_taylor) :
-                    getString(R.string.computer_won_tournement);
+                    // getString(R.string.computer_won_taylor) :
+                    getLocaleStringRes(R.string.computer_won_taylor) :
+                    // getString(R.string.computer_won_tournement);
+                    getLocaleStringRes(R.string.computer_won_tournement);
             }
             if (playerWon == PLAYERDEF.HUMAN) {
                 tournamentWonMsg = (aTournament.hasTaylor()) ?
-                        getString(R.string.you_won_taylor) :
-                        getString(R.string.you_won_tournement);
+                    // getString(R.string.you_won_taylor) :
+                    getLocaleStringRes(R.string.you_won_taylor) :
+                    // getString(R.string.you_won_tournement);
+                    getLocaleStringRes(R.string.you_won_tournement);
             }
             setTextMessage(tournamentWonMsg);
             sayText(tournamentWonMsg);
@@ -1743,7 +1776,8 @@ public class MainActivity
             aGame.schnapState == SCHNAPSTATE.TALON_ONE_REMAINS ||
             aGame.schnapState == SCHNAPSTATE.TALON_CONSUMED ||
             aGame.schnapState == SCHNAPSTATE.NONE) {
-            setTextMessage(getString(R.string.nogame_started));
+            // setTextMessage(getString(R.string.nogame_started));
+            setTextMessage(getLocaleStringRes(R.string.nogame_started));
             return;
         }
 
@@ -1835,7 +1869,8 @@ public class MainActivity
             toggleEnabled(b20b, aGame.b20, aGame.sayMarriage40, aGame.sayMarriage40);
 
             // Info
-            setTextMessage(getString(R.string.toplayout_clickon_card));
+            // setTextMessage(getString(R.string.toplayout_clickon_card));
+            setTextMessage(getLocaleStringRes(R.string.toplayout_clickon_card));
         }
         else {
             // COMPUTERS TURN IMPLEMENTIEREN
@@ -1846,14 +1881,17 @@ public class MainActivity
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CHANGEATOU.getValue()) == PLAYEROPTIONS.CHANGEATOU.getValue()) {
                 this.showAtouCard(aGame.schnapState);
-                outPutMessage += getString(R.string.computer_changes_atou);
+                // outPutMessage += getString(R.string.computer_changes_atou);
+                outPutMessage += getLocaleStringRes(R.string.computer_changes_atou);
             }
             // if (atouNowChanged == false && aGame.atouChanged) { }
 
             boolean computerSaid20 = false;
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.SAYPAIR.getValue()) == PLAYEROPTIONS.SAYPAIR.getValue()) {
                 computerSaid20 = true;
-                String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                // String computerSaysPair = getString(R.string.computer_says_pair, aGame.printColor(aGame.csaid));
+                String computerSaysPair = String.format(getLocaleStringRes(R.string.computer_says_pair),
+                        aGame.printColor(aGame.csaid));
                 outPutMessage = outPutMessage + " " + computerSaysPair;
             }
             setTextMessage(outPutMessage);
@@ -1868,7 +1906,8 @@ public class MainActivity
 
             if ((aGame.computer.playerOptions & PLAYEROPTIONS.CLOSESGAME.getValue()) == PLAYEROPTIONS.CLOSESGAME.getValue()) {
                 aGame.isClosed = true;
-                outPutMessage += getString(R.string.computer_closed_game);
+                // outPutMessage += getString(R.string.computer_closed_game);
+                outPutMessage += getLocaleStringRes(R.string.computer_closed_game);
                 setTextMessage(outPutMessage);
                 sayText(outPutMessage);
                 closeGame(PLAYERDEF.COMPUTER);
@@ -1946,9 +1985,13 @@ public class MainActivity
         tPoints.setText(String.valueOf(aGame.gambler.points));
 
         if (tmppoints > 0) {
-            msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
+            // msgText = getString(R.string.your_hit_points, String.valueOf(tmppoints)) + " " + getString(R.string.click_continue);
+            msgText = String.format(getLocaleStringRes(R.string.your_hit_points), String.valueOf(tmppoints)) +
+                    " " + getLocaleStringRes(R.string.click_continue);
             setTextMessage(msgText);
-            sayText(getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+            // sayText(getString(R.string.your_hit_points, String.valueOf(tmppoints)));
+            sayText(String.format(getLocaleStringRes(R.string.your_hit_points),
+                    String.valueOf(tmppoints)));
 
             TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
             if (!aGame.gambler.cardStitchs.containsKey(aGame.gambler.stitchCount)) {
@@ -1959,13 +2002,15 @@ public class MainActivity
             if (aGame.isClosed && (aGame.computer.hasClosed)) {
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.computer_closing_failed));
+                stopGame(tPts, PLAYERDEF.HUMAN,1, getLocaleStringRes(R.string.computer_closing_failed));
                 return;
             }
         } else {
-            msgText = getString(R.string.computer_hit_points, String.valueOf(-tmppoints)) + " " + getString(R.string.click_continue);
+            msgText = String.format(getLocaleStringRes(R.string.computer_hit_points),
+                    String.valueOf(-tmppoints)) + " " + getLocaleStringRes(R.string.click_continue);
             setTextMessage(msgText);
-            sayText(getString(R.string.computer_hit_points, String.valueOf(-tmppoints)));
+            sayText(String.format(getLocaleStringRes(R.string.computer_hit_points),
+                    String.valueOf(-tmppoints)));
 
             TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
             if (!aGame.computer.cardStitchs.containsKey(aGame.computer.stitchCount)) {
@@ -1976,7 +2021,8 @@ public class MainActivity
             if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                 getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
+                stopGame(tPts, PLAYERDEF.COMPUTER,1,
+                        getLocaleStringRes(R.string.closing_failed));
                 return;
             }
         }
@@ -1991,8 +2037,8 @@ public class MainActivity
                 this.errHandler(jbpvex);
             }
 
-            setTextMessage(getString(R.string.color_hit_force_mode));
-            sayText(getString(R.string.color_hit_force_mode));
+            setTextMessage(getLocaleStringRes(R.string.color_hit_force_mode));
+            sayText(getLocaleStringRes(R.string.color_hit_force_mode));
         }
         tRest.setText(String.valueOf((19-aGame.index)));
         printMes();
@@ -2005,14 +2051,18 @@ public class MainActivity
             if (aGame.gambler.points > 65) {
                 getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+                stopGame(tPts, PLAYERDEF.HUMAN,1, String.format(
+                        getLocaleStringRes(R.string.you_have_won_points),
+                        String.valueOf(aGame.gambler.points)));
                 return;
             }
         } else {
             if (aGame.computer.points > 65) {
                 getGlobalAppSettings().setTournamentGame(aTournament, aGame);
                 int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-                stopGame(tPts, PLAYERDEF.COMPUTER, 1, getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+                stopGame(tPts, PLAYERDEF.COMPUTER, 1, String.format(
+                        getLocaleStringRes(R.string.computer_has_won_points),
+                                String.valueOf(aGame.computer.points)));
                 return;
             }
         }
@@ -2022,13 +2072,15 @@ public class MainActivity
                 if (aGame.gambler.hasClosed) {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                    stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.closing_failed));
+                    stopGame(tPts, PLAYERDEF.COMPUTER,1,
+                            getLocaleStringRes(R.string.closing_failed));
                 }
                 try {
                     if (aGame.computer.hasClosed) {
                         int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                         getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                        stopGame(tPts, PLAYERDEF.HUMAN, 1, getString(R.string.computer_closing_failed));
+                        stopGame(tPts, PLAYERDEF.HUMAN, 1,
+                                getLocaleStringRes(R.string.computer_closing_failed));
                     }
                 } catch (Exception jbpvex) {
                     this.errHandler(jbpvex);
@@ -2038,11 +2090,13 @@ public class MainActivity
                 if (tmppoints > 0) {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                    stopGame(tPts, PLAYERDEF.HUMAN,1, getString(R.string.last_hit_you_have_won));
+                    stopGame(tPts, PLAYERDEF.HUMAN,1,
+                            getLocaleStringRes(R.string.last_hit_you_have_won));
                 } else {
                     int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
                     getGlobalAppSettings().setTournamentGame(aTournament, aGame);
-                    stopGame(tPts, PLAYERDEF.COMPUTER,1, getString(R.string.computer_wins_last_hit));
+                    stopGame(tPts, PLAYERDEF.COMPUTER,1,
+                            getLocaleStringRes(R.string.computer_wins_last_hit));
                 }
                 return;
             }
@@ -2062,12 +2116,12 @@ public class MainActivity
      */
     protected void twentyEnough(boolean who) {
         int xj = 0;
-        String andEnough = getString(R.string.twenty_and_enough);
+        String andEnough = getLocaleStringRes(R.string.twenty_and_enough);
         aGame.isReady = false;
 
         if (who) {
             if (aGame.said == aGame.atouInGame()) {
-                andEnough = getString(R.string.fourty_and_enough);
+                andEnough = getLocaleStringRes(R.string.fourty_and_enough);
             }
             try {
                 for (xj = 0; xj < 5; xj++) {
@@ -2088,11 +2142,13 @@ public class MainActivity
                 this.errHandler(jbpvex);
             }
             int tPts = aGame.getTournamentPoints(PLAYERDEF.HUMAN);
-            stopGame(tPts, PLAYERDEF.HUMAN,2, andEnough + " " + getString(R.string.you_have_won_points, String.valueOf(aGame.gambler.points)));
+            stopGame(tPts, PLAYERDEF.HUMAN,2, andEnough + " " +
+                    String.format(getLocaleStringRes(R.string.you_have_won_points),
+                            String.valueOf(aGame.gambler.points)));
 
         } else {
             if (aGame.csaid == aGame.atouInGame()) {
-                andEnough = getString(R.string.fourty_and_enough);
+                andEnough = getLocaleStringRes(R.string.fourty_and_enough);
             }
             try {
                 for (xj = 0; xj < 5; xj++) {
@@ -2114,7 +2170,9 @@ public class MainActivity
             }
 
             printMes();
-            String tsEndMes1 = (andEnough + " " + getString(R.string.computer_has_won_points, String.valueOf(aGame.computer.points)));
+            String tsEndMes1 = (andEnough + " " +
+                    String.format(getLocaleStringRes(R.string.computer_has_won_points),
+                            String.valueOf(aGame.computer.points)));
             int tPts = aGame.getTournamentPoints(PLAYERDEF.COMPUTER);
             stopGame(tPts, PLAYERDEF.COMPUTER,2, tsEndMes1);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
@@ -2152,7 +2210,7 @@ public class MainActivity
     private void setTextMessage(CharSequence text) {
         Context context = getApplicationContext();
         String textMsg = (text != null && text.length() > 2) ?
-                String.valueOf(text) : getString(R.string.tDbg_text);
+                String.valueOf(text) : getLocaleStringRes(R.string.tDbg_text);
 
         if (aGame != null) // TOOD:
             aGame.statusMessage = textMsg;

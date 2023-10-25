@@ -19,7 +19,10 @@ package at.area23.schnapslet;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 
 import java.util.Locale;
 
@@ -141,6 +144,48 @@ public class GlobalAppSettings extends Application {
     public void setLocale(String localeString) {
         locale = new Locale(localeString);
     }
+
+    /**
+     * getLocaleStringResource
+     * @{@link https://stackoverflow.com/questions/9475589/how-to-get-string-from-different-locales-in-android}
+     * @{@link https://stackoverflow.com/users/535871/ted-hopp}
+     * @see
+     * @param requestedLocale Locale, that should be used to get string resources
+     * @param resourceId int R.string.StringResourceName
+     * @param context Context current application context
+     * @return String translated to requestedLocale
+     */
+    public static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context) {
+        String result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) { // use latest api
+            Configuration config = new Configuration(context.getResources().getConfiguration());
+            config.setLocale(requestedLocale);
+            result = context.createConfigurationContext(config).getText(resourceId).toString();
+        } else { // support older android versions
+            Resources resources = context.getResources();
+            Configuration conf = resources.getConfiguration();
+            Locale savedLocale = conf.locale;
+            conf.locale = requestedLocale;
+            resources.updateConfiguration(conf, null);
+
+            // retrieve resources from desired locale
+            result = resources.getString(resourceId);
+
+            // restore original locale
+            conf.locale = savedLocale;
+            resources.updateConfiguration(conf, null);
+        }
+
+        return result;
+    }
+
+
+    public String getLocaleStringRes(int resourceId, Context context) {
+        String result;
+        Locale requestedLocale = getLocale();
+        return getLocaleStringResource(requestedLocale, resourceId, context);
+    }
+
     //endregion
 
     //region pictureUrl

@@ -109,9 +109,12 @@ public class Game {
         said = 'n';
         csaid = 'n';
 
+        globalAppSettings.initApplication();
         statusMessage = "";
         sayMarriage20 = r.getString(R.string.b20a_text);
+        sayMarriage20 = globalAppSettings.getLocaleStringRes(R.string.b20a_text, context);
         sayMarriage40 = r.getString(R.string.b20b_text);
+        sayMarriage40 = globalAppSettings.getLocaleStringRes(R.string.b20b_text, context);
     }
 
     /**
@@ -476,10 +479,12 @@ public class Game {
         if (whoCloses  == PLAYERDEF.HUMAN) {
             this.gambler.hasClosed = true;
             statusMessage = context.getString(R.string.player_closed_game);
+            statusMessage = globalAppSettings.getLocaleStringRes(R.string.player_closed_game, context);
         }
         if (whoCloses  == PLAYERDEF.COMPUTER) {
             this.computer.hasClosed = true;
             statusMessage = context.getString(R.string.computer_closed_game);
+            statusMessage = globalAppSettings.getLocaleStringRes(R.string.computer_closed_game, context);
         }
 
         if (atouChanged) {
@@ -550,8 +555,10 @@ public class Game {
 
                     if (computer.points > 65) {
                         String andEnough = r.getString(R.string.twenty_and_enough);
+                        andEnough = globalAppSettings.getLocaleStringRes(R.string.twenty_and_enough, context);
                         if (computer.hand[j].isAtou()) {
                             andEnough = r.getString(R.string.fourty_and_enough);
+                            andEnough = globalAppSettings.getLocaleStringRes(R.string.fourty_and_enough, context);
                         }
 
                         computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.getValue();
@@ -735,10 +742,14 @@ public class Game {
      */
     public String printColor(char ch) {
         switch(ch) {
-            case 'k': return context.getString(R.string.color_k);
-            case 'h': return context.getString(R.string.color_h);
-            case 't': return context.getString(R.string.color_t);
-            case 'p': return context.getString(R.string.color_p);
+            case 'k': // return context.getString(R.string.color_k);
+                return globalAppSettings.getLocaleStringRes(R.string.color_k, context);
+            case 'h': // return context.getString(R.string.color_h);
+                return globalAppSettings.getLocaleStringRes(R.string.color_h, context);
+            case 't': // return context.getString(R.string.color_t);
+                return globalAppSettings.getLocaleStringRes(R.string.color_t, context);
+            case 'p': // return context.getString(R.string.color_p);
+                return globalAppSettings.getLocaleStringRes(R.string.color_p, context);
             default: break;
         }
         return "NoColor";

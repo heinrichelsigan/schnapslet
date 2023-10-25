@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -123,16 +124,25 @@ public class BaseAppActivity extends AppCompatActivity {
 
         defaultLocale = getGlobalAppSettings().getSystemLLocale().getISO3Country().toLowerCase();
 
-        if (defaultLocale.equals("de"))
+        if (defaultLocale.startsWith("de") || defaultLocale.equals("aut") || defaultLocale.startsWith("ch"))
             localeItemId = R.id.action_german_cards;
-        else if (defaultLocale.equals("en"))
+        else if (defaultLocale.startsWith("en"))
             localeItemId = R.id.action_english_cards;
-        else if (defaultLocale.equals("fe"))
+        else if (defaultLocale.startsWith("fr"))
             localeItemId = R.id.action_french_cards;
         else if (defaultLocale.equals("uk"))
             localeItemId = R.id.action_ukraine_cards;
-        else if (defaultLocale.equals("us"))
+        else if (defaultLocale.startsWith("us"))
             localeItemId = R.id.action_us_cards;
+
+        String defaultISO3Language = getGlobalAppSettings().getSystemLLocale().getISO3Language().toLowerCase();
+
+        if (defaultISO3Language.startsWith("de"))
+            localeItemId = R.id.action_german_cards;
+        else if (defaultISO3Language.startsWith("en"))
+            localeItemId = R.id.action_english_cards;
+        else if (defaultISO3Language.startsWith("fe"))
+            localeItemId = R.id.action_french_cards;
 
         if (myMenu != null) {
             MenuItem mnuItm = myMenu.findItem(localeItemId);
@@ -280,6 +290,20 @@ public class BaseAppActivity extends AppCompatActivity {
 
     //endregion
 
+    //region localeLanguage
+
+    /**
+     * getLocaleStringRes
+     * @<code>public static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context)</code>
+     * @param resourceId int R.string.{stringResName}
+     * @return String translated to Locale language
+     */
+    public String getLocaleStringRes(int resourceId) {
+        Context appContext = getApplicationContext();
+        Locale requestedLocale = getGlobalAppSettings().getLocale();
+        return getGlobalAppSettings().getLocaleStringResource(requestedLocale, resourceId, appContext);
+    }
+
     /**
      * setLocale - change Locale incl. language in GlobalAppSettings globalVariable
      *
@@ -296,6 +320,7 @@ public class BaseAppActivity extends AppCompatActivity {
         if (!getGlobalAppSettings().getLocale().getLanguage().equals(aLocale.getLanguage())) {
             //Overwrites application locale in GlobalAppSettings with english
             getGlobalAppSettings().setLocale(aLocale);
+            text2Speach.setLanguage(getGlobalAppSettings().getLocale());
         }
         return true;
     }
@@ -311,6 +336,8 @@ public class BaseAppActivity extends AppCompatActivity {
         Locale newLocale = new Locale(language);
         return setLocale(newLocale, item);
     }
+
+    //endregion
 
     //region playSound
 
@@ -492,7 +519,7 @@ public class BaseAppActivity extends AppCompatActivity {
             float floatPitch = (float)(Math.E / 2);
             float floatVolume =  (float)Math.sqrt(Math.PI);
 
-            speak(text2Say, getGlobalAppSettings().getSystemLLocale(),
+            speak(text2Say, getGlobalAppSettings().getLocale(),
                     floatRate, floatPitch, floatVolume, speakCallbackId);
         }
     }
