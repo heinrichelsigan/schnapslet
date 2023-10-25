@@ -256,7 +256,7 @@ public class BaseAppActivity extends AppCompatActivity {
         if (recusriveMenu != null) {
             for (int i = 0; i < recusriveMenu.size(); i++) {
                 MenuItem mItem = recusriveMenu.getItem(i);
-                if (mItem != null) {
+                if (mItem != null && mItem.getTitle() != null) {
                     // set MenuItem title text to new language
                     String titleLanguage = mItem.getTitle().toString();
                     if (mItem.getTitleCondensed() != null) {
