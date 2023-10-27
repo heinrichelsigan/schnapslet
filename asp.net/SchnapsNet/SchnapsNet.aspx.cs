@@ -138,8 +138,9 @@ namespace SchnapsNet
         }
 
 
-        public void DotPairToSay(char colorChar)
+        public void Perform_DotBorderCards_OnMarrgiage(char colorChar, int handPairNumber)
         {
+            bool btnSet = false;
             ImageButton[] imBtns = new ImageButton[5] { im0, im1, im2, im3, im4 };
             int xj = 0;
             for (xj = 0; xj < aGame.gambler.HandCount; xj++)
@@ -152,24 +153,86 @@ namespace SchnapsNet
                     if (imBtns[xj].ImageUrl == aGame.gambler.hand[xj].PictureUrlString)
                     {
                         imBtns[xj].Style["border-style"] = "dotted";
-                        imBtns[xj].Style["border-width"] = "2";
+                        imBtns[xj].Style["border-color"] = "purple";
+                        imBtns[xj].Style["border-width"] = "medium";
+                        if (!btnSet)
+                        {
+                            if (handPairNumber == 0) this.b20a.Style["border-color"] = "purple";
+                            if (handPairNumber == 1) this.b20b.Style["border-color"] = "purple";
+                            btnSet = true;
+                        }
                     }
                 }
             }
         }
 
-        public void ResetPlayerCardsBorder()
+        public void Perform_PairMarriage(char colorChar, int handPairNumber)
         {
-            im0.Style["border-width"] = "1";
-            im0.Style["border-style"] = "none";
-            im1.Style["border-width"] = "1";
-            im1.Style["border-style"] = "none";
-            im2.Style["border-width"] = "1";
-            im2.Style["border-style"] = "none";
-            im3.Style["border-width"] = "1";
-            im3.Style["border-style"] = "none";
-            im4.Style["border-width"] = "1";
-            im4.Style["border-style"] = "none";
+            String sayPair;
+
+            if (globalVariable != null && aGame == null)
+            {
+                aGame = globalVariable.Game;
+            }
+
+            if ((aGame.pSaid) || (aGame.gambler.handpairs[handPairNumber] == 'n'))
+            {
+                return;
+            }            
+
+            aGame.said = aGame.gambler.handpairs[handPairNumber];
+            if (aGame.gambler.handpairs[handPairNumber] == aGame.AtouInGame)
+            {
+                aGame.gambler.points += 40;
+                sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
+                    " " + aGame.PrintColor(aGame.said);
+            }
+            else
+            {
+                aGame.gambler.points += 20;
+                sayPair = JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.TwoLetterISOLanguageName) +
+                    " " + aGame.PrintColor(aGame.said);
+            }
+            aGame.pSaid = true;
+            ResetButtons(0);
+
+            string msg0 = string.Format(
+                JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
+                aGame.PrintColor(aGame.said));
+            SetTextMessage(msg0);
+            aGame.InsertMsg(msg0);
+            PrintMsg();
+
+            tPoints.Text = aGame.gambler.points.ToString();
+            if (aGame.gambler.points > 65)
+            {
+                TwentyEnough(PLAYERDEF.HUMAN);
+                return;
+            }
+
+            Perform_DotBorderCards_OnMarrgiage(aGame.said, handPairNumber);        
+        }
+
+        public void Reset_PlayerCardsBorder()
+        {
+            im0.Style["border-width"] = "medium";
+            im0.Style["border-style"] = "solid";
+            im0.Style["border-color"] = "#f7f7f7";
+            im1.Style["border-width"] = "medium";
+            im1.Style["border-style"] = "solid";
+            im1.Style["border-color"] = "#f7f7f7";
+            im2.Style["border-width"] = "medium";
+            im2.Style["border-style"] = "solid";
+            im2.Style["border-color"] = "#f7f7f7";
+            im3.Style["border-width"] = "medium";
+            im3.Style["border-style"] = "solid";
+            im3.Style["border-color"] = "#f7f7f7";
+            im4.Style["border-width"] = "medium";
+            im4.Style["border-style"] = "solid";
+            im4.Style["border-color"] = "#f7f7f7";
+            
+            b20a.Style["border-color"] = "darkslategray";
+            b20b.Style["border-color"] = "darkslategray";
         }
 
         protected void ShowPlayersCards(SCHNAPSTATE gameState)
@@ -440,7 +503,7 @@ namespace SchnapsNet
         /// <param name="e"></param>
         protected void Change_Click(object sender, EventArgs e)
         {
-            preOut.InnerText += "bChange_Click\r\n";
+            // preOut.InnerText += "bChange_Click\r\n";
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = JavaResReader.GetValueFromKey("bChange_text", globalVariable.TwoLetterISOLanguageName);
@@ -459,50 +522,9 @@ namespace SchnapsNet
         /// <param name="e"></param>
         protected void A20_Click(object sender, EventArgs e)
         {
-            if (globalVariable != null && aGame == null)
-            {
-                aGame = globalVariable.Game;
-            }
-            preOut.InnerText += "A20_Click\r\n";
-
-            if ((aGame.pSaid) || (aGame.gambler.handpairs[0] == 'n'))
-            {
-                return;
-            }
-            String sayPair;
-            aGame.said = aGame.gambler.handpairs[0];
-            if (aGame.gambler.handpairs[0] == aGame.AtouInGame)
-            {
-                aGame.gambler.points += 40;
-                sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                    " " + aGame.PrintColor(aGame.said);
-            }
-            else
-            {
-                aGame.gambler.points += 20;
-                sayPair = JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                    " " + aGame.PrintColor(aGame.said);
-            }
-            aGame.pSaid = true;
-            ResetButtons(0);
-
-            string msg0 = string.Format(
-                JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
-                aGame.PrintColor(aGame.said));
-            SetTextMessage(msg0);
-            aGame.InsertMsg(msg0);
-            PrintMsg();
-
-            tPoints.Text = aGame.gambler.points.ToString();
-            if (aGame.gambler.points > 65)
-            {
-                TwentyEnough(PLAYERDEF.HUMAN);
-                return;
-            }
-            else
-            {
-                DotPairToSay(aGame.said);
-            }
+            char colorSaid = aGame.gambler.handpairs[0];
+            if (colorSaid != 'n')
+                Perform_PairMarriage(colorSaid, 0);
         }
 
         /// <summary>
@@ -512,46 +534,9 @@ namespace SchnapsNet
         /// <param name="e">EventArgs e</param>
         protected void B20_Click(object sender, EventArgs e)
         {
-            string msg = "B20_Click";
-            preOut.InnerText += "\r\n" + msg;
-            if ((aGame.pSaid) || (aGame.gambler.handpairs[1] == 'n'))
-            {
-                return;
-            }
-            String sayPair;
-            aGame.said = aGame.gambler.handpairs[1];
-            if (aGame.gambler.handpairs[1] == aGame.AtouInGame)
-            {
-                aGame.gambler.points += 40;
-                sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                    " " + aGame.PrintColor(aGame.said);
-            }
-            else
-            {
-                aGame.gambler.points += 20;
-                sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.TwoLetterISOLanguageName) +
-                    " " + aGame.PrintColor(aGame.said);
-            }
-            aGame.pSaid = true;
-            ResetButtons(0);
-
-            string msg0 = string.Format(JavaResReader.GetValueFromKey("you_say_pair", globalVariable.TwoLetterISOLanguageName),
-                aGame.PrintColor(aGame.said));
-            SetTextMessage(sayPair);
-
-            aGame.InsertMsg(msg0);
-            PrintMsg();
-
-            tPoints.Text = aGame.gambler.points.ToString();
-            if (aGame.gambler.points > 65)
-            {
-                TwentyEnough(PLAYERDEF.HUMAN);
-                return;
-            }
-            else
-            {
-                DotPairToSay(aGame.said);
-            }
+            char colorSaid = aGame.gambler.handpairs[1];
+            if (colorSaid != 'n')
+                Perform_PairMarriage(colorSaid, 1);
         }
 
 
@@ -574,7 +559,7 @@ namespace SchnapsNet
             if (sender is WebControl)
             {
                 senderStr = ((WebControl)sender).ClientID;
-                preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
+                // preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
             }
             if (sender is System.Web.UI.WebControls.ImageButton)
                 senderStr = ((System.Web.UI.WebControls.ImageButton)sender).ClientID;
@@ -666,6 +651,7 @@ namespace SchnapsNet
                     psaychange = 0;
                 }
                 aGame.playedOut = aGame.gambler.hand[ic];
+                Reset_PlayerCardsBorder();
                 switch (ic)
                 {
                     case 0:
@@ -683,9 +669,9 @@ namespace SchnapsNet
                     case 4:
                         im4.ImageUrl = emptyURL.ToString();
                         break;
-                    default: preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n"; break;
-                }
-                ResetPlayerCardsBorder();
+                    default: // preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n";
+                        break;
+                }                
 
                 playedOutCard0 = aGame.gambler.hand[ic];
                 aGame.playedOut0 = playedOutCard0;
@@ -724,6 +710,151 @@ namespace SchnapsNet
                 tMsg.Visible = false;
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 GameTurn(0);
+            }
+        }
+
+        public void Help_Click(object sender, EventArgs e)
+        {
+            preOut.InnerHtml = "-------------------------------------------------------------------------\n";
+            preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
+            preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+        }
+
+        protected void Merge_Click(object sender, EventArgs e)
+        {
+            ToggleTournament(true);
+            StartGame();
+        }
+
+        protected void ImageComputerStitch_Click(object sender, EventArgs e)
+        {
+            ShowStitches(-1);
+        }
+
+        protected void ImagePlayerStitch_Click(object sender, EventArgs e)
+        {
+            ShowStitches(0);
+        }
+
+
+        protected void ToggleContinue(bool continueEnabled = true)
+        {
+            aGame.shouldContinue = continueEnabled;
+            imOut20.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            imOut21.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            bContinue.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
+            bContinue.Enabled = continueEnabled;
+        }
+
+        protected void ToggleTournament(bool starts = true)
+        {
+            if (starts)
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
+                    aTournement = new Tournament();
+                    globalVariable.Tournement = aTournement;
+                    this.Context.Session[Constants.APPNAME] = globalVariable;
+                    DrawPointsTable();
+                }
+            }
+            else
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    string endTournementMsg = "";
+                    if (aTournement.WonTournament == PLAYERDEF.HUMAN)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    SetTextMessage(endTournementMsg);
+                    // TODO: excited end animation
+                }
+            }
+        }
+
+        void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        {
+            tableTournement.Rows.Clear();
+            TableRow trHead = new TableRow();
+            trHead.Style["border-bottom"] = "2px solid";
+            TableCell tdX = new TableCell()
+            {
+                Text = JavaResReader.GetValueFromKey("computer", globalVariable.TwoLetterISOLanguageName)
+            };
+            tdX.Style["border-right"] = "1px solid;";
+            tdX.Style["border-bottom"] = "2px solid";
+            TableCell tdY = new TableCell()
+            {
+                Text = JavaResReader.GetValueFromKey("you", globalVariable.TwoLetterISOLanguageName)
+            };
+            tdY.Style["border-bottom"] = "2px solid";
+            trHead.Cells.Add(tdX);
+            trHead.Cells.Add(tdY);
+            tableTournement.Rows.Add(trHead);
+            foreach (Point pt in aTournement.tHistory)
+            {
+                TableRow tr = new TableRow();
+                tdX = new TableCell() { Text = pt.Y.ToString() }; // computer first
+                tdX.Style["border-right"] = "1px solid;";
+                tdY = new TableCell() { Text = pt.X.ToString() };
+                tr.Cells.Add(tdX);
+                tr.Cells.Add(tdY);
+                tableTournement.Rows.Add(tr);
+            }
+            if (whoWon != PLAYERDEF.UNKNOWN)
+            {
+                if (displayBummerlOrTaylor == 1)
+                {
+                    TableRow tr = new TableRow();
+                    tr.Style["font-size"] = "large";
+                    tdX = new TableCell() { Text = "." }; // computer first
+                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "." : "";
+                    tdX.Style["border-right"] = "1px solid;";
+                    tdY = new TableCell() { Text = "." };
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "." : "";
+                    tr.Cells.Add(tdX);
+                    tr.Cells.Add(tdY);
+                    tableTournement.Rows.Add(tr);
+                }
+                if (displayBummerlOrTaylor == 2)
+                {
+                    TableRow tr = new TableRow();
+                    tr.Style["font-size"] = "large";
+                    tdX = new TableCell() { Text = Constants.TAYLOR_SYM2 }; // computer first
+                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? Constants.TAYLOR_SYM2 : "";
+                    tdX.Style["font-size"] = "large";
+                    tdX.Style["border-right"] = "1px solid;";
+                    tdY = new TableCell() { Text = Constants.TAYLOR_SYM0 };
+                    tdY.Style["font-size"] = "large";
+                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? Constants.TAYLOR_SYM0 : "";
+                    tr.Cells.Add(tdX);
+                    tr.Cells.Add(tdY);
+                    tableTournement.Rows.Add(tr);
+                }
             }
         }
 
@@ -788,68 +919,6 @@ namespace SchnapsNet
             if (aGame != null)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-            }
-        }
-
-        void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
-        {
-            tableTournement.Rows.Clear();
-            TableRow trHead = new TableRow();
-            trHead.Style["border-bottom"] = "2px solid";
-            TableCell tdX = new TableCell()
-            {
-                Text = JavaResReader.GetValueFromKey("computer", globalVariable.TwoLetterISOLanguageName)
-            };
-            tdX.Style["border-right"] = "1px solid;";
-            tdX.Style["border-bottom"] = "2px solid";
-            TableCell tdY = new TableCell()
-            {
-                Text = JavaResReader.GetValueFromKey("you", globalVariable.TwoLetterISOLanguageName)
-            };
-            tdY.Style["border-bottom"] = "2px solid";
-            trHead.Cells.Add(tdX);
-            trHead.Cells.Add(tdY);
-            tableTournement.Rows.Add(trHead);
-            foreach (Point pt in aTournement.tHistory)
-            {
-                TableRow tr = new TableRow();
-                tdX = new TableCell() { Text = pt.Y.ToString() }; // computer first
-                tdX.Style["border-right"] = "1px solid;";
-                tdY = new TableCell() { Text = pt.X.ToString() };
-                tr.Cells.Add(tdX);
-                tr.Cells.Add(tdY);
-                tableTournement.Rows.Add(tr);
-            }
-            if (whoWon != PLAYERDEF.UNKNOWN) 
-            {
-                if (displayBummerlOrTaylor == 1)
-                {                   
-                    TableRow tr = new TableRow();
-                    tr.Style["font-size"] = "large";
-                    tdX = new TableCell() { Text = "." }; // computer first
-                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "." : "";
-                    tdX.Style["border-right"] = "1px solid;";
-                    tdY = new TableCell() { Text = "." };
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "." : "";
-                    tr.Cells.Add(tdX);
-                    tr.Cells.Add(tdY);
-                    tableTournement.Rows.Add(tr);                    
-                }
-                if (displayBummerlOrTaylor == 2)
-                {
-                    TableRow tr = new TableRow();
-                    tr.Style["font-size"] = "large";
-                    tdX = new TableCell() { Text = Constants.TAYLOR_SYM2 }; // computer first
-                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? Constants.TAYLOR_SYM2 : "";
-                    tdX.Style["font-size"] = "large";
-                    tdX.Style["border-right"] = "1px solid;";
-                    tdY = new TableCell() { Text = Constants.TAYLOR_SYM0 };
-                    tdY.Style["font-size"] = "large";
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? Constants.TAYLOR_SYM0 : "";
-                    tr.Cells.Add(tdX);
-                    tr.Cells.Add(tdY);
-                    tableTournement.Rows.Add(tr);
-                }
             }
         }
 
@@ -1446,15 +1515,6 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
-        protected void ToggleContinue(bool continueEnabled = true)
-        {
-            aGame.shouldContinue = continueEnabled;
-            imOut20.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
-            imOut21.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
-            bContinue.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.TwoLetterISOLanguageName) : "";
-            bContinue.Enabled = continueEnabled;            
-        }
-
 
         void PrintMsg()
         {
@@ -1470,10 +1530,10 @@ namespace SchnapsNet
 
         void ErrHandler(Exception myErr)
         {
-            preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
-            preOut.InnerText += "\nMessage: " + myErr.Message;
-            preOut.InnerText += "\nString: " + myErr.ToString();
-            preOut.InnerText += "\nLmessage: " + myErr.StackTrace + "\n";
+            // preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
+            // preOut.InnerText += "\nMessage: " + myErr.Message;
+            // preOut.InnerText += "\nString: " + myErr.ToString();
+            // preOut.InnerText += "\nLmessage: " + myErr.StackTrace + "\n";
         }
 
         /// <summary>
@@ -1490,79 +1550,5 @@ namespace SchnapsNet
             tMsg.Text = msgSet;
             Log(msgSet);
         }
-
-        public void Help_Click(object sender, EventArgs e)
-        {
-            preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-            preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
-            preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-        }
-
-        protected void Merge_Click(object sender, EventArgs e)
-        {
-            ToggleTournament(true);
-            StartGame();
-        }
-
-        protected void ToggleTournament(bool starts = true)
-        {
-            if (starts)
-            {
-                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-                {
-                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
-                    aTournement = new Tournament();
-                    globalVariable.Tournement = aTournement;
-                    this.Context.Session[Constants.APPNAME] = globalVariable;
-                    DrawPointsTable();
-                }
-            }
-            else
-            {
-                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-                {
-                    string endTournementMsg = "";
-                    if (aTournement.WonTournament == PLAYERDEF.HUMAN)
-                    {
-                        if (aTournement.Taylor)
-                        {
-                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.TwoLetterISOLanguageName);
-                            DrawPointsTable(2, aTournement.WonTournament);
-                        }
-                        else
-                        {
-                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.TwoLetterISOLanguageName);
-                            DrawPointsTable(1, aTournement.WonTournament);
-                        }
-                    }
-                    else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
-                    {
-                        if (aTournement.Taylor)
-                        {
-                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.TwoLetterISOLanguageName);
-                            DrawPointsTable(2, aTournement.WonTournament);
-                        }
-                        else
-                        {
-                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.TwoLetterISOLanguageName);
-                            DrawPointsTable(1, aTournement.WonTournament);
-                        }
-                    }
-                    SetTextMessage(endTournementMsg);
-                    // TODO: excited end animation
-                }
-            }
-        }
-
-
-        protected void ImageComputerStitch_Click(object sender, EventArgs e)
-        {
-            ShowStitches(-1);
-        }
-
-        protected void ImagePlayerStitch_Click(object sender, EventArgs e)
-        {
-            ShowStitches(0);
-        }
-    }
+}
 }
