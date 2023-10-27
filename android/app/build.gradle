@@ -72,7 +72,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout-core:1.0.4'
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
     implementation 'androidx.customview:customview:1.1.0'
-    testImplementation 'androidx.compose.ui:ui-test-junit4:1.4.3'
+    testImplementation 'androidx.compose.ui:ui-test-junit4:1.5.4'
     androidTestImplementation 'androidx.test:annotation:1.0.1'
     androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

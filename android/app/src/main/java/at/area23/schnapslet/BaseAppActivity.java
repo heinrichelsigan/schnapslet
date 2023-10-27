@@ -62,6 +62,7 @@ import java.util.Locale;
 
 import at.area23.schnapslet.constenum.Constants;
 import at.area23.schnapslet.constenum.SCHNAPSOUNDS;
+import at.area23.schnapslet.sound.SoundPlayer;
 
 /**
  * BaseAppActivity extends AppCompatActivity
@@ -384,6 +385,7 @@ public class BaseAppActivity extends AppCompatActivity {
     public void playMediaFromUri(String url) {
 
         boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
+        // (SoundPlayer.initContext(getApplicationContext())).playMediaFromUri(url, soundOn);
 
         if (soundOn) {
             MediaPlayer mediaPlayer = new MediaPlayer();
@@ -411,6 +413,7 @@ public class BaseAppActivity extends AppCompatActivity {
     public void playRawSound(int resRawId) {
 
         boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
+        // (SoundPlayer.initContext(getApplicationContext())).playRawSound(resRawId, soundOn);
 
         if (soundOn) {
             try {
@@ -456,10 +459,11 @@ public class BaseAppActivity extends AppCompatActivity {
      *      Example : @<code>Uri.parse("android.resource://com.my.package/raw/sound1");</code>
      */
     public void playSound(String rawSoundName) {
-        // Build path using resource number
+        // boolean soundOn = globalVariable == null || getGlobalAppSettings().getSound();
+        // (SoundPlayer.initContext(getApplicationContext())).playSound(rawSoundName, soundOn);
         int resID = getResources().getIdentifier(rawSoundName, "raw", getPackageName());
         if (resID >= 0)
-            playRawSound(resID);
+             playRawSound(resID);
     }
 
     // @SuppressLint("InlinedApi")
@@ -537,8 +541,11 @@ public class BaseAppActivity extends AppCompatActivity {
      * @param text2Say special text to say
      */
     public void sayText(String text2Say) {
+        boolean soundOnOff = globalVariable == null || getGlobalAppSettings().getSound();
+        // (SoundPlayer.initContext(getApplicationContext())).sayText(
+        //        text2Say,getGlobalAppSettings().getLocale(), soundOnOff);
 
-        if (text2Say != null && text2Say.length() > 0) {
+        if (soundOnOff && text2Say != null && text2Say.length() > 0) {
             float floatRate = Float.parseFloat("1.15");
             float floatPitch = (float)(Math.E / 2);
             float floatVolume =  (float)Math.sqrt(Math.PI);

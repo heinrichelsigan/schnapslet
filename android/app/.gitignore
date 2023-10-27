@@ -1,7 +1,8 @@
 /build/generated
 /build/intermediates
-/build/tmp
 /build/outputs/logs
 /build/outputs/mapping
 /build/outputs/sdk-dependencies
-
+/build/outputs/apk/debug/output-metadata.json
+/build/outputs/apk/release/output-metadata.json
+/build/tmp
