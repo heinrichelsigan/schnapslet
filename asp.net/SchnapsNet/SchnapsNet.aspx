@@ -159,7 +159,7 @@
                     style="min-height: 32px; font-size: large; border-color: darkslategray; border-style: solid">Short Information</asp:TextBox>
             </span>       
         </div>
-        <pre id="preOut" style="width: 100%; height: 12%; visibility: hidden; font-size: large; scroll-behavior: auto" runat="server">
+        <pre id="preOut" style="width: 100%; height: 12%; visibility: hidden; font-size: large; scroll-behavior: auto; max-height: 54px" runat="server">
         </pre>        
         <div align="left" style="text-align: left; width: 100%; height: 8%; visibility: inherit; background-color: #bfbfbf; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
             <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>]            
