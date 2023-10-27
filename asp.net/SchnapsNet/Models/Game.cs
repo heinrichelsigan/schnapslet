@@ -223,10 +223,11 @@ namespace SchnapsNet.Models
 			}
 			else
 			{
-				if (++movs >= gambler.hand.Length)
+				if (++movs >= gambler.hand.Length || movs >= computer.HandCount)
 				{
 					schnapState = SCHNAPSTATE.ZERO_CARD_REMAINS;
-				}					
+					retval = movs;
+				}
 			}
 			computer.SortHand();
 			gambler.SortHand();

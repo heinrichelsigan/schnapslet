@@ -137,6 +137,41 @@ namespace SchnapsNet
             
         }
 
+
+        public void DotPairToSay(char colorChar)
+        {
+            ImageButton[] imBtns = new ImageButton[5] { im0, im1, im2, im3, im4 };
+            int xj = 0;
+            for (xj = 0; xj < aGame.gambler.HandCount; xj++)
+            {
+                char colorCh0 = CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xj].CardColor);
+                if ((colorCh0 == aGame.said || colorCh0 == colorChar) &&
+                        (aGame.gambler.hand[xj].CardValue == CARDVALUE.QUEEN ||
+                            aGame.gambler.hand[xj].CardValue == CARDVALUE.KING))
+                {
+                    if (imBtns[xj].ImageUrl == aGame.gambler.hand[xj].PictureUrlString)
+                    {
+                        imBtns[xj].Style["border-style"] = "dotted";
+                        imBtns[xj].Style["border-width"] = "2";
+                    }
+                }
+            }
+        }
+
+        public void ResetPlayerCardsBorder()
+        {
+            im0.Style["border-width"] = "1";
+            im0.Style["border-style"] = "none";
+            im1.Style["border-width"] = "1";
+            im1.Style["border-style"] = "none";
+            im2.Style["border-width"] = "1";
+            im2.Style["border-style"] = "none";
+            im3.Style["border-width"] = "1";
+            im3.Style["border-style"] = "none";
+            im4.Style["border-width"] = "1";
+            im4.Style["border-style"] = "none";
+        }
+
         protected void ShowPlayersCards(SCHNAPSTATE gameState)
         {
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
@@ -462,6 +497,11 @@ namespace SchnapsNet
             if (aGame.gambler.points > 65)
             {
                 TwentyEnough(PLAYERDEF.HUMAN);
+                return;
+            }
+            else
+            {
+                DotPairToSay(aGame.said);
             }
         }
 
@@ -506,7 +546,12 @@ namespace SchnapsNet
             if (aGame.gambler.points > 65)
             {
                 TwentyEnough(PLAYERDEF.HUMAN);
-            }            
+                return;
+            }
+            else
+            {
+                DotPairToSay(aGame.said);
+            }
         }
 
 
@@ -640,6 +685,7 @@ namespace SchnapsNet
                         break;
                     default: preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n"; break;
                 }
+                ResetPlayerCardsBorder();
 
                 playedOutCard0 = aGame.gambler.hand[ic];
                 aGame.playedOut0 = playedOutCard0;
@@ -1302,7 +1348,8 @@ namespace SchnapsNet
             }
 
             // Assign new cards
-            if (aGame.AssignNewCard() == 1)
+            int assignCardState = aGame.AssignNewCard();
+            if (assignCardState == 1)
             {
                 /* NOW WE HAVE NO MORE TALON */
                 try
@@ -1328,34 +1375,28 @@ namespace SchnapsNet
             aGame.said = 'n';
             aGame.csaid = 'n';
 
-            if (aGame.playersTurn)
+            if (aGame.gambler.points > 65)
             {
-                if (aGame.gambler.points > 65)
-                {
-                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds3 = string.Format(
-                        JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
-                        aGame.gambler.points.ToString());
-                    int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
-                    return;
-                }
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                string sEnds3 = string.Format(
+                    JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.TwoLetterISOLanguageName),
+                    aGame.gambler.points.ToString());
+                int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
+                StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
+                return;
             }
-            else
+            if (aGame.computer.points > 65)
             {
-                if (aGame.computer.points > 65)
-                {
-                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds4 = string.Format(
-                        JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
-                        aGame.computer.points.ToString());
-                    int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
-                    StopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
-                    return;
-                }
+                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
+                string sEnds4 = string.Format(
+                    JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.TwoLetterISOLanguageName),
+                    aGame.computer.points.ToString());
+                int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
+                StopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
+                return;
             }
 
-            if (aGame.schnapState == SCHNAPSTATE.ZERO_CARD_REMAINS)
+            if (aGame.schnapState == SCHNAPSTATE.ZERO_CARD_REMAINS || assignCardState == 5)
             {
                 if (aGame.isClosed) // close game => must have over 66 or loose
                 {

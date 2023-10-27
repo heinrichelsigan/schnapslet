@@ -6,6 +6,42 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnaps.Net</title>
+    <script>
+
+        function highLightOnOver(highLightId) {
+            // alert("highLightOnOver(" + highLightId + ")");
+            if (highLightId != null && document.getElementById(highLightId) != null) {
+                if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
+                        document.getElementById(highLightId).style.borderWidth == 2) {
+                    // do nothing when dotted
+                }
+                else {
+                    // set border-width: 1; border-style: dashed
+                    document.getElementById(highLightId).style.borderWidth = 1;
+                    document.getElementById(highLightId).style.borderStyle = "dashed";
+                }
+            }
+        }
+
+        function unLightOnOut(unLightId) {
+            unLightId.st
+            // alert("unLightOnOut(" + unLightId + ")");
+            if (unLightId != null && document.getElementById(unLightId) != null) {
+                if (document.getElementById(unLightId).style.borderStyle == "dotted" ||
+                        document.getElementById(unLightId).style.borderWidth == 2) {
+                    // do nothing when dotted
+                }
+                else {
+                    // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
+                    //    document.getElementById(highLightId).style.borderWidth == 1) {
+                    document.getElementById(unLightId).style.borderWidth = 1;
+                    document.getElementById(unLightId).style.borderStyle = "none";
+                    // }
+                }
+            }
+        }
+
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">        
@@ -57,19 +93,19 @@
         </div>
         <div id="DivPlayerStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; background-color: #fefb56; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
-                <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" />
+                <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click"  onmouseover="highLightOnOver('im0')" onmouseout="unLightOnOut('im0')" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" />
+                <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click"  onmouseover="highLightOnOver('im1')" onmouseout="unLightOnOut('im1')" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" />
+                <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click"  onmouseover="highLightOnOver('im2')" onmouseout="unLightOnOut('im2')" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%;  margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif"  Width="15%" Height="10%" OnClick="ImageCard_Click" />
+                <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif"  Width="15%" Height="10%" OnClick="ImageCard_Click"  onmouseover="highLightOnOver('im3')" onmouseout="unLightOnOut('im3')" />
             </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
-                <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click" />
+                <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
             </span>
             <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-left: 0px; margin-top: 0px; text-align: left; visibility: visible; font-size: medium">
                 <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">

@@ -142,6 +142,41 @@ namespace SchnapsNet
             
         }
 
+
+        public void DotPairToSay(char colorChar)
+        {
+            ImageButton[] imBtns = new ImageButton[5] { im0, im1, im2, im3, im4 };
+            int xj = 0;
+            for (xj = 0; xj < aGame.gambler.HandCount; xj++)
+            {
+                char colorCh0 = CARDCOLOR_Extensions.ColorChar(aGame.gambler.hand[xj].CardColor);
+                if ((colorCh0 == aGame.said || colorCh0 == colorChar) &&
+                        (aGame.gambler.hand[xj].CardValue == CARDVALUE.QUEEN ||
+                            aGame.gambler.hand[xj].CardValue == CARDVALUE.KING))
+                {
+                    if (imBtns[xj].ImageUrl == aGame.gambler.hand[xj].PictureUrlString)
+                    {
+                        imBtns[xj].Style["border-style"] = "dotted";
+                        imBtns[xj].Style["border-width"] = "2";
+                    }
+                }
+            }
+        }
+
+        public void ResetPlayerCardsBorder()
+        {
+            im0.Style["border-width"] = "1";
+            im0.Style["border-style"] = "none";
+            im1.Style["border-width"] = "1";
+            im1.Style["border-style"] = "none";
+            im2.Style["border-width"] = "1";
+            im2.Style["border-style"] = "none";
+            im3.Style["border-width"] = "1";
+            im3.Style["border-style"] = "none";
+            im4.Style["border-width"] = "1";
+            im4.Style["border-style"] = "none";
+        }
+
         protected void ShowPlayersCards(SCHNAPSTATE gameState)
         {
             int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
@@ -556,6 +591,10 @@ namespace SchnapsNet
                 {
                     TwentyEnough(PLAYERDEF.HUMAN);
                 }
+                else
+                {
+                    DotPairToSay(aGame.said);
+                }
             }
             catch (Exception ex22)
             {
@@ -606,6 +645,10 @@ namespace SchnapsNet
                 if (aGame.gambler.points > 65)
                 {
                     TwentyEnough(PLAYERDEF.HUMAN);
+                }
+                else
+                {
+                    DotPairToSay(aGame.said);
                 }
             }
             catch (Exception ex33)
@@ -748,6 +791,7 @@ namespace SchnapsNet
                         break;
                     default: preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n"; break;
                 }
+                ResetPlayerCardsBorder();
 
                 playedOutCard0 = aGame.gambler.hand[ic];
                 aGame.playedOut0 = playedOutCard0;
