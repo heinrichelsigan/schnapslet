@@ -347,7 +347,6 @@
     <Content Include="cardpics\verdeckt.gif" />
     <Content Include="json.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="Fortune.aspx" />
     <Content Include="Global.asax" />
     <None Include="log\20230601_schnapsnet.log.txt" />
     <None Include="log\20230701_schnapsnet.log.txt" />
