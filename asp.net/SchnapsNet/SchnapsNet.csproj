@@ -349,18 +349,11 @@
     <Content Include="Default.aspx" />
     <Content Include="Fortune.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="log\20230601_schnapsnet.log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="log\20230701_schnapsnet.log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="log\20230801_schnapsnet.log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="log\20230901_schnapsnet.log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="log\20230601_schnapsnet.log.txt" />
+    <None Include="log\20230701_schnapsnet.log.txt" />
+    <None Include="log\20230801_schnapsnet.log.txt" />
+    <None Include="log\20230901_schnapsnet.log.txt" />
+    <Content Include="log\20231001_schnapsnet.log.txt" />
     <Content Include="Properties\strings-de.xml" />
     <Content Include="Properties\strings-en.xml" />
     <Content Include="Properties\strings-fr.xml" />
