@@ -57,7 +57,7 @@ namespace SchnapsNet.Models
             set[19] = new Card(inGame[19], context);
 			set[19].SetAtou();						
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
-			string atouMsg = String.Format(JavaResReader.GetValueFromKey("atou_is", globalAppSettings.TwoLetterISOLanguageName),
+			string atouMsg = String.Format(JavaResReader.GetValueFromKey("atou_is", globalAppSettings.ISO2Lang),
                 PrintColor(CARDCOLOR_Extensions.ColorChar(set[19].CardColor)));
 			InsertMsg(atouMsg);
 
@@ -147,7 +147,7 @@ namespace SchnapsNet.Models
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 
 					gambler.points += tmppoints;
-					InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+					InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.ISO2Lang),
 						tmppoints.ToString());
 
                     return tmppoints;
@@ -157,7 +157,7 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return (-tmppoints);
@@ -170,7 +170,7 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return (-tmppoints);
@@ -180,7 +180,7 @@ namespace SchnapsNet.Models
 					playersTurn = true;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					gambler.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.TwoLetterISOLanguageName),
+                    InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return tmppoints;
@@ -359,7 +359,7 @@ namespace SchnapsNet.Models
 			if (AtouIsChangable(computer))
 			{
 				ChangeAtou(computer);
-				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.TwoLetterISOLanguageName));
+				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.ISO2Lang));
             }
 			#endregion changeAtou
 
@@ -408,7 +408,7 @@ namespace SchnapsNet.Models
 					{
 						computer.playerOptions += PLAYEROPTIONS.SAYPAIR.GetValue();
 						csaid = computer.handpairs[mark];
-						InsertFormated(JavaResReader.GetValueFromKey("computer_says_pair", globalAppSettings.TwoLetterISOLanguageName),
+						InsertFormated(JavaResReader.GetValueFromKey("computer_says_pair", globalAppSettings.ISO2Lang),
 							 PrintColor(csaid));
 
                         if (computer.hand[j].IsAtou)
@@ -418,14 +418,14 @@ namespace SchnapsNet.Models
 
 						if (computer.points > 65)
 						{
-							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
+							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalAppSettings.ISO2Lang);
 							if (computer.hand[j].IsAtou)
 							{
-								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalAppSettings.TwoLetterISOLanguageName);
+								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalAppSettings.ISO2Lang);
 							}
 
 							computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.GetValue();
-							InsertMsg(andEnough + " " + string.Format(JavaResReader.GetValueFromKey("computer_has_won_points", globalAppSettings.TwoLetterISOLanguageName),
+							InsertMsg(andEnough + " " + string.Format(JavaResReader.GetValueFromKey("computer_has_won_points", globalAppSettings.ISO2Lang),
 								computer.points.ToString()));
                         }
                         else

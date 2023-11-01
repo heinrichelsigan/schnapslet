@@ -114,13 +114,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imMerge11;
 
         /// <summary>
-        /// PlaceHolderAtouTalon control.
+        /// SpanAtouTalon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderAtouTalon;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanAtouTalon;
 
         /// <summary>
         /// imAtou10 control.
@@ -141,13 +141,13 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Image imTalon;
 
         /// <summary>
-        /// PlaceHolderComputerStitches control.
+        /// SpanComputerStitches control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolderComputerStitches;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanComputerStitches;
 
         /// <summary>
         /// ImageComputerStitch0a control.
@@ -166,6 +166,15 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ImageComputerStitch0b;
+
+        /// <summary>
+        /// tableTournement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tableTournement;
 
         /// <summary>
         /// im0 control.
@@ -211,15 +220,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton im4;
-
-        /// <summary>
-        /// tableTournement control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tableTournement;
 
         /// <summary>
         /// tPoints control.

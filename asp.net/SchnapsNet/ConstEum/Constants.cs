@@ -10,12 +10,18 @@ namespace SchnapsNet.ConstEnum
         public const string APPNAME     = "Schnaps.Net";
         public const string APPDIR      = "SchnapsNet";
         public const string VERSION     = "v2.11.33";
-        public const string MUTEX =     "SchnapsMutex";
+        public const string APPPATH     = "https://area23.at/mono/SchnapsNet";
+
         public const string GITURL      = "https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL     = "https://github.com/heinrichelsigan/schnapslet/wiki";
         public const string URLPREFIX   = "https://area23.at/schnapsen/cardpics/";
         public const string URLPIC      = "https://area23.at/schnapsen/cardpics/";
         public const string URLXML      = "https://area23.at/mono/SchnapsNet/Properties/strings";
+
+        public const string LOGDIR      = "log";
+        public const string CARDPICSDIR = "cardpics";
+
+        public const string MUTEX       = "SchnapsMutex";
 
         public const int PLAY_DOWN_FROM     = 7;    // play down from 7 points
         public const int PLAY_DOWN_FARMER   = 24;   // play down from 24 points in farmer game

@@ -112,7 +112,7 @@ namespace SchnapsNet.Models
 			sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", "");
 			sayMarriage40 = JavaResReader.GetValueFromKey("b20b_text", "");
 
-			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.TwoLetterISOLanguageName)); // TODO: giver msg            
+			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.ISO2Lang)); // TODO: giver msg            
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace SchnapsNet.Models
 		{
 			int i, k, j, l, tmp;
             
-            InsertMsg(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.TwoLetterISOLanguageName));
+            InsertMsg(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.ISO2Lang));
             k = GetRandom(32, true);
 
 			for (i = 0; i < k + 20; i++)
@@ -231,7 +231,7 @@ namespace SchnapsNet.Models
 					computer.hand[i] = playedOut;
 			}
 			schnapState = SCHNAPSTATE.NONE;            
-            InsertMsg(JavaResReader.GetValueFromKey("ending_game", globalAppSettings.TwoLetterISOLanguageName));
+            InsertMsg(JavaResReader.GetValueFromKey("ending_game", globalAppSettings.ISO2Lang));
         }
 
 		/// <summary>

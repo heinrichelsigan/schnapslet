@@ -61,7 +61,7 @@ namespace SchnapsNet.Models
 
         public String LocaleString { get => Locale.DisplayName; set => locale = new CultureInfo(value); }
 
-        public String TwoLetterISOLanguageName { get => Locale.TwoLetterISOLanguageName; }
+        public String ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
 
 
         public Game Game { get => game; }

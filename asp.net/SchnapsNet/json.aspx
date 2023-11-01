@@ -176,33 +176,6 @@
             return outp;
         }
 
-        string Fortune(string filepath = "/usr/games/fortune", string args = "-a -l")
-        {
-            string consoleOutput = "No fortune today";
-            try
-            {
-                using (Process compiler = new Process())
-                {
-                    compiler.StartInfo.FileName = "fortune";
-                    string argTrys = (!string.IsNullOrWhiteSpace(args)) ? args : "";
-                    compiler.StartInfo.Arguments = argTrys;
-                    compiler.StartInfo.UseShellExecute = false;
-                    compiler.StartInfo.RedirectStandardOutput = true;
-                    compiler.Start();
-
-                    consoleOutput = compiler.StandardOutput.ReadToEnd();
-
-                    compiler.WaitForExit();
-
-                    return consoleOutput;
-                }
-            }
-            catch (Exception exi)
-            {
-                return "Exception: " + exi.Message;
-            }
-        }
-
     </script>
 
     <body>

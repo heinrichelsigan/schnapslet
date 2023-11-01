@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
+using SchnapsNet.Utils;
 using SchnapsNet.Models;
 
 namespace SchnapsNet
@@ -29,58 +30,29 @@ namespace SchnapsNet
         protected System.Globalization.CultureInfo locale;
         public Mutex schnapsMutex;
 
-        public System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    try
-                    {
-                        string defaultLang = Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        locale = new System.Globalization.CultureInfo("en");
-                    }
-                }
-                return locale;
-            }
-        }
-
-        public string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
-
-        public string LogFile
-        {
-            get
-            {
-                string logAppPath = MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("SchnapsNet"))
-                    logAppPath += "SchnapsNet" + SepChar;
-                logAppPath += "log" + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
-                return logAppPath;
-            }
-        }
+        public System.Globalization.CultureInfo Locale { get => Paths.Locale; }
+        public string ISO2Lang { get => Paths.ISO2Lang; }
 
         public virtual void InitURLBase()
         {
-            notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
-            emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
-            backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");
-            // backURL =  new Uri(this.getCodeBase() + "schnapsen/cardpics/verdeckt.gif");
-            talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
-            emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
+            notURL = new Uri(Paths.CardPicsPath + "n0.gif");
+            // notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");                       
+            emptyURL = new Uri(Paths.CardPicsPath + "e.gif");
+            // emptyURL = new Uri("https://area23.at/" + "schnapsen/cardpics/e.gif");
+
+            // backURL = new Uri("https://area23.at/" + "schnapsen/cardpics/verdeckt.gif");            
+            backURL = new Uri(Paths.CardPicsPath + "verdeckt.gif");
+
+            // talonURL = new Uri("https://area23.at/" + "schnapsen/cardpics/t.gif");
+            talonURL = new Uri(Paths.CardPicsPath + "t.gif");
+
+            // emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
+            emptyTalonUri = new Uri(Paths.CardPicsPath + "te.gif");
         }
 
         public virtual void Log(string msg)
         {
-            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
-            string appPath = HttpContext.Current.Request.ApplicationPath;
-            string fn = this.LogFile;
-            File.AppendAllText(fn, preMsg + msg + "\r\n");
+            Logger.Log(msg);
         }
 
     }

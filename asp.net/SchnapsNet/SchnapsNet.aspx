@@ -80,7 +80,7 @@
                 <asp:Button ID="bStop" Width="12%" Height="8%" runat="server" ToolTip="Stop" Text="Stop" OnClick="Stop_Click" Enabled="false" Visible="false"
                     style="min-height: 40px; min-width: 40px; font-size: large; border-color: darkslategray"  />
             </span>            
-            <span style="visibility: hidden; min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
+            <span style="visibility: visible; min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
                 <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help" Text="Help" OnClick="Help_Click" Enabled="true" 
                     style="min-height: 40px; min-width: 36px; font-size: large; border-color: darkslategray" />
             </span>
@@ -98,22 +98,30 @@
                 <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" OnClick="Merge_Click" ToolTip="Click here to start"
                     style="z-index: 2; border-width: medium; border-color: #f7f7f7; border-style: solid" />&nbsp;
             </span>
-            <asp:PlaceHolder ID="PlaceHolderAtouTalon" runat="server" Visible="false">
-            <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium;">
-                <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" OnClick="ImageCard_Click" 
-                    style="z-index: 1; border-width: medium; border-color: #f7f7f7; border-style: solid" />
+            <span id="SpanAtouTalon" runat="server" 
+                style="min-height: 96px; min-width: 72px; height:10%; width:26%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium; visibility: hidden">
+                <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: left; font-size: medium;">
+                    <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" Visible="false" OnClick="ImageCard_Click" 
+                        style="z-index: 1; border-width: medium; border-color: #f7f7f7; border-style: solid" />
+                </span>
+                <span style="min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
+                    <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Visible="false" 
+                        style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit; border-style: none" Width="18%" />
+                </span>
             </span>
-            <span style="min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
-                <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" 
-                    style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit; border-style: none" Width="18%" />
-            </span>   
-            </asp:PlaceHolder> 
-            <asp:PlaceHolder ID="PlaceHolderComputerStitches" runat="server" Visible="false">
-            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10;  margin-top: 0px; text-align: right; font-size: medium">
-                <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
-                <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
+            <span id="SpanComputerStitches" runat="server" 
+                style="min-height: 96px; min-width: 96px; height: 10%; width: 18%; margin-left: 0px; margin-top: 0px;  z-index: 10; font-size: medium; visibility: hidden;">
+                <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
+                <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
             </span>
-            </asp:PlaceHolder>
+            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-right: 0px; margin-top: 0px; vertical-align:top; text-align: right; visibility: visible; font-size: medium">
+                <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
+                    <asp:TableHeaderRow style="border-bottom: thick; border-bottom-style: double">
+                        <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
+                        <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
+                    </asp:TableHeaderRow>
+                </asp:Table>                
+            </span>
         </div>
         <div id="DivPlayerStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
@@ -135,14 +143,6 @@
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click"
                     Style="border-width: medium; border-color: #f7f7f7; border-style: solid" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
-            </span>
-            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-left: 0px; margin-top: 0px; text-align: left; visibility: visible; font-size: medium">
-                <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
-                    <asp:TableHeaderRow style="border-bottom: thick; border-bottom-style: double">
-                        <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
-                        <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
-                    </asp:TableHeaderRow>
-                </asp:Table>                
             </span>
         </div>        
         <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: large; margin-top: 8px; table-layout: fixed; inset-block-start: initial">

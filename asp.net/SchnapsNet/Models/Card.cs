@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json.Linq;
 using SchnapsNet.ConstEnum;
+using SchnapsNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Resources;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI.WebControls;
 
@@ -21,12 +24,12 @@ namespace SchnapsNet.Models
         internal int intern = -1;    // 20 values for internal representation and (-1) for unitialized
         CARDVALUE cardValue = CARDVALUE.NONE;
         CARDCOLOR cardColor = CARDCOLOR.NONE;
-        bool atou = false;
-        char color = 'n';   // 4 colors and 'n' for unitialized
-        int value = -1; // 5 values and 0 for unitialized
-        string name = null;  // Human readable classifier
+        private bool atou = false;
+        private char color = 'n';   // 4 colors and 'n' for unitialized
+        private int value = -1; // 5 values and 0 for unitialized
+        private string name = null;  // Human readable classifier
         // Uri pictureUri;
-        String picture;  // picture        
+        private String picture;  // picture        
 
         // Resources r;
         HttpContext context;
@@ -63,6 +66,11 @@ namespace SchnapsNet.Models
         }
 
         /// <summary>
+        /// CardPicsPath - http(s) path to cardpics directory
+        /// </summary>
+        public string CardPicsPath { get => Paths.CardPicsPath; }
+
+        /// <summary>
         /// Name of current Card per default: cardColor + "_" + cardValue
         /// </summary>
         public string Name
@@ -78,13 +86,14 @@ namespace SchnapsNet.Models
         {
             get
             {
-                string colorName = Enum.GetName(typeof(CARDCOLOR), this.cardColor);
-                // String colorName = Card.ParseColorChar(this.cardColor.GetChar().ToString();
-                string cardName = Enum.GetName(typeof(CARDVALUE), this.cardValue);
-                // String cardName = this.cardValue.ToString();
+                string colorNameStr = JavaResReader.GetValueFromKey("color_" + this.cardColor.GetChar(), globalVariable.ISO2Lang);
+                if (cardColor == CARDCOLOR.EMPTY || cardColor == CARDCOLOR.NONE) 
+                    return colorNameStr;
 
-                return (this.cardValue.GetValue() < 2) ?
-                    cardName : (colorName + Constants.OFDELIM + cardName);
+                string cardValueStr = JavaResReader.GetValueFromKey("cardval_" + this.cardValue.GetValue(), globalVariable.ISO2Lang);
+                String cardName = colorNameStr + " " + cardValueStr;
+
+                return (this.cardValue.GetValue() < 2) ? this.Name : cardName;
             }
         }        
 
@@ -123,14 +132,14 @@ namespace SchnapsNet.Models
                 Uri uri = null;
                 try
                 {
-                    string myUri = Constants.URLPREFIX + this.color + this.value + ".gif";
+                    
+                    string myUri = CardPicsPath + this.ColorValue + ".gif";
                     uri = new Uri(myUri);
                 }
                 catch (Exception exi)
                 {
-                    System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                        Constants.URLPREFIX + this.color + this.value + ".gif" +
-                        "\r\n" + exi.StackTrace.ToString());
+                    Logger.Log("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Logger.Log(exi.StackTrace.ToString());
                 }
                 return uri;
             }
@@ -150,9 +159,8 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception exi)
                 {
-                    System.Console.Error.WriteLine("Wrong card: " + this.name + " => " +
-                        Constants.URLPREFIX + this.color + this.value + ".gif" +
-                        "\r\n" + exi.StackTrace.ToString());
+                    Logger.Log("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Logger.Log(exi.StackTrace.ToString());
                 }
                 return uriString;
             }
@@ -173,6 +181,11 @@ namespace SchnapsNet.Models
             cardColor = CARDCOLOR.NONE;
             this.color = (char)cardColor.GetChar();
             this.value = cardValue.GetValue();
+            this.context = HttpContext.Current;
+            if (context != null && context.Session != null && context.Session[Constants.APPNAME] != null)
+            {
+                globalVariable = (GlobalAppSettings)context.Session[Constants.APPNAME];
+            }
         }
 
         /// <summary>
@@ -182,8 +195,7 @@ namespace SchnapsNet.Models
         public Card(HttpContext c) : this()
         {            
             this.context = c;
-            // r = c.getResources();
-            if (c != null && c.Session != null)
+            if (c != null && c.Session != null && c.Session[Constants.APPNAME] != null)
             {
                 globalVariable = (GlobalAppSettings)c.Session[Constants.APPNAME];
             }                
@@ -392,7 +404,10 @@ namespace SchnapsNet.Models
             this.cardColor = aCard.cardColor;
             // this.r = aCard.r;
             this.context = aCard.context;
-            // this.globalVariable = aCard.globalVariable;
+            if (context != null && context.Session != null && context.Session[Constants.APPNAME] != null)
+            {
+                globalVariable = (GlobalAppSettings)context.Session[Constants.APPNAME];
+            }
         }
 
         /// <summary>
@@ -517,111 +532,56 @@ namespace SchnapsNet.Models
             return this.PictureUri;
         }
 
-        /**
-         * getResourcesInt
-         * @return the RessourceID drom "drawable" as int for the soecific card
-
-            public int getResourcesInt()
+        /// <summary>
+        /// GetImage() returns a System.Drawing.Image of current card
+        /// </summary>
+        /// <returns>System.Drawing.Image</returns>
+        public System.Drawing.Image GetImage()
+        {
+            System.Drawing.Image image = null;
+            string imgName = Paths.CardPicsDir + this.ColorValue + ".gif";
+            if (!File.Exists(imgName))
             {
-                String tmp = this.color + String.valueOf(this.value);
-
-                if (this.cardColor == CARDCOLOR.EMPTY || tmp.startsWith("e") ||
-                        tmp.equals("e1") || tmp.equals("e0") || tmp.equals("e"))
-                    return R.drawable.e1;
-
-                if (this.cardColor == CARDCOLOR.NONE || tmp.startsWith("n") ||
-                        tmp.equals("n0") || tmp.equals("n"))
-                    return R.drawable.n0;
-
-                int drawableID = context.getResources().getIdentifier(
-                        tmp, "drawable", context.getPackageName());
-
-                // Get menu set locale, that is global stored in app context
-                globalAppVarLocale = globalVariable.getLocale();
-                String langLocaleString = globalAppVarLocale.getDisplayName();
-                String langNoCntry = globalAppVarLocale.getLanguage();
-
-                if (langNoCntry.equals((new Locale("en")).getLanguage()) ||
-                    langNoCntry.equals((new Locale("fr")).getLanguage()) ||
-                    langNoCntry.equals((new Locale("de")).getLanguage()) ||
-                    langNoCntry.equals((new Locale("pl")).getLanguage()) ||
-                    langNoCntry.equals((new Locale("uk")).getLanguage()))
-                {
-                    // get language country region specific card deck card symbol
-                    int drawableLangId = context.getResources().getIdentifier(
-                            langNoCntry + "_" + tmp,
-                            "drawable", context.getPackageName());
-                    if (drawableLangId > 0)
-                        return drawableLangId;
-
-                }
-                return drawableID;
-
+                HttpClient httpClient = new HttpClient();
+                System.IO.Stream stream = httpClient.GetStreamAsync(PictureUrlString).Result;
+                image = new Bitmap(stream);
             }
-        */
-
-        /**
-         * getDrawableFromUrl
-         * @return Drawable Bitmap on the net, that represents custom card deck from a prefix url
-
-            protected Drawable getDrawableFromUrl()
+            else
             {
-                Bitmap bmp = null;
-                try
-                {
-                    HttpURLConnection connection = (HttpURLConnection)getPictureUrl().openConnection();
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    bmp = BitmapFactory.decodeStream(input);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                return new BitmapDrawable(context.getResources(), bmp);
+                Stream picStream = new System.IO.FileStream(imgName, FileMode.Open, FileAccess.Read);
+                
+                image = new Bitmap(imgName, true);
             }
-        */
+            
+            return image;
+        }
 
-        /**
-         * getDrawable
-         * @return Drawable, that contains card symbol e.g. for heart ace => R.drawable.h11
-         
-            public Drawable getDrawable()
+
+        /// <summary>
+        /// GetBytes() returns byte[] raw data from current Image
+        /// </summary>
+        /// <returns>System.Drawing.Image</returns>
+        public byte[] GetBytes()
+        {
+            string imgName = Paths.CardPicsDir + this.ColorValue + ".gif";
+            byte[] byBuf = null;
+            try
             {
-                android.util.TypedValue typVal = new TypedValue();
-                typVal.resourceId = this.getResourcesInt();
-                Resources.Theme theme = context.getResources().newTheme();
-
-                return context.getResources().getDrawable(typVal.resourceId, theme);
-            }
-        */
-
-        /**
-         * getBytes get bytes of drawable ressource
-         * @return byte[]
-
-            public byte[] getBytes()
-            {
-                byte[] byBuf = null;
-                try
+                using (Stream picStream = new System.IO.FileStream(imgName, FileMode.Open, FileAccess.Read))
                 {
-                    InputStream is = context.getResources().openRawResource(this.getResourcesInt());
-                    BufferedInputStream bis = new BufferedInputStream(is);
-                    // a buffer large enough for our image can be byte[] byBuf = = new byte[is.available()];
-                    byBuf = new byte[10000]; // is.read(byBuf);  or something like that...
-                    int byteRead = bis.read(byBuf, 0, 10000);
-
-                    return byBuf;
-                    // img1 = Toolkit.getDefaultToolkit().createImage(byBuf);
-
+                    byBuf = new byte[picStream.Length];
+                    picStream.Read(byBuf, 0, byBuf.Length);
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+
                 return byBuf;
             }
-        */
+            catch (Exception e)
+            {
+                Logger.Log(e.ToString());
+            }
+            
+            return byBuf;
+        }
 
         /// <summary>
         /// ParseValue
