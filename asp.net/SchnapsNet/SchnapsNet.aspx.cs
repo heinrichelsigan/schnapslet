@@ -363,10 +363,12 @@ namespace SchnapsNet
                 }
                 else
                 {
-                    // SpanAtouTalon.Visible = false;
-                    SpanAtouTalon.Style["visibility"] = "hidden";
                     this.imAtou10.Visible = false;
                     this.imAtou10.ImageUrl = emptyURL.ToString();
+
+                    SpanAtouTalon.Style["visibility"] = "hidden";
+                    if (schnapStateVal >= 20)
+                        SpanAtouTalon.Visible = false;
                 }
             }
             catch (Exception exAtou1)
@@ -397,8 +399,10 @@ namespace SchnapsNet
                     imTalon.ImageUrl = emptyURL.ToString();
                     imTalon.ImageUrl = talonURL.ToString();
                     imTalon.Visible = false;
-                    // this.SpanAtouTalon.Visible = true;
+
                     SpanAtouTalon.Style["visibility"] = "hidden";
+                    if (schnapStateVal >= 20)
+                        SpanAtouTalon.Visible = false;                    
                 }
             }
             catch (Exception imTalonEx)
