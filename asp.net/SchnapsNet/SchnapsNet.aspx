@@ -94,7 +94,7 @@
                 <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="Continue_Click" 
                     style="font-size: medium; border-width: medium; border-color: #f7f7f7; border-style: solid" />                
             </span>
-            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
+            <span style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:26%; z-index: 10;  margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" OnClick="Merge_Click" ToolTip="Click here to start"
                     style="z-index: 2; border-width: medium; border-color: #f7f7f7; border-style: solid" />&nbsp;
             </span>
@@ -110,9 +110,10 @@
                 </span>
             </span>
             <span id="SpanComputerStitches" runat="server" 
-                style="min-height: 96px; min-width: 96px; height: 10%; width: 18%; margin-left: 0px; margin-top: 0px;  z-index: 10; font-size: medium; visibility: hidden;">
+                style="min-height: 96px; min-width: 96px; height: 10%; width: 18%; margin-left: 0px; margin-top: 0px;  z-index: 10; font-size: medium; visibility: visible;">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
                 <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
+                &nbsp;
             </span>
             <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-right: 0px; margin-top: 0px; vertical-align:top; text-align: right; visibility: visible; font-size: medium">
                 <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
@@ -145,17 +146,17 @@
                     Style="border-width: medium; border-color: #f7f7f7; border-style: solid" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
             </span>
         </div>        
-        <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: large; margin-top: 8px; table-layout: fixed; inset-block-start: initial">
+        <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: large; margin-top: 4px; table-layout: fixed; inset-block-start: initial">
             <span style="width:4%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
                 <asp:TextBox ID="tPoints" Width="4%" Height="8%"  runat="server" ToolTip="text message" Enabled="false"
                     style="min-height: 32px; min-width: 24px; font-size: large; text-align: right; border-color: darkslategray; border-style: solid" >0</asp:TextBox> 
             </span>
-            <span style="width:4%; vertical-align:central; text-align: left; font-size: large; height: 8%;" align="right" valign="middle">
-                <asp:Label ID="lPoints" Width="4%" Height="8%"  runat="server" ToolTip="Points" 
+            <span style="width:8%; vertical-align:central; text-align: left; font-size: large; height: 8%;" align="right" valign="middle">
+                <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" 
                     style="min-height: 32px; min-width: 24px; font-size: large">Points</asp:Label>
             </span>
             <span style="width:76%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="middle" valign="middle">            
-                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="75%" Height="8%" 
+                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="76%" Height="8%" 
                     style="min-height: 32px; font-size: large; border-color: darkslategray; border-style: solid">Short Information</asp:TextBox>
             </span>       
         </div>
