@@ -89,7 +89,7 @@
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">                
                 <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="Continue_Click"
                     style="font-size: medium; border-width: medium; border-color: #f7f7f7; border-style: solid" />                
-             </span>
+                </span>
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">                
                 <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="Continue_Click" 
                     style="font-size: medium; border-width: medium; border-color: #f7f7f7; border-style: solid" />                
@@ -113,16 +113,7 @@
                 style="min-height: 96px; min-width: 96px; height: 10%; width: 18%; margin-left: 0px; margin-top: 0px;  z-index: 10; font-size: medium; visibility: visible;">
                 <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
                 <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" />
-                &nbsp;
-            </span>
-            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-right: 0px; margin-top: 0px; vertical-align:top; text-align: right; visibility: visible; font-size: medium">
-                <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
-                    <asp:TableHeaderRow style="border-bottom: thick; border-bottom-style: double">
-                        <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
-                        <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
-                    </asp:TableHeaderRow>
-                </asp:Table>                
-            </span>
+            </span>            
         </div>
         <div id="DivPlayerStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; table-layout: fixed; inset-block-start: auto">
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
@@ -144,6 +135,14 @@
             <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click"
                     Style="border-width: medium; border-color: #f7f7f7; border-style: solid" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
+            </span>
+            <span style="min-height: 96px; min-width: 24%; height:10%; width: 24%; margin-right: 0px; margin-top: -8%; vertical-align:top; text-align: right; visibility: visible; font-size: medium">
+                <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
+                    <asp:TableHeaderRow style="border-bottom: thick; border-bottom-style: double">
+                        <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
+                        <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
+                    </asp:TableHeaderRow>
+                </asp:Table>                
             </span>
         </div>        
         <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: large; margin-top: 4px; table-layout: fixed; inset-block-start: initial">

@@ -120,7 +120,7 @@ namespace SchnapsNet.Models
         /// <summary>
         /// ColorValue => returns String combined of card color + value
         /// </summary>
-        public String ColorValue { get => CardColor.GetChar() + CardValue.GetValue().ToString(); }
+        public String ColorValue { get => CardColor.GetChar() + Math.Abs(CardValue.GetValue()).ToString(); }
 
         /// <summary>        
         /// PictureUri => returns a valid picture Uri to ab image in WWW  
