@@ -493,7 +493,7 @@
             printMsg();
 
             tPoints.Text = aGame.gambler.points.ToString();
-            if (aGame.gambler.points > 65)
+            if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 twentyEnough(PLAYERDEF.HUMAN);
             }
@@ -544,7 +544,7 @@
             printMsg();
 
             tPoints.Text = aGame.gambler.points.ToString();
-            if (aGame.gambler.points > 65)
+            if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 twentyEnough(PLAYERDEF.HUMAN);
             }
@@ -1381,7 +1381,7 @@
 
         if (aGame.playersTurn)
         {
-            if (aGame.gambler.points > 65)
+            if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds3 = string.Format(
@@ -1394,7 +1394,7 @@
         }
         else
         {
-            if (aGame.computer.points > 65)
+            if (aGame.computer.points >= Constants.ENOUGH)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds4 = string.Format(

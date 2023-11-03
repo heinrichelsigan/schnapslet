@@ -14,7 +14,7 @@
             var Mtop = (screen.height / 2) - (640 / 2);
             if (helpWin == null)
                 helpWin = window.open('Help.aspx', 'helpWin',
-                    'height=640,width=720,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,titlebar=no,toolbar=no,top=\' + Mtop + \', left=\' + Mleft + \'');
+                    'height=640,width=720,location=yes,menubar=no,resizable=yes,scrollbars=yes,status=yes,titlebar=yes,toolbar=no,top=\' + Mtop + \', left=\' + Mleft + \'');
             else try {
                 helpWin.focus();
             } catch (Exception) {

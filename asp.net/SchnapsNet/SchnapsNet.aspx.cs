@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 using SchnapsNet.Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SchnapsNet
 {
@@ -91,14 +92,10 @@ namespace SchnapsNet
             globalVariable.SetTournementGame(aTournement, aGame);
             this.Context.Session[Constants.APPNAME] = globalVariable;
 
-            string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
-    "Schnapsen_" +
-    DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
-    DateTime.Now.Day.ToString() + "_"
-     + Context.Session.SessionID + "_" + DateTime.Now.Hour + DateTime.Now.Minute +
-     DateTime.Now.Second +
-    ".json");
-
+            //string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
+            //    "Schnapsen_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
+            //    DateTime.Now.Day.ToString() + "_" + Context.Session.SessionID + "_" + 
+            //    DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".json");
             // string jsonString = JsonConvert.SerializeObject(globalVariable);
             // System.IO.File.WriteAllText(saveFileName, jsonString);
         }
@@ -115,11 +112,10 @@ namespace SchnapsNet
 
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
-                    string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
-                    Log(initMsg);
+                    Log("New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!");
                     Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + Logger.LogFile);
 
-                    globalVariable = new Utils.GlobalAppSettings(this.Context, this.Session);
+                    globalVariable = new Utils.GlobalAppSettings(this.Context);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
                     this.Context.Session[Constants.APPNAME] = globalVariable;
@@ -201,12 +197,10 @@ namespace SchnapsNet
             string msg0 = string.Format(
                 ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                 aGame.PrintColor(aGame.said));
-            SetTextMessage(msg0);
-            aGame.InsertMsg(msg0);
-            PrintMsg();
+            SetTextMessage(msg0, true, true);
 
             tPoints.Text = aGame.gambler.points.ToString();
-            if (aGame.gambler.points > 65)
+            if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 TwentyEnough(PLAYERDEF.HUMAN);
                 return;
@@ -617,9 +611,7 @@ namespace SchnapsNet
                 if (aGame.isGame == false || aGame.gambler == null || aGame.gambler.hand[ic] == null || !aGame.gambler.hand[ic].IsValidCard)
                 {
                     String msgVC = ResReader.GetValue("this_is_no_valid_card", globalVariable.ISO2Lang);
-                    SetTextMessage(msgVC);
-                    aGame.InsertMsg(msgVC);
-                    PrintMsg();
+                    SetTextMessage(msgVC, true, true);
                     return;
                 }
                 if (aGame.pSaid)
@@ -634,25 +626,20 @@ namespace SchnapsNet
                     else
                     {
                         String msgPlayPair = ResReader.GetValue("you_must_play_pair_card", globalVariable.ISO2Lang);
-                        SetTextMessage(msgPlayPair);
-                        aGame.InsertMsg(msgPlayPair);
-                        PrintMsg();
+                        SetTextMessage(msgPlayPair, true, true);
                         return;
                     }
                 }
                 if (aGame.colorHitRule && (!aGame.playersTurn))
                 {
-                    if (ccard < 0 && Session["ccard"] != null)
-                    {
-                        ccard = (int)Session["ccard"];
-                    }
+                    ccard = globalVariable.CcCard;
 
                     // CORRECT WAY ?
                     if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
                         String msgColorHitRule = ResReader.GetValue("you_must_play_color_hit_force_rules", globalVariable.ISO2Lang);
-                        SetTextMessage(msgColorHitRule);
-                        aGame.InsertMsg(msgColorHitRule);
+                        SetTextMessage(msgColorHitRule, true, false);
+                        
                         int tmpint = aGame.gambler.PreferedInColorHitsContext(aGame.computer.hand[ccard]);
                         // for (j = 0; j < 5; j++) {
                         //     c_array = c_array + aGame.gambler.colorHitArray[j] + " ";
@@ -788,7 +775,7 @@ namespace SchnapsNet
             {
                 if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
                 {
-                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
+                    globalVariable = new GlobalAppSettings(this.Context);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
                     this.Context.Session[Constants.APPNAME] = globalVariable;
@@ -1019,7 +1006,7 @@ namespace SchnapsNet
         /// <param name="whoCloses">PLAYERDEF player or computer</param>
         void CloseGame(PLAYERDEF whoCloses)
         {
-            if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
+            if (aGame.isGame == false || aGame.gambler == null || aGame.colorHitRule)
             {
                 SetTextMessage(ResReader.GetValue("nogame_started", globalVariable.ISO2Lang));
                 return;
@@ -1305,7 +1292,7 @@ namespace SchnapsNet
                 /* COMPUTERS TURN IMPLEMENTIEREN */
                 string outPutMessage = "";
                 ccard = aGame.ComputerStarts();
-                Session["ccard"] = ccard;
+                globalVariable.CcCard = ccard;
 
                 int bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.CHANGEATOU);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
@@ -1382,7 +1369,7 @@ namespace SchnapsNet
             if (aGame.playersTurn)
             {
                 ccard = aGame.ComputersAnswer();
-                Session["ccard"] = ccard;
+                globalVariable.CcCard = ccard;
                 try
                 {
                     playedOutCard1 = aGame.computer.hand[ccard];
@@ -1396,11 +1383,7 @@ namespace SchnapsNet
                 }
             }
 
-            if (Session["ccard"] != null)
-            {
-                ccard = (int)Session["ccard"];
-                Session["ccard"] = null;
-            }
+            ccard = globalVariable.ClearCcCard();
 
             tmppoints = aGame.CheckPoints(ccard);
             aGame.computer.hand[ccard] = globalVariable.CardEmpty;
@@ -1480,7 +1463,7 @@ namespace SchnapsNet
             aGame.said = 'n';
             aGame.csaid = 'n';
 
-            if (aGame.gambler.points > 65)
+            if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds3 = string.Format(
@@ -1490,7 +1473,7 @@ namespace SchnapsNet
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
                 return;
             }
-            if (aGame.computer.points > 65)
+            if (aGame.computer.points >= Constants.ENOUGH)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds4 = string.Format(
@@ -1501,7 +1484,7 @@ namespace SchnapsNet
                 return;
             }
 
-            if (aGame.schnapState == SCHNAPSTATE.ZERO_CARD_REMAINS || assignCardState == 5)
+            if (aGame.schnapState == SCHNAPSTATE.ZERO_CARD_REMAINS || assignCardState == 5 || aGame.ZeroRemain)
             {
                 if (aGame.isClosed) // close game => must have over 66 or loose
                 {
@@ -1566,24 +1549,40 @@ namespace SchnapsNet
 
         void ErrHandler(Exception myErr)
         {
-            preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
-            preOut.InnerText += "\nMessage: " + myErr.Message;
-            preOut.InnerText += "\nString: " + myErr.ToString();
-            preOut.InnerText += "\nLmessage: " + myErr.StackTrace + "\n";
+            string errMsg = "Exception #" + (++errNum) + " \tMessage: " + myErr.Message +
+                "\n \t" + myErr.ToString() +
+                "\nstacktrace: " + myErr.StackTrace + "\n";
+            preOut.InnerText += errMsg;
+
+            Log(errMsg);            
         }
+
 
         /// <summary>
         /// setTextMessage shows a new Toast dynamic message
         /// </summary>
         /// <param name="textMsg">text to display</param>
-        void SetTextMessage(string textMsg)
+        /// <param name="queueMsg">if true, queue message in internal message queue</param>
+        /// <param name="printMsg">if true, print and log message</param>
+        void SetTextMessage(string textMsg, bool queueMsg = false, bool printMsg = false)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
-            if (aGame != null)
-                aGame.statusMessage = msgSet;
-
             tMsg.Visible = true;
             tMsg.Text = msgSet;
+
+            if (aGame != null)
+            {
+                aGame.statusMessage = msgSet;
+                if (queueMsg) 
+                {
+                    aGame.InsertMsg(msgSet);
+                    if (printMsg)
+                        PrintMsg();
+                   
+                    return;
+                }
+            }
+
             Log(msgSet);
         }
     }

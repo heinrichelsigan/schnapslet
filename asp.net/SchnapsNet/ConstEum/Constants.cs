@@ -37,7 +37,10 @@ namespace SchnapsNet.ConstEnum
         public const string TAYLOR_SYM1 = "&#9986;";
         public const string TAYLOR_SYM2 = "&#x2704;";       // ✄
 
+        public const string CCARD       = "ccard";
+        public const int ENOUGH         = 66;
         public const string OFDELIM     = " of ";
+
 
         // "http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml
 

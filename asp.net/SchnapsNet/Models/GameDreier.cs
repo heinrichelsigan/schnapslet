@@ -214,7 +214,7 @@ namespace SchnapsNet.Models
 				// TODO: Computer closes game
 				int addPoints = (computer.handpairs[mark] == this.AtouInGame) ? 52 : 33;
 				if (!this.colorHitRule && schnapState == SCHNAPSTATE.GAME_STARTED &&
-					(computer.points + addPoints >= 66))
+					(computer.points + addPoints >= Constants.ENOUGH))
 				{
 					for (i = 0; i < computer.hand.Length; i++)
 					{
@@ -256,7 +256,7 @@ namespace SchnapsNet.Models
 						else
 							computer.points += 20;
 
-						if (computer.points > 65)
+						if (computer.points >= Constants.ENOUGH)
 						{
 							String andEnough = ResReader.GetValue("twenty_and_enough", globalAppSettings.ISO2Lang);
 							if (computer.hand[j].IsAtou)
@@ -281,7 +281,7 @@ namespace SchnapsNet.Models
 
             computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
 			// TODO: Computer closes game
-			if (!this.colorHitRule && (computer.points + 12 >= 66) &&
+			if (!this.colorHitRule && (computer.points + 12 >= Constants.ENOUGH) &&
 					schnapState == SCHNAPSTATE.GAME_STARTED)
 			{
 				for (i = 0; i < computer.hand.Length; i++)

@@ -11,6 +11,7 @@ namespace SchnapsNet.Utils
     [Serializable]
     public class GlobalAppSettings
     {
+        public int ccard = -1;
         public String pictureUrl = Constants.URLPIC;
         public string prefixUrl = Constants.URLPREFIX;
         public Uri prefixUri = null;
@@ -23,8 +24,7 @@ namespace SchnapsNet.Utils
         public Tournament tournement = null;
         private static HttpContext context;
         private HttpSessionState session;
-        private static HttpApplicationState application;
-        private static HttpApplication sApplication;
+        private static HttpApplicationState application;        
 
         #region properties
 
@@ -71,6 +71,26 @@ namespace SchnapsNet.Utils
         public Card CardEmpty { get => (emptyCard == null) ? new Card(-2, getContext()) : emptyCard; }
 
         public Card CardNone { get => (noneCard == null) ? noneCard = new Card(-1, getContext()) : noneCard; }
+
+        public int CcCard
+        {
+            get
+            {
+                if (ccard < 0 && getContext().Session[Constants.CCARD] == null)
+                    ccard = - 1;
+                else if (getContext().Session[Constants.CCARD] != null)
+                    ccard = (int)getContext().Session[Constants.CCARD];                
+                else if (ccard >= 0 && getContext().Session[Constants.CCARD] == null)
+                    getContext().Session[Constants.CCARD] = ccard;
+                
+                return ccard;
+            }
+            set 
+            { 
+                this.ccard = value;
+                getContext().Session[Constants.CCARD] = ccard;
+            }
+        }
         #endregion TournamentGame
 
         public Exception LastException { get; set; }
@@ -80,22 +100,11 @@ namespace SchnapsNet.Utils
         #region ctor
         public GlobalAppSettings()
         {
-
+            context = HttpContext.Current;
+            application = HttpContext.Current.Application;
+            session = HttpContext.Current.Session;
         }
-
-        /// <summary>
-        /// constructor for GlobalAppSettings
-        /// </summary>
-        /// <param name="app">HttpApplication</param>
-        /// <param name="c">HttpContext</param>
-        public GlobalAppSettings(HttpApplication app, HttpContext c, HttpApplicationState haps, HttpSessionState hses)
-        {
-            sApplication = app;
-            context = c;
-            application = haps;
-            this.session = hses;            
-        }
-
+       
         public GlobalAppSettings(HttpContext c, HttpApplicationState haps, HttpSessionState hses)
         {
             context = c;
@@ -103,54 +112,39 @@ namespace SchnapsNet.Utils
             this.session = hses;
         }
 
-        public GlobalAppSettings(HttpApplicationState haps, HttpSessionState hses)
-        {
-            application = haps;
-            this.session = hses;
-        }
-
         public GlobalAppSettings(HttpContext c, HttpSessionState hses)
         {
             context = c;
+            application = c.Application;
             this.session = hses;
         }
 
-        public GlobalAppSettings(HttpSessionState hses)
+        public GlobalAppSettings(HttpContext c)
         {
-            this.session = hses;
+            context = c;
+            application = c.Application;
+            this.session = c.Session;
         }
+
         #endregion ctor
 
         #region members
 
-        #region static members
-        public static HttpApplication getApplication()
-        {
-            return sApplication;
-        }
-        #endregion static members
-
         public HttpContext getContext()
         {
-            if (context == null)
-                context = getApplication().Context;
-            
+            context = HttpContext.Current;            
             return context;
         }
 
         public HttpApplicationState getAppState()
         {
-            if (context == null) context = getApplication().Context;
-            if (application == null) application = context.Application;
-
+            application = HttpContext.Current.Application;
             return application;
         }
 
         public HttpSessionState getSession()
         {
-            if (context == null) context = getApplication().Context;
-            if (session == null) session = context.Session;
-
+            session = HttpContext.Current.Session;
             return session;
         }
 
@@ -217,6 +211,19 @@ namespace SchnapsNet.Utils
         {
             this.tournement = aTournement;
             this.game = aGame;            
+        }
+
+        public int ClearCcCard()
+        {
+            if (getContext().Session[Constants.CCARD] != null)
+            {
+                ccard = (int)getContext().Session[Constants.CCARD];
+                getContext().Session[Constants.CCARD] = null;
+            }
+            else 
+                ccard = -1;
+            
+            return ccard;
         }
 
         // public DIALOGS getDialog() { return dialogOpened; }
