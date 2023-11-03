@@ -1,4 +1,5 @@
 ﻿using SchnapsNet.ConstEnum;
+using SchnapsNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,6 +25,16 @@ namespace SchnapsNet.Models
 		public bool atouChanged = false;			// Atou allready changed	
 		public bool isClosed = false;				// game is closed
 		public bool bChange = false;                // can player change atou		
+
+		public bool CanCloseOrChange
+		{
+			get => (!colorHitRule && !isClosed &&
+				schnapState != SCHNAPSTATE.GAME_CLOSED &&
+                schnapState != SCHNAPSTATE.TALON_ONE_REMAINS &&
+				schnapState != SCHNAPSTATE.TALON_CONSUMED &&
+				schnapState != SCHNAPSTATE.GAME_CLOSED &&
+				schnapState != SCHNAPSTATE.ZERO_CARD_REMAINS);
+		}
 
         /// <summary>
         /// Constructor of Game
@@ -57,7 +68,7 @@ namespace SchnapsNet.Models
             set[19] = new Card(inGame[19], context);
 			set[19].SetAtou();						
 			this.atouColor = set[19].CardColor;  // set[19].getCharColor();
-			string atouMsg = String.Format(JavaResReader.GetValueFromKey("atou_is", globalAppSettings.ISO2Lang),
+			string atouMsg = String.Format(ResReader.GetValue("atou_is", globalAppSettings.ISO2Lang),
                 PrintColor(CARDCOLOR_Extensions.ColorChar(set[19].CardColor)));
 			InsertMsg(atouMsg);
 
@@ -147,7 +158,7 @@ namespace SchnapsNet.Models
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 
 					gambler.points += tmppoints;
-					InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.ISO2Lang),
+					InsertFormated(ResReader.GetValue("your_hit_points", globalAppSettings.ISO2Lang),
 						tmppoints.ToString());
 
                     return tmppoints;
@@ -157,7 +168,7 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.ISO2Lang),
+                    InsertFormated(ResReader.GetValue("computer_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return (-tmppoints);
@@ -170,7 +181,7 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("computer_hit_points", globalAppSettings.ISO2Lang),
+                    InsertFormated(ResReader.GetValue("computer_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return (-tmppoints);
@@ -180,7 +191,7 @@ namespace SchnapsNet.Models
 					playersTurn = true;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					gambler.points += tmppoints;
-                    InsertFormated(JavaResReader.GetValueFromKey("your_hit_points", globalAppSettings.ISO2Lang),
+                    InsertFormated(ResReader.GetValue("your_hit_points", globalAppSettings.ISO2Lang),
                         tmppoints.ToString());
 
                     return tmppoints;
@@ -321,7 +332,7 @@ namespace SchnapsNet.Models
 		{
 			if (this.isGame == false || this.gambler == null || this.isClosed || this.colorHitRule)
 			{
-				throw new InvalidSchnapsStateException(JavaResReader.GetValueFromKey("exception_cannot_close_game"));
+				throw new InvalidSchnapsStateException(ResReader.GetValue("exception_cannot_close_game"));
 			}
 
             schnapState = SCHNAPSTATE.GAME_CLOSED;
@@ -335,12 +346,12 @@ namespace SchnapsNet.Models
             if (whoCloses == PLAYERDEF.HUMAN)
             {
                 this.gambler.hasClosed = true;
-                statusMessage = JavaResReader.GetValueFromKey("player_closed_game");
+                statusMessage = ResReader.GetValue("player_closed_game");
             }
             if (whoCloses == PLAYERDEF.COMPUTER)
             {
                 this.computer.hasClosed = true;
-                statusMessage = JavaResReader.GetValueFromKey("computer_closed_game");
+                statusMessage = ResReader.GetValue("computer_closed_game");
             }
 			
 			InsertMsg(statusMessage);
@@ -359,7 +370,7 @@ namespace SchnapsNet.Models
 			if (AtouIsChangable(computer))
 			{
 				ChangeAtou(computer);
-				InsertMsg(JavaResReader.GetValueFromKey("computer_changes_atou", globalAppSettings.ISO2Lang));
+				InsertMsg(ResReader.GetValue("computer_changes_atou", globalAppSettings.ISO2Lang));
             }
 			#endregion changeAtou
 
@@ -408,7 +419,7 @@ namespace SchnapsNet.Models
 					{
 						computer.playerOptions += PLAYEROPTIONS.SAYPAIR.GetValue();
 						csaid = computer.handpairs[mark];
-						InsertFormated(JavaResReader.GetValueFromKey("computer_says_pair", globalAppSettings.ISO2Lang),
+						InsertFormated(ResReader.GetValue("computer_says_pair", globalAppSettings.ISO2Lang),
 							 PrintColor(csaid));
 
                         if (computer.hand[j].IsAtou)
@@ -418,14 +429,14 @@ namespace SchnapsNet.Models
 
 						if (computer.points > 65)
 						{
-							String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalAppSettings.ISO2Lang);
+							String andEnough = ResReader.GetValue("twenty_and_enough", globalAppSettings.ISO2Lang);
 							if (computer.hand[j].IsAtou)
 							{
-								andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalAppSettings.ISO2Lang);
+								andEnough = ResReader.GetValue("fourty_and_enough", globalAppSettings.ISO2Lang);
 							}
 
 							computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.GetValue();
-							InsertMsg(andEnough + " " + string.Format(JavaResReader.GetValueFromKey("computer_has_won_points", globalAppSettings.ISO2Lang),
+							InsertMsg(andEnough + " " + string.Format(ResReader.GetValue("computer_has_won_points", globalAppSettings.ISO2Lang),
 								computer.points.ToString()));
                         }
                         else

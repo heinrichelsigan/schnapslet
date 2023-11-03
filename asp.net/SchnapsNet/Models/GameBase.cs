@@ -1,4 +1,5 @@
-﻿using SchnapsNet.ConstEnum;
+﻿using SchnapsNet.ConstEnum;	
+using SchnapsNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -37,8 +38,8 @@ namespace SchnapsNet.Models
 		public char said = 'n';							// player said pair char
 		public char csaid = 'n';						// computer said pair char
 
-		public int index = 9;
-		public int movs = 0;
+		protected internal int index = 9;
+        protected internal int movs = 0;
 		// public int phoneDirection = -1;
 		public int fetchedMsgCount = 0;
 		public int[] inGame = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -109,10 +110,10 @@ namespace SchnapsNet.Models
 
             schnapsStack = new Stack<SCHNAPSTATE>();
 			statusMessage = "";
-			sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", "");
-			sayMarriage40 = JavaResReader.GetValueFromKey("b20b_text", "");
+			sayMarriage20 = ResReader.GetValue("b20a_text", "");
+			sayMarriage40 = ResReader.GetValue("b20b_text", "");
 
-			InsertMsg(JavaResReader.GetValueFromKey("newgame_starts", globalAppSettings.ISO2Lang)); // TODO: giver msg            
+			InsertMsg(ResReader.GetValue("newgame_starts", globalAppSettings.ISO2Lang)); // TODO: giver msg            
         }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace SchnapsNet.Models
 		{
 			int i, k, j, l, tmp;
             
-            InsertMsg(JavaResReader.GetValueFromKey("merging_cards", globalAppSettings.ISO2Lang));
+            InsertMsg(ResReader.GetValue("merging_cards", globalAppSettings.ISO2Lang));
             k = GetRandom(32, true);
 
 			for (i = 0; i < k + 20; i++)
@@ -231,7 +232,7 @@ namespace SchnapsNet.Models
 					computer.hand[i] = playedOut;
 			}
 			schnapState = SCHNAPSTATE.NONE;            
-            InsertMsg(JavaResReader.GetValueFromKey("ending_game", globalAppSettings.ISO2Lang));
+            InsertMsg(ResReader.GetValue("ending_game", globalAppSettings.ISO2Lang));
         }
 
 		/// <summary>
@@ -252,10 +253,10 @@ namespace SchnapsNet.Models
 		{
 			switch (ch)
 			{
-				case 'k': return JavaResReader.GetValueFromKey("color_k", "");
-				case 'h': return JavaResReader.GetValueFromKey("color_h", "");
-				case 't': return JavaResReader.GetValueFromKey("color_t", "");
-				case 'p': return JavaResReader.GetValueFromKey("color_p", "");
+				case 'k': return ResReader.GetValue("color_k", "");
+				case 'h': return ResReader.GetValue("color_h", "");
+				case 't': return ResReader.GetValue("color_t", "");
+				case 'p': return ResReader.GetValue("color_p", "");
 				default: break;
 			}
 			return "NoColor";

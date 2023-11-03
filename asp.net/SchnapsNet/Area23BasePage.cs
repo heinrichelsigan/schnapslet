@@ -26,7 +26,7 @@ namespace SchnapsNet
         protected Uri emptyTalonUri = new Uri("https://area23.at/" + "schnapsen/cardpics/te.gif");
         protected Uri notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");
 
-        protected Models.GlobalAppSettings globalVariable;
+        protected Utils.GlobalAppSettings globalVariable;
         protected System.Globalization.CultureInfo locale;
         public Mutex schnapsMutex;
 

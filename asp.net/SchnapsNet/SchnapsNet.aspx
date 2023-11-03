@@ -7,49 +7,51 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnaps.Net</title>
     <script>
+        let helpWin = null;
+
+        function HelpOpen() {
+            var Mleft = (screen.width/2) - (720/2);
+            var Mtop = (screen.height / 2) - (640 / 2);
+            if (helpWin == null)
+                helpWin = window.open('Help.aspx', 'helpWin',
+                    'height=640,width=720,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,titlebar=no,toolbar=no,top=\' + Mtop + \', left=\' + Mleft + \'');
+            else try {
+                helpWin.focus();
+            } catch (Exception) {
+            }
+        }
 
         function highLightOnOver(highLightId) {
-            // alert("highLightOnOver(" + highLightId + ")");
+
             if (highLightId != null && document.getElementById(highLightId) != null) {
-                if (document.getElementById(highLightId).style.borderStyle == "dotted") {
-                    // do nothing when dotted
-                    return;
-                }
-                else {
-                    if ((document.getElementById("b20a") != null && document.getElementById("b20a").style.borderColor == "purple") ||
-                        (document.getElementById("b20b") != null && document.getElementById("b20b").style.borderColor == "purple"))
-                    {
-                        // don't highlight other cards in case of pair marriage
-                        // alert("b20a style border-color: " + document.getElementById("b20a").style.borderColor +
-                        //    " b20b style border-color: " + document.getElementById("b20b").style.borderColor);
-                        return;
-                    }
-                    else
-                    {
-                        // set border-width: 1; border-style: dashed
-                        document.getElementById(highLightId).style.borderWidth = "medium";
-                        document.getElementById(highLightId).style.borderColor = "indigo";
-                        document.getElementById(highLightId).style.borderStyle = "dashed";
-                    }
-                }
+
+                if (document.getElementById(highLightId).style.borderStyle == "dotted") 
+                    return; // do nothing when dotted                    
+
+                if ((document.getElementById("b20a") != null && document.getElementById("b20a").style.borderColor == "purple") ||
+                    (document.getElementById("b20b") != null && document.getElementById("b20b").style.borderColor == "purple")) 
+                        return; // don't highlight other cards in case of pair marriage
+
+                // set border-width: 1; border-style: dashed
+                document.getElementById(highLightId).style.borderWidth = "medium";
+                document.getElementById(highLightId).style.borderColor = "indigo";
+                document.getElementById(highLightId).style.borderStyle = "dashed";
             }
         }
 
         function unLightOnOut(unLightId) {
-            unLightId.st
-            // alert("unLightOnOut(" + unLightId + ")");
+            
             if (unLightId != null && document.getElementById(unLightId) != null) {
-                if (document.getElementById(unLightId).style.borderStyle == "dotted") {
-                    // do nothing when dotted
-                }
-                else {
-                    // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
-                    //    document.getElementById(highLightId).style.borderWidth == 1) {
+
+                if (document.getElementById(unLightId).style.borderStyle == "dotted") 
+                    return; // do nothing when dotted
+
+                // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
+                //    document.getElementById(highLightId).style.borderWidth == 1) {
                 document.getElementById(unLightId).style.borderWidth = "medium";
                 document.getElementById(unLightId).style.borderColor = "#f7f7f7";
                 document.getElementById(unLightId).style.borderStyle = "solid";
-                    // }
-                }
+                // }
             }
         }
 
@@ -57,7 +59,7 @@
 </head>
 <body>
     <form id="form1" runat="server">        
-        <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">            
+        <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; table-layout: fixed; inset-block-start: initial">
             <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
                 <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" Text="Continue" OnClick="Continue_Click" Enabled="true" 
                     style="min-height: 40px; min-width: 56px; font-size: large; border-color: darkslategray" />&nbsp;
@@ -81,7 +83,7 @@
                     style="min-height: 40px; min-width: 40px; font-size: large; border-color: darkslategray"  />
             </span>            
             <span style="visibility: visible; min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
-                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help" Text="Help" OnClick="Help_Click" Enabled="true" 
+                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help" Text="Help"  Enabled="true" OnClientClick="HelpOpen();"
                     style="min-height: 40px; min-width: 36px; font-size: large; border-color: darkslategray" />
             </span>
         </div>

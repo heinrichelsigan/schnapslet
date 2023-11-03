@@ -346,7 +346,6 @@
     <Content Include="cardpics\uk_t3.png" />
     <Content Include="cardpics\uk_t4.png" />
     <Content Include="cardpics\verdeckt.gif" />
-    <Content Include="json.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <None Include="log\20230601_schnapsnet.log.txt" />
@@ -355,10 +354,6 @@
     <None Include="log\20230901_schnapsnet.log.txt" />
     <Content Include="log\20231001_schnapsnet.log.txt" />
     <Content Include="Help.aspx" />
-    <Content Include="Properties\strings-de.xml" />
-    <Content Include="Properties\strings-en.xml" />
-    <Content Include="Properties\strings-fr.xml" />
-    <Content Include="Properties\strings.xml" />
     <Content Include="Schnapsen2000.aspx" />
     <Content Include="SchnapsApplet.html" />
     <Content Include="Schnapsen3er.aspx" />
@@ -373,11 +368,11 @@
     </Compile>
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\Paths.cs" />
+    <Compile Include="Utils\ProcessCmd.cs" />
     <Compile Include="Utils\ResReader.cs" />
     <Compile Include="ConstEum\CARDCOLOR.cs" />
     <Compile Include="ConstEum\CARDVALUE.cs" />
     <Compile Include="ConstEum\Constants.cs" />
-    <Compile Include="ConstEum\JavaResReader.cs" />
     <Compile Include="ConstEum\GAMECALL.cs" />
     <Compile Include="ConstEum\PLAYERDEF.cs" />
     <Compile Include="ConstEum\PLAYEROPTIONS.cs" />
@@ -390,7 +385,7 @@
     <Compile Include="Models\GameBase.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\SchnapsException.cs" />
-    <Compile Include="Models\GlobalAppSettings.cs" />
+    <Compile Include="Utils\GlobalAppSettings.cs" />
     <Compile Include="Models\PairCard.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\TournamentThree.cs" />

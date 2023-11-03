@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Web;
-using static System.Net.Mime.MediaTypeNames;
-using System.Web.UI.WebControls;
 using System.Globalization;
 using SchnapsNet.ConstEnum;
 using System.Web.SessionState;
+using SchnapsNet.Models;
 
-namespace SchnapsNet.Models
+namespace SchnapsNet.Utils
 {
     [Serializable]
     public class GlobalAppSettings
@@ -31,6 +28,7 @@ namespace SchnapsNet.Models
 
         #region properties
 
+        #region PictureUrl
         public Uri PictureUri { get { InitPictureUrl(); return this.pictureUri; } }
 
         public String PictureUrl
@@ -53,8 +51,9 @@ namespace SchnapsNet.Models
         public String PrefixUrl { get { InitPrefixUrl(); return this.prefixUrl; } }
 
         public Uri PrefixUri { get { InitPrefixUrl(); return this.prefixUri; } }
+        #endregion PictureUrl
 
-
+        #region CultureLanguage
         public CultureInfo Locale { get { InitLocale(); return locale; } set => locale = value; }
 
         public CultureInfo SystemLLocale { get { InitLocale(); return systemLocale; } }
@@ -62,8 +61,9 @@ namespace SchnapsNet.Models
         public String LocaleString { get => Locale.DisplayName; set => locale = new CultureInfo(value); }
 
         public String ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
+        #endregion CultureLanguage
 
-
+        #region TournamentGame
         public Game Game { get => game; }
 
         public Tournament Tournement { get => tournement; set => tournement = value; }
@@ -71,11 +71,13 @@ namespace SchnapsNet.Models
         public Card CardEmpty { get => (emptyCard == null) ? new Card(-2, getContext()) : emptyCard; }
 
         public Card CardNone { get => (noneCard == null) ? noneCard = new Card(-1, getContext()) : noneCard; }
+        #endregion TournamentGame
 
         public Exception LastException { get; set; }
 
         #endregion properties
 
+        #region ctor
         public GlobalAppSettings()
         {
 
@@ -117,9 +119,16 @@ namespace SchnapsNet.Models
         {
             this.session = hses;
         }
-
+        #endregion ctor
 
         #region members
+
+        #region static members
+        public static HttpApplication getApplication()
+        {
+            return sApplication;
+        }
+        #endregion static members
 
         public HttpContext getContext()
         {
@@ -214,11 +223,6 @@ namespace SchnapsNet.Models
         // public void setDialog(DIALOGS dia) { dialogOpened = dia; }
 
         #endregion members
-
-        public static HttpApplication getApplication()
-        {
-            return sApplication;
-        }
-
+        
     }
 }

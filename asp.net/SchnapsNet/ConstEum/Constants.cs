@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SchnapsNet.ConstEnum
 {
-    public class Constants
+    public static class Constants
     {
         public const string APPNAME     = "Schnaps.Net";
         public const string APPDIR      = "SchnapsNet";

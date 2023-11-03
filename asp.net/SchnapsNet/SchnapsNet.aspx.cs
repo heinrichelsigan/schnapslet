@@ -49,38 +49,38 @@ namespace SchnapsNet
             imTalon.Visible = true;
             imAtou10.ImageUrl = emptyURL.ToString();
 
-            bMerge.Text = JavaResReader.GetValueFromKey("bStart_text", Locale.TwoLetterISOLanguageName);
-            bStop.Text = JavaResReader.GetValueFromKey("bStop_text", Locale.TwoLetterISOLanguageName);
+            bMerge.Text = ResReader.GetValue("bStart_text", Locale.TwoLetterISOLanguageName);
+            bStop.Text = ResReader.GetValue("bStop_text", Locale.TwoLetterISOLanguageName);
             bStop.Enabled = false;
             bStop.Visible = false;
-            b20b.Text = JavaResReader.GetValueFromKey("b20b_text", Locale.TwoLetterISOLanguageName);
+            b20b.Text = ResReader.GetValue("b20b_text", Locale.TwoLetterISOLanguageName);
             b20b.Enabled = false;
-            b20a.Text = JavaResReader.GetValueFromKey("b20a_text", Locale.TwoLetterISOLanguageName);
+            b20a.Text = ResReader.GetValue("b20a_text", Locale.TwoLetterISOLanguageName);
             b20a.Enabled = false;
 
-            bChange.Text = JavaResReader.GetValueFromKey("bChange_text", Locale.TwoLetterISOLanguageName);
+            bChange.Text = ResReader.GetValue("bChange_text", Locale.TwoLetterISOLanguageName);
             bChange.Enabled = false;
 
             tPoints.Enabled = false;
-            tPoints.Text = JavaResReader.GetValueFromKey("tPoints_text", Locale.TwoLetterISOLanguageName);
-            bContinue.Text = JavaResReader.GetValueFromKey("bContinue_text", Locale.TwoLetterISOLanguageName);
+            tPoints.Text = ResReader.GetValue("tPoints_text", Locale.TwoLetterISOLanguageName);
+            bContinue.Text = ResReader.GetValue("bContinue_text", Locale.TwoLetterISOLanguageName);
             bContinue.Enabled = true;
 
-            bHelp.Text = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
-            bHelp.ToolTip = JavaResReader.GetValueFromKey("bHelp_text", Locale.TwoLetterISOLanguageName);
+            bHelp.Text = ResReader.GetValue("bHelp_text", Locale.TwoLetterISOLanguageName);
+            bHelp.ToolTip = ResReader.GetValue("bHelp_text", Locale.TwoLetterISOLanguageName);
 
             // tRest.Enabled = false;
-            // tRest.Text = JavaResReader.GetValueFromKey("tRest_text", Locale.TwoLetterISOLanguageName);            
-            // lRest.Text = JavaResReader.GetValueFromKey("sRest", Locale.TwoLetterISOLanguageName);
+            // tRest.Text = ResReader.GetValue("tRest_text", Locale.TwoLetterISOLanguageName);            
+            // lRest.Text = ResReader.GetValue("sRest", Locale.TwoLetterISOLanguageName);
 
-            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
-            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            this.imOut20.ToolTip = ResReader.GetValue("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            this.imOut21.ToolTip = ResReader.GetValue("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
+            this.imMerge11.ToolTip = ResReader.GetValue("imageMerge_ToolTip", Locale.TwoLetterISOLanguageName);
 
-            lPoints.Text = JavaResReader.GetValueFromKey("sPoints", Locale.TwoLetterISOLanguageName);
+            lPoints.Text = ResReader.GetValue("sPoints", Locale.TwoLetterISOLanguageName);
 
             tMsg.Enabled = false;
-            tMsg.Text = JavaResReader.GetValueFromKey("clickon_start", Locale.TwoLetterISOLanguageName);
+            tMsg.Text = ResReader.GetValue("clickon_start", Locale.TwoLetterISOLanguageName);
             tMsg.Visible = true;
 
             ShowStitches(-3);
@@ -119,7 +119,7 @@ namespace SchnapsNet
                     Log(initMsg);
                     Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + Logger.LogFile);
 
-                    globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
+                    globalVariable = new Utils.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
                     this.Context.Session[Constants.APPNAME] = globalVariable;
@@ -186,20 +186,20 @@ namespace SchnapsNet
             if (aGame.gambler.handpairs[handPairNumber] == aGame.AtouInGame)
             {
                 aGame.gambler.points += 40;
-                sayPair = JavaResReader.GetValueFromKey("fourty_in_color", globalVariable.ISO2Lang) +
+                sayPair = ResReader.GetValue("fourty_in_color", globalVariable.ISO2Lang) +
                     " " + aGame.PrintColor(aGame.said);
             }
             else
             {
                 aGame.gambler.points += 20;
-                sayPair = JavaResReader.GetValueFromKey("twenty_in_color", globalVariable.ISO2Lang) +
+                sayPair = ResReader.GetValue("twenty_in_color", globalVariable.ISO2Lang) +
                     " " + aGame.PrintColor(aGame.said);
             }
             aGame.pSaid = true;
             ResetButtons(0);
 
             string msg0 = string.Format(
-                JavaResReader.GetValueFromKey("you_say_pair", globalVariable.ISO2Lang),
+                ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                 aGame.PrintColor(aGame.said));
             SetTextMessage(msg0);
             aGame.InsertMsg(msg0);
@@ -314,9 +314,9 @@ namespace SchnapsNet
                     this.imMerge11.Visible = true;
                     try
                     {
-                        this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", ISO2Lang);
-                        this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", ISO2Lang);
-                        this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", ISO2Lang);
+                        this.imMerge11.ToolTip = ResReader.GetValue("imageMerge_ToolTip", ISO2Lang);
+                        this.imOut20.ToolTip = ResReader.GetValue("imageMerge_ToolTip", ISO2Lang);
+                        this.imOut21.ToolTip = ResReader.GetValue("imageMerge_ToolTip", ISO2Lang);
                     }
                     catch (Exception) { }
                     // ImageMerge.Visible = true;
@@ -353,12 +353,12 @@ namespace SchnapsNet
                     if (gameState == SCHNAPSTATE.GAME_CLOSED)
                     {
                         imAtou10.ImageUrl = notURL.ToString();
-                        imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_AltText", globalVariable.ISO2Lang);
+                        imAtou10.ToolTip = ResReader.GetValue("imageAtou_AltText", globalVariable.ISO2Lang);
                     }
                     else
                     {
                         imAtou10.ImageUrl = aGame.set[19].PictureUrlString;
-                        imAtou10.ToolTip = JavaResReader.GetValueFromKey("imageAtou_ToolTip", globalVariable.ISO2Lang);
+                        imAtou10.ToolTip = ResReader.GetValue("imageAtou_ToolTip", globalVariable.ISO2Lang);
                     }
                 }
                 else
@@ -528,7 +528,7 @@ namespace SchnapsNet
             // preOut.InnerText += "bChange_Click\r\n";
             aGame.ChangeAtou(aGame.gambler);
 
-            string msgChange = JavaResReader.GetValueFromKey("bChange_text", globalVariable.ISO2Lang);
+            string msgChange = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
             SetTextMessage(msgChange);
 
             bChange.Enabled = false;
@@ -603,7 +603,7 @@ namespace SchnapsNet
             {
                 if (ic == 10)
                 {
-                    if (aGame.playersTurn && (!aGame.isClosed) && (!aGame.pSaid) && (aGame.index < 16))
+                    if (aGame.playersTurn && !aGame.pSaid && aGame.CanCloseOrChange)
                     {
                         CloseGame(PLAYERDEF.HUMAN);
                     }
@@ -616,7 +616,7 @@ namespace SchnapsNet
                 }
                 if (aGame.isGame == false || aGame.gambler == null || aGame.gambler.hand[ic] == null || !aGame.gambler.hand[ic].IsValidCard)
                 {
-                    String msgVC = JavaResReader.GetValueFromKey("this_is_no_valid_card", globalVariable.ISO2Lang);
+                    String msgVC = ResReader.GetValue("this_is_no_valid_card", globalVariable.ISO2Lang);
                     SetTextMessage(msgVC);
                     aGame.InsertMsg(msgVC);
                     PrintMsg();
@@ -633,7 +633,7 @@ namespace SchnapsNet
                     }
                     else
                     {
-                        String msgPlayPair = JavaResReader.GetValueFromKey("you_must_play_pair_card", globalVariable.ISO2Lang);
+                        String msgPlayPair = ResReader.GetValue("you_must_play_pair_card", globalVariable.ISO2Lang);
                         SetTextMessage(msgPlayPair);
                         aGame.InsertMsg(msgPlayPair);
                         PrintMsg();
@@ -650,7 +650,7 @@ namespace SchnapsNet
                     // CORRECT WAY ?
                     if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
-                        String msgColorHitRule = JavaResReader.GetValueFromKey("you_must_play_color_hit_force_rules", globalVariable.ISO2Lang);
+                        String msgColorHitRule = ResReader.GetValue("you_must_play_color_hit_force_rules", globalVariable.ISO2Lang);
                         SetTextMessage(msgColorHitRule);
                         aGame.InsertMsg(msgColorHitRule);
                         int tmpint = aGame.gambler.PreferedInColorHitsContext(aGame.computer.hand[ccard]);
@@ -659,7 +659,7 @@ namespace SchnapsNet
                         // }
                         // aGame.mqueue.insert(c_array);
 
-                        String msgBestWouldBe = string.Format(JavaResReader.GetValueFromKey("best_card_would_be", globalVariable.ISO2Lang),
+                        String msgBestWouldBe = string.Format(ResReader.GetValue("best_card_would_be", globalVariable.ISO2Lang),
                             aGame.gambler.hand[tmpint].Name);
                         aGame.InsertMsg(msgBestWouldBe);
                         PrintMsg();
@@ -737,10 +737,13 @@ namespace SchnapsNet
 
         public void Help_Click(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(700/2);window.open( 'Help.aspx', null, 'height=700,width=760,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
+            //ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", 
+            //    "var Mleft = (screen.width/2)-(760/2);" +
+            //    "var Mtop = (screen.height/2)-(700/2);" +
+            //    "window.open( 'Help.aspx', null, 'height=700,width=760,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
 
             // preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-            // preOut.InnerText += JavaResReader.GetValueFromKey("help_text", globalVariable.ISO2Lang) + "\n";
+            // preOut.InnerText += ResReader.GetValue("help_text", globalVariable.ISO2Lang) + "\n";
             // preOut.InnerHtml += "-------------------------------------------------------------------------\n";
         }
 
@@ -773,9 +776,9 @@ namespace SchnapsNet
         protected void ToggleContinue(bool continueEnabled = true)
         {
             aGame.shouldContinue = continueEnabled;
-            imOut20.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.ISO2Lang) : "";
-            imOut21.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.ISO2Lang) : "";
-            bContinue.ToolTip = (continueEnabled) ? JavaResReader.GetValueFromKey("continue_ToolTip", globalVariable.ISO2Lang) : "";
+            imOut20.ToolTip = (continueEnabled) ? ResReader.GetValue("continue_ToolTip", globalVariable.ISO2Lang) : "";
+            imOut21.ToolTip = (continueEnabled) ? ResReader.GetValue("continue_ToolTip", globalVariable.ISO2Lang) : "";
+            bContinue.ToolTip = (continueEnabled) ? ResReader.GetValue("continue_ToolTip", globalVariable.ISO2Lang) : "";
             bContinue.Enabled = continueEnabled;
         }
 
@@ -801,12 +804,12 @@ namespace SchnapsNet
                     {
                         if (aTournement.Taylor)
                         {
-                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_taylor", globalVariable.ISO2Lang);
+                            endTournementMsg = ResReader.GetValue("you_won_taylor", globalVariable.ISO2Lang);
                             DrawPointsTable(2, aTournement.WonTournament);
                         }
                         else
                         {
-                            endTournementMsg = JavaResReader.GetValueFromKey("you_won_tournement", globalVariable.ISO2Lang);
+                            endTournementMsg = ResReader.GetValue("you_won_tournement", globalVariable.ISO2Lang);
                             DrawPointsTable(1, aTournement.WonTournament);
                         }
                     }
@@ -814,12 +817,12 @@ namespace SchnapsNet
                     {
                         if (aTournement.Taylor)
                         {
-                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_taylor", globalVariable.ISO2Lang);
+                            endTournementMsg = ResReader.GetValue("computer_won_taylor", globalVariable.ISO2Lang);
                             DrawPointsTable(2, aTournement.WonTournament);
                         }
                         else
                         {
-                            endTournementMsg = JavaResReader.GetValueFromKey("computer_won_tournement", globalVariable.ISO2Lang);
+                            endTournementMsg = ResReader.GetValue("computer_won_tournement", globalVariable.ISO2Lang);
                             DrawPointsTable(1, aTournement.WonTournament);
                         }
                     }
@@ -836,13 +839,13 @@ namespace SchnapsNet
             trHead.Style["border-bottom"] = "2px solid";
             TableCell tdX = new TableCell()
             {
-                Text = JavaResReader.GetValueFromKey("computer", globalVariable.ISO2Lang)
+                Text = ResReader.GetValue("computer", globalVariable.ISO2Lang)
             };
             tdX.Style["border-right"] = "1px solid;";
             tdX.Style["border-bottom"] = "2px solid";
             TableCell tdY = new TableCell()
             {
-                Text = JavaResReader.GetValueFromKey("you", globalVariable.ISO2Lang)
+                Text = ResReader.GetValue("you", globalVariable.ISO2Lang)
             };
             tdY.Style["border-bottom"] = "2px solid";
             trHead.Cells.Add(tdX);
@@ -903,15 +906,15 @@ namespace SchnapsNet
                     aGame.bChange = false;
                 }
 
-                b20a.Text = JavaResReader.GetValueFromKey("b20a_text", globalVariable.ISO2Lang);
+                b20a.Text = ResReader.GetValue("b20a_text", globalVariable.ISO2Lang);
                 b20a.ToolTip = b20a.Text;
                 b20a.Enabled = false;
 
-                b20b.Text = JavaResReader.GetValueFromKey("b20b_text", globalVariable.ISO2Lang);
+                b20b.Text = ResReader.GetValue("b20b_text", globalVariable.ISO2Lang);
                 b20b.ToolTip = b20b.Text;
                 b20b.Enabled = false;
 
-                bChange.Text = JavaResReader.GetValueFromKey("bChange_text", globalVariable.ISO2Lang);
+                bChange.Text = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
                 bChange.ToolTip = bChange.Text;
                 bChange.Enabled = false;
             }
@@ -922,7 +925,7 @@ namespace SchnapsNet
                 {
                     aGame.shouldContinue = false;
                 }
-                bContinue.Text = JavaResReader.GetValueFromKey("bContinue_text", globalVariable.ISO2Lang);
+                bContinue.Text = ResReader.GetValue("bContinue_text", globalVariable.ISO2Lang);
                 bContinue.ToolTip = "";
                 bContinue.Enabled = false;
 
@@ -977,9 +980,9 @@ namespace SchnapsNet
             bStop.Enabled = false;
             bStop.Visible = false;
             this.bContinue.Enabled = true;
-            this.imOut20.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.ISO2Lang);
-            this.imOut21.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.ISO2Lang);
-            this.imMerge11.ToolTip = JavaResReader.GetValueFromKey("imageMerge_ToolTip", globalVariable.ISO2Lang);
+            this.imOut20.ToolTip = ResReader.GetValue("imageMerge_ToolTip", globalVariable.ISO2Lang);
+            this.imOut21.ToolTip = ResReader.GetValue("imageMerge_ToolTip", globalVariable.ISO2Lang);
+            this.imMerge11.ToolTip = ResReader.GetValue("imageMerge_ToolTip", globalVariable.ISO2Lang);
 
             this.ToggleTournament(false);
         }
@@ -1018,7 +1021,7 @@ namespace SchnapsNet
         {
             if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
             {
-                SetTextMessage(JavaResReader.GetValueFromKey("nogame_started", globalVariable.ISO2Lang));
+                SetTextMessage(ResReader.GetValue("nogame_started", globalVariable.ISO2Lang));
                 return;
             }
 
@@ -1039,14 +1042,14 @@ namespace SchnapsNet
         protected void TwentyEnough(PLAYERDEF whoWon)
         {
             int xj = 0;
-            String andEnough = JavaResReader.GetValueFromKey("twenty_and_enough", globalVariable.ISO2Lang);
+            String andEnough = ResReader.GetValue("twenty_and_enough", globalVariable.ISO2Lang);
             aGame.isReady = false;
 
             if (whoWon == PLAYERDEF.HUMAN)
             {
                 if (aGame.said == aGame.AtouInGame)
                 {
-                    andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalVariable.ISO2Lang);
+                    andEnough = ResReader.GetValue("fourty_and_enough", globalVariable.ISO2Lang);
                 }
                 try
                 {
@@ -1077,7 +1080,7 @@ namespace SchnapsNet
                 }
 
                 string sEnds11 = andEnough + " " + string.Format(
-                    JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.ISO2Lang),
+                    ResReader.GetValue("you_have_won_points", globalVariable.ISO2Lang),
                     aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
@@ -1086,7 +1089,7 @@ namespace SchnapsNet
             {
                 if (aGame.csaid == aGame.AtouInGame)
                 {
-                    andEnough = JavaResReader.GetValueFromKey("fourty_and_enough", globalVariable.ISO2Lang);
+                    andEnough = ResReader.GetValue("fourty_and_enough", globalVariable.ISO2Lang);
                 }
                 try
                 {
@@ -1118,7 +1121,7 @@ namespace SchnapsNet
 
                 PrintMsg();
                 string sEnds12 = andEnough + " " + string.Format(
-                    JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.ISO2Lang),
+                    ResReader.GetValue("computer_has_won_points", globalVariable.ISO2Lang),
                     aGame.computer.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
                 StopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);
@@ -1253,8 +1256,8 @@ namespace SchnapsNet
             aGame.bChange = false;
             aGame.a20 = false;
             aGame.b20 = false;
-            aGame.sayMarriage20 = JavaResReader.GetValueFromKey("b20a_text", globalVariable.ISO2Lang);
-            aGame.sayMarriage40 = JavaResReader.GetValueFromKey("b20a_text", globalVariable.ISO2Lang);
+            aGame.sayMarriage20 = ResReader.GetValue("b20a_text", globalVariable.ISO2Lang);
+            aGame.sayMarriage40 = ResReader.GetValue("b20a_text", globalVariable.ISO2Lang);
 
             if (aGame.playersTurn)
             {
@@ -1274,28 +1277,28 @@ namespace SchnapsNet
                 {
                     psaychange += 2;
                     b20a.Text = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
-                        JavaResReader.GetValueFromKey("say_pair", globalVariable.ISO2Lang);
+                        ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                     aGame.sayMarriage20 = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
-                        JavaResReader.GetValueFromKey("say_pair", globalVariable.ISO2Lang);
+                        ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                     aGame.a20 = true;
                     b20a.Enabled = true;
                     if (a20 > 1)
                     {
                         b20b.Text = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
-                            JavaResReader.GetValueFromKey("say_pair", globalVariable.ISO2Lang);
+                            ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                         aGame.b20 = true;
                         aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
-                            JavaResReader.GetValueFromKey("say_pair", globalVariable.ISO2Lang);
+                            ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                         b20b.Enabled = true;
                     }
                     else
                     {
-                        aGame.sayMarriage40 = JavaResReader.GetValueFromKey("no_second_pair", globalVariable.ISO2Lang);
-                        b20b.Text = JavaResReader.GetValueFromKey("no_second_pair", globalVariable.ISO2Lang);
+                        aGame.sayMarriage40 = ResReader.GetValue("no_second_pair", globalVariable.ISO2Lang);
+                        b20b.Text = ResReader.GetValue("no_second_pair", globalVariable.ISO2Lang);
                     }
                 }
                 // Info 
-                SetTextMessage(JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.ISO2Lang));
+                SetTextMessage(ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang));
             }
             else
             {
@@ -1308,7 +1311,7 @@ namespace SchnapsNet
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
                     this.ShowAtouCard(aGame.schnapState);
-                    outPutMessage += JavaResReader.GetValueFromKey("computer_changes_atou", globalVariable.ISO2Lang);
+                    outPutMessage += ResReader.GetValue("computer_changes_atou", globalVariable.ISO2Lang);
                 }
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.SAYPAIR);
@@ -1317,12 +1320,12 @@ namespace SchnapsNet
                 {
                     computerSaid20 = true;
                     String computerSaysPair = string.Format(
-                        JavaResReader.GetValueFromKey("computer_says_pair", globalVariable.ISO2Lang),
+                        ResReader.GetValue("computer_says_pair", globalVariable.ISO2Lang),
                         aGame.PrintColor(aGame.csaid));
                     outPutMessage = outPutMessage + " " + computerSaysPair;
                 }
                 if (outPutMessage == "")
-                    outPutMessage = JavaResReader.GetValueFromKey("computer_plays_out", globalVariable.ISO2Lang);
+                    outPutMessage = ResReader.GetValue("computer_plays_out", globalVariable.ISO2Lang);
                 SetTextMessage(outPutMessage);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
@@ -1338,7 +1341,7 @@ namespace SchnapsNet
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
                     aGame.isClosed = true;
-                    outPutMessage += JavaResReader.GetValueFromKey("computer_closed_game", globalVariable.ISO2Lang);
+                    outPutMessage += ResReader.GetValue("computer_closed_game", globalVariable.ISO2Lang);
                     SetTextMessage(outPutMessage);
                     CloseGame(PLAYERDEF.COMPUTER);
                 }
@@ -1361,7 +1364,7 @@ namespace SchnapsNet
                     this.ErrHandler(jbpex);
                 }
 
-                String msgTxt33 = JavaResReader.GetValueFromKey("toplayout_clickon_card", globalVariable.ISO2Lang);
+                String msgTxt33 = ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang);
                 // setTextMessage(msgTxt33);            
             }
 
@@ -1405,9 +1408,9 @@ namespace SchnapsNet
 
             if (tmppoints > 0)
             {
-                msgText = string.Format(JavaResReader.GetValueFromKey("your_hit_points", globalVariable.ISO2Lang),
+                msgText = string.Format(ResReader.GetValue("your_hit_points", globalVariable.ISO2Lang),
                     tmppoints.ToString()) + " " +
-                    JavaResReader.GetValueFromKey("click_continue", globalVariable.ISO2Lang);
+                    ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
 
                 SetTextMessage(msgText);
 
@@ -1421,16 +1424,16 @@ namespace SchnapsNet
                 if (aGame.isClosed && (aGame.computer.hasClosed))
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds0 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.ISO2Lang);
+                    string sEnds0 = ResReader.GetValue("computer_closing_failed", globalVariable.ISO2Lang);
                     StopGame(3, PLAYERDEF.HUMAN, sEnds0);
                     return;
                 }
             }
             else
             {
-                msgText = string.Format(JavaResReader.GetValueFromKey("computer_hit_points", globalVariable.ISO2Lang),
+                msgText = string.Format(ResReader.GetValue("computer_hit_points", globalVariable.ISO2Lang),
                     (-tmppoints).ToString()) + " " +
-                    JavaResReader.GetValueFromKey("click_continue", globalVariable.ISO2Lang);
+                    ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
                 SetTextMessage(msgText);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
@@ -1443,7 +1446,7 @@ namespace SchnapsNet
                 if ((aGame.isClosed) && (aGame.gambler.hasClosed))
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds1 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.ISO2Lang);
+                    string sEnds1 = ResReader.GetValue("closing_failed", globalVariable.ISO2Lang);
                     StopGame(3, PLAYERDEF.COMPUTER, sEnds1);
                     return;
                 }
@@ -1465,7 +1468,7 @@ namespace SchnapsNet
                     this.ErrHandler(jbpvex);
                 }
 
-                string msgChFrc = JavaResReader.GetValueFromKey("color_hit_force_mode", globalVariable.ISO2Lang);
+                string msgChFrc = ResReader.GetValue("color_hit_force_mode", globalVariable.ISO2Lang);
                 SetTextMessage(msgChFrc);
             }
 
@@ -1481,7 +1484,7 @@ namespace SchnapsNet
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds3 = string.Format(
-                    JavaResReader.GetValueFromKey("you_have_won_points", globalVariable.ISO2Lang),
+                    ResReader.GetValue("you_have_won_points", globalVariable.ISO2Lang),
                     aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
@@ -1491,7 +1494,7 @@ namespace SchnapsNet
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
                 string sEnds4 = string.Format(
-                    JavaResReader.GetValueFromKey("computer_has_won_points", globalVariable.ISO2Lang),
+                    ResReader.GetValue("computer_has_won_points", globalVariable.ISO2Lang),
                     aGame.computer.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
@@ -1505,7 +1508,7 @@ namespace SchnapsNet
                     if (aGame.gambler.hasClosed)
                     {
                         RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                        string sEnds6 = JavaResReader.GetValueFromKey("closing_failed", globalVariable.ISO2Lang);
+                        string sEnds6 = ResReader.GetValue("closing_failed", globalVariable.ISO2Lang);
                         StopGame(3, PLAYERDEF.COMPUTER, sEnds6);
                     }
                     try
@@ -1513,7 +1516,7 @@ namespace SchnapsNet
                         if (aGame.computer.hasClosed)
                         {
                             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                            string sEnds7 = JavaResReader.GetValueFromKey("computer_closing_failed", globalVariable.ISO2Lang);
+                            string sEnds7 = ResReader.GetValue("computer_closing_failed", globalVariable.ISO2Lang);
                             StopGame(3, PLAYERDEF.HUMAN, sEnds7);
                         }
                     }
@@ -1528,14 +1531,14 @@ namespace SchnapsNet
                     if (tmppoints > 0)
                     {
                         RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                        string sEnds8 = JavaResReader.GetValueFromKey("last_hit_you_have_won", globalVariable.ISO2Lang);
+                        string sEnds8 = ResReader.GetValue("last_hit_you_have_won", globalVariable.ISO2Lang);
                         int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                         StopGame(tPts, PLAYERDEF.HUMAN, sEnds8);
                     }
                     else
                     {
                         RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                        string sEnds9 = JavaResReader.GetValueFromKey("computer_wins_last_hit", globalVariable.ISO2Lang);
+                        string sEnds9 = ResReader.GetValue("computer_wins_last_hit", globalVariable.ISO2Lang);
                         int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                         StopGame(tPts, PLAYERDEF.COMPUTER, sEnds9);
                     }
