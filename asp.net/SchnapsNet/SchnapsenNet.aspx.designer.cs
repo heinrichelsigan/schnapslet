@@ -231,15 +231,6 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton im4;
 
         /// <summary>
-        /// tableTournement control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tableTournement;
-
-        /// <summary>
         /// tPoints control.
         /// </summary>
         /// <remarks>

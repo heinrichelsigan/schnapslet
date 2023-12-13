@@ -348,11 +348,6 @@
     <Content Include="cardpics\verdeckt.gif" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <None Include="log\20230601_schnapsnet.log.txt" />
-    <None Include="log\20230701_schnapsnet.log.txt" />
-    <None Include="log\20230801_schnapsnet.log.txt" />
-    <None Include="log\20230901_schnapsnet.log.txt" />
-    <Content Include="log\20231001_schnapsnet.log.txt" />
     <Content Include="Help.aspx" />
     <Content Include="Schnapsen2000.aspx" />
     <Content Include="SchnapsApplet.html" />
@@ -440,6 +435,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">

@@ -41,7 +41,7 @@
     const string odSuidCmdPath = "/usr/local/sbin/od";
     const string odArgsFormat = " -A {0} -t x{1}z -w{2} -v -j {3} -N {4} /dev/{5}";
     const string odDefaultArgs = "-A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom";
-    private readonly string[] allowDevices = { "core", "random", "vga_arbiter", "xvda", "xvda1", "xvda14", "xvda15", "zero" };
+    private readonly string[] allowDevices = { "random", "urandom", "zero" };
 
     protected string OdArgs
     {
@@ -171,14 +171,8 @@
             </span>        
             <span style="width:28%; vertical-align:middle; text-align: right; font-size: medium; height: 24pt" align="right" valign="middle">
                 <asp:DropDownList style="font-size: medium; height: 24pt" ID="DropDown_Device" runat="server" ToolTip="device name" AutoPostBack="True" OnSelectedIndexChanged="OctalDump_ParameterChanged">
-                    <asp:ListItem Enabled="false">core</asp:ListItem>
                     <asp:ListItem Enabled="true">random</asp:ListItem>
                     <asp:ListItem Enabled="true" Selected="True">urandom</asp:ListItem>
-                    <asp:ListItem Enabled="false">vga_arbiter</asp:ListItem>
-                    <asp:ListItem Enabled="false">xvda</asp:ListItem>
-                    <asp:ListItem Enabled="false">xvda1</asp:ListItem>
-                    <asp:ListItem Enabled="false">xvda14</asp:ListItem>
-                    <asp:ListItem Enabled="false">xvda15</asp:ListItem>
                     <asp:ListItem Enabled="true">zero</asp:ListItem>
                 </asp:DropDownList>
             </span>

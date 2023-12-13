@@ -148,16 +148,16 @@
             </span>
         </div>        
         <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: large; margin-top: 4px; table-layout: fixed; inset-block-start: initial">
-            <span style="width:4%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
-                <asp:TextBox ID="tPoints" Width="4%" Height="8%"  runat="server" ToolTip="text message" Enabled="false"
+            <span style="width:8%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
+                <asp:TextBox ID="tPoints" Width="8%" Height="8%"  runat="server" ToolTip="text message" Enabled="false"
                     style="min-height: 32px; min-width: 24px; font-size: large; text-align: right; border-color: darkslategray; border-style: solid" >0</asp:TextBox> 
             </span>
             <span style="width:8%; vertical-align:central; text-align: left; font-size: large; height: 8%;" align="right" valign="middle">
                 <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" 
                     style="min-height: 32px; min-width: 24px; font-size: large">Points</asp:Label>
             </span>
-            <span style="width:76%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="middle" valign="middle">            
-                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="76%" Height="8%" 
+            <span style="width:64%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="middle" valign="middle">            
+                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="64%" Height="8%" 
                     style="min-height: 32px; font-size: large; border-color: darkslategray; border-style: solid">Short Information</asp:TextBox>
             </span>       
         </div>

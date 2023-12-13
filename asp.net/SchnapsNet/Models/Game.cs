@@ -47,16 +47,24 @@ namespace SchnapsNet.Models
 						if (gambler.hand[gi] != null && gambler.hand[gi].IsValidCard)
 							return false;
 					}
-					catch (Exception e) { }
+					catch (Exception e) 
+					{ 
+						if (globalAppSettings != null)
+							globalAppSettings.LastException = e;
+					}
                 }
                 for (int ci = 0; ci < computer.hand.Length; ci++)
                 {
-                    try
-                    {
-                        if (computer.hand[ci] != null && computer.hand[ci].IsValidCard)
-                            return false;
-                    }
-                    catch (Exception e) { }
+					try
+					{
+						if (computer.hand[ci] != null && computer.hand[ci].IsValidCard)
+							return false;
+					}
+					catch (Exception e)
+					{
+						if (globalAppSettings != null)
+							globalAppSettings.LastException = e;
+					}
                 }
 				return true;
             }
@@ -357,7 +365,7 @@ namespace SchnapsNet.Models
         /// <seealso cref="PLAYERDEF.HUMAN"/> or <seealso cref="PLAYERDEF.COMPUTER"/></param>
         public void CloseGame(PLAYERDEF whoCloses)
 		{
-			if (this.isGame == false || this.gambler == null || this.isClosed || this.colorHitRule)
+			if (this.isGame == false || this.gambler == null || this.colorHitRule)
 			{
 				throw new InvalidSchnapsStateException(ResReader.GetValue("exception_cannot_close_game"));
 			}

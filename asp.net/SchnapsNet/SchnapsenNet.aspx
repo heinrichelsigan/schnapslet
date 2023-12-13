@@ -9,15 +9,6 @@
     <script>
         var atouUrl = "";
 
-        function sleep(ms) {
-            setTimeout(codingCourse, 3000);
-        }
-            
-        function codingCourse() {
-            console.log("freeCodeCamp");
-        }
-
-
         function schnapsStateInit() {
             const myUrl2 = new URL(window.location.toLocaleString());
             // alert(myUrl2);

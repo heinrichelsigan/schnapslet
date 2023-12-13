@@ -16,8 +16,6 @@ namespace SchnapsNet
 {
     public partial class SchnapsNet : Area23BasePage
     {
-        Models.Game aGame;
-        Models.Tournament aTournement;
         long errNum = 0; // Errors Ticker
         int ccard = -1; // Computers Card played
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
@@ -29,9 +27,9 @@ namespace SchnapsNet
         // static String talonJarStr = "/schnapsen/cardpics/t.gif";
         // Thread t0;
 
-        public void InitSchnaps()
+        public override void InitSchnaps()
         {
-            InitURLBase();
+            base.InitSchnaps();
 
             preOut.InnerText = "";
             // tMsg.Enabled = false;
@@ -87,10 +85,9 @@ namespace SchnapsNet
             ShowStitches(-3);
         }
 
-        public void RefreshGlobalVariableSession()
+        public override void RefreshGlobalVariableSession()
         {
-            globalVariable.SetTournementGame(aTournement, aGame);
-            this.Context.Session[Constants.APPNAME] = globalVariable;
+            base.RefreshGlobalVariableSession();
 
             //string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
             //    "Schnapsen_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +
@@ -101,38 +98,14 @@ namespace SchnapsNet
         }
 
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (globalVariable == null)
-            {                
-                if (!Page.IsPostBack)
-                {
-                    InitSchnaps();
-                }
-
-                if (this.Context.Session[Constants.APPNAME] == null)
-                {
-                    Log("New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!");
-                    Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + Logger.LogFile);
-
-                    globalVariable = new Utils.GlobalAppSettings(this.Context);
-                    aTournement = new Tournament();
-                    globalVariable.Tournement = aTournement;
-                    this.Context.Session[Constants.APPNAME] = globalVariable;
-                }
-                else
-                {
-                    globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
-                }
-            }
-
-            if (aTournement == null)
-                aTournement = globalVariable.Tournement;
-            if (aGame == null)
-                aGame = globalVariable.Game;
-
-            DrawPointsTable();
-
+            if (!loaded) OnLoad(e);
         }
 
 
@@ -819,66 +792,9 @@ namespace SchnapsNet
             }
         }
 
-        void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        public override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
-            tableTournement.Rows.Clear();
-            TableRow trHead = new TableRow();
-            trHead.Style["border-bottom"] = "2px solid";
-            TableCell tdX = new TableCell()
-            {
-                Text = ResReader.GetValue("computer", globalVariable.ISO2Lang)
-            };
-            tdX.Style["border-right"] = "1px solid;";
-            tdX.Style["border-bottom"] = "2px solid";
-            TableCell tdY = new TableCell()
-            {
-                Text = ResReader.GetValue("you", globalVariable.ISO2Lang)
-            };
-            tdY.Style["border-bottom"] = "2px solid";
-            trHead.Cells.Add(tdX);
-            trHead.Cells.Add(tdY);
-            tableTournement.Rows.Add(trHead);
-            foreach (Point pt in aTournement.tHistory)
-            {
-                TableRow tr = new TableRow();
-                tdX = new TableCell() { Text = pt.Y.ToString() }; // computer first
-                tdX.Style["border-right"] = "1px solid;";
-                tdY = new TableCell() { Text = pt.X.ToString() };
-                tr.Cells.Add(tdX);
-                tr.Cells.Add(tdY);
-                tableTournement.Rows.Add(tr);
-            }
-            if (whoWon != PLAYERDEF.UNKNOWN)
-            {
-                if (displayBummerlOrTaylor == 1)
-                {
-                    TableRow tr = new TableRow();
-                    tr.Style["font-size"] = "large";
-                    tdX = new TableCell() { Text = "." }; // computer first
-                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? "." : "";
-                    tdX.Style["border-right"] = "1px solid;";
-                    tdY = new TableCell() { Text = "." };
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? "." : "";
-                    tr.Cells.Add(tdX);
-                    tr.Cells.Add(tdY);
-                    tableTournement.Rows.Add(tr);
-                }
-                if (displayBummerlOrTaylor == 2)
-                {
-                    TableRow tr = new TableRow();
-                    tr.Style["font-size"] = "large";
-                    tdX = new TableCell() { Text = Constants.TAYLOR_SYM2 }; // computer first
-                    tdX.Text = (whoWon == PLAYERDEF.HUMAN) ? Constants.TAYLOR_SYM2 : "";
-                    tdX.Style["font-size"] = "large";
-                    tdX.Style["border-right"] = "1px solid;";
-                    tdY = new TableCell() { Text = Constants.TAYLOR_SYM0 };
-                    tdY.Style["font-size"] = "large";
-                    tdY.Text = (whoWon == PLAYERDEF.COMPUTER) ? Constants.TAYLOR_SYM0 : "";
-                    tr.Cells.Add(tdX);
-                    tr.Cells.Add(tdY);
-                    tableTournement.Rows.Add(tr);
-                }
-            }
+            base.DrawPointsTable(displayBummerlOrTaylor, whoWon);
         }
 
 

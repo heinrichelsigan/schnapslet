@@ -709,7 +709,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.23.43 - Pre Alpha Release
+        ///   Looks up a localized string similar to Schnapslet v2.23.1213 - Pre Alpha Release
         ///Implementation of the card game Schnapsen as a simple Asp.Net WebApp
         ///by Heinrich Elsigan (heinrich.elsigan@area23.at)
         ///
@@ -719,7 +719,7 @@ namespace SchnapsNet.Properties {
         ///Other options, such as &quot;Exchange Atou&quot; or &quot;Announce a pair in [CardColor]&quot; 
         ///are possible via the buttons below the card symbols; 
         ///these options must be chosen before playing a card!
-        ///When it is the computer [rest of string was truncated]&quot;;.
+        ///When it is the comput [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {
@@ -1097,7 +1097,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.4.23.
+        ///   Looks up a localized string similar to v2.23.1213.
         /// </summary>
         internal static string version_name {
             get {
