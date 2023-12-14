@@ -39,6 +39,8 @@ namespace SchnapsNet.Utils
             {
                 if (cardPicsPath == null)
                 {
+                    if (HttpContext.Current.Request.RawUrl.Contains("darkstar.work"))
+                        cardPicsPath = "https://darkstar.work/mono/SchnapsNet/cardpics/";
                     // cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;                    
                     // cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
                     // cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
