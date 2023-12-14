@@ -39,14 +39,15 @@ namespace SchnapsNet.Utils
             {
                 if (cardPicsPath == null)
                 {
-                    cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;
-                    cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
-                    cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
-                    cardPicsPath = cardPicsPath.Replace("Schnapsen3er.aspx", "");
-                    cardPicsPath = cardPicsPath.Replace("Schnapsen2000.aspx", "");
-                    cardPicsPath += ((cardPicsPath.EndsWith("/")) ? "" : "/") + Constants.CARDPICSDIR + "/";
+                    // cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;                    
+                    // cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
+                    // cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
+                    // cardPicsPath = cardPicsPath.Replace("Schnapsen3er.aspx", "");
+                    // cardPicsPath = cardPicsPath.Replace("Schnapsen2000.aspx", "");
+                    // cardPicsPath += ((cardPicsPath.EndsWith("/")) ? "" : "/") + Constants.CARDPICSDIR + "/";
+                    cardPicsPath = "https://area23.at/mono/SchnapsNet/cardpics/";
                 }
-                
+
                 return cardPicsPath;
             }
         }

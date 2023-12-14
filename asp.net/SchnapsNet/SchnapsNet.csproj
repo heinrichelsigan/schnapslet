@@ -349,6 +349,8 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Help.aspx" />
+    <Content Include="res\schnapsnet.css" />
+    <Content Include="res\schnapsnet.js" />
     <Content Include="Schnapsen2000.aspx" />
     <Content Include="SchnapsApplet.html" />
     <Content Include="Schnapsen3er.aspx" />
