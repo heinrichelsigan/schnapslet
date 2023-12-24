@@ -1,4 +1,4 @@
-﻿<%@ Page Async="true" Language="C#" AutoEventWireup="true" CodeBehind="SchnapsenNet.aspx.cs" Inherits="SchnapsNet.SchnapsenNet" %>
+﻿<%@ Page  Async="true" Language="C#" AutoEventWireup="true" CodeBehind="SchnapsenNet.aspx.cs" Inherits="SchnapsNet.SchnapsenNet" %>
 
 <!DOCTYPE html>
 
@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnapsen.Net</title>
         <link rel="stylesheet" href="res/schnapsennet.css" />
-        <meta id="metaAudioId" runat="server" Name="" onchange="metaAudioNameChanged('metaAudioId')" />
+        <meta id="metaAudioId" runat="server" name="" onchange="alert(document.getElementById('metaAudioId').Name); metaAudioNameChanged('metaAudioId')" />
         <script type="text/javascript" src="res/schnapsennet.js"></script>
 </head>
 <body onload="schnapsStateInit()">
@@ -103,8 +103,9 @@
         </div>
         <pre id="preOut" class="PreFormated" runat="server">
         </pre>
-        <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left" style="">
-            <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>            
+        <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
+            <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+            <a id="aAudio" runat="server" name="" href="" onchange="aAudioChanged()">audio</a>
         </div>    
     </form>
 </body>

@@ -327,11 +327,22 @@ function playSound(soundName) {
 
 
 function metaAudioNameChanged(metaId) {
-    if (metaId != null && document.getElementById(metaId) != null) {
-        var audioId = document.getElementById(metaId);
-        if (audioId != null && audioId.Name != null) {
+    // if (metaId != null && document.getElementById(metaId) != null) {
+    var audioId = document.getElementById(metaAudioId);
+    if (audioId != null && audioId.name != null) {
+        alert("audioId.name = " + audioId.name);
+        playSound(audioId.name);
+    }   
+}
+
+
+function aAudioChanged() {
+    // if (metaId != null && document.getElementById(metaId) != null) {
+    var aAudioId = document.getElementById(aAudio);
+    if (aAudioId != null) {
+        if (aAudioId.name != null) {
+            alert("audioId.name = " + audioId.name);
             playSound(audioId.name);
         }
     }
 }
-

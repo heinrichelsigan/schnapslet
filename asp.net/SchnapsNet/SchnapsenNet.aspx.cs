@@ -1716,7 +1716,8 @@ namespace SchnapsNet
             if (speakMsg)
             {
                 string metaHeaderWav = SaySpeach.Instance.Say(textMsg);
-                this.metaAudioId.Name = metaHeaderWav;
+                this.aAudio.HRef = metaHeaderWav;
+                this.aAudio.Name = metaHeaderWav.Substring(metaHeaderWav.IndexOf("/res/"), metaHeaderWav.Length - 4);                
             }
 
             if (logMsg)
