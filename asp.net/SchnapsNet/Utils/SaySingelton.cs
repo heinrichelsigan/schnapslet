@@ -15,18 +15,47 @@ namespace SchnapsNet.Utils
     /// <summary>
     /// SaýSpeach is an audio wav generating singelton <see cref="Lazy{T}"/>.
     /// </summary>
-    public class SaySpeach
+    public class SaySingelton
     {       
-        private static string[] TMPS = { "temp", "TEMP", "tmp", "TMP" };        
+        private static string[] TMPS = { "temp", "TEMP", "tmp", "TMP" };
+        protected internal static readonly Lazy<SaySingelton> lazySaySingleton = new Lazy<SaySingelton>(() => new SaySingelton());
+        protected internal static SaySingelton saySingle;
+        private static object outerLock, innerLock;
         internal SpeechSynthesizer synthesizer;
         private static string saveDir;
         protected internal string[] voices, femaleVoices;
 
         private static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 
+        public static SaySingelton Instance { get => lazySaySingleton.Value; }
+
+        public static SaySingelton Singleton
+        {
+            get
+            {
+                outerLock = new object();
+                lock (outerLock)
+                {
+                    if (saySingle == null)
+                    {
+                        innerLock = new object();
+                        lock (innerLock)
+                        {
+                            saySingle = new SaySingelton();
+                            saySingle.synthesizer = new SpeechSynthesizer();
+                            // saySingle.femaleVoices = saySingle.AddVoices(saySingle.voices);
+                            // if (saySingle.femaleVoices != null && saySingle.femaleVoices.Length > 0)
+                            //    saySingle.synthesizer.SelectVoice(saySingle.femaleVoices[0]);
+                        }
+                    }
+                }
+                return saySingle;
+            }
+        }
+
         internal static string AppPathUrl { get => HttpContext.Current.Request.ApplicationPath; }
 
-        internal string AudioDir 
+        internal static string AudioDir 
         {
             get
             {
@@ -43,7 +72,7 @@ namespace SchnapsNet.Utils
         /// <summary>
         /// SaveOutPaths returns a <see cref="string[]" /> containg possible save output paths.
         /// </summary>
-        protected internal string[] SaveOutPaths
+        protected static string[] SaveOutPaths
         {
             get
             {
@@ -70,7 +99,7 @@ namespace SchnapsNet.Utils
         /// <summary>
         /// SavePath return path to save output directory.
         /// </summary>
-        protected internal String SavePath
+        protected static internal String SavePath
         {
             get
             {
@@ -113,9 +142,9 @@ namespace SchnapsNet.Utils
         }
 
         /// <summary>
-        /// ctor protected internal of <see cref="SaySpeach"/>.
+        /// ctor protected internal of <see cref="SaySingelton"/>.
         /// </summary>
-        public SaySpeach()
+        protected internal SaySingelton()
         {
             synthesizer = new SpeechSynthesizer();
             saveDir = SavePath;
@@ -218,11 +247,6 @@ namespace SchnapsNet.Utils
                     // SpeechAudioFormatInfo sAudioFormatInfo = new SpeechAudioFormatInfo(1, 1, AudioChannel.Stereo);
 
                     string wavFile = SavePath + SepChar + fileNameSay;
-                    //try
-                    //{
-                    //    if (File.Exists(wavFile))
-                    //        File.Delete(wavFile);
-                    //} catch (Exception ex) { }
                     synthesizer.SetOutputToWaveFile(wavFile);
                     synthesizer.Speak(say);                    
                 }

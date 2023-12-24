@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -502,7 +503,7 @@ namespace SchnapsNet
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
-            SetTextMessage(msgChange, true);
+            SetTextMessage(msgChange, msgChange);
 
             bChange.Enabled = false;
             ShowAtouCard(aGame.schnapState);
@@ -548,7 +549,7 @@ namespace SchnapsNet
                 string msg0 = string.Format(
                     ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                     aGame.PrintColor(aGame.said));
-                SetTextMessage(msg0, true);
+                SetTextMessage(msg0, sayPair);
                 aGame.InsertMsg(msg0);
                 PrintMsg();
 
@@ -602,7 +603,7 @@ namespace SchnapsNet
 
                 string msg0 = string.Format(ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                     aGame.PrintColor(aGame.said));
-                SetTextMessage(sayPair, true);
+                SetTextMessage(sayPair, msg0);
 
                 aGame.InsertMsg(msg0);
                 PrintMsg();
@@ -682,7 +683,7 @@ namespace SchnapsNet
                 if (!aGame.gambler.hand[ic].IsValidCard)
                 {
                     String msgVC = ResReader.GetValue("this_is_no_valid_card", globalVariable.ISO2Lang);
-                    SetTextMessage(msgVC);
+                    SetTextMessage(msgVC, msgVC);
                     aGame.InsertMsg(msgVC);
                     PrintMsg();
                     return;
@@ -699,7 +700,7 @@ namespace SchnapsNet
                     else
                     {
                         String msgPlayPair = ResReader.GetValue("you_must_play_pair_card", globalVariable.ISO2Lang);
-                        SetTextMessage(msgPlayPair);
+                        SetTextMessage(msgPlayPair, msgPlayPair);
                         aGame.InsertMsg(msgPlayPair);
                         PrintMsg();
                         return;
@@ -716,7 +717,7 @@ namespace SchnapsNet
                     if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
                         String msgColorHitRule = ResReader.GetValue("you_must_play_color_hit_force_rules", globalVariable.ISO2Lang);
-                        SetTextMessage(msgColorHitRule);
+                        SetTextMessage(msgColorHitRule, msgColorHitRule);
                         aGame.InsertMsg(msgColorHitRule);
                         int tmpint = aGame.gambler.PreferedInColorHitsContext(aGame.computer.hand[ccard]);
                         // for (j = 0; j < 5; j++) {
@@ -950,7 +951,7 @@ namespace SchnapsNet
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
-                SetTextMessage(endMessage, true);
+                SetTextMessage(endMessage, endMessage);
             }
             aTournement.AddPointsRotateGiver(tournementPts, whoWon);
             aGame.StopGame();
@@ -1154,13 +1155,14 @@ namespace SchnapsNet
         {
             if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
             {
-                SetTextMessage(ResReader.GetValue("nogame_started", globalVariable.ISO2Lang));
+                string noStartMsg = ResReader.GetValue("nogame_started", globalVariable.ISO2Lang);
+                SetTextMessage(noStartMsg, noStartMsg);
                 return;
             }   
 
             aGame.CloseGame(whoCloses);
 
-            SetTextMessage(aGame.statusMessage, true);
+            SetTextMessage(aGame.statusMessage, aGame.statusMessage);
             ShowTalonCard(aGame.schnapState);
             ShowAtouCard(aGame.schnapState);
             ShowMergeAnim(aGame.schnapState);
@@ -1375,6 +1377,7 @@ namespace SchnapsNet
                 aGame.csaid = 'n';
             }
 
+            aAudio.HRef = string.Empty;
             ShowStitches(-2);
             aGame.bChange = false;
             aGame.a20 = false;
@@ -1421,7 +1424,7 @@ namespace SchnapsNet
                     }
                 }
                 // Info 
-                SetTextMessage(ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang), false);
+                SetTextMessage(ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang));
             }
             else
             {
@@ -1449,7 +1452,7 @@ namespace SchnapsNet
                 }
                 if (outPutMessage == "")
                     outPutMessage = ResReader.GetValue("computer_plays_out", globalVariable.ISO2Lang);
-                SetTextMessage(outPutMessage, true);
+                SetTextMessage(outPutMessage, outPutMessage);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
@@ -1465,7 +1468,7 @@ namespace SchnapsNet
                 {
                     aGame.isClosed = true;
                     outPutMessage += ResReader.GetValue("computer_closed_game", globalVariable.ISO2Lang);
-                    SetTextMessage(outPutMessage, true);
+                    SetTextMessage(outPutMessage, outPutMessage);
                     CloseGame(PLAYERDEF.COMPUTER);
                 }
 
@@ -1498,8 +1501,9 @@ namespace SchnapsNet
 
         void EndTurn()
         {
+            aAudio.HRef = string.Empty;                
             int tmppoints;
-            String msgText = "";
+            String msgText = "", sayMsg = "";
 
             /* implement computers strategy here */
             if (aGame.playersTurn)
@@ -1530,11 +1534,11 @@ namespace SchnapsNet
 
             if (tmppoints > 0)
             {
-                msgText = string.Format(ResReader.GetValue("your_hit_points", globalVariable.ISO2Lang),
-                    tmppoints.ToString()) + " " +
-                    ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
+                sayMsg = string.Format(ResReader.GetValue("your_hit_points", globalVariable.ISO2Lang),
+                    tmppoints.ToString());
+                msgText = sayMsg + " " + ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
 
-                SetTextMessage(msgText, true);
+                SetTextMessage(msgText, sayMsg);
 
                 TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.gambler.cardStitches.Keys.Contains(aGame.gambler.stitchCount))
@@ -1553,10 +1557,10 @@ namespace SchnapsNet
             }
             else
             {
-                msgText = string.Format(ResReader.GetValue("computer_hit_points", globalVariable.ISO2Lang),
-                    (-tmppoints).ToString()) + " " +
-                    ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
-                SetTextMessage(msgText, true);
+                sayMsg = string.Format(ResReader.GetValue("computer_hit_points", globalVariable.ISO2Lang),
+                    (-tmppoints).ToString());
+                msgText = sayMsg + " " + ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
+                SetTextMessage(msgText, sayMsg);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.computer.cardStitches.Keys.Contains(aGame.computer.stitchCount))
@@ -1704,7 +1708,7 @@ namespace SchnapsNet
         /// <param name="speakMsg">When true (default is false), then transform text with speach engine to audio/wav 
         /// and play generated or octed stream audio</param>
         /// <param name="logMsg">if (true), thats default, log textMsg into logger</param>
-        void SetTextMessage(string textMsg, bool speakMsg = false, bool logMsg = true)
+        public void SetTextMessage(string textMsg, string sayMsg = "", bool logMsg = true)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             if (aGame != null)
@@ -1713,15 +1717,38 @@ namespace SchnapsNet
             tMsg.Visible = true;
             tMsg.Text = msgSet;
 
-            if (speakMsg)
+            if (!string.IsNullOrEmpty(sayMsg))
             {
-                string metaHeaderWav = SaySpeach.Instance.Say(textMsg);
-                this.aAudio.HRef = metaHeaderWav;
-                this.aAudio.Name = metaHeaderWav.Substring(metaHeaderWav.IndexOf("/res/"), metaHeaderWav.Length - 4);                
+                sayMsg = sayMsg.Replace("♥", "Herz").Replace("♠", "Pik").Replace("♦", "Karo").Replace("♣", "Treff");
+                // SaySpeach say = new SaySpeach();
+                // this.aAudio.Name = say.WaveFileName(textMsg);
+                // string metaHeaderWav = say.WaveFileUrl(textMsg, HttpContext.Current.Request.RawUrl);
+                // say.Say(textMsg);                
+                // this.aAudio.HRef = metaHeaderWav;                
+                SaySingelton says = SaySingelton.Instance;
+                Task.Run(async () => await SpeakMsg(says, sayMsg).ConfigureAwait(false));
+                // Task myTask = SpeakMsg(sayMsg);
+                // myTask.RunSynchronously();
+                // myTask.Wait();                
+                string wavHref = SaySingelton.Instance.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                string wavName = SaySingelton.Instance.WaveFileName(sayMsg);
+                this.aAudio.HRef = wavHref;
+                // this.aAudio.Name = wavName;
             }
 
             if (logMsg)
                 Log(msgSet);
+        }
+
+        public Task SpeakMsg(SaySingelton say, string textMsg)
+        {
+            Task task = new Task(() =>
+            {
+                //if (say == null)
+                //     say = SaySingelton.Instance;
+                SaySingelton.Instance.Say(textMsg);                
+            });
+            return task;
         }
 
         public void Help_Click(object sender, EventArgs e)
@@ -1783,7 +1810,7 @@ namespace SchnapsNet
                             DrawPointsTable(1, aTournement.WonTournament);
                         }
                     }
-                    SetTextMessage(endTournementMsg, true);
+                    SetTextMessage(endTournementMsg, endTournementMsg);
                     // TODO: excited end animation
                 }
             }

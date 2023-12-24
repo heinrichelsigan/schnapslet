@@ -6,7 +6,7 @@
     2023-12-22 last change 
 */
 var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon, urlAtou;
-var schnapsState, schnapsUrl;
+var schnapsState, schnapsUrl, soundDuration = 4800;
 
 function schnapsStateInit() {
     setAllVars();
@@ -28,6 +28,8 @@ function schnapsStateInit() {
             schnapsStateRedirect();
         }
     }
+    else
+        aAudioLoaded();
 }
 
 
@@ -299,10 +301,9 @@ function unLightOnOut(unLightId) {
 }
 
 function playSound(soundName) {
-    var dursec = 2600;
-    dursec = parseInt(3000);
-    if (dursec < parseInt(3000))
-        dursec = parseInt(3000);
+    var dursec = parseInt(soundDuration);
+    if (dursec < parseInt(4800))
+        dursec = parseInt(4800);
 
     let sound = new Audio(soundName);
 
@@ -321,28 +322,35 @@ function playSound(soundName) {
             sound = null;
         } catch (exSnd) {
         }
-        soundDuration = parseInt(2600);
+        soundDuration = parseInt(7200);
     }, dursec);
 }
 
-
-function metaAudioNameChanged(metaId) {
+function aAudioLoaded() {
     // if (metaId != null && document.getElementById(metaId) != null) {
-    var audioId = document.getElementById(metaAudioId);
-    if (audioId != null && audioId.name != null) {
-        alert("audioId.name = " + audioId.name);
-        playSound(audioId.name);
-    }   
+    var aAudio = document.getElementById('aAudio');
+    if (aAudio != null) {
+        let aHref = aAudio.getAttribute("href");
+        if (aHref == null || aHref == "")
+            return;
+            
+        playSound(aHref);
+    }
 }
 
-
-function aAudioChanged() {
+function audioOutputChanged() {
     // if (metaId != null && document.getElementById(metaId) != null) {
-    var aAudioId = document.getElementById(aAudio);
-    if (aAudioId != null) {
-        if (aAudioId.name != null) {
-            alert("audioId.name = " + audioId.name);
-            playSound(audioId.name);
+    var aAudioOutput = document.getElementById("audioOutput");
+    if (aAudioOutput != null) {
+        let aOutputName = aAudioOutput.getAttribute("name");
+        if (aOutputName != null) {
+            let aAudioValue = aAudioOutput.getAttribute("value");
+            if (aAudioValue != null) {
+                alert("audioOutput.name = " + aOutputName);
+                alert("audioOutput.value = " + aAudioValue);
+                playSound(audioId.value);
+            }
         }
     }
 }
+

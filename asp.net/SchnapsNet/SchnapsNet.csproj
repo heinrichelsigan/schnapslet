@@ -428,6 +428,7 @@
     <Compile Include="SchnapsNet.aspx.designer.cs">
       <DependentUpon>SchnapsNet.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\SaySingelton.cs" />
     <Compile Include="Utils\SaySpeach.cs" />
   </ItemGroup>
   <ItemGroup>
