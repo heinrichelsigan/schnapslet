@@ -502,7 +502,7 @@ namespace SchnapsNet
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
-            SetTextMessage(msgChange);
+            SetTextMessage(msgChange, true);
 
             bChange.Enabled = false;
             ShowAtouCard(aGame.schnapState);
@@ -548,7 +548,7 @@ namespace SchnapsNet
                 string msg0 = string.Format(
                     ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                     aGame.PrintColor(aGame.said));
-                SetTextMessage(msg0);
+                SetTextMessage(msg0, true);
                 aGame.InsertMsg(msg0);
                 PrintMsg();
 
@@ -602,7 +602,7 @@ namespace SchnapsNet
 
                 string msg0 = string.Format(ResReader.GetValue("you_say_pair", globalVariable.ISO2Lang),
                     aGame.PrintColor(aGame.said));
-                SetTextMessage(sayPair);
+                SetTextMessage(sayPair, true);
 
                 aGame.InsertMsg(msg0);
                 PrintMsg();
@@ -950,7 +950,7 @@ namespace SchnapsNet
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
-                SetTextMessage(endMessage);
+                SetTextMessage(endMessage, true);
             }
             aTournement.AddPointsRotateGiver(tournementPts, whoWon);
             aGame.StopGame();
@@ -1160,7 +1160,7 @@ namespace SchnapsNet
 
             aGame.CloseGame(whoCloses);
 
-            SetTextMessage(aGame.statusMessage);
+            SetTextMessage(aGame.statusMessage, true);
             ShowTalonCard(aGame.schnapState);
             ShowAtouCard(aGame.schnapState);
             ShowMergeAnim(aGame.schnapState);
@@ -1421,7 +1421,7 @@ namespace SchnapsNet
                     }
                 }
                 // Info 
-                SetTextMessage(ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang));
+                SetTextMessage(ResReader.GetValue("toplayout_clickon_card", globalVariable.ISO2Lang), false);
             }
             else
             {
@@ -1449,7 +1449,7 @@ namespace SchnapsNet
                 }
                 if (outPutMessage == "")
                     outPutMessage = ResReader.GetValue("computer_plays_out", globalVariable.ISO2Lang);
-                SetTextMessage(outPutMessage);
+                SetTextMessage(outPutMessage, true);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
@@ -1465,7 +1465,7 @@ namespace SchnapsNet
                 {
                     aGame.isClosed = true;
                     outPutMessage += ResReader.GetValue("computer_closed_game", globalVariable.ISO2Lang);
-                    SetTextMessage(outPutMessage);
+                    SetTextMessage(outPutMessage, true);
                     CloseGame(PLAYERDEF.COMPUTER);
                 }
 
@@ -1534,7 +1534,7 @@ namespace SchnapsNet
                     tmppoints.ToString()) + " " +
                     ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
 
-                SetTextMessage(msgText);
+                SetTextMessage(msgText, true);
 
                 TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.gambler.cardStitches.Keys.Contains(aGame.gambler.stitchCount))
@@ -1556,7 +1556,7 @@ namespace SchnapsNet
                 msgText = string.Format(ResReader.GetValue("computer_hit_points", globalVariable.ISO2Lang),
                     (-tmppoints).ToString()) + " " +
                     ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
-                SetTextMessage(msgText);
+                SetTextMessage(msgText, true);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.computer.cardStitches.Keys.Contains(aGame.computer.stitchCount))
@@ -1701,7 +1701,10 @@ namespace SchnapsNet
         /// SetTextMessage shows a new Toast dynamic message
         /// </summary>
         /// <param name="textMsg">text to display</param>
-        void SetTextMessage(string textMsg)
+        /// <param name="speakMsg">When true (default is false), then transform text with speach engine to audio/wav 
+        /// and play generated or octed stream audio</param>
+        /// <param name="logMsg">if (true), thats default, log textMsg into logger</param>
+        void SetTextMessage(string textMsg, bool speakMsg = false, bool logMsg = true)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             if (aGame != null)
@@ -1709,7 +1712,15 @@ namespace SchnapsNet
 
             tMsg.Visible = true;
             tMsg.Text = msgSet;
-            Log(msgSet);
+
+            if (speakMsg)
+            {
+                string metaHeaderWav = SaySpeach.Instance.Say(textMsg);
+                this.metaAudioId.Name = metaHeaderWav;
+            }
+
+            if (logMsg)
+                Log(msgSet);
         }
 
         public void Help_Click(object sender, EventArgs e)
@@ -1771,7 +1782,7 @@ namespace SchnapsNet
                             DrawPointsTable(1, aTournement.WonTournament);
                         }
                     }
-                    SetTextMessage(endTournementMsg);
+                    SetTextMessage(endTournementMsg, true);
                     // TODO: excited end animation
                 }
             }

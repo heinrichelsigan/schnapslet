@@ -67,6 +67,32 @@ namespace SchnapsNet.Utils
             }
         }
 
+        public static string AudioDir
+        {
+            get
+            {
+                string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                if (!audioPath.Contains("SchnapsNet"))
+                    audioPath += "SchnapsNet" + SepChar;
+                if (!audioPath.Contains("res"))
+                    audioPath += "res" + SepChar;
+                // if (!Directory.Exists(audioPath))
+                return audioPath;
+            }
+        }
+        public static string LogFile
+        {
+            get
+            {
+                string logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                if (!logAppPath.Contains("SchnapsNet"))
+                    logAppPath += "SchnapsNet" + SepChar;
+                logAppPath += Constants.LOGDIR + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
+                // if (Directory.Exists(logAppPath))
+                return logAppPath;
+            }
+        }
+
         public static System.Globalization.CultureInfo Locale
         {
             get

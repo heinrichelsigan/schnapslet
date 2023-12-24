@@ -540,7 +540,7 @@ public class BaseAppActivity extends AppCompatActivity {
      * sayText text 2 speach
      * @param text2Say special text to say
      */
-    public void sayText(String text2Say) {
+    public void sayText(String text2Sathis_is_no_valid_cardy) {
         boolean soundOnOff = globalVariable == null || getGlobalAppSettings().getSound();
         // (SoundPlayer.initContext(getApplicationContext())).sayText(
         //        text2Say,getGlobalAppSettings().getLocale(), soundOnOff);

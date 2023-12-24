@@ -35,19 +35,10 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.Table tableTournement;
         public Mutex schnapsMutex;
 
-        public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
+        public static string SepChar { get => Paths.SepChar; }
 
-        public static string LogFile
-        {
-            get
-            {
-                string logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("SchnapsNet"))
-                    logAppPath += "SchnapsNet" + SepChar;
-                logAppPath += Constants.LOGDIR + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
-                return logAppPath;
-            }
-        }
+        public static string LogFile { get => Paths.LogFile; }
+
 
         public System.Globalization.CultureInfo Locale { get => Paths.Locale; }
         public string ISO2Lang { get => Paths.ISO2Lang; }
@@ -215,10 +206,10 @@ namespace SchnapsNet
         }
 
         public virtual void Log(string msg)
-        {
-            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
-            string appPath = HttpContext.Current.Request.ApplicationPath;
+        {            
             string fn = Area23BasePage.LogFile;
+            string logMsg = string.Empty;
+
             if (!File.Exists(fn))
             {
                 try
@@ -233,7 +224,11 @@ namespace SchnapsNet
             }
             try
             {
-                File.AppendAllText(fn, preMsg + msg + "\r\n");
+                logMsg = String.Format("{0} \t{1}\r\n",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                    msg);
+
+                File.AppendAllText(fn, logMsg);
             }
             catch (Exception e)
             {
@@ -242,6 +237,46 @@ namespace SchnapsNet
             }
         }
 
+        public virtual void Log(Exception exLog)
+        {
+            string fn = Area23BasePage.LogFile;
+            string excMsg = String.Format("Exception {0} ⇒ {2}\t{3}",
+                exLog.GetType(),
+                exLog.Message,
+                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+            
+            if (!File.Exists(fn))
+            {
+                try
+                {
+                    File.Create(fn);
+                }
+                catch (Exception e)
+                {
+                    if (globalVariable != null)
+                        globalVariable.LastException = e;
+                }
+            }
+            try
+            {
+                string logMsg = String.Format("{0} \t{1}\r\n",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                    excMsg);
+                File.AppendAllText(fn, logMsg);
+            }
+            catch (Exception e)
+            {
+                if (globalVariable != null)
+                    globalVariable.LastException = e;
+            }
+        }
+
+
+        public virtual void HandleException(Exception e)
+        {
+            if (globalVariable != null)
+                globalVariable.LastException = e;
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SchnapsenNet.aspx.cs" Inherits="SchnapsNet.SchnapsenNet" %>
+﻿<%@ Page Async="true" Language="C#" AutoEventWireup="true" CodeBehind="SchnapsenNet.aspx.cs" Inherits="SchnapsNet.SchnapsenNet" %>
 
 <!DOCTYPE html>
 
@@ -6,7 +6,8 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnapsen.Net</title>
-        <!-- link rel="stylesheet" href="res/schnapsennet.css" /-->
+        <link rel="stylesheet" href="res/schnapsennet.css" />
+        <meta id="metaAudioId" runat="server" Name="" onchange="metaAudioNameChanged('metaAudioId')" />
         <script type="text/javascript" src="res/schnapsennet.js"></script>
 </head>
 <body onload="schnapsStateInit()">
@@ -14,66 +15,74 @@
         window.loaded = schnapsStateInit();
     </script>
     <form id="form1" runat="server">        
-        <div id="DivSchnapsButtons" style="line-height: normal; min-height: 40px; min-width: 400px; height: 8%; margin-top: 8px; vertical-align:middle; width: 100%; font-size: larger; background-color: #fefb56; background-image: url('cardpics/schnapslet248.gif'); table-layout: fixed; inset-block-start: initial;">            
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
-                <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" style="min-height: 40px; min-width: 56px; font-size: large" Text="Continue" OnClick="Continue_Click" Enabled="false" />&nbsp;
+        <div id="SchnapsBtn1" class="SchnapsBtnDiv">
+            <span class="SchnapsBtnSpan" align="left" valign="middle">
+                <asp:Button ID="bContinue" runat="server" Text="Continue" ToolTip="Continue" OnClick="Continue_Click" 
+                    CssClass="SchnapsBtnWidth56px" Width="15%" Height="8%" Enabled="false" />&nbsp;
             </span>                        
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
-                <asp:Button ID="bChange" Width="15%" Height="8%" runat="server" ToolTip="Change Atou" style="min-height: 40px; min-width: 56px; font-size:large" Text="Change Atou Card" OnClick="Change_Click" Enabled="false" />&nbsp;                
+            <span class="SchnapsBtnSpan" align="left" valign="middle">
+                <asp:Button ID="bChange" runat="server" Text="Change Atou" ToolTip="Change atou card" OnClick="Change_Click" 
+                    CssClass="SchnapsBtnWidth56px" Width="15%" Height="8%" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
-                <asp:Button ID="b20a" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 20" style="min-height: 40px; min-width: 56px; font-size: large" Text="Marriage 20" OnClick="A20_Click" Enabled="false" />&nbsp;                
+            <span class="SchnapsBtnSpan" align="left" valign="middle">
+                <asp:Button ID="b20a" runat="server" Text="Marriage 20" ToolTip="Say marriage 20" OnClick="A20_Click"  
+                    CssClass="SchnapsBtnWidth56px" Width="15%" Height="8%" Enabled="false" />&nbsp;                
             </span>
-            <span style="min-height: 40px; min-width: 60px; width:15%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
-                <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40"  style="min-height: 40px; min-width: 56px; font-size: large" Text="Marriage 40" OnClick="B20_Click" Enabled="false" />&nbsp;                
+            <span class="SchnapsBtnSpan" align="right" valign="middle">
+                <asp:Button ID="b20b" runat="server" Text="Marriage 40" ToolTip="Say marriage 40" OnClick="B20_Click"   
+                    CssClass="SchnapsBtnWidth56px" Width="15%" Height="8%" Enabled="false" />&nbsp;                
             </span>   
-            <span style="min-height: 40px; min-width: 60px; width:12%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="left" valign="middle">
-                <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" style="min-height: 40px; min-width: 40px; font-size: large" Text="Start"  OnClick="Merge_Click" Visible="true" Enabled="true" />
-                <asp:Button ID="bStop" Width="10%" Height="8%" runat="server" ToolTip="Stop"  style="min-height: 40px; min-width: 36px; font-size: large" Text="Stop" OnClick="Stop_Click" Visible="false" Enabled="true" />
+            <span class="SchnapsBtnSpanWidth12" valign="middle">
+                <asp:Button ID="bMerge" runat="server" Text="Start" ToolTip="Start" OnClick="Merge_Click" 
+                    CssClass="SchnapsBtnWidth40px" Width="12%" Height="8%" Enabled="true" Visible="true" />
+                <asp:Button ID="bStop" runat="server" Text="Stop" ToolTip="Stop" OnClick="Stop_Click" 
+                    CssClass="SchnapsBtnWidth36px" Width="10%" Height="8%" Enabled="true" Visible="false" />
             </span>
-            <span style="min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
-                <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help"  style="min-height: 40px; min-width: 36px; font-size: large" Text="Help" OnClick="Help_Click" Enabled="true" /> 
+            <span class="SchnapsBtnSpanWidth10" align="right" valign="middle">
+                <asp:Button ID="bHelp" runat="server" Text="Help" ToolTip="Help" OnClick="Help_Click"
+                    CssClass="SchnapsBtnWidth36px" Width="10%" Height="8%" Enabled="true" /> 
             </span>            
         </div>
-        <div id="DivSchnapsStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; margin-top: 8px; font-size: medium; background-color: #fefb56; table-layout: fixed; inset-block-start: auto;">
-            <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
+        <div id="SchnapsStack" class="SchnapsStackDiv">
+            <span class="SchnapsStackSpanWidthH96W72">
                 <asp:ImageButton ID="imOut21" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%" OnClick="ImOut_Click" />
             </span>
-            <span style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+            <span class="SchnapsStackSpanWidthH96W72">
                 <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut_Click"  />
             </span>
-            <span id="spanMerge" runat="server" style="visibility: visible; min-height: 96px; min-width: 96px; height:10%; width:20%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
+            <span id="spanMerge" runat="server" class="SchnapsStackSpanH96W96">
                 <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" OnClick="ImMerge11_Click" BorderStyle="None" />&nbsp;
             </span>
-            <span id="spanAtou" runat="server" style="visibility: hidden; min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; z-index: 10; text-align: left; font-size: medium">
+            <span id="spanAtou" runat="server" class="SchnapsStackSpanWidthH96W72A">
                 <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" style="z-index: 1" />
             </span>
-            <span id="spanTalon" runat="server" style="visibility: hidden; min-height: 72px; min-width: 96px; height:8%; width:18%; margin-left: -6%; margin-top: 2%; z-index: 100; text-align: left; vertical-align: top; font-size: medium">                
-                <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" style="width:18%; margin-top: 2%; z-index: 110; tab-size: inherit" Width="18%" />
+            <span id="spanTalon" runat="server" class="SchnapsStackSpanH72W96">                
+                <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Width="18%" CssClass="TalonImage" />
             </span>               
-            <span id="spanComputerStitches" runat="server" visible="false" style="visibility: hidden; min-height: 96px; min-width: 96px; height:10%; width:18%; margin-left: 0px; margin-top: 0px;  z-index: 10; text-align: right; font-size: medium">
-                <asp:ImageButton ID="ImageComputerStitch0a" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
-                <asp:ImageButton ID="ImageComputerStitch0b" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" style="z-index: 2; margin-left: -12%; margin-top: 1px" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
+            <span id="spanComputerStitches" class="SchnapsStackStitches" runat="server" visible="false">
+                <asp:ImageButton ID="ImageComputerStitch0a" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" CssClass="ComputerStich0a" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
+                <asp:ImageButton ID="ImageComputerStitch0b" runat="server" Visible="false" ImageUrl="~/cardpics/n1.gif" Width="15%" CssClass="ComputerStich0b" BorderStyle="None" OnClick="ImageComputerStitch_Click" />
             </span>            
         </div>
-        <div id="DivPlayerStack" style="line-height: normal; min-height: 96px; min-width: 72px; height:10%; width: 100%; font-size: medium; background-color: #fefb56; table-layout: fixed; inset-block-start: auto">
-            <span ID="spanIm0" style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium" valign="left">
+        <div id="DivPlayerStack" class="PlayerStack">
+            <span ID="spanIm0" class="cardImgSpan" valign="left">
                 <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im0')" onmouseout="unLightOnOut('im0')" />
             </span>
-            <span ID="spanIm1" style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+            <span ID="spanIm1" class="cardImgSpan">
                 <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im1')" onmouseout="unLightOnOut('im1')" />
             </span>
-            <span ID="spanIm2" style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+            <span ID="spanIm2" class="cardImgSpan">
                 <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im2')" onmouseout="unLightOnOut('im2')" />
             </span>
-            <span ID="spanIm3" style="min-height: 96px; min-width: 72px; height:10%; width:15%;  margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+            <span ID="spanIm3" class="cardImgSpan">
                 <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif"  Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im3')" onmouseout="unLightOnOut('im3')" />
             </span>
-            <span ID="spanIm4" style="min-height: 96px; min-width: 72px; height:10%; width:15%; margin-left: 0px; margin-top: 0px; text-align: left; font-size: medium">
+            <span ID="spanIm4" class="cardImgSpan" 
+                style="">
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
             </span>
-            <span style="min-height: 96px; min-width: 120px; height:10%; width:25%; margin-left: 0px; margin-top: 0px; text-align: left; visibility: visible; font-size: medium">
-                <asp:Table ID="tableTournement" runat="server" style="display:inline-table; font-size: large; vertical-align:top; text-align: right">
+            <span class="tableTournamentSpan">
+                <asp:Table ID="tableTournement" CssClass="TableTournament" runat="server">
                     <asp:TableHeaderRow style="border-bottom: thick">
                         <asp:TableCell style="border-bottom: thick; border-right: medium">You</asp:TableCell>
                         <asp:TableCell style="border-bottom: thick; border-left: medium">Computer</asp:TableCell>
@@ -81,7 +90,7 @@
                 </asp:Table>                
             </span>
         </div>        
-        <div style="line-height: normal; vertical-align:middle; height: 8%; width: 100%; font-size: larger; margin-top: 8px; background-color: #fefb56; table-layout: fixed; inset-block-start: initial">
+        <div id="SchnapsPointMsg" class="SchnapsPointMsgDiv">
             <span style="width:5%; vertical-align: central; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
                 <asp:TextBox ID="tPoints" Width="5%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 32px; font-size: large" Enabled="false">0</asp:TextBox>                
             </span>
@@ -92,9 +101,9 @@
                 <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="75%" Height="8%" style="font-size: larger">Short Information</asp:TextBox>
             </span>            
         </div>
-        <pre id="preOut" style="width: 100%; height: 12%; visibility: visible; font-size: large; scroll-behavior: auto;" runat="server">
+        <pre id="preOut" class="PreFormated" runat="server">
         </pre>
-        <div align="left" style="text-align: left; width: 100%; height: 8%; visibility: inherit; background-color: #bfbfbf; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+        <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left" style="">
             <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>            
         </div>    
     </form>
