@@ -54,7 +54,7 @@ function initStateParamFromUrl() {
     const urlWindowLocation = new URL(window.location.toLocaleString());    
     schnapsUrl = new URL(urlWindowLocation);
     schnapsState = schnapsUrl.searchParams.get("initState");
-    console.log(schnapsState);
+    // console.log(schnapsState);
 }
 
 function initSchnapsState4() {    
