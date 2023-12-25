@@ -30,8 +30,8 @@ namespace SchnapsNet.Utils
             get
             {
                 string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!audioPath.Contains("SchnapsNet"))
-                    audioPath += "SchnapsNet" + SepChar;
+                if (!audioPath.Contains(Paths.AppFolder))
+                    audioPath += Paths.AppFolder + SepChar;
                 if (!audioPath.Contains("res"))
                     audioPath += "res" + SepChar;
                 // if (!Directory.Exists(audioPath))
@@ -101,8 +101,8 @@ namespace SchnapsNet.Utils
             // TODO: change in production
             string wavOutPath = rawUrl.Replace("SchnapsenNet.aspx", "").Replace("SchnapsNet.aspx", "");
             // TODO: change in production
-            // if (!wavOutPath.Contains("SchnapsNet"))
-            //     wavOutPath += "SchnapsNet" + "/";
+            // if (!wavOutPath.Contains(Paths.AppFolder))
+            //     wavOutPath += Paths.AppFolder + "/";
             if (!wavOutPath.Contains("res"))
                 wavOutPath += "res" + "/";
             wavOutPath += fileNameSay;

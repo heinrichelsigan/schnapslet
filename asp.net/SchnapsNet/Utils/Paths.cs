@@ -33,6 +33,20 @@ namespace SchnapsNet.Utils
             }
         }
 
+        public static string AppFolder
+        {
+            get
+            {
+                try
+                {
+                    if (System.Configuration.ConfigurationManager.AppSettings["AppFolder"] != null)
+                        return System.Configuration.ConfigurationManager.AppSettings["AppFolder"];
+                }
+                catch (Exception e) { }
+                return Constants.APPDIR;
+            }
+        }
+
         public static string CardPicsPath
         {
             get
@@ -40,14 +54,14 @@ namespace SchnapsNet.Utils
                 if (cardPicsPath == null)
                 {
                     if (HttpContext.Current.Request.RawUrl.Contains("darkstar.work"))
-                        cardPicsPath = "https://darkstar.work/mono/SchnapsNet/cardpics/";
+                        cardPicsPath = "https://darkstar.work/mono/" + AppFolder + "/cardpics/";
                     // cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;                    
                     // cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
                     // cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
                     // cardPicsPath = cardPicsPath.Replace("Schnapsen3er.aspx", "");
                     // cardPicsPath = cardPicsPath.Replace("Schnapsen2000.aspx", "");
                     // cardPicsPath += ((cardPicsPath.EndsWith("/")) ? "" : "/") + Constants.CARDPICSDIR + "/";
-                    cardPicsPath = "https://area23.at/mono/SchnapsNet/cardpics/";
+                    cardPicsPath = "https://area23.at/mono/" + AppFolder + "/cardpics/";
                 }
 
                 return cardPicsPath;
@@ -59,8 +73,8 @@ namespace SchnapsNet.Utils
             get
             {
                 cardPicsDir = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!cardPicsDir.Contains("SchnapsNet"))
-                    cardPicsDir += "SchnapsNet" + SepChar;
+                if (!cardPicsDir.Contains(AppFolder))
+                    cardPicsDir += AppFolder + SepChar;
                 cardPicsDir += Constants.CARDPICSDIR + SepChar;
 
                 return cardPicsDir;
@@ -72,8 +86,8 @@ namespace SchnapsNet.Utils
             get
             {
                 string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!audioPath.Contains("SchnapsNet"))
-                     audioPath += "SchnapsNet" + SepChar;
+                if (!audioPath.Contains(AppFolder))
+                     audioPath += AppFolder + SepChar;
                 if (!audioPath.Contains("res"))
                     audioPath += "res" + SepChar;
                 // if (!Directory.Exists(audioPath))
@@ -85,8 +99,8 @@ namespace SchnapsNet.Utils
             get
             {
                 string logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("SchnapsNet"))
-                    logAppPath += "SchnapsNet" + SepChar;
+                if (!logAppPath.Contains(AppFolder))
+                    logAppPath += AppFolder + SepChar;
                 logAppPath += Constants.LOGDIR + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
                 // if (Directory.Exists(logAppPath))
                 return logAppPath;

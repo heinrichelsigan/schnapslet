@@ -5,7 +5,6 @@
     https://darkstar.work/mono/SchnapsNet/res/schnapsennet.js
     2023-12-22 last change 
 */
-const urlWindowLocation;
 var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon, urlAtou;
 var schnapsState, schnapsUrl, soundDuration = 4800;
 
@@ -54,7 +53,7 @@ function setAllVars() {
 }
 
 function initStateParamFromUrl() {
-    urlWindowLocation = new URL(window.location.toLocaleString());    
+    const urlWindowLocation = new URL(window.location.toLocaleString());    
     schnapsUrl = new URL(urlWindowLocation);
     schnapsState = schnapsUrl.searchParams.get("initState");
     // console.log(schnapsState);
@@ -302,10 +301,12 @@ function unLightOnOut(unLightId) {
 }
 
 function playSound(soundName) {
+    const urlWindowLocation = new URL(window.location.toLocaleString());
+
     var dursec = parseInt(soundDuration);
     if (dursec < parseInt(4800))
         dursec = parseInt(4800);
-
+    
     let soundUrlString = urlWindowLocation.origin + '/' + soundName;
     let soundUrl = new URL(soundUrlString);
 
