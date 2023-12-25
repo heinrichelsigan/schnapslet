@@ -43,7 +43,7 @@ namespace SchnapsNet.Utils
         /// <summary>
         /// SavePath return path to save output directory.
         /// </summary>
-        protected internal String SavePath
+        internal String SavePath
         {
             get
             {

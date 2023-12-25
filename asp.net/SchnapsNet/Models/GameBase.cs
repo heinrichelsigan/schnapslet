@@ -253,12 +253,14 @@ namespace SchnapsNet.Models
 		{
 			switch (ch)
 			{
-				case 'k': return ResReader.GetValue("color_k", "");
-				case 'h': return ResReader.GetValue("color_h", "");
-				case 't': return ResReader.GetValue("color_t", "");
-				case 'p': return ResReader.GetValue("color_p", "");
-				default:
-					return ResReader.GetValue("color_" + ch);
+				case 'k': return ResReader.GetValue("color_k", globalAppSettings.ISO2Lang);
+				case 'h': return ResReader.GetValue("color_h", globalAppSettings.ISO2Lang);
+				case 't': return ResReader.GetValue("color_t", globalAppSettings.ISO2Lang);
+				case 'p': return ResReader.GetValue("color_p", globalAppSettings.ISO2Lang);
+                case 'e':
+                case 'n':
+                    return ResReader.GetValue("color_" + ch, globalAppSettings.ISO2Lang);
+				default: break;
             }
 			return "NoColor";
         }

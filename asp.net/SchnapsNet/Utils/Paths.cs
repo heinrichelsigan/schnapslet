@@ -42,7 +42,7 @@ namespace SchnapsNet.Utils
                     if (System.Configuration.ConfigurationManager.AppSettings["AppFolder"] != null)
                         return System.Configuration.ConfigurationManager.AppSettings["AppFolder"];
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
                 return Constants.APPDIR;
             }
         }

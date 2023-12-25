@@ -1726,7 +1726,9 @@ namespace SchnapsNet
                 // say.Say(textMsg);                
                 // this.aAudio.HRef = metaHeaderWav;                
                 SaySpeach say = new SaySpeach();
-                Task.Run(async () => await say.Say(textMsg).ConfigureAwait(false));
+                string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
+                if (!File.Exists(waveFile))
+                    Task.Run(async () => await say.Say(textMsg).ConfigureAwait(false));
                 // Task myTask = SpeakMsg(sayMsg);
                 // myTask.RunSynchronously();
                 // myTask.Wait();                
@@ -1738,17 +1740,6 @@ namespace SchnapsNet
 
             if (logMsg)
                 Log(msgSet);
-        }
-
-        public Task SpeakMsg(SaySpeach say, string textMsg)
-        {
-            Task task = new Task(() =>
-            {
-                if (say == null)
-                    say = new SaySpeach();
-                say.Say(textMsg);                
-            });
-            return task;
         }
 
         public void Help_Click(object sender, EventArgs e)
