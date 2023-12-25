@@ -583,7 +583,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You got a taylor..
+        ///   Looks up a localized string similar to Computer won tournament. You&apos;re a taylor!.
         /// </summary>
         internal static string computer_won_taylor {
             get {
@@ -592,11 +592,11 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve been marked with a fat point..
+        ///   Looks up a localized string similar to Computer won tournament. You&apos;ve been marked with a fat point..
         /// </summary>
-        internal static string computer_won_tournement {
+        internal static string computer_won_tournament_ {
             get {
-                return ResourceManager.GetString("computer_won_tournement", resourceCulture);
+                return ResourceManager.GetString("computer_won_tournament.", resourceCulture);
             }
         }
         
@@ -709,17 +709,14 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.23.1213 - Pre Alpha Release
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
         ///Implementation of the card game Schnapsen as a simple Asp.Net WebApp
-        ///by Heinrich Elsigan (heinrich.elsigan@area23.at)
-        ///
-        ///Functionality:
-        ///The game is designed to play against the computer.
-        ///When it is your turn, you can play a card by clicking on the card icon.
-        ///Other options, such as &quot;Exchange Atou&quot; or &quot;Announce a pair in [CardColor]&quot; 
-        ///are possible via the buttons below the card symbols; 
-        ///these options must be chosen before playing a card!
-        ///When it is the comput [rest of string was truncated]&quot;;.
+        ///by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+        ///&lt;br /&gt;
+        ///Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+        ///&lt;hr /&gt;
+        ///&lt;h2&gt;Functionality:&lt;/h2&gt;
+        ///&lt;p&gt;The game is [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {
@@ -1133,7 +1130,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.23.1213.
+        ///   Looks up a localized string similar to v2.24.12125.
         /// </summary>
         internal static string version_name {
             get {
@@ -1196,7 +1193,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer is marked as a taylor..
+        ///   Looks up a localized string similar to You won tournament. Computer lost as a taylor..
         /// </summary>
         internal static string you_won_taylor {
             get {
@@ -1205,7 +1202,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer hats Bummerl!.
+        ///   Looks up a localized string similar to You won tournament. Computer&apos;s marked with a fat point..
         /// </summary>
         internal static string you_won_tournement {
             get {

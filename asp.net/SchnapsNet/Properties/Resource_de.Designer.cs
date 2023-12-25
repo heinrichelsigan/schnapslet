@@ -682,16 +682,11 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schnapslet v2.23.1213 - Pre Alpha Release 
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
         ///Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
-        ///von Heinrich Elsigan (heinrich.elsigan@area23.at)
-        ///
-        ///Funktionsweise:
-        ///Das Spiel ist so angelegt, dass man gegen den Computer spielt.
-        ///Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.
-        ///Andere Optionen, wie &quot;Atou austauschen&quot; oder &quot;Ein Paar Ansagen&quot; sind 
-        ///ueber die Buttons unterhalb der Kartensymbole moeglich; 
-        ///diese Optionen muessen gewaehlt werden, bev [rest of string was truncated]&quot;;.
+        ///von Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+        ///&lt;br /&gt;
+        ///Schnapslet Quellcode (open source unter der &lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot; target=&quot;_blank&quot;&gt;GPL 3&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; ta [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {

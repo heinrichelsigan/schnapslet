@@ -74,9 +74,33 @@ namespace SchnapsNet
                 {
                     InitSchnaps();
                 }
+            }
+            
+            this.InitGlobaleVariable();
+            
+            lock (xlock)
+            {
+                pLock = new object();
+                lock (pLock)
+                {
 
+                    if (aTournement == null)
+                        aTournement = globalVariable.Tournement;
+                    if (aGame == null)
+                        aGame = globalVariable.Game;
+                }
+            }
+
+            DrawPointsTable();
+            loaded = true;
+        }
+
+        public virtual void InitGlobaleVariable()
+        {
+            if (globalVariable == null)
+            {
                 if (this.Context.Session[Constants.APPNAME] == null)
-                {                    
+                {
                     lock (xlock)
                     {
                         pLock = new object();
@@ -93,29 +117,13 @@ namespace SchnapsNet
                     string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
                     string appPath = HttpContext.Current.Request.ApplicationPath;
                     Log("AppPath=" + appPath + " logging to " + Logger.LogFile);
-                                        
+
                 }
                 else
                 {
                     globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
                 }
             }
-
-            lock (xlock)
-            {
-                pLock = new object();
-                lock (pLock)
-                {
-
-                    if (aTournement == null)
-                        aTournement = globalVariable.Tournement;
-                    if (aGame == null)
-                        aGame = globalVariable.Game;
-                }
-            }
-
-            DrawPointsTable();
-            loaded = true;
         }
 
         public virtual void InitURLBase()
@@ -240,9 +248,10 @@ namespace SchnapsNet
         public virtual void Log(Exception exLog)
         {
             string fn = Area23BasePage.LogFile;
-            string excMsg = String.Format("Exception {0} ⇒ {2}\t{3}",
+            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
                 exLog.GetType(),
                 exLog.Message,
+                exLog.ToString().Replace("\r", "").Replace("\n", " "),
                 exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
             
             if (!File.Exists(fn))

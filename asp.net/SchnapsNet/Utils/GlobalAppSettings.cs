@@ -95,6 +95,8 @@ namespace SchnapsNet.Utils
 
         public Exception LastException { get; set; }
 
+        public String InnerPreText { get; internal set; }
+
         #endregion properties
 
         #region ctor

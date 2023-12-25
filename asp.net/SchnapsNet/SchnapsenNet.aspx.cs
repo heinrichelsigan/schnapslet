@@ -23,13 +23,30 @@ namespace SchnapsNet
         long errNum = 0; // Errors Ticker
         int ccard = -1; // Computers Card played
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
-        volatile byte psaychange = 0;        
+        volatile byte psaychange = 0;
+
+        internal string PreInnerText
+        {
+            get => this.preOut.InnerText;
+            set
+            {
+                this.preOut.InnerText = value;
+                if (globalVariable == null)
+                {
+                    this.InitGlobaleVariable();
+                }
+                if (globalVariable != null)
+                {
+                    this.globalVariable.InnerPreText = this.preOut.InnerText;
+                }
+            }
+        }
 
         public override void InitSchnaps()
         {
             base.InitSchnaps();
 
-            preOut.InnerText = "";
+            this.PreInnerText = string.Empty;
             // tMsg.Enabled = false;
 
             im0.ImageUrl = emptyURL.ToString();
@@ -505,7 +522,6 @@ namespace SchnapsNet
         /// <param name="e"></param>
         protected void Change_Click(object sender, EventArgs e)
         {
-            preOut.InnerText += "bChange_Click\r\n";
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
@@ -528,7 +544,6 @@ namespace SchnapsNet
             {
                 aGame = globalVariable.Game;
             }
-            preOut.InnerText += "A20_Click\r\n";
             try
             {
                 if ((aGame.pSaid) || (aGame.gambler.handpairs[0] == 'n'))
@@ -583,7 +598,7 @@ namespace SchnapsNet
         protected void B20_Click(object sender, EventArgs e)
         {
             string msg = "B20_Click";
-            preOut.InnerText += "\r\n" + msg;
+
             try
             {
                 if ((aGame.pSaid) || (aGame.gambler.handpairs[1] == 'n'))
@@ -650,7 +665,7 @@ namespace SchnapsNet
             if (sender is WebControl)
             {
                 senderStr = ((WebControl)sender).ClientID;
-                preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
+                // preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
             }
             if (sender is System.Web.UI.WebControls.ImageButton)
                 senderStr = ((System.Web.UI.WebControls.ImageButton)sender).ClientID;
@@ -762,7 +777,8 @@ namespace SchnapsNet
                     case 4:
                         im4.ImageUrl = emptyURL.ToString();
                         break;
-                    default: preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n"; break;
+                    default: // preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n";
+                             break;
                 }
                 ResetPlayerCardsBorder();
 
@@ -993,7 +1009,7 @@ namespace SchnapsNet
             aGame.isReady = true;
             tMsg.Visible = false;
             ResetButtons(1);
-            preOut.InnerText = "";
+            this.PreInnerText = string.Empty;
             // tRest.Text = (19 - aGame.index).ToString();
 
             ShowStitches(-3);
@@ -1159,7 +1175,7 @@ namespace SchnapsNet
         /// <param name="whoCloses">PLAYERDEF player or computer</param>
         void CloseGame(PLAYERDEF whoCloses)
         {
-            if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
+            if (aGame.isGame == false || aGame.gambler == null || aGame.colorHitRule)
             {
                 string noStartMsg = ResReader.GetValue("nogame_started", globalVariable.ISO2Lang);
                 SetTextMessage(noStartMsg, noStartMsg);
@@ -1687,9 +1703,9 @@ namespace SchnapsNet
         }
 
 
-        void PrintMsg()
+        protected void PrintMsg()
         {
-            preOut.InnerText = aGame.FetchMsg();
+            this.PreInnerText = aGame.FetchMsg();
             string[] msgs = aGame.FetchMsgArray();
             
             for (int i = aGame.fetchedMsgCount; i < msgs.Length; i++) 
@@ -1699,12 +1715,19 @@ namespace SchnapsNet
             aGame.fetchedMsgCount = msgs.Length;
         }
 
-        void ErrHandler(Exception myErr)
+        protected void ErrHandler(Exception myErr)
         {
-            preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
-            preOut.InnerText += "\nMessage: " + myErr.Message;
-            preOut.InnerText += "\nString: " + myErr.ToString();
-            preOut.InnerText += "\nLmessage: " + myErr.StackTrace + "\n";
+            ++errNum;
+            Log(myErr);
+            string errStr = (errNum < 10) ? "  " : (errNum < 100) ? " " : "";
+            errStr += String.Format("\tException {0} ⇒ {1}\t{2}\t{3}\r\n",
+                myErr.GetType(),
+                myErr.Message,
+                myErr.ToString().Replace("\r", "").Replace("\n", " "),
+                myErr.StackTrace.Replace("\r", "").Replace("\n", " "));
+            
+            aGame.mqueue.Enqueue(errStr);
+            PrintMsg();
         }
 
         /// <summary>

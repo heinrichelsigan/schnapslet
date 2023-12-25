@@ -300,10 +300,10 @@
     <value>Last trick: computer wins!</value>
   </data>
   <data name="computer_won_taylor" xml:space="preserve">
-    <value>You got a taylor.</value>
+    <value>Computer won tournament. You're a taylor!</value>
   </data>
-  <data name="computer_won_tournement" xml:space="preserve">
-    <value>You've been marked with a fat point.</value>
+  <data name="computer_won_tournament." xml:space="preserve">
+    <value>Computer won tournament. You've been marked with a fat point.</value>
   </data>
   <data name="continue_ToolTip" xml:space="preserve">
     <value>Click here to continue.</value>
@@ -342,26 +342,31 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.23.1213 - Pre Alpha Release
+    <value>&lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
 Implementation of the card game Schnapsen as a simple Asp.Net WebApp
-by Heinrich Elsigan (heinrich.elsigan@area23.at)
-
-Functionality:
-The game is designed to play against the computer.
+by Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+&lt;br /&gt;
+Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+&lt;hr /&gt;
+&lt;h2&gt;Functionality:&lt;/h2&gt;
+&lt;p&gt;The game is designed to play against the computer.
 When it is your turn, you can play a card by clicking on the card icon.
-Other options, such as "Exchange Atou" or "Announce a pair in [CardColor]" 
+Other options, such as "&lt;i&gt;Exchange Atou&lt;/i&gt;" or "&lt;i&gt;Announce a pair in [&lt;b&gt;CardColor&lt;/b&gt;]&lt;/i&gt;" 
 are possible via the buttons below the card symbols; 
 these options must be chosen before playing a card!
-When it is the computer's turn, it plays a card and 
+&lt;br /&gt;
+When it is  computer's turn, it plays a card and 
 you can click on your own cards to trick or give up!
 The rules correspond to the Austrian Schnapsen, 
 but there are still small bugs!
-'Closing Game' is implemented: 
-You just have to click on the atou (trump) card. 
-
-Ideas, suggestions, improvements are gladly accepted !
-Rules correspond to the Austrian Schnapsen 
-[ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
+&lt;br /&gt;
+'&lt;i&gt;Closing Game&lt;/i&gt;' is implemented: 
+You just have to click on the &lt;b&gt;atou (trump)&lt;/b&gt; card. 
+&lt;/p&gt;
+&lt;hr /&gt;
+Ideas, suggestions, improvements are gladly accepted!
+&lt;br /&gt;
+Rules correspond to the Austrian &lt;a href="https://en.wikipedia.org/wiki/Schnapsen" target="_blank"&gt;Schnapsen&lt;/a&gt;.</value>
   </data>
   <data name="im0_text" xml:space="preserve">
     <value>Player card 1</value>
@@ -499,7 +504,7 @@ Rules correspond to the Austrian Schnapsen
     <value>future_us_cards</value>
   </data>
   <data name="version_name" xml:space="preserve">
-    <value>v2.23.1213</value>
+    <value>v2.24.12125</value>
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
@@ -523,9 +528,9 @@ Rules correspond to the Austrian Schnapsen
     <value>Thou announce a marriages in color {0}!</value>
   </data>
   <data name="you_won_taylor" xml:space="preserve">
-    <value>Computer is marked as a taylor.</value>
+    <value>You won tournament. Computer lost as a taylor.</value>
   </data>
   <data name="you_won_tournement" xml:space="preserve">
-    <value>Computer hats Bummerl!</value>
+    <value>You won tournament. Computer's marked with a fat point.</value>
   </data>
 </root>

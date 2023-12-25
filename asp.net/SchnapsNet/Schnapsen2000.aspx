@@ -926,7 +926,7 @@
     /// <param name="whoCloses">PLAYERDEF player or computer</param>
     void closeGame(PLAYERDEF whoCloses)
     {
-        if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
+        if (aGame.isGame == false || aGame.gambler == null || aGame.colorHitRule)
         {
             setTextMessage(ResReader.GetValue("nogame_started", globalVariable.ISO2Lang));
             return;

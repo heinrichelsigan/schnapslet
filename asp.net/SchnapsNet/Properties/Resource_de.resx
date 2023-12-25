@@ -333,24 +333,32 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.23.1213 - Pre Alpha Release 
+    <value>&lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
 Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
-von Heinrich Elsigan (heinrich.elsigan@area23.at)
+von Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+&lt;br /&gt;
+Schnapslet Quellcode (open source unter der &lt;a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"&gt;GPL 3&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+&lt;hr /&gt;
 
-Funktionsweise:
+&lt;h2&gt;Funktionsweise:&lt;/h2&gt;
 Das Spiel ist so angelegt, dass man gegen den Computer spielt.
 Ist man am Zug, so kann man eine Karte ausspielen, indem man auf das Kartensymbol klickt.
-Andere Optionen, wie "Atou austauschen" oder "Ein Paar Ansagen" sind 
+Andere Optionen, wie "&lt;i&gt;Atou austauschen&lt;/i&gt;" oder "&lt;i&gt;Ein Paar Ansagen&lt;/i&gt;" sind 
 ueber die Buttons unterhalb der Kartensymbole moeglich; 
 diese Optionen muessen gewaehlt werden, bevor man eine Karte auspielt!
+&lt;br /&gt;
 Ist der Computer am Zug, so spielt dieser eine Karte aus und 
 man selbst kann dann durch Klick auf die eigenen Karten, stechen oder draufgeben!
-Die Regeln entsprechen dem oesterreichischen Schnapsen, 
+Die Regeln entsprechen dem &amp;ouml;sterreichischen Schnapsen, 
 allerdings gibt es bei noch kleine Bugs!
-Zudrehen ist implementiert:
-Man muss einfach auf die Atou Karte klicken.
+&lt;br /&gt;
+&lt;i&gt;Zudrehen&lt;/i&gt; ist implementiert:
+Man muss einfach auf die &lt;b&gt;Atou Karte&lt;/b&gt; klicken.
+&lt;hr /&gt;
 
-Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
+Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!
+&lt;br /&gt;
+Regeln basieren auf der &amp;ouml;sterreichischen Version von &lt;a href="https://de.wikipedia.org/wiki/Schnapsen" target="_blank"&gt;Schnapsen&lt;/a&gt;.</value>
   </data>
   <data name="imageAtou_AltText" xml:space="preserve">
     <value>Spiel ist zugedreht.</value>

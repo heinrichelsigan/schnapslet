@@ -5,8 +5,20 @@
     https://darkstar.work/mono/SchnapsNet/res/schnapsennet.js
     2023-12-22 last change 
 */
-var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon, urlAtou;
-var schnapsState, schnapsUrl, soundDuration = 4800;
+var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon;
+var helpWin = null, schnapsState, schnapsUrl, soundDuration = 7200, urlAtou;
+
+function HelpOpen() {
+    var Mleft = (screen.width / 2) - (720 / 2);
+    var Mtop = (screen.height / 2) - (640 / 2);
+    if (helpWin == null)
+        helpWin = window.open('Help.aspx', 'helpWin',
+            'height=640,width=720,location=yes,menubar=no,resizable=yes,scrollbars=yes,status=yes,titlebar=yes,toolbar=no,top=\' + Mtop + \', left=\' + Mleft + \'');
+    else try {
+        helpWin.focus();
+    } catch (Exception) {
+    }
+}
 
 function schnapsStateInit() {
     setAllVars();

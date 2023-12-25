@@ -114,13 +114,22 @@ namespace SchnapsNet
         protected global::System.Web.UI.WebControls.ImageButton imMerge11;
 
         /// <summary>
-        /// SpanAtouTalon control.
+        /// spanAtouTalon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanAtouTalon;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAtouTalon;
+
+        /// <summary>
+        /// spanAtou control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAtou;
 
         /// <summary>
         /// imAtou10 control.
@@ -211,7 +220,6 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton im4;
-      
 
         /// <summary>
         /// tPoints control.
@@ -248,5 +256,14 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
+
+        /// <summary>
+        /// aAudio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAudio;
     }
 }

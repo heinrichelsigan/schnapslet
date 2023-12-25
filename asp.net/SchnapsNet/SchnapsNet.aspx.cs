@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -21,6 +22,23 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
+        internal string PreInnerText
+        {
+            get => this.preOut.InnerText;
+            set
+            {
+                this.preOut.InnerText = value;
+                if (globalVariable == null) 
+                {
+                    this.InitGlobaleVariable();
+                }
+                if (globalVariable != null)
+                {
+                    this.globalVariable.InnerPreText = this.preOut.InnerText;
+                }
+            }
+        }
+
         // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
         // static String backJarStr =  "/schnapsen/cardpics/verdeckt.gif";
         // static String notJarStr =   "/schnapsen/cardpics/n0.gif";
@@ -31,7 +49,7 @@ namespace SchnapsNet
         {
             base.InitSchnaps();
 
-            preOut.InnerText = "";
+            this.PreInnerText = string.Empty;;
             // tMsg.Enabled = false;
 
             im0.ImageUrl = emptyURL.ToString();
@@ -313,8 +331,8 @@ namespace SchnapsNet
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 10 && schnapStateVal < 20)
                 {
-                    SpanAtouTalon.Visible = true;
-                    SpanAtouTalon.Style["visibility"] = "visible";
+                    spanAtouTalon.Visible = true;
+                    spanAtouTalon.Style["visibility"] = "visible";
                     this.imAtou10.Visible = true;
 
                     if (gameState == SCHNAPSTATE.GAME_CLOSED)
@@ -333,9 +351,9 @@ namespace SchnapsNet
                     this.imAtou10.Visible = false;
                     this.imAtou10.ImageUrl = emptyURL.ToString();
 
-                    SpanAtouTalon.Style["visibility"] = "hidden";
+                    spanAtouTalon.Style["visibility"] = "hidden";
                     if (schnapStateVal >= 20)
-                        SpanAtouTalon.Visible = false;
+                        spanAtouTalon.Visible = false;
                 }
             }
             catch (Exception exAtou1)
@@ -348,12 +366,12 @@ namespace SchnapsNet
         {
             try
             {
-                this.SpanAtouTalon.Visible = true;                
+                this.spanAtouTalon.Visible = true;                
 
                 int schnapStateVal = SCHNAPSTATE_Extensions.StateValue(gameState);
                 if (schnapStateVal >= 15 && schnapStateVal < 20)
                 {
-                    SpanAtouTalon.Style["visibility"] = "visible";
+                    spanAtouTalon.Style["visibility"] = "visible";
 
                     if (gameState == SCHNAPSTATE.GAME_START)
                         imTalon.ImageUrl = emptyTalonUri.ToString();
@@ -367,9 +385,9 @@ namespace SchnapsNet
                     imTalon.ImageUrl = talonURL.ToString();
                     imTalon.Visible = false;
 
-                    SpanAtouTalon.Style["visibility"] = "hidden";
+                    spanAtouTalon.Style["visibility"] = "hidden";
                     if (schnapStateVal >= 20)
-                        SpanAtouTalon.Visible = false;                    
+                        spanAtouTalon.Visible = false;                    
                 }
             }
             catch (Exception imTalonEx)
@@ -492,7 +510,6 @@ namespace SchnapsNet
         /// <param name="e"></param>
         protected void Change_Click(object sender, EventArgs e)
         {
-            // preOut.InnerText += "bChange_Click\r\n";
             aGame.ChangeAtou(aGame.gambler);
 
             string msgChange = ResReader.GetValue("bChange_text", globalVariable.ISO2Lang);
@@ -548,7 +565,6 @@ namespace SchnapsNet
             if (sender is WebControl)
             {
                 senderStr = ((WebControl)sender).ClientID;
-                // preOut.InnerText += "ImageCard_Click: \r\nsender = " + senderStr.ToString() + " e = " + e.ToString() + "\r\n";
             }
             if (sender is System.Web.UI.WebControls.ImageButton)
                 senderStr = ((System.Web.UI.WebControls.ImageButton)sender).ClientID;
@@ -651,7 +667,7 @@ namespace SchnapsNet
                     case 4:
                         im4.ImageUrl = emptyURL.ToString();
                         break;
-                    default: // preOut.InnerText += "\r\nAssertion: ic = " + ic + "\r\n";
+                    default:
                         break;
                 }
 
@@ -678,8 +694,6 @@ namespace SchnapsNet
         /// <param name="e">EventArgs e</param>
         protected void Continue_Click(object sender, EventArgs e)
         {
-            // string msg = "bContinue_Click";
-            // preOut.InnerText += "\r\n" + msg;
             if (aGame == null || !aGame.isGame)
             {
                 ToggleTournament(true);
@@ -695,8 +709,8 @@ namespace SchnapsNet
             }
         }
 
-        public void Help_Click(object sender, EventArgs e)
-        {
+        // public void Help_Click(object sender, EventArgs e)
+        // {
             //ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", 
             //    "var Mleft = (screen.width/2)-(760/2);" +
             //    "var Mtop = (screen.height/2)-(700/2);" +
@@ -705,7 +719,7 @@ namespace SchnapsNet
             // preOut.InnerHtml = "-------------------------------------------------------------------------\n";
             // preOut.InnerText += ResReader.GetValue("help_text", globalVariable.ISO2Lang) + "\n";
             // preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-        }
+        // }
 
         protected void Merge_Click(object sender, EventArgs e)
         {
@@ -890,8 +904,9 @@ namespace SchnapsNet
             this.ToggleTournament(false);
         }
 
-        void StartGame()
-        {  /* Mischen */
+        protected void StartGame()
+        {  
+            /* Mischen */
             bMerge.Enabled = false;
             bMerge.Visible = false;
 
@@ -900,7 +915,7 @@ namespace SchnapsNet
             aGame.isReady = true;
             tMsg.Visible = false;
             ResetButtons(1);
-            preOut.InnerText = "";
+            this.PreInnerText = string.Empty;
             // tRest.Text = (19 - aGame.index).ToString();
 
             ShowStitches(-3);
@@ -1276,7 +1291,7 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
-        void EndTurn()
+        protected void EndTurn()
         {
             int tmppoints;
             String msgText = "";
@@ -1450,10 +1465,13 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
+        
 
-        void PrintMsg()
+        protected void PrintMsg()
         {
-            preOut.InnerText = aGame.FetchMsg();
+            this.PreInnerText = aGame.FetchMsg();
+            // preOut.InnerText = aGame.FetchMsg();
+
             string[] msgs = aGame.FetchMsgArray();
 
             for (int i = aGame.fetchedMsgCount; i < msgs.Length; i++)
@@ -1463,14 +1481,19 @@ namespace SchnapsNet
             aGame.fetchedMsgCount = msgs.Length;
         }
 
-        void ErrHandler(Exception myErr)
+        protected void ErrHandler(Exception myErr)
         {
-            string errMsg = "Exception #" + (++errNum) + " \tMessage: " + myErr.Message +
-                "\n \t" + myErr.ToString() +
-                "\nstacktrace: " + myErr.StackTrace + "\n";
-            preOut.InnerText += errMsg;
-
-            Log(errMsg);            
+            ++errNum;
+            // Log(myErr);
+            string errStr = (errNum < 10) ? "  " : (errNum < 100) ? " " : "";
+            errStr += String.Format("\tException {0} ⇒ {1}\t{2}\t{3}\r\n",
+                myErr.GetType(),
+                myErr.Message,
+                myErr.ToString().Replace("\r", "").Replace("\n", " "),
+                myErr.StackTrace.Replace("\r", "").Replace("\n", " "));            
+            aGame.mqueue.Enqueue(errStr);
+            
+            SetTextMessage(errStr, true, true);
         }
 
 

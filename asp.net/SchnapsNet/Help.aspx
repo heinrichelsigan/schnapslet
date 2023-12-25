@@ -14,21 +14,13 @@
 <%@ Import namespace="SchnapsNet.Utils" %>
 <%@ Import namespace="SchnapsNet.ConstEnum" %>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
-    <html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head runat="server">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>SchnapsNet Help</title>
-            <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-
-                gtag('config', 'G-01S65129V7');
-            </script>
+        <link rel="stylesheet" href="res/schnapsennet.css" />
     </head>
 
     <script runat="server" language="C#">
@@ -37,24 +29,31 @@
         {
             // if (!Page.IsPostBack)
             Help_Click(sender, e);
+            
         }
 
         public void Help_Click(object sender, EventArgs e)
         {
-            preOut.InnerText += ResReader.GetValue("help_text", Paths.ISO2Lang) + "\n";
-        }
+            schnapsDiv.InnerHtml = ResReader.GetValue("help_text", Paths.ISO2Lang) + "\n";
+            GlobalAppSettings globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
+            if (globalVariable != null && globalVariable.InnerPreText != null)
+                preOut.InnerText = globalVariable.InnerPreText + "\n";
+        }    
         
     </script>
 
     <body>
         <form id="form1" runat="server">           
+            <div id="schnapsDiv" class="SchnapsDiv" runat="server">
+            </div> 
             <hr />
-            <pre id="preOut" runat="server">
+            <pre id="preOut" class="PreFormated" runat="server">
             </pre>
             <hr />
-            <div align="right" style="text-align: right; background-color='#bfbfbf'; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
-                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://@arkstar.work">darkstar.work</a>
-            </div>
+            <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
+                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+                <a id="aAudio" clientid="aAudio" runat="server" name="audioAnchor" href="" loaded="aAudioLoaded()">audio</a>
+            </div>    
         </form>
     </body>
-    </html>
+</html>

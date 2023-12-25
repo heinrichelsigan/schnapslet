@@ -16,17 +16,18 @@
     inset-block-start: initial;
 }
 
-.SchnapsBtnWidth56px, #bContinue, #bChange, #b20a, #b20b {
+.SchnapsBtnWidth56px, .ButtonContinue, .ButtonChange, .Button20a, .Button20b, 
+#bContinue, #bChange, #b20a, #b20b {
     min-height: 40px;
     min-width: 56px;
     font-size: large;
 }
-.SchnapsBtnWidth40px, #bMerge {
+.SchnapsBtnWidth40px, .ButtonMerge, #bMerge {
     min-height: 40px;
     min-width: 40px;
     font-size: large;
 }
-.SchnapsBtnWidth36px, #bHelp, #bStop {
+.SchnapsBtnWidth36px, .ButtonHelp, .ButtonStop, #bHelp, #bStop {
     min-height: 36px;
     min-width: 36px;
     font-size: large;
@@ -61,7 +62,7 @@ span.SchnapsBtnSpanWidth10 {
     font-size: large;
 }
 
-.SchnapsStackDiv,
+div.SchnapsStack,
 #SchnapsStack {
     line-height: normal;
     min-height: 96px;
@@ -75,7 +76,7 @@ span.SchnapsBtnSpanWidth10 {
     inset-block-start: auto;
 }
 
-.SchnapsStackSpanWidthH96W72 {
+.SpanOut, .SchnapsStackSpanWidthH96W72 {
     min-height: 96px;
     min-width: 72px;
     height: 10%;
@@ -86,7 +87,7 @@ span.SchnapsBtnSpanWidth10 {
     font-size: medium;
 }
 
-.SchnapsStackSpanH96W96 {
+.SpanMerge, .SchnapsStackSpanH96W96, #spanMerge {
     visibility: visible;
     min-height: 96px;
     min-width: 96px;
@@ -99,7 +100,7 @@ span.SchnapsBtnSpanWidth10 {
     font-size: medium;
 }
 
-.SchnapsStackSpanWidthH96W72A {
+.SpanAtou, .SchnapsStackSpanWidthH96W72A, #spanAtou {
     visibility: hidden;
     min-height: 96px;
     min-width: 72px;
@@ -112,7 +113,7 @@ span.SchnapsBtnSpanWidth10 {
     font-size: medium
 }
 
-.SchnapsStackSpanH72W96 {
+.SpanTalon, .SchnapsStackSpanH72W96, #spanTalon {
     visibility: hidden;
     min-height: 72px;
     min-width: 96px;
@@ -126,11 +127,18 @@ span.SchnapsBtnSpanWidth10 {
     font-size: medium;
 }
 
+
+.AtouImage, #imAtou10 {
+    z-index: 1;
+    border-style: none;
+}
+
 .TalonImage, #imTalon {
     width: 18%;
     margin-top: 2%;
     z-index: 110;
     tab-size: inherit;
+    border-style: none;
 }
 
 .MergeImage, #imMerge11 {
@@ -174,7 +182,7 @@ span.SchnapsBtnSpanWidth10 {
     inset-block-start: auto;
 }
 
-.cardImgSpan, #spanIm0, #spanIm1, #spanIm2, #spanIm3, #spanIm4 {
+.CardImageSpan, .cardImgSpan, #spanIm0, #spanIm1, #spanIm2, #spanIm3, #spanIm4 {
     min-height: 96px;
     min-width: 72px;
     height: 10%;
@@ -212,19 +220,19 @@ span.SchnapsBtnSpanWidth10 {
 
 
 
-.SchnapsPointMsgDiv, #SchnapsPointMsg {
+.SchnapsPointMsg, .SchnapsPointMsgDiv, #SchnapsPointMsg, #schnapsPointMsg {
     line-height: normal;
     vertical-align: middle;
     height: 8%;
     width: 100%;
     font-size: larger;
-    margin-top: 8px;
+    margin-top: 4px;
     background-color: #fefb56;
     table-layout: fixed;
     inset-block-start: initial;
 }
 
-.SchnapsPointSpanTextBox {
+.PointSpanTextBox, .PointsSpanTextBox, .SchnapsPointSpanTextBox {
     width: 5%;
     vertical-align: central;
     text-align: left;
@@ -232,13 +240,13 @@ span.SchnapsBtnSpanWidth10 {
     height: 8%;
 }
 
-.SchnapsPointTextBox, #tPoints {
+.PointTextBox, .SchnapsPointTextBox, #tPoints {
     min-height: 40px;
     min-width: 32px;
     font-size: large;
 }
 
-.SchnapsPointSpanLabel {
+.PointSpanLabel, .SchnapsPointSpanLabel {
     width: 8%;
     vertical-align: central;
     text-align: left;
@@ -271,6 +279,18 @@ span.SchnapsBtnSpanWidth10 {
     font-size: large;
     font-family: 'Courier New', Courier, monospace, 'Lucida Console', 'Lucida Sans Unicode';
     scroll-behavior: auto;
+}
+
+div.SchnapsDiv, #schnapsDiv {
+    line-height: normal;
+    text-align: left;
+    width: 100%;
+    min-height: 12%;
+    visibility: inherit;
+    font-size: small;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    table-layout: fixed;
+    inset-block-start: initial;
 }
 
 .SchnapsFooter, #SchnapsFooterDiv {

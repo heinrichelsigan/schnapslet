@@ -304,21 +304,24 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>Schnapslet v2.23.1213 (he23@area23.at)
+    <value>&lt;h2&gt;Schnapslet v2.24.1225 (&lt;a href="mailto:he@area23.at"&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
 Jeu de cartes Schnapsen application android de Heinrich Elsigan.
+&lt;br /&gt;
 Le jeu est conçu pour jouer contre l'ordinateur. Si c'est votre tour, 
 vous pouvez jouer une carte en cliquant sur son icône et en la faisant 
 glisser dans le presse-papiers. 
+&lt;br /&gt;
 Pour échanger Atou, vous pouvez tirer le Jack Atou sur la carte Atou ci-dessus 
 et pour annoncer une paire, vous appelez la reine au roi correspondant 
-ou inversement. "échanger" ou "quelques annonces" peuvent également 
+ou inversement. "&lt;i&gt;échanger&lt;/i&gt;" ou "&lt;i&gt;quelques annonces&lt;/i&gt;" peuvent également 
 être lus via les boutons correspondants; 
-
+&lt;br /&gt;
 Si l'ordinateur est sur le tour, il joue une carte et 
 vous pouvez ensuite sélectionner votre propre carte 
 puis tirer sur le clip ou le poignarder. 
-
-Le tournage se fait en cliquant sur la carte Atou. 
+&lt;br /&gt;
+Le &lt;i&gt;tournage&lt;/i&gt; se fait en cliquant sur la &lt;b&gt;carte Atou&lt;/b&gt;. 
+&lt;br /&gt;
 Les règles correspondent aux schnapsen autrichiens.</value>
   </data>
   <data name="im0_text" xml:space="preserve">
