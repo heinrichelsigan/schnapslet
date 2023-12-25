@@ -125,6 +125,7 @@ namespace SchnapsNet
                     {
                         imBtns[xj].Style["border-style"] = "dotted";
                         imBtns[xj].Style["border-width"] = "2";
+                        imBtns[xj].Style["border-color"] = "deeppink";
                     }
                 }
             }
@@ -132,16 +133,21 @@ namespace SchnapsNet
 
         public void ResetPlayerCardsBorder()
         {
-            im0.Style["border-width"] = "1";
-            im0.Style["border-style"] = "none";
-            im1.Style["border-width"] = "1";
-            im1.Style["border-style"] = "none";
-            im2.Style["border-width"] = "1";
-            im2.Style["border-style"] = "none";
-            im3.Style["border-width"] = "1";
-            im3.Style["border-style"] = "none";
-            im4.Style["border-width"] = "1";
-            im4.Style["border-style"] = "none";
+            im0.Style["border-width"] = "2";
+            im0.Style["border-style"] = "groove";
+            im0.Style["border-color"] = "azure";
+            im1.Style["border-width"] = "2";
+            im1.Style["border-style"] = "groove";
+            im1.Style["border-color"] = "azure";
+            im2.Style["border-width"] = "2";
+            im2.Style["border-style"] = "groove";
+            im2.Style["border-color"] = "azure";
+            im3.Style["border-width"] = "2";
+            im3.Style["border-style"] = "groove";
+            im3.Style["border-color"] = "azure";
+            im4.Style["border-width"] = "2";
+            im4.Style["border-style"] = "groove";
+            im4.Style["border-color"] = "azure";
         }
 
         protected void ShowPlayersCards(SCHNAPSTATE gameState)

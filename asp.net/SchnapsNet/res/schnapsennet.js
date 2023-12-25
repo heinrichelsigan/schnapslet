@@ -272,13 +272,15 @@ function highLightOnOver(highLightId) {
     // alert("highLightOnOver(" + highLightId + ")");
     if (highLightId != null && document.getElementById(highLightId) != null) {
         if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
-            document.getElementById(highLightId).style.borderWidth == 2) {
-            // do nothing when dotted
+            document.getElementById(highLightId).style.borderColor == "deeppink") {
+            // change only color, when dotted
+            document.getElementById(highLightId).style.borderColor = "blueviolet";
         }
         else {
             // set border-width: 1; border-style: dashed
-            document.getElementById(highLightId).style.borderWidth = 1;
+            document.getElementById(highLightId).style.borderWidth = 2;
             document.getElementById(highLightId).style.borderStyle = "dashed";
+            document.getElementById(highLightId).style.borderColor = "blueviolet";
         }
     }
 }
@@ -286,15 +288,17 @@ function highLightOnOver(highLightId) {
 function unLightOnOut(unLightId) {    
     // alert("unLightOnOut(" + unLightId + ")");
     if (unLightId != null && document.getElementById(unLightId) != null) {
-        if (document.getElementById(unLightId).style.borderStyle == "dotted" ||
-            document.getElementById(unLightId).style.borderWidth == 2) {
-            // do nothing when dotted
+        if (document.getElementById(unLightId).style.borderStyle == "dotted" &&
+            document.getElementById(unLightId).style.borderColor == "blueviolet") {
+            // change only back to pair color, when dotted
+            document.getElementById(highLightId).style.borderColor = "deeppink";
         }
         else {
             // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
             //    document.getElementById(highLightId).style.borderWidth == 1) {
-            document.getElementById(unLightId).style.borderWidth = 1;
-            document.getElementById(unLightId).style.borderStyle = "none";
+            document.getElementById(unLightId).style.borderWidth = 2;
+            document.getElementById(unLightId).style.borderStyle = "groove";
+            document.getElementById(highLightId).style.borderColor = "azure";
             // }
         }
     }

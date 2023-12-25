@@ -124,8 +124,8 @@ namespace SchnapsNet
                     if (imBtns[xj].ImageUrl == aGame.gambler.hand[xj].PictureUrlString)
                     {
                         imBtns[xj].Style["border-style"] = "dotted";
-                        imBtns[xj].Style["border-color"] = "purple";
-                        imBtns[xj].Style["border-width"] = "medium";
+                        imBtns[xj].Style["border-width"] = "2";
+                        imBtns[xj].Style["border-color"] = "deeppink";
                         if (!btnSet)
                         {
                             if (handPairNumber == 0) this.b20a.Style["border-color"] = "purple";
@@ -184,21 +184,21 @@ namespace SchnapsNet
 
         public void Reset_PlayerCardsBorder()
         {
-            im0.Style["border-width"] = "medium";
-            im0.Style["border-style"] = "solid";
-            im0.Style["border-color"] = "#f7f7f7";
-            im1.Style["border-width"] = "medium";
-            im1.Style["border-style"] = "solid";
-            im1.Style["border-color"] = "#f7f7f7";
-            im2.Style["border-width"] = "medium";
-            im2.Style["border-style"] = "solid";
-            im2.Style["border-color"] = "#f7f7f7";
-            im3.Style["border-width"] = "medium";
-            im3.Style["border-style"] = "solid";
-            im3.Style["border-color"] = "#f7f7f7";
-            im4.Style["border-width"] = "medium";
-            im4.Style["border-style"] = "solid";
-            im4.Style["border-color"] = "#f7f7f7";
+            im0.Style["border-width"] = "2";
+            im0.Style["border-style"] = "groove";
+            im0.Style["border-color"] = "azure";
+            im1.Style["border-width"] = "2";
+            im1.Style["border-style"] = "groove";
+            im1.Style["border-color"] = "azure";
+            im2.Style["border-width"] = "2";
+            im2.Style["border-style"] = "groove";
+            im2.Style["border-color"] = "azure";
+            im3.Style["border-width"] = "2";
+            im3.Style["border-style"] = "groove";
+            im3.Style["border-color"] = "azure";
+            im4.Style["border-width"] = "2";
+            im4.Style["border-style"] = "groove";
+            im4.Style["border-color"] = "azure";
 
             b20a.Style["border-color"] = "darkslategray";
             b20b.Style["border-color"] = "darkslategray";

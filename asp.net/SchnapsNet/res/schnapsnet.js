@@ -23,17 +23,21 @@ function highLightOnOver(highLightId) {
 
     if (highLightId != null && document.getElementById(highLightId) != null) {
 
-        if (document.getElementById(highLightId).style.borderStyle == "dotted")
-            return; // do nothing when dotted                    
+        if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
+            document.getElementById(highLightId).style.borderColor == "deeppink") {
+            // change only color, when dotted
+            document.getElementById(highLightId).style.borderColor = "blueviolet";
+            return; 
+        }                
 
         if ((document.getElementById("b20a") != null && document.getElementById("b20a").style.borderColor == "purple") ||
             (document.getElementById("b20b") != null && document.getElementById("b20b").style.borderColor == "purple"))
             return; // don't highlight other cards in case of pair marriage
 
-        // set border-width: 1; border-style: dashed
-        document.getElementById(highLightId).style.borderWidth = "medium";
-        document.getElementById(highLightId).style.borderColor = "indigo";
+        // set border-width: 2; border-style: dashed
+        document.getElementById(highLightId).style.borderWidth = 2;
         document.getElementById(highLightId).style.borderStyle = "dashed";
+        document.getElementById(highLightId).style.borderColor = "blueviolet";
     }
 }
 
@@ -41,14 +45,18 @@ function unLightOnOut(unLightId) {
 
     if (unLightId != null && document.getElementById(unLightId) != null) {
 
-        if (document.getElementById(unLightId).style.borderStyle == "dotted")
-            return; // do nothing when dotted
+        if (document.getElementById(unLightId).style.borderStyle == "dotted" &&
+            document.getElementById(unLightId).style.borderColor == "blueviolet") {
+            // change only back to pair color, when dotted
+            document.getElementById(highLightId).style.borderColor = "deeppink";
+            return; 
+        }
 
         // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
         //    document.getElementById(highLightId).style.borderWidth == 1) {
-        document.getElementById(unLightId).style.borderWidth = "medium";
-        document.getElementById(unLightId).style.borderColor = "#f7f7f7";
-        document.getElementById(unLightId).style.borderStyle = "solid";
+        document.getElementById(unLightId).style.borderWidth = 2;
+        document.getElementById(unLightId).style.borderStyle = "groove";
+        document.getElementById(highLightId).style.borderColor = "azure";
         // }
     }
 }

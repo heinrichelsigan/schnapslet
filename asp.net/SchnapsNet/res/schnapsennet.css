@@ -29,7 +29,7 @@
 .SchnapsBtnWidth36px, #bHelp, #bStop {
     min-height: 36px;
     min-width: 36px;
-    font-size: large
+    font-size: large;
 }
 
 span.SchnapsBtnSpan {
@@ -133,6 +133,11 @@ span.SchnapsBtnSpanWidth10 {
     tab-size: inherit;
 }
 
+.MergeImage, #imMerge11 {
+    z-index: 2;
+    border-style: none;
+}
+
 .SchnapsStackStitches, #spanComputerStitches {
     visibility: hidden;
     min-height: 96px;
@@ -180,6 +185,12 @@ span.SchnapsBtnSpanWidth10 {
     font-size: medium;
 }
 
+.ImageCard, #im0, #im1, #im2, #im3, #im4 {
+    border-style: groove;
+    border-color: azure;
+    border-width: 2px;
+}
+
 .tableTournamentSpan {
     min-height: 96px;
     min-width: 120px;
@@ -211,6 +222,46 @@ span.SchnapsBtnSpanWidth10 {
     background-color: #fefb56;
     table-layout: fixed;
     inset-block-start: initial;
+}
+
+.SchnapsPointSpanTextBox {
+    width: 5%;
+    vertical-align: central;
+    text-align: left;
+    font-size: large;
+    height: 8%;
+}
+
+.SchnapsPointTextBox, #tPoints {
+    min-height: 40px;
+    min-width: 32px;
+    font-size: large;
+}
+
+.SchnapsPointSpanLabel {
+    width: 8%;
+    vertical-align: central;
+    text-align: left;
+    font-size: large;
+    height: 8%;
+}
+
+.SchnapsPointLabel, #lPoints {
+    min-height: 40px;
+    min-width: 40px;
+    font-size: large;
+}
+
+.SchnapsMsgSpan {
+    width: 75%;
+    vertical-align: middle;
+    text-align: left;
+    font-size: large;
+    height: 8%;
+}
+
+.SchnapsMsgTextBox, #tMsg {
+    font-size: larger;
 }
 
 .PreFormated, #preOut {

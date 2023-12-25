@@ -51,7 +51,7 @@
                 <asp:ImageButton ID="imOut20" runat="server" ImageUrl="~/cardpics/e.gif" Width="15%" Height="10%"  OnClick="ImOut_Click"  />
             </span>
             <span id="spanMerge" runat="server" class="SchnapsStackSpanH96W96">
-                <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" style="z-index: 2" OnClick="ImMerge11_Click" BorderStyle="None" />&nbsp;
+                <asp:ImageButton ID="imMerge11" runat="server" CssClass="MergeImage" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" OnClick="ImMerge11_Click" BorderStyle="None" />&nbsp;
             </span>
             <span id="spanAtou" runat="server" class="SchnapsStackSpanWidthH96W72A">
                 <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" style="z-index: 1" />
@@ -65,20 +65,19 @@
             </span>            
         </div>
         <div id="DivPlayerStack" class="PlayerStack">
-            <span ID="spanIm0" class="cardImgSpan" valign="left">
+            <span id="spanIm0" class="cardImgSpan" valign="left">
                 <asp:ImageButton ID="im0" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im0')" onmouseout="unLightOnOut('im0')" />
             </span>
-            <span ID="spanIm1" class="cardImgSpan">
+            <span id="spanIm1" class="cardImgSpan">
                 <asp:ImageButton ID="im1" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im1')" onmouseout="unLightOnOut('im1')" />
             </span>
-            <span ID="spanIm2" class="cardImgSpan">
+            <span id="spanIm2" class="cardImgSpan">
                 <asp:ImageButton ID="im2" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im2')" onmouseout="unLightOnOut('im2')" />
             </span>
-            <span ID="spanIm3" class="cardImgSpan">
+            <span id="spanIm3" class="cardImgSpan">
                 <asp:ImageButton ID="im3" runat="server" ImageUrl="~/cardpics/n0.gif"  Width="15%" Height="10%" OnClick="ImageCard_Click" onmouseover="highLightOnOver('im3')" onmouseout="unLightOnOut('im3')" />
             </span>
-            <span ID="spanIm4" class="cardImgSpan" 
-                style="">
+            <span id="spanIm4" class="cardImgSpan">
                 <asp:ImageButton ID="im4" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%"  OnClick="ImageCard_Click" onmouseover="highLightOnOver('im4')" onmouseout="unLightOnOut('im4')" />
             </span>
             <span class="tableTournamentSpan">
@@ -91,15 +90,15 @@
             </span>
         </div>        
         <div id="SchnapsPointMsg" class="SchnapsPointMsgDiv">
-            <span style="width:5%; vertical-align: central; text-align: left; font-size: large; height: 8%;" align="left" valign="middle">
-                <asp:TextBox ID="tPoints" Width="5%" Height="8%"  runat="server" ToolTip="text message" style="min-height: 40px; min-width: 32px; font-size: large" Enabled="false">0</asp:TextBox>                
+            <span class="SchnapsPointSpanTextBox" align="left" valign="middle">
+                <asp:TextBox ID="tPoints" CssClass="SchnapsPointTextBox" Width="5%" Height="8%"  runat="server" ToolTip="text message" Enabled="false">0</asp:TextBox>                
             </span>
-            <span style="width:8%; vertical-align:central; text-align: left; font-size: large; height: 8%;" align="right" valign="middle">
-                <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" style="min-height: 40px; min-width: 40px; font-size: large;">Points</asp:Label>
+            <span class="SchnapsPointSpanLabel" align="right" valign="middle">
+                <asp:Label ID="lPoints" CssClass="SchnapsPointLabel" Width="8%" Height="8%"  runat="server" ToolTip="Points">Points</asp:Label>
             </span>
-            <span style="width:75%; vertical-align:middle; text-align: left; font-size: large; height: 8%;" align="middle" valign="middle">            
-                <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="75%" Height="8%" style="font-size: larger">Short Information</asp:TextBox>
-            </span>            
+            <span class="SchnapsMsgSpan" align="center" valign="middle">            
+                <asp:TextBox ID="tMsg" CssClass="SchnapsMsgTextBox" runat="server" ToolTip="text message" Width="75%" Height="8%">Short Information</asp:TextBox>
+            </span> 
         </div>
         <pre id="preOut" class="PreFormated" runat="server">
         </pre>
