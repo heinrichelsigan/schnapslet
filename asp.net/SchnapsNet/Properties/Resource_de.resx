@@ -151,7 +151,7 @@
     <value>Neustart</value>
   </data>
   <data name="app_name" xml:space="preserve">
-    <value />
+    <value>Schnaps.Net</value>
   </data>
   <data name="atou_is" xml:space="preserve">
     <value>Atou ist {0}!</value>
@@ -255,22 +255,22 @@
     <value>Leerkarte</value>
   </data>
   <data name="color_h" xml:space="preserve">
-    <value>♥</value>
+    <value>Herz</value>
   </data>
   <data name="color_hit_force_mode" xml:space="preserve">
     <value>Keine Karten im Talon -&gt; Farb- und Stichzwang !</value>
   </data>
   <data name="color_k" xml:space="preserve">
-    <value>♦</value>
+    <value>Karo</value>
   </data>
   <data name="color_n" xml:space="preserve">
     <value>Keine Karte</value>
   </data>
   <data name="color_p" xml:space="preserve">
-    <value>♠</value>
+    <value>Pik</value>
   </data>
   <data name="color_t" xml:space="preserve">
-    <value>♣</value>
+    <value>Treff</value>
   </data>
   <data name="computer" xml:space="preserve">
     <value>Computer</value>
@@ -399,6 +399,18 @@ Ideen, Vorschlaege, Verbesserungen werden gerne angenommen!</value>
   </data>
   <data name="sRest" xml:space="preserve">
     <value>Rest</value>
+  </data>
+  <data name="symbol_h" xml:space="preserve">
+    <value>♥</value>
+  </data>
+  <data name="symbol_k" xml:space="preserve">
+    <value>♦</value>
+  </data>
+  <data name="symbol_p" xml:space="preserve">
+    <value>♠</value>
+  </data>
+  <data name="symbol_t" xml:space="preserve">
+    <value>♣</value>
   </data>
   <data name="this_is_no_valid_card" xml:space="preserve">
     <value>Das ist keine gültige Karte !</value>

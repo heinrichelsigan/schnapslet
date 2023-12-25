@@ -73,7 +73,7 @@ namespace SchnapsNet.Utils
             {
                 string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
                 if (!audioPath.Contains("SchnapsNet"))
-                    audioPath += "SchnapsNet" + SepChar;
+                     audioPath += "SchnapsNet" + SepChar;
                 if (!audioPath.Contains("res"))
                     audioPath += "res" + SepChar;
                 // if (!Directory.Exists(audioPath))

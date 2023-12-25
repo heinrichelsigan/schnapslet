@@ -16,8 +16,7 @@ namespace SchnapsNet.Utils
     /// SaýSpeach is an audio wav generating singelton <see cref="Lazy{T}"/>.
     /// </summary>
     public class SaySpeach
-    {       
-        private static string[] TMPS = { "temp", "TEMP", "tmp", "TMP" };        
+    {             
         internal SpeechSynthesizer synthesizer;
         private static string saveDir;
         protected internal string[] voices, femaleVoices;
@@ -40,32 +39,6 @@ namespace SchnapsNet.Utils
             }
         }
 
-        /// <summary>
-        /// SaveOutPaths returns a <see cref="string[]" /> containg possible save output paths.
-        /// </summary>
-        protected internal string[] SaveOutPaths
-        {
-            get
-            {
-                List<string> savePathList = new System.Collections.Generic.List<string>();
-                string tmpDir = Paths.AudioDir;
-                if (tmpDir != null && Directory.Exists(tmpDir))
-                    savePathList.Add(tmpDir);
-
-                tmpDir = AppDomain.CurrentDomain.BaseDirectory;
-                if (tmpDir != null && Directory.Exists(tmpDir))
-                    savePathList.Add(tmpDir);
-
-                foreach (string tmpVar in TMPS)
-                {
-                    tmpDir = Environment.GetEnvironmentVariable(tmpVar);
-                    if (tmpDir != null && tmpDir.Length > 1 && Directory.Exists(tmpDir))
-                        savePathList.Add(tmpDir);
-                }
-
-                return savePathList.ToArray();
-            }
-        }
 
         /// <summary>
         /// SavePath return path to save output directory.
@@ -77,35 +50,14 @@ namespace SchnapsNet.Utils
                 if (saveDir != null && saveDir.Length > 1 && Directory.Exists(saveDir))
                     return saveDir;
 
+                saveDir = System.AppDomain.CurrentDomain.BaseDirectory + SepChar + "res" + SepChar;
+                if (Directory.Exists(saveDir))
+                    return saveDir;
+
                 saveDir = AudioDir;
                 if (Directory.Exists(saveDir))
                     return saveDir;
 
-                foreach (string appPath in SaveOutPaths)
-                {
-                    saveDir = appPath;
-                    try
-                    {
-                        if (!Directory.Exists(saveDir))
-                        {
-                            DirectoryInfo dirInfo = Directory.CreateDirectory(saveDir);
-                            if (dirInfo == null || !dirInfo.Exists)
-                                throw new IOException(saveDir + " doesn't exist!");
-                        }
-                    }
-                    catch (Exception) { saveDir = appPath; }
-                    try
-                    {
-                        string tmpFile = Path.Combine(saveDir, (DateTime.Now.Ticks + ".txt"));
-                        File.WriteAllText(tmpFile, DateTime.Now.ToString());
-                        if (File.Exists(tmpFile))
-                        {
-                            File.Delete(tmpFile);
-                            return saveDir;
-                        }
-                    }
-                    catch (Exception) { continue; }
-                }
 
                 saveDir = "." + SepChar;
                 return saveDir;
@@ -134,7 +86,8 @@ namespace SchnapsNet.Utils
             foreach (char sayChar in sayText.ToCharArray())
             {
                 if ((((int)sayChar) >= ((int)'A') && ((int)sayChar) <= ((int)'Z')) ||
-                    (((int)sayChar) >= ((int)'a') && ((int)sayChar) <= ((int)'z')))
+                    (((int)sayChar) >= ((int)'a') && ((int)sayChar) <= ((int)'z')) ||
+                    (((int)sayChar) >= ((int)'0') && ((int)sayChar) <= ((int)'9')))
                     sayWaveFile += sayChar;
             }
             if (string.IsNullOrEmpty(sayWaveFile))
@@ -199,25 +152,23 @@ namespace SchnapsNet.Utils
         /// </summary>
         /// <param name="say">word to say as <see cref="string"/></param>
         /// <returns><see cref="Path"/> to recorded audio wav file</returns>
-        public string Say(string say) 
+        public async Task Say(string say) 
         {
             // femaleVoices = AddVoices(voices);
 
             if (!string.IsNullOrWhiteSpace(say))
             {
-                string fileNameSay = WaveFileName(say);
-
                 if (synthesizer == null)
                 {
                     synthesizer = new SpeechSynthesizer();
                 }
-                string wavOutPath = WaveFileUrl(say, AppPathUrl);
+                
                 using (synthesizer)
                 {
                     // voices = AddVoices(voices);
                     // SpeechAudioFormatInfo sAudioFormatInfo = new SpeechAudioFormatInfo(1, 1, AudioChannel.Stereo);
 
-                    string wavFile = SavePath + SepChar + fileNameSay;
+                    string wavFile = SavePath + SepChar + WaveFileName(say); 
                     //try
                     //{
                     //    if (File.Exists(wavFile))
@@ -225,10 +176,8 @@ namespace SchnapsNet.Utils
                     //} catch (Exception ex) { }
                     synthesizer.SetOutputToWaveFile(wavFile);
                     synthesizer.Speak(say);                    
-                }
-                return wavOutPath;
-            }
-            return null;
+                }                
+            }            
         }
 
     }

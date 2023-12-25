@@ -1402,7 +1402,7 @@ namespace SchnapsNet
                 if (a20 > 0)
                 {
                     psaychange += 2;
-                    b20a.Text = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
+                    b20a.Text = aGame.PrintSymbol(aGame.gambler.handpairs[0]) + " " +
                         ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                     aGame.sayMarriage20 = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
                         ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
@@ -1410,7 +1410,7 @@ namespace SchnapsNet
                     b20a.Enabled = true;
                     if (a20 > 1)
                     {
-                        b20b.Text = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
+                        b20b.Text = aGame.PrintSymbol(aGame.gambler.handpairs[1]) + " " +
                             ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                         aGame.b20 = true;
                         aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
@@ -1560,7 +1560,7 @@ namespace SchnapsNet
                 sayMsg = string.Format(ResReader.GetValue("computer_hit_points", globalVariable.ISO2Lang),
                     (-tmppoints).ToString());
                 msgText = sayMsg + " " + ResReader.GetValue("click_continue", globalVariable.ISO2Lang);
-                SetTextMessage(msgText, sayMsg);
+                SetTextMessage(sayMsg, sayMsg);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
                 if (!aGame.computer.cardStitches.Keys.Contains(aGame.computer.stitchCount))
@@ -1725,13 +1725,13 @@ namespace SchnapsNet
                 // string metaHeaderWav = say.WaveFileUrl(textMsg, HttpContext.Current.Request.RawUrl);
                 // say.Say(textMsg);                
                 // this.aAudio.HRef = metaHeaderWav;                
-                SaySingelton says = SaySingelton.Instance;
-                Task.Run(async () => await SpeakMsg(says, sayMsg).ConfigureAwait(false));
+                SaySpeach say = new SaySpeach();
+                Task.Run(async () => await say.Say(textMsg).ConfigureAwait(false));
                 // Task myTask = SpeakMsg(sayMsg);
                 // myTask.RunSynchronously();
                 // myTask.Wait();                
-                string wavHref = SaySingelton.Instance.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                string wavName = SaySingelton.Instance.WaveFileName(sayMsg);
+                string wavHref = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                string wavName = say.WaveFileName(sayMsg);
                 this.aAudio.HRef = wavHref;
                 // this.aAudio.Name = wavName;
             }
@@ -1740,13 +1740,13 @@ namespace SchnapsNet
                 Log(msgSet);
         }
 
-        public Task SpeakMsg(SaySingelton say, string textMsg)
+        public Task SpeakMsg(SaySpeach say, string textMsg)
         {
             Task task = new Task(() =>
             {
-                //if (say == null)
-                //     say = SaySingelton.Instance;
-                SaySingelton.Instance.Say(textMsg);                
+                if (say == null)
+                    say = new SaySpeach();
+                say.Say(textMsg);                
             });
             return task;
         }

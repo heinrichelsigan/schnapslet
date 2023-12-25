@@ -414,6 +414,18 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   <data name="sRest" xml:space="preserve">
     <value>rest</value>
   </data>
+  <data name="symbol_h" xml:space="preserve">
+    <value>♥</value>
+  </data>
+  <data name="symbol_k" xml:space="preserve">
+    <value>♦</value>
+  </data>
+  <data name="symbol_p" xml:space="preserve">
+    <value>♠</value>
+  </data>
+  <data name="symbol_t" xml:space="preserve">
+    <value>♣</value>
+  </data>
   <data name="this_is_no_valid_card" xml:space="preserve">
     <value>ceci n'est pas une carte valide!</value>
   </data>

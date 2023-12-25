@@ -244,7 +244,7 @@ namespace SchnapsNet.Models
 		public abstract int GetTournamentPoints(PLAYERDEF whoWon);
         
 		/// <summary>
-		/// PrintColor prinrs tbe full name of color from xml file 
+		/// PrintColor prints the full name of color from xml file 
 		///  at https://area23.at/mono/SchnapsNet/
         /// </summary>
         /// <param name="ch">char color</param>
@@ -257,12 +257,32 @@ namespace SchnapsNet.Models
 				case 'h': return ResReader.GetValue("color_h", "");
 				case 't': return ResReader.GetValue("color_t", "");
 				case 'p': return ResReader.GetValue("color_p", "");
-				default: break;
-			}
+				default:
+					return ResReader.GetValue("color_" + ch);
+            }
 			return "NoColor";
         }
 
-		#region internalMessageQueue
+        /// <summary>
+        /// PrintSymbol prints symbol of color from ressource template
+        ///  at https://area23.at/mono/SchnapsNet/
+        /// </summary>
+        /// <param name="ch">char color</param>
+        /// <returns>printed color name</returns>
+        public virtual String PrintSymbol(char ch)
+        {
+            switch (ch)
+            {
+                case 'k': return ResReader.GetValue("symbol_k", "");
+                case 'h': return ResReader.GetValue("symbol_h", "");
+                case 't': return ResReader.GetValue("symbol_t", "");
+                case 'p': return ResReader.GetValue("symbol_p", "");
+                default: break;
+            }
+            return "NoSymbol";
+        }
+
+        #region internalMessageQueue
 
         /// <summary>
         /// InsertMsg - inserts msg into internal message queue

@@ -1179,7 +1179,7 @@ namespace SchnapsNet
                 if (a20 > 0)
                 {
                     psaychange += 2;
-                    b20a.Text = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
+                    b20a.Text = aGame.PrintSymbol(aGame.gambler.handpairs[0]) + " " +
                         ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                     aGame.sayMarriage20 = aGame.PrintColor(aGame.gambler.handpairs[0]) + " " +
                         ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
@@ -1187,7 +1187,7 @@ namespace SchnapsNet
                     b20a.Enabled = true;
                     if (a20 > 1)
                     {
-                        b20b.Text = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
+                        b20b.Text = aGame.PrintSymbol(aGame.gambler.handpairs[1]) + " " +
                             ResReader.GetValue("say_pair", globalVariable.ISO2Lang);
                         aGame.b20 = true;
                         aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +

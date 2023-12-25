@@ -915,6 +915,42 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ♥.
+        /// </summary>
+        internal static string symbol_h {
+            get {
+                return ResourceManager.GetString("symbol_h", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♦.
+        /// </summary>
+        internal static string symbol_k {
+            get {
+                return ResourceManager.GetString("symbol_k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♠.
+        /// </summary>
+        internal static string symbol_p {
+            get {
+                return ResourceManager.GetString("symbol_p", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♣.
+        /// </summary>
+        internal static string symbol_t {
+            get {
+                return ResourceManager.GetString("symbol_t", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ceci n&apos;est pas une carte valide!.
         /// </summary>
         internal static string this_is_no_valid_card {

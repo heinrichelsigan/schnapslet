@@ -160,7 +160,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Schnaps.Net.
         /// </summary>
         internal static string app_name {
             get {
@@ -439,7 +439,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♥.
+        ///   Looks up a localized string similar to Herz.
         /// </summary>
         internal static string color_h {
             get {
@@ -457,7 +457,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♦.
+        ///   Looks up a localized string similar to Karo.
         /// </summary>
         internal static string color_k {
             get {
@@ -475,7 +475,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♠.
+        ///   Looks up a localized string similar to Pik.
         /// </summary>
         internal static string color_p {
             get {
@@ -484,7 +484,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♣.
+        ///   Looks up a localized string similar to Treff.
         /// </summary>
         internal static string color_t {
             get {
@@ -840,6 +840,42 @@ namespace SchnapsNet.Properties {
         internal static string sRest {
             get {
                 return ResourceManager.GetString("sRest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♥.
+        /// </summary>
+        internal static string symbol_h {
+            get {
+                return ResourceManager.GetString("symbol_h", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♦.
+        /// </summary>
+        internal static string symbol_k {
+            get {
+                return ResourceManager.GetString("symbol_k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♠.
+        /// </summary>
+        internal static string symbol_p {
+            get {
+                return ResourceManager.GetString("symbol_p", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ♣.
+        /// </summary>
+        internal static string symbol_t {
+            get {
+                return ResourceManager.GetString("symbol_t", resourceCulture);
             }
         }
         
