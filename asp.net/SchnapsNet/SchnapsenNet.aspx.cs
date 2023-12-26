@@ -1816,19 +1816,29 @@ namespace SchnapsNet
 
             tMsg.Visible = true;
             tMsg.Text = msgSet;
-            
+
+            if (logMsg)
+                Log(msgSet);
+
             if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut) 
             {
-                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"" )             
-                // this.aAudio.HRef = metaHeaderWav;                
+                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+                
                 SayBase sayBase = new SayBase();
                 string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+                if (File.Exists(waveFile) && SayBase.SpeechCache) 
+                {                    
+                    this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                    Log("Speech loaded cached file = " + this.aAudio.HRef);
+                    return; 
+                }
                 try
                 {
                     if (!File.Exists(waveFile) && SayBase.SpeechNew)
                     {
+                        Log("Speech calling ctor 'new SaySpeach(sayBase)\' to generate new saying \"" + sayMsg + "\"");
                         SaySpeach say = new SaySpeach(sayBase);
-                        Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
+                        Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));                        
                     }
                 } 
                 catch (Exception exSay)
@@ -1838,14 +1848,11 @@ namespace SchnapsNet
                 // Task myTask = SpeakMsg(sayMsg);
                 // myTask.RunSynchronously();
                 // myTask.Wait();                
-                string wavHref = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                string wavName = sayBase.WaveFileName(sayMsg);
-                this.aAudio.HRef = wavHref;
-                // this.aAudio.Name = wavName;
+                this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
+                Log("Speech opertion finished ⇒ aAudio.HRef = " + aAudio.HRef);
             }
 
-            if (logMsg)
-                Log(msgSet);
         }
 
     }
