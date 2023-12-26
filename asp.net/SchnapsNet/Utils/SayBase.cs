@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Speech.Synthesis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Speech.AudioFormat;
-using static System.Net.Mime.MediaTypeNames;
 using System.Web;
 
 namespace SchnapsNet.Utils
