@@ -40,7 +40,40 @@ namespace SchnapsNet
         public static string LogFile { get => Paths.LogFile; }
 
 
-        public System.Globalization.CultureInfo Locale { get => Paths.Locale; }
+        public System.Globalization.CultureInfo Locale
+        {
+            get // get => Paths.Locale;
+            {
+                if (locale == null)
+                {
+                    if (globalVariable != null && globalVariable.Locale != null)
+                    {
+                        locale = globalVariable.Locale;
+                    }
+                    else
+                    {
+                        xlock = new object();
+                        try
+                        {
+                            string defaultLang = Request.Headers["Accept-Language"].ToString();
+                            string firstLang = defaultLang.Split(',').FirstOrDefault();
+                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                            locale = new System.Globalization.CultureInfo(defaultLang);
+                        }
+                        catch (Exception)
+                        {
+                            locale = new System.Globalization.CultureInfo("en");
+                        }
+                        if (globalVariable == null)
+                            InitGlobalVariable();
+                        if (globalVariable != null)
+                            globalVariable.Locale = locale;
+                    }
+                }
+                return locale;
+            }
+        }
+
         public string ISO2Lang { get => Paths.ISO2Lang; }
 
         public virtual void InitSchnaps()
@@ -76,7 +109,7 @@ namespace SchnapsNet
                 }
             }
             
-            this.InitGlobaleVariable();
+            this.InitGlobalVariable();
             
             lock (xlock)
             {
@@ -95,7 +128,7 @@ namespace SchnapsNet
             loaded = true;
         }
 
-        public virtual void InitGlobaleVariable()
+        public virtual void InitGlobalVariable()
         {
             if (globalVariable == null)
             {
@@ -156,13 +189,13 @@ namespace SchnapsNet
                     trHead.Style["border-bottom"] = "2px solid";
                     TableCell tdX = new TableCell()
                     {
-                        Text = ResReader.GetValue("computer", globalVariable.ISO2Lang)
+                        Text = ResReader.GetRes("computer", Locale)
                     };
                     tdX.Style["border-right"] = "1px solid;";
                     tdX.Style["border-bottom"] = "2px solid";
                     TableCell tdY = new TableCell()
                     {
-                        Text = ResReader.GetValue("you", globalVariable.ISO2Lang)
+                        Text = ResReader.GetRes("you", Locale)
                     };
                     tdY.Style["border-bottom"] = "2px solid";
                     trHead.Cells.Add(tdX);

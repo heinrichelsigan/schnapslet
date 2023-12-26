@@ -340,6 +340,11 @@
     <Compile Include="Area23BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Properties\Resource_en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource_en.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\ProcessCmd.cs" />
@@ -428,6 +433,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource_de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource_en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource_en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resource_fr.resx">
       <Generator>ResXFileCodeGenerator</Generator>

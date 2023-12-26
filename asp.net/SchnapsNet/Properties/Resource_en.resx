@@ -1,0 +1,537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="action_about" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="action_continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="action_exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="action_help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="action_load" xml:space="preserve">
+    <value>Load game</value>
+  </data>
+  <data name="action_options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="action_save" xml:space="preserve">
+    <value>Save game</value>
+  </data>
+  <data name="action_screenshot" xml:space="preserve">
+    <value>ScreenShot</value>
+  </data>
+  <data name="action_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="action_start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="action_stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="app_name" xml:space="preserve">
+    <value>Schnaps.Net</value>
+  </data>
+  <data name="atou_is" xml:space="preserve">
+    <value>Atou is {0}!</value>
+  </data>
+  <data name="b20a_text" xml:space="preserve">
+    <value>Marriage 20</value>
+  </data>
+  <data name="b20b_text" xml:space="preserve">
+    <value>Atou marriage 40</value>
+  </data>
+  <data name="back_button" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="bChange_text" xml:space="preserve">
+    <value>Change Atou</value>
+  </data>
+  <data name="bContinue_text" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="best_card_would_be" xml:space="preserve">
+    <value>Best card would be: {0}</value>
+  </data>
+  <data name="bHelp_text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="bStart_text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="bStop_text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="build_with" xml:space="preserve">
+    <value>VisualStudio 2022 C# 4.8</value>
+  </data>
+  <data name="call_10_hole" xml:space="preserve">
+    <value>10 hole</value>
+    <comment>10</comment>
+  </data>
+  <data name="call_ace_beggar" xml:space="preserve">
+    <value>Ace beggar</value>
+    <comment>4</comment>
+  </data>
+  <data name="call_beggar" xml:space="preserve">
+    <value>Beggar</value>
+    <comment>2</comment>
+  </data>
+  <data name="call_default_game" xml:space="preserve">
+    <value>Default game</value>
+    <comment>1</comment>
+  </data>
+  <data name="call_farmers_schnapser" xml:space="preserve">
+    <value>Farmer's Schnapser</value>
+    <comment>12</comment>
+  </data>
+  <data name="call_march_through" xml:space="preserve">
+    <value>March through</value>
+    <comment>8</comment>
+  </data>
+  <data name="call_schnapser" xml:space="preserve">
+    <value>Schnapser</value>
+    <comment>6</comment>
+  </data>
+  <data name="call_sirs_schnapser" xml:space="preserve">
+    <value>Sir's Schnapser</value>
+    <comment>24</comment>
+  </data>
+  <data name="carddeck" xml:space="preserve">
+    <value>carddeck</value>
+  </data>
+  <data name="cardval_10" xml:space="preserve">
+    <value>Ten</value>
+  </data>
+  <data name="cardval_11" xml:space="preserve">
+    <value>Ace</value>
+  </data>
+  <data name="cardval_2" xml:space="preserve">
+    <value>Jack</value>
+  </data>
+  <data name="cardval_3" xml:space="preserve">
+    <value>Queen</value>
+  </data>
+  <data name="cardval_4" xml:space="preserve">
+    <value>King</value>
+  </data>
+  <data name="clickon_start" xml:space="preserve">
+    <value>Click on 'Start' button to start a new game.</value>
+  </data>
+  <data name="click_continue" xml:space="preserve">
+    <value>Click on Continue!</value>
+  </data>
+  <data name="close_game" xml:space="preserve">
+    <value>close game</value>
+  </data>
+  <data name="closing_failed" xml:space="preserve">
+    <value>You failed to close this game, computer wins!</value>
+  </data>
+  <data name="colorDelimiter" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="color_e" xml:space="preserve">
+    <value>empty card</value>
+  </data>
+  <data name="color_h" xml:space="preserve">
+    <value>hearts</value>
+  </data>
+  <data name="color_hit_force_mode" xml:space="preserve">
+    <value>No more cards in talon -&gt; follow the suit led otherwise must trump (if possible).</value>
+  </data>
+  <data name="color_k" xml:space="preserve">
+    <value>diamonds</value>
+  </data>
+  <data name="color_n" xml:space="preserve">
+    <value>nocolor</value>
+  </data>
+  <data name="color_p" xml:space="preserve">
+    <value>spades</value>
+  </data>
+  <data name="color_t" xml:space="preserve">
+    <value>clubs</value>
+  </data>
+  <data name="computer" xml:space="preserve">
+    <value>computer</value>
+  </data>
+  <data name="computer_changes_atou" xml:space="preserve">
+    <value>Computer changes Atou card.</value>
+  </data>
+  <data name="computer_closed_game" xml:space="preserve">
+    <value>Computer closes game!</value>
+  </data>
+  <data name="computer_closing_failed" xml:space="preserve">
+    <value>Computer failed closing the game, you win!</value>
+  </data>
+  <data name="computer_has_won_points" xml:space="preserve">
+    <value>Computer won with {0} points!</value>
+  </data>
+  <data name="computer_hit_points" xml:space="preserve">
+    <value>Computer hits with {0} points.</value>
+  </data>
+  <data name="computer_plays_out" xml:space="preserve">
+    <value>Computer plays out</value>
+  </data>
+  <data name="computer_says_pair" xml:space="preserve">
+    <value>computer announces  a marriages in color {0}</value>
+  </data>
+  <data name="computer_wins_last_hit" xml:space="preserve">
+    <value>Last trick: computer wins!</value>
+  </data>
+  <data name="computer_won_taylor" xml:space="preserve">
+    <value>Computer won tournament. You're a taylor!</value>
+  </data>
+  <data name="computer_won_tournament." xml:space="preserve">
+    <value>Computer won tournament. You've been marked with a fat point.</value>
+  </data>
+  <data name="continue_ToolTip" xml:space="preserve">
+    <value>Click here to continue.</value>
+  </data>
+  <data name="creating_players" xml:space="preserve">
+    <value>Creating new players</value>
+  </data>
+  <data name="default_cards" xml:space="preserve">
+    <value>default cards</value>
+  </data>
+  <data name="ending_game" xml:space="preserve">
+    <value>Ending game!</value>
+  </data>
+  <data name="english_cards" xml:space="preserve">
+    <value>english cards</value>
+  </data>
+  <data name="exception_cannot_close_game" xml:space="preserve">
+    <value>Cannot close game.</value>
+  </data>
+  <data name="exception_generic_schnapsexception" xml:space="preserve">
+    <value>Generic SchnapsNet application exception.</value>
+  </data>
+  <data name="fourty_and_enough" xml:space="preserve">
+    <value>Forty and enough !</value>
+  </data>
+  <data name="fourty_in_color" xml:space="preserve">
+    <value>Forty in</value>
+  </data>
+  <data name="french_cards" xml:space="preserve">
+    <value>french cards</value>
+  </data>
+  <data name="german_cards" xml:space="preserve">
+    <value>german cards</value>
+  </data>
+  <data name="github_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet</value>
+  </data>
+  <data name="help_text" xml:space="preserve">
+    <value>&lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
+Implementation of the card game Schnapsen as a simple Asp.Net WebApp
+by Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+&lt;br /&gt;
+Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+&lt;hr /&gt;
+&lt;h2&gt;Functionality:&lt;/h2&gt;
+&lt;p&gt;The game is designed to play against the computer.
+When it is your turn, you can play a card by clicking on the card icon.
+Other options, such as "&lt;i&gt;Exchange Atou&lt;/i&gt;" or "&lt;i&gt;Announce a pair in [&lt;b&gt;CardColor&lt;/b&gt;]&lt;/i&gt;" 
+are possible via the buttons below the card symbols; 
+these options must be chosen before playing a card!
+&lt;br /&gt;
+When it is  computer's turn, it plays a card and 
+you can click on your own cards to trick or give up!
+The rules correspond to the Austrian Schnapsen, 
+but there are still small bugs!
+&lt;br /&gt;
+'&lt;i&gt;Closing Game&lt;/i&gt;' is implemented: 
+You just have to click on the &lt;b&gt;atou (trump)&lt;/b&gt; card. 
+&lt;/p&gt;
+&lt;hr /&gt;
+Ideas, suggestions, improvements are gladly accepted!
+&lt;br /&gt;
+Rules correspond to the Austrian &lt;a href="https://en.wikipedia.org/wiki/Schnapsen" target="_blank"&gt;Schnapsen&lt;/a&gt;.</value>
+  </data>
+  <data name="im0_text" xml:space="preserve">
+    <value>Player card 1</value>
+  </data>
+  <data name="im1_text" xml:space="preserve">
+    <value>Player card 2</value>
+  </data>
+  <data name="im2_text" xml:space="preserve">
+    <value>Player card 3</value>
+  </data>
+  <data name="im3_text" xml:space="preserve">
+    <value>Player card 4</value>
+  </data>
+  <data name="im4_text" xml:space="preserve">
+    <value>Player card 5</value>
+  </data>
+  <data name="imageAtou_AltText" xml:space="preserve">
+    <value>Game is closed!</value>
+  </data>
+  <data name="imageAtou_ToolTip" xml:space="preserve">
+    <value>Click on atou to close game!</value>
+  </data>
+  <data name="imageMerge_ToolTip" xml:space="preserve">
+    <value>Click here to start a new game.</value>
+  </data>
+  <data name="image_fist" xml:space="preserve">
+    <value>Tap deck with fist to start.</value>
+  </data>
+  <data name="image_take" xml:space="preserve">
+    <value>Take half of merged deck to start.</value>
+  </data>
+  <data name="imAtou_text" xml:space="preserve">
+    <value>Atou card</value>
+  </data>
+  <data name="imgCOut0_text" xml:space="preserve">
+    <value>Computer card 0</value>
+  </data>
+  <data name="imgCOut1_text" xml:space="preserve">
+    <value>Computer card 1</value>
+  </data>
+  <data name="imgCOut2_text" xml:space="preserve">
+    <value>Computer card 2</value>
+  </data>
+  <data name="imgCOut3_text" xml:space="preserve">
+    <value>Computer card 3</value>
+  </data>
+  <data name="imgCOut4_text" xml:space="preserve">
+    <value>Computer card 4</value>
+  </data>
+  <data name="imMerge_text" xml:space="preserve">
+    <value>Merging animation</value>
+  </data>
+  <data name="imOut0_text" xml:space="preserve">
+    <value>Playout card</value>
+  </data>
+  <data name="imOut1_text" xml:space="preserve">
+    <value>Answer card</value>
+  </data>
+  <data name="imTalon_text" xml:space="preserve">
+    <value>Talon card</value>
+  </data>
+  <data name="last_hit_you_have_won" xml:space="preserve">
+    <value>Last trick: you win!</value>
+  </data>
+  <data name="learn_more" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="merging_cards" xml:space="preserve">
+    <value>Merging cards</value>
+  </data>
+  <data name="newgame_starts" xml:space="preserve">
+    <value>Start a new game</value>
+  </data>
+  <data name="nogame_started" xml:space="preserve">
+    <value>No game has been started!</value>
+  </data>
+  <data name="no_second_pair" xml:space="preserve">
+    <value>no second pair</value>
+  </data>
+  <data name="player_closed_game" xml:space="preserve">
+    <value>Player closes game!</value>
+  </data>
+  <data name="polish_cards" xml:space="preserve">
+    <value>polish cardset</value>
+  </data>
+  <data name="say_pair" xml:space="preserve">
+    <value>say pair</value>
+  </data>
+  <data name="sPoints" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="sRest" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="symbol_h" xml:space="preserve">
+    <value>♥</value>
+  </data>
+  <data name="symbol_k" xml:space="preserve">
+    <value>♦</value>
+  </data>
+  <data name="symbol_p" xml:space="preserve">
+    <value>♠</value>
+  </data>
+  <data name="symbol_t" xml:space="preserve">
+    <value>♣</value>
+  </data>
+  <data name="tDbg_text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="this_is_no_valid_card" xml:space="preserve">
+    <value>This is no valid card to play!</value>
+  </data>
+  <data name="tMes_text" xml:space="preserve">
+    <value>Short information</value>
+  </data>
+  <data name="toplayout_clickon_card" xml:space="preserve">
+    <value>Click on card symbol to play out that card.</value>
+  </data>
+  <data name="tPoints_text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tRest_text" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="twenty_and_enough" xml:space="preserve">
+    <value>Twenty and enough!</value>
+  </data>
+  <data name="twenty_in_color" xml:space="preserve">
+    <value>Twenty in</value>
+  </data>
+  <data name="ukraine_cards" xml:space="preserve">
+    <value>ukraine cardset</value>
+  </data>
+  <data name="us_cards" xml:space="preserve">
+    <value>future_us_cards</value>
+  </data>
+  <data name="version_name" xml:space="preserve">
+    <value>{0}</value>
+    <comment>v2.24.12125</comment>
+  </data>
+  <data name="wiki_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
+  </data>
+  <data name="you" xml:space="preserve">
+    <value>you</value>
+  </data>
+  <data name="your_hit_points" xml:space="preserve">
+    <value>Your hit with {0} points</value>
+  </data>
+  <data name="you_have_won_points" xml:space="preserve">
+    <value>You win with {0} points!</value>
+  </data>
+  <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
+    <value>Follow the suit led stict rules!</value>
+  </data>
+  <data name="you_must_play_pair_card" xml:space="preserve">
+    <value>You must play out queen or king when marriages!</value>
+  </data>
+  <data name="you_say_pair" xml:space="preserve">
+    <value>Thou announce a marriages in color {0}!</value>
+  </data>
+  <data name="you_won_taylor" xml:space="preserve">
+    <value>You won tournament. Computer lost as a taylor.</value>
+  </data>
+  <data name="you_won_tournement" xml:space="preserve">
+    <value>You won tournament. Computer's marked with a fat point.</value>
+  </data>
+</root>

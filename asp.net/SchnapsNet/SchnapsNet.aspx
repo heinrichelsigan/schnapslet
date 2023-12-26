@@ -57,12 +57,10 @@
                 </span>
                 <span id="spanAtouTalon" runat="server" class="SpanAtouTalon">
                     <span id="spanAtou" runat="server" class="SpanAtou">
-                        <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" Visible="false" OnClick="ImageCard_Click" 
-                            CssClass="AtouImage" />
+                        <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" Visible="false" OnClick="ImageCard_Click" CssClass="AtouImage" />
                     </span>
                     <span id="spanTalon" class="SpanTalon">
-                        <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Visible="false" 
-                            CssClass="TalonImage" Width="18%" />
+                        <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Visible="false" CssClass="TalonImage" Width="18%" />
                     </span>
                 </span>
                 <span id="SpanComputerStitches" runat="server" class="SchnapsStackStitches">
