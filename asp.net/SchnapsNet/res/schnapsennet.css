@@ -276,7 +276,7 @@ div.SchnapsStack,
     width: 100%;
     height: 12%;
     visibility: visible;
-    font-size: large;
+    font-size: medium;
     font-family: 'Courier New', Courier, monospace, 'Lucida Console', 'Lucida Sans Unicode';
     scroll-behavior: auto;
 }

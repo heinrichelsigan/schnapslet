@@ -1745,15 +1745,25 @@ namespace SchnapsNet
                 // string metaHeaderWav = say.WaveFileUrl(textMsg, HttpContext.Current.Request.RawUrl);
                 // say.Say(textMsg);                
                 // this.aAudio.HRef = metaHeaderWav;                
-                SaySpeach say = new SaySpeach();
-                string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
-                if (!File.Exists(waveFile))
-                    Task.Run(async () => await say.Say(textMsg).ConfigureAwait(false));
+                SayBase sayBase = new SayBase();
+                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+                try
+                {
+                    if (!File.Exists(waveFile))
+                    {
+                        SaySpeach say = new SaySpeach(sayBase);
+                        Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
+                    }
+                } 
+                catch (Exception exSay)
+                {
+                    HandleException(exSay);
+                }
                 // Task myTask = SpeakMsg(sayMsg);
                 // myTask.RunSynchronously();
                 // myTask.Wait();                
-                string wavHref = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                string wavName = say.WaveFileName(sayMsg);
+                string wavHref = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                string wavName = sayBase.WaveFileName(sayMsg);
                 this.aAudio.HRef = wavHref;
                 // this.aAudio.Name = wavName;
             }
