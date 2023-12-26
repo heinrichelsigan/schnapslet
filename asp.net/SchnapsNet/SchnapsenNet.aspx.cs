@@ -1819,10 +1819,7 @@ namespace SchnapsNet
             
             if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut) 
             {
-                // SaySpeach say = new SaySpeach();
-                // this.aAudio.Name = say.WaveFileName(textMsg);
-                // string metaHeaderWav = say.WaveFileUrl(textMsg, HttpContext.Current.Request.RawUrl);
-                // say.Say(textMsg);                
+                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"" )             
                 // this.aAudio.HRef = metaHeaderWav;                
                 SayBase sayBase = new SayBase();
                 string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
