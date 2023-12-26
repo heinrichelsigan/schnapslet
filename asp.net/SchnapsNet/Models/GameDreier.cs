@@ -96,7 +96,7 @@ namespace SchnapsNet.Models
 		/// originally destroyGame in Java => realized by implementing IDisposible
         /// </summary>
         public override void Dispose()
-		{            
+        {
             computer1 = null;
             computer2 = null;
             base.Dispose();

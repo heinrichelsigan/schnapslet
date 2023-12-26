@@ -18,6 +18,7 @@ namespace SchnapsNet.Models
     /// </summary>
     public class Player : IDisposable
     {
+        volatile bool _disposed = false;
         volatile bool begins;    // does this Player begin ?
         public Card[] hand = new Card[5];  // Cards in Players Hand
         // not implemented yet !
@@ -129,13 +130,21 @@ namespace SchnapsNet.Models
             this.begins = starts;
         }
 
+        public void Dispose(bool disposing = true)
+        {            
+            Stop();
+            if (disposing)
+                _disposed = true;
+        }
+
         public void Dispose()
         {
-            for (int i = 0; i < HandCount; i++)
-                hand[i] = null;
-
-            stitchCount = 0;
-            cardStitches.Clear();
+            lock (this)
+            {
+                if (_disposed) return;
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
         }
 
         /// <summary>
