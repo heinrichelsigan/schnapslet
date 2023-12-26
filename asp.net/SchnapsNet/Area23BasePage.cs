@@ -91,16 +91,13 @@ namespace SchnapsNet
 
         protected override void OnInit(EventArgs e)
         {
-            loaded = false;
-            base.OnInit(e);
-            locale = Locale;
             pLock = new object();
-            xlock = new object();
-            InitURLBase();            
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
+            lock (pLock)
+            {
+                xlock = new object();
+                loaded = false;
+            }            
+            base.OnInit(e);
             if (globalVariable == null)
             {
                 if (!Page.IsPostBack)
@@ -108,7 +105,12 @@ namespace SchnapsNet
                     InitSchnaps();
                 }
             }
-            
+            locale = Locale;
+            InitURLBase();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
             this.InitGlobalVariable();
             
             lock (xlock)

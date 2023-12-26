@@ -1828,7 +1828,7 @@ namespace SchnapsNet
                 string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
                 try
                 {
-                    if (true) // if (!File.Exists(waveFile) && SayBase.SpeechNew)
+                    if (!File.Exists(waveFile) && SayBase.SpeechNew)
                     {
                         SaySpeach say = new SaySpeach(sayBase);
                         Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
