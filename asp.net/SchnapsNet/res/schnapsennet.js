@@ -303,14 +303,14 @@ function unLightOnOut(unLightId) {
         if (document.getElementById(unLightId).style.borderStyle == "dotted" &&
             document.getElementById(unLightId).style.borderColor == "blueviolet") {
             // change only back to pair color, when dotted
-            document.getElementById(highLightId).style.borderColor = "deeppink";
+            document.getElementById(unLightId).style.borderColor = "deeppink";
         }
         else {
-            // if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
-            //    document.getElementById(highLightId).style.borderWidth == 1) {
+            // if (document.getElementById(unLightId).style.borderStyle == "dashed" ||
+            //    document.getElementById(unLightId).style.borderWidth == 1) {
             document.getElementById(unLightId).style.borderWidth = 2;
             document.getElementById(unLightId).style.borderStyle = "groove";
-            document.getElementById(highLightId).style.borderColor = "azure";
+            document.getElementById(unLightId).style.borderColor = "azure";
             // }
         }
     }

@@ -441,9 +441,6 @@ Regeln basieren auf der &amp;ouml;sterreichischen Version von &lt;a href="https:
   <data name="your_hit_points" xml:space="preserve">
     <value>Ihr Stich mit {0} Punkten.</value>
   </data>
-  <data name="you_have_won_points" xml:space="preserve">
-    <value>Sie haben mit {0} Punkten gewonnen!</value>
-  </data>
   <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
     <value>Farb und Stichzwang muss eingehalten werden !</value>
   </data>
@@ -452,6 +449,9 @@ Regeln basieren auf der &amp;ouml;sterreichischen Version von &lt;a href="https:
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>Sie sagen Paar in {0} an!</value>
+  </data>
+  <data name="you_win_with_points" xml:space="preserve">
+    <value>Sie haben mit {0} Punkten gewonnen!</value>
   </data>
   <data name="you_won_taylor" xml:space="preserve">
     <value>Computer bekommt einen Schneider.</value>

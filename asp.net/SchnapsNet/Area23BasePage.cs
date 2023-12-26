@@ -33,14 +33,14 @@ namespace SchnapsNet
         protected Utils.GlobalAppSettings globalVariable;
         protected System.Globalization.CultureInfo locale;
         protected global::System.Web.UI.WebControls.Table tableTournement;
-        public Mutex schnapsMutex;
+        internal Mutex schnapsMutex;
 
-        public static string SepChar { get => Paths.SepChar; }
+        internal static string SepChar { get => Paths.SepChar; }
 
-        public static string LogFile { get => Paths.LogFile; }
+        internal static string LogFile { get => Paths.LogFile; }
 
 
-        public System.Globalization.CultureInfo Locale
+        internal System.Globalization.CultureInfo Locale
         {
             get // get => Paths.Locale;
             {
@@ -74,15 +74,15 @@ namespace SchnapsNet
             }
         }
 
-        public string ISO2Lang { get => Paths.ISO2Lang; }
+        internal string ISO2Lang { get => Paths.ISO2Lang; }
 
-        public virtual void InitSchnaps()
+        protected virtual void InitSchnaps()
         {
             InitURLBase();
         }
 
 
-        public virtual void RefreshGlobalVariableSession()
+        protected virtual void RefreshGlobalVariableSession()
         {
             globalVariable.SetTournementGame(aTournement, aGame);
             this.Context.Session[Constants.APPNAME] = globalVariable;
@@ -128,7 +128,7 @@ namespace SchnapsNet
             loaded = true;
         }
 
-        public virtual void InitGlobalVariable()
+        protected virtual void InitGlobalVariable()
         {
             if (globalVariable == null)
             {
@@ -159,7 +159,7 @@ namespace SchnapsNet
             }
         }
 
-        public virtual void InitURLBase()
+        protected virtual void InitURLBase()
         {
             notURL = new Uri(Paths.CardPicsPath + "n0.gif");
             // notURL = new Uri("https://area23.at/" + "schnapsen/cardpics/n0.gif");                       
@@ -176,8 +176,7 @@ namespace SchnapsNet
             emptyTalonUri = new Uri(Paths.CardPicsPath + "te.gif");
         }
 
-
-        public virtual void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        protected virtual void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             lock (xlock)
             {
@@ -246,7 +245,7 @@ namespace SchnapsNet
             }
         }
 
-        public virtual void Log(string msg)
+        protected virtual void Log(string msg)
         {            
             string fn = Area23BasePage.LogFile;
             string logMsg = string.Empty;
@@ -278,7 +277,7 @@ namespace SchnapsNet
             }
         }
 
-        public virtual void Log(Exception exLog)
+        protected virtual void Log(Exception exLog)
         {
             string fn = Area23BasePage.LogFile;
             string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
@@ -313,8 +312,7 @@ namespace SchnapsNet
             }
         }
 
-
-        public virtual void HandleException(Exception e)
+        protected virtual void HandleException(Exception e)
         {
             if (globalVariable != null)
                 globalVariable.LastException = e;

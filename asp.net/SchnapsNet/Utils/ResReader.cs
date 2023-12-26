@@ -71,7 +71,7 @@ namespace SchnapsNet.Utils
                     break;
             }
 
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
+            return (!string.IsNullOrEmpty(retVal)) ? retVal : key.Replace("_", " ");
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace SchnapsNet.Utils
                 return retVal;
             }
 
-            return key;
+            return key.Replace("_", " ");
         }
     }
 }

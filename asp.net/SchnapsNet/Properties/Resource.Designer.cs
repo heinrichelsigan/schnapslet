@@ -594,9 +594,9 @@ namespace SchnapsNet.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Computer won tournament. You&apos;ve been marked with a fat point..
         /// </summary>
-        internal static string computer_won_tournament_ {
+        internal static string computer_won_tournament {
             get {
-                return ResourceManager.GetString("computer_won_tournament.", resourceCulture);
+                return ResourceManager.GetString("computer_won_tournament", resourceCulture);
             }
         }
         
@@ -710,13 +710,13 @@ namespace SchnapsNet.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1225 - Pre Alpha Release&lt;/h1&gt;
-        ///Implementation of the card game Schnapsen as a simple Asp.Net WebApp
-        ///by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
-        ///&lt;br /&gt;
-        ///Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
-        ///&lt;hr /&gt;
-        ///&lt;h2&gt;Functionality:&lt;/h2&gt;
-        ///&lt;p&gt;The game is [rest of string was truncated]&quot;;.
+        ///	Implementation of the card game Schnapsen as a simple Asp.Net WebApp
+        ///	by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+        ///	&lt;br /&gt;
+        ///	Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+        ///	&lt;hr /&gt;
+        ///	&lt;h2&gt;Functionality:&lt;/h2&gt;
+        ///	&lt;p&gt;The  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {
@@ -1157,15 +1157,6 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You win with {0} points!.
-        /// </summary>
-        internal static string you_have_won_points {
-            get {
-                return ResourceManager.GetString("you_have_won_points", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Follow the suit led stict rules!.
         /// </summary>
         internal static string you_must_play_color_hit_force_rules {
@@ -1189,6 +1180,15 @@ namespace SchnapsNet.Properties {
         internal static string you_say_pair {
             get {
                 return ResourceManager.GetString("you_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You win with {0} points!.
+        /// </summary>
+        internal static string you_win_with_points {
+            get {
+                return ResourceManager.GetString("you_win_with_points", resourceCulture);
             }
         }
         

@@ -502,9 +502,7 @@
             aGame.pSaid = true;
             resetButtons(0);
 
-            string msg0 = string.Format(
-                ResReader.GetRes("you_say_pair", Locale),
-                aGame.PrintColor(aGame.said));
+            string msg0 = ResReader.GetStringFormated("you_say_pair", Locale, aGame.PrintColor(aGame.said));
             setTextMessage(msg0);
             aGame.InsertMsg(msg0);
             printMsg();
@@ -553,8 +551,7 @@
             aGame.pSaid = true;
             resetButtons(0);
 
-            string msg0 = string.Format(ResReader.GetRes("you_say_pair", Locale),
-                aGame.PrintColor(aGame.said));
+            string msg0 = ResReader.GetStringFormated("you_say_pair", Locale, aGame.PrintColor(aGame.said));
             setTextMessage(sayPair);
 
             aGame.InsertMsg(msg0);
@@ -658,7 +655,7 @@
                     // }
                     // aGame.mqueue.insert(c_array);
 
-                    String msgBestWouldBe = string.Format(ResReader.GetRes("best_card_would_be", Locale),
+                    String msgBestWouldBe = ResReader.GetStringFormated("best_card_would_be", Locale,
                         aGame.gambler.hand[tmpint].Name);
                     aGame.InsertMsg(msgBestWouldBe);
                     printMsg();
@@ -1001,9 +998,8 @@
                 this.errHandler(jbex);
             }
 
-            string sEnds11 = andEnough + " " + string.Format(
-                ResReader.GetRes("you_have_won_points", Locale),
-                aGame.gambler.points.ToString());
+            string sEnds11 = andEnough + " " + 
+                ResReader.GetStringFormated("you_win_with_points", Locale, aGame.gambler.points.ToString());
             int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
             stopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
         }
@@ -1040,9 +1036,8 @@
             }
 
             printMsg();
-            string sEnds12 = andEnough + " " + string.Format(
-                ResReader.GetRes("computer_has_won_points", Locale),
-                aGame.computer.points.ToString());
+            string sEnds12 = andEnough + " " + 
+                ResReader.GetStringFormated("computer_has_won_points", Locale, aGame.computer.points.ToString());
             int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
             stopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);
             // stopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
@@ -1237,8 +1232,7 @@
             if ((aGame.computer.playerOptions & bitShift) == bitShift)
             {
                 computerSaid20 = true;
-                String computerSaysPair = string.Format(
-                    ResReader.GetRes("computer_says_pair", Locale),
+                String computerSaysPair = ResReader.GetStringFormated("computer_says_pair", Locale, 
                     aGame.PrintColor(aGame.csaid));
                 outPutMessage = outPutMessage + " " + computerSaysPair;
             }
@@ -1325,8 +1319,7 @@
 
         if (tmppoints > 0)
         {
-            msgText = string.Format(ResReader.GetRes("your_hit_points", Locale),
-                tmppoints.ToString()) + " " +
+            msgText = ResReader.GetStringFormated("your_hit_points", Locale, tmppoints.ToString()) + " " + 
                 ResReader.GetRes("click_continue", Locale);
 
             setTextMessage(msgText);
@@ -1348,8 +1341,7 @@
         }
         else
         {
-            msgText = string.Format(ResReader.GetRes("computer_hit_points", Locale),
-                (-tmppoints).ToString()) + " " +
+            msgText = ResReader.GetStringFormated("computer_hit_points", Locale, (-tmppoints).ToString()) + " " +
                 ResReader.GetRes("click_continue", Locale);
             setTextMessage(msgText);
 
@@ -1400,10 +1392,8 @@
         {
             if (aGame.gambler.points >= Constants.ENOUGH)
             {
-                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                string sEnds3 = string.Format(
-                    ResReader.GetRes("you_have_won_points", Locale),
-                    aGame.gambler.points.ToString());
+                RefreshGlobalVariableSession();                
+                string sEnds3 = ResReader.GetStringFormated("you_win_with_points", Locale, aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 stopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
                 return;
@@ -1413,9 +1403,8 @@
         {
             if (aGame.computer.points >= Constants.ENOUGH)
             {
-                RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                string sEnds4 = string.Format(
-                    ResReader.GetRes("computer_has_won_points", Locale),
+                RefreshGlobalVariableSession(); 
+                string sEnds4 = ResReader.GetStringFormated("computer_has_won_points", Locale, 
                     aGame.computer.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 stopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);

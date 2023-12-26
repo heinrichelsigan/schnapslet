@@ -59,7 +59,7 @@ namespace SchnapsNet.Models
             set[4] = new Card(inGame[4], context);
 			set[4].SetAtou();						
 			this.atouColor = set[4].CardColor;  // implement atou call
-			string atouMsg = String.Format(ResReader.GetValue("atou_is", globalAppSettings.ISO2Lang),
+			string atouMsg = ResReader.GetStringFormated("atou_is", globalAppSettings.Locale,
                 PrintColor(CARDCOLOR_Extensions.ColorChar(set[19].CardColor)));
 			InsertMsg(atouMsg);
 
@@ -126,8 +126,8 @@ namespace SchnapsNet.Models
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 
 					gambler.points += tmppoints;
-					InsertFormated(ResReader.GetValue("your_hit_points", globalAppSettings.ISO2Lang),
-						tmppoints.ToString());
+					InsertMsg(ResReader.GetStringFormated("your_hit_points", globalAppSettings.Locale,
+						tmppoints.ToString()));
 
                     return tmppoints;
 				}
@@ -136,8 +136,8 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(ResReader.GetValue("computer_hit_points", globalAppSettings.ISO2Lang),
-                        tmppoints.ToString());
+					InsertMsg(ResReader.GetStringFormated("computer_hit_points", globalAppSettings.Locale,
+						tmppoints.ToString()));
 
                     return (-tmppoints);
 				}
@@ -149,8 +149,8 @@ namespace SchnapsNet.Models
 					playersTurn = false;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					computer.points += tmppoints;
-                    InsertFormated(ResReader.GetValue("computer_hit_points", globalAppSettings.ISO2Lang),
-                        tmppoints.ToString());
+					InsertMsg(ResReader.GetStringFormated("computer_hit_points", globalAppSettings.Locale,
+						tmppoints.ToString()));
 
                     return (-tmppoints);
 				}
@@ -159,8 +159,8 @@ namespace SchnapsNet.Models
 					playersTurn = true;
 					tmppoints = playedOut.CardValue.GetValue() + computer.hand[ccard].CardValue.GetValue();
 					gambler.points += tmppoints;
-                    InsertFormated(ResReader.GetValue("your_hit_points", globalAppSettings.ISO2Lang),
-                        tmppoints.ToString());
+					InsertMsg(ResReader.GetStringFormated("your_hit_points", globalAppSettings.Locale,
+						tmppoints.ToString()));
 
                     return tmppoints;
 				}
@@ -248,8 +248,8 @@ namespace SchnapsNet.Models
 					{
 						computer.playerOptions += PLAYEROPTIONS.SAYPAIR.GetValue();
 						csaid = computer.handpairs[mark];
-						InsertFormated(ResReader.GetValue("computer_says_pair", globalAppSettings.ISO2Lang),
-							 PrintColor(csaid));
+						InsertMsg(ResReader.GetStringFormated("computer_says_pair", globalAppSettings.Locale,
+							 PrintColor(csaid)));
 
                         if (computer.hand[j].IsAtou)
 							computer.points += 40;
@@ -258,14 +258,14 @@ namespace SchnapsNet.Models
 
 						if (computer.points >= Constants.ENOUGH)
 						{
-							String andEnough = ResReader.GetValue("twenty_and_enough", globalAppSettings.ISO2Lang);
+							String andEnough = ResReader.GetRes("twenty_and_enough", globalAppSettings.Locale);
 							if (computer.hand[j].IsAtou)
 							{
-								andEnough = ResReader.GetValue("fourty_and_enough", globalAppSettings.ISO2Lang);
+								andEnough = ResReader.GetRes("fourty_and_enough", globalAppSettings.Locale);
 							}
 
 							computer.playerOptions += PLAYEROPTIONS.ANDENOUGH.GetValue();
-							InsertMsg(andEnough + " " + string.Format(ResReader.GetValue("computer_has_won_points", globalAppSettings.ISO2Lang),
+							InsertMsg(andEnough + " " + ResReader.GetStringFormated("computer_has_won_points", globalAppSettings.Locale,
 								computer.points.ToString()));
                         }
                         else

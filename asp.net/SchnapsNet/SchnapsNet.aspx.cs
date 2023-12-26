@@ -22,7 +22,7 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
-        internal string PreInnerText
+        protected string PreInnerText
         {
             get => this.preOut.InnerText;
             set
@@ -45,7 +45,7 @@ namespace SchnapsNet
         // static String talonJarStr = "/schnapsen/cardpics/t.gif";
         // Thread t0;
 
-        public override void InitSchnaps()
+        protected override void InitSchnaps()
         {
             base.InitSchnaps();
 
@@ -102,7 +102,7 @@ namespace SchnapsNet
             ShowStitches(-3);
         }
 
-        public override void RefreshGlobalVariableSession()
+        protected override void RefreshGlobalVariableSession()
         {
             base.RefreshGlobalVariableSession();
 
@@ -126,7 +126,7 @@ namespace SchnapsNet
         }
 
 
-        public void Perform_DotBorderCards_OnMarrgiage(char colorChar, int handPairNumber)
+        protected void Perform_DotBorderCards_OnMarrgiage(char colorChar, int handPairNumber)
         {
             bool btnSet = false;
             ImageButton[] imBtns = new ImageButton[5] { im0, im1, im2, im3, im4 };
@@ -154,7 +154,7 @@ namespace SchnapsNet
             }
         }
 
-        public void Perform_PairMarriage(char colorChar, int handPairNumber)
+        protected void Perform_PairMarriage(char colorChar, int handPairNumber)
         {
             String sayPair;
 
@@ -198,7 +198,7 @@ namespace SchnapsNet
             Perform_DotBorderCards_OnMarrgiage(aGame.said, handPairNumber);
         }
 
-        public void Reset_PlayerCardsBorder()
+        protected void Reset_PlayerCardsBorder()
         {
             im0.Style["border-width"] = "2";
             im0.Style["border-style"] = "groove";
@@ -744,7 +744,6 @@ namespace SchnapsNet
             ShowStitches(0);
         }
 
-
         protected void ToggleContinue(bool continueEnabled = true)
         {
             aGame.shouldContinue = continueEnabled;
@@ -804,13 +803,13 @@ namespace SchnapsNet
             }
         }
 
-        public override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        protected override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             base.DrawPointsTable(displayBummerlOrTaylor, whoWon);
         }
 
 
-        void ResetButtons(int level)
+        protected void ResetButtons(int level)
         {
             if (level >= 0)
             {
@@ -873,7 +872,7 @@ namespace SchnapsNet
             }
         }
 
-        void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
+        protected void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
@@ -933,7 +932,7 @@ namespace SchnapsNet
         /// CloseGame - implements closing game => Zudrehens
         /// </summary>
         /// <param name="whoCloses">PLAYERDEF player or computer</param>
-        void CloseGame(PLAYERDEF whoCloses)
+        protected void CloseGame(PLAYERDEF whoCloses)
         {
             if (aGame.isGame == false || aGame.gambler == null || aGame.colorHitRule)
             {
@@ -995,7 +994,7 @@ namespace SchnapsNet
                     this.ErrHandler(jbex);
                 }
 
-                string sEnds11 = andEnough + " " + ResReader.GetStringFormated("you_have_won_points", Locale,
+                string sEnds11 = andEnough + " " + ResReader.GetStringFormated("you_win_with_points", Locale,
                     aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
@@ -1141,7 +1140,7 @@ namespace SchnapsNet
             return;
         }
 
-        void GameTurn(int ixlevel)
+        protected void GameTurn(int ixlevel)
         {
             if (ixlevel < 1)
             {
@@ -1390,7 +1389,7 @@ namespace SchnapsNet
             if (aGame.gambler.points >= Constants.ENOUGH)
             {
                 RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                string sEnds3 = ResReader.GetStringFormated("you_have_won_points", Locale, aGame.gambler.points.ToString());
+                string sEnds3 = ResReader.GetStringFormated("you_win_with_points", Locale, aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
                 return;
@@ -1453,9 +1452,7 @@ namespace SchnapsNet
             aGame.isReady = false;
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
-
         
-
         protected void PrintMsg()
         {
             this.PreInnerText = aGame.FetchMsg();
@@ -1485,14 +1482,13 @@ namespace SchnapsNet
             SetTextMessage(errStr, true, true);
         }
 
-
         /// <summary>
         /// setTextMessage shows a new Toast dynamic message
         /// </summary>
         /// <param name="textMsg">text to display</param>
         /// <param name="queueMsg">if true, queue message in internal message queue</param>
         /// <param name="printMsg">if true, print and log message</param>
-        void SetTextMessage(string textMsg, bool queueMsg = false, bool printMsg = false)
+        protected void SetTextMessage(string textMsg, bool queueMsg = false, bool printMsg = false)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             tMsg.Visible = true;
@@ -1513,5 +1509,6 @@ namespace SchnapsNet
 
             Log(msgSet);
         }
+
     }
 }

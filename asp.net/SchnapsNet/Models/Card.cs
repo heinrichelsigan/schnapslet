@@ -86,11 +86,11 @@ namespace SchnapsNet.Models
         {
             get
             {
-                string colorNameStr = ResReader.GetValue("color_" + this.cardColor.GetChar(), globalVariable.ISO2Lang);
+                string colorNameStr = ResReader.GetRes("color_" + this.cardColor.GetChar(), globalVariable.Locale);
                 if (cardColor == CARDCOLOR.EMPTY || cardColor == CARDCOLOR.NONE) 
                     return colorNameStr;
 
-                string cardValueStr = ResReader.GetValue("cardval_" + this.cardValue.GetValue(), globalVariable.ISO2Lang);
+                string cardValueStr = ResReader.GetRes("cardval_" + this.cardValue.GetValue(), globalVariable.Locale);
                 String cardName = colorNameStr + " " + cardValueStr;
 
                 return (this.cardValue.GetValue() < 2) ? this.Name : cardName;

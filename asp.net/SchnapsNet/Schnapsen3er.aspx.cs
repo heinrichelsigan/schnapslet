@@ -24,7 +24,7 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
-        public override void InitSchnaps()
+        protected override void InitSchnaps()
         {
             base.InitSchnaps();
 
@@ -76,7 +76,7 @@ namespace SchnapsNet
             ShowStitches(-3);
         }
 
-        public override void RefreshGlobalVariableSession()
+        protected override void RefreshGlobalVariableSession()
         {
             base.RefreshGlobalVariableSession();
 
@@ -532,9 +532,7 @@ namespace SchnapsNet
                 aGame.pSaid = true;
                 ResetButtons(0);
 
-                string msg0 = string.Format(
-                    ResReader.GetRes("you_say_pair", Locale),
-                    aGame.PrintColor(aGame.said));
+                string msg0 = ResReader.GetStringFormated("you_say_pair", Locale, aGame.PrintColor(aGame.said));
                 SetTextMessage(msg0);
                 aGame.InsertMsg(msg0);
                 PrintMsg();
@@ -583,8 +581,7 @@ namespace SchnapsNet
                 aGame.pSaid = true;
                 ResetButtons(0);
 
-                string msg0 = string.Format(ResReader.GetRes("you_say_pair", Locale),
-                    aGame.PrintColor(aGame.said));
+                string msg0 = ResReader.GetStringFormated("you_say_pair", Locale, aGame.PrintColor(aGame.said));
                 SetTextMessage(sayPair);
 
                 aGame.InsertMsg(msg0);
@@ -703,7 +700,7 @@ namespace SchnapsNet
                         // }
                         // aGame.mqueue.insert(c_array);
 
-                        String msgBestWouldBe = string.Format(ResReader.GetRes("best_card_would_be", Locale),
+                        String msgBestWouldBe = ResReader.GetStringFormated("best_card_would_be", Locale, 
                             aGame.gambler.hand[tmpint].Name);
                         aGame.InsertMsg(msgBestWouldBe);
                         PrintMsg();
@@ -860,7 +857,82 @@ namespace SchnapsNet
             this.Continue_Click(sender, e);
         }
 
-        void ResetButtons(int level)
+
+        public void Help_Click(object sender, EventArgs e)
+        {
+            preOut.InnerHtml = "-------------------------------------------------------------------------\n";
+            preOut.InnerText += ResReader.GetRes("help_text", Locale) + "\n";
+            preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+        }
+
+        protected void Merge_Click(object sender, EventArgs e)
+        {
+            ToggleTorunament(true);
+            StartGame();
+        }
+
+        protected void ToggleTorunament(bool starts = true)
+        {
+            if (starts)
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
+                    aTournement = new Tournament();
+                    globalVariable.Tournement = aTournement;
+                    this.Context.Session[Constants.APPNAME] = globalVariable;
+                    DrawPointsTable();
+                }
+            }
+            else // toggle at the end
+            {
+                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
+                {
+                    string endTournementMsg = "";
+                    if (aTournement.WonTournament == PLAYERDEF.HUMAN)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = ResReader.GetRes("you_won_taylor", Locale);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = ResReader.GetRes("you_won_tournement", Locale);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
+                    {
+                        if (aTournement.Taylor)
+                        {
+                            endTournementMsg = ResReader.GetRes("computer_won_taylor", Locale);
+                            DrawPointsTable(2, aTournement.WonTournament);
+                        }
+                        else
+                        {
+                            endTournementMsg = ResReader.GetRes("computer_won_tournement", Locale);
+                            DrawPointsTable(1, aTournement.WonTournament);
+                        }
+                    }
+                    SetTextMessage(endTournementMsg);
+                    // TODO: excited end animation
+                }
+            }
+        }
+
+
+        protected void ImageComputerStitch_Click(object sender, EventArgs e)
+        {
+            ShowStitches(-1);
+        }
+
+        protected void ImagePlayerStitch_Click(object sender, EventArgs e)
+        {
+            ShowStitches(0);
+        }
+
+        protected void ResetButtons(int level)
         {
             if (level >= 0)
             {
@@ -915,12 +987,12 @@ namespace SchnapsNet
             }
         }
 
-        public override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        protected override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             base.DrawPointsTable(displayBummerlOrTaylor, whoWon);            
         }
 
-        void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
+        protected void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
@@ -948,8 +1020,9 @@ namespace SchnapsNet
             ToggleTorunament(false);
         }
 
-        void StartGame()
-        {  /* Mischen */
+        protected void StartGame()
+        {  
+            /* Mischen */
             bMerge.Enabled = false;
             bMerge.Visible = false;
             bStop.Visible = true;
@@ -1000,7 +1073,7 @@ namespace SchnapsNet
             GameTurn(0);
         }
 
-        void ShowStateSchnapsStack()
+        protected void ShowStateSchnapsStack()
         {
             bool finishGivingWithTalon = false;
             bool enterStage = Request.RawUrl.Contains("initState=15");
@@ -1102,7 +1175,7 @@ namespace SchnapsNet
             }            
         }
 
-        public string RawUrlInit(int schnapsInitParam)
+        protected string RawUrlInit(int schnapsInitParam)
         {            
             string rawUrl = Request.RawUrl;
             if (rawUrl.Contains("initState="))
@@ -1124,7 +1197,7 @@ namespace SchnapsNet
         /// CloseGame - implements closing game => Zudrehens
         /// </summary>
         /// <param name="whoCloses">PLAYERDEF player or computer</param>
-        void CloseGame(PLAYERDEF whoCloses)
+        protected void CloseGame(PLAYERDEF whoCloses)
         {
             if (aGame.isGame == false || aGame.gambler == null || aGame.isClosed || aGame.colorHitRule)
             {
@@ -1184,9 +1257,8 @@ namespace SchnapsNet
                     this.ErrHandler(jbex);
                 }
 
-                string sEnds11 = andEnough + " " + string.Format(
-                    ResReader.GetRes("you_have_won_points", Locale),
-                    aGame.gambler.points.ToString());
+                string sEnds11 = andEnough + " " + 
+                    ResReader.GetStringFormated("you_win_with_points", Locale, aGame.gambler.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                 StopGame(tPts, PLAYERDEF.HUMAN, sEnds11);
             }
@@ -1223,9 +1295,8 @@ namespace SchnapsNet
                 }
 
                 PrintMsg();
-                string sEnds12 = andEnough + " " + string.Format(
-                    ResReader.GetRes("computer_has_won_points", Locale),
-                    aGame.computer.points.ToString());
+                string sEnds12 = andEnough + " " + 
+                    ResReader.GetStringFormated("computer_has_won_points", Locale, aGame.computer.points.ToString());
                 int tPts = aGame.GetTournamentPoints(PLAYERDEF.COMPUTER);
                 StopGame(tPts, PLAYERDEF.COMPUTER, sEnds12);
                 // StopGame(1, new String(andEnough + " Computer hat gewonnen mit " + String.valueOf(aGame.computer.points) + " Punkten !"));
@@ -1326,7 +1397,7 @@ namespace SchnapsNet
             return;
         }
 
-        void GameTurn(int ixlevel)
+        protected void GameTurn(int ixlevel)
         {
             if (ixlevel < 1)
             {
@@ -1401,9 +1472,7 @@ namespace SchnapsNet
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
                 {
                     computerSaid20 = true;
-                    String computerSaysPair = string.Format(
-                        ResReader.GetRes("computer_says_pair", Locale),
-                        aGame.PrintColor(aGame.csaid));
+                    String computerSaysPair = ResReader.GetStringFormated("computer_says_pair", Locale, aGame.PrintColor(aGame.csaid));
                     outPutMessage += (string.IsNullOrEmpty(outPutMessage) ? "" : " ") + computerSaysPair;
                 }
                 if (outPutMessage == "")
@@ -1455,7 +1524,7 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
-        void EndTurn()
+        protected void EndTurn()
         {
             int tmppoints;
             String msgText = "";
@@ -1489,8 +1558,7 @@ namespace SchnapsNet
 
             if (tmppoints > 0)
             {
-                msgText = string.Format(ResReader.GetRes("your_hit_points", Locale),
-                    tmppoints.ToString()) + " " +
+                msgText = ResReader.GetStringFormated("your_hit_points", Locale, tmppoints.ToString()) + " " +
                     ResReader.GetRes("click_continue", Locale);
 
                 SetTextMessage(msgText);
@@ -1512,9 +1580,8 @@ namespace SchnapsNet
             }
             else
             {
-                msgText = string.Format(ResReader.GetRes("computer_hit_points", Locale),
-                    (-tmppoints).ToString()) + " " +
-                    ResReader.GetRes("click_continue", Locale);
+                msgText = ResReader.GetStringFormated("computer_hit_points", Locale, (-tmppoints).ToString()) + 
+                    " " + ResReader.GetRes("click_continue", Locale);
                 SetTextMessage(msgText);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
@@ -1564,9 +1631,8 @@ namespace SchnapsNet
             {
                 if (aGame.gambler.points >= Constants.ENOUGH)
                 {
-                    RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds3 = string.Format(
-                        ResReader.GetRes("you_have_won_points", Locale),
+                    RefreshGlobalVariableSession(); 
+                    string sEnds3 = ResReader.GetStringFormated("you_win_with_points", Locale, 
                         aGame.gambler.points.ToString());
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                     StopGame(tPts, PLAYERDEF.HUMAN, sEnds3);
@@ -1578,8 +1644,7 @@ namespace SchnapsNet
                 if (aGame.computer.points >= Constants.ENOUGH)
                 {
                     RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
-                    string sEnds4 = string.Format(
-                        ResReader.GetRes("computer_has_won_points", Locale),
+                    string sEnds4 = ResReader.GetStringFormated("computer_has_won_points", Locale,
                         aGame.computer.points.ToString());
                     int tPts = aGame.GetTournamentPoints(PLAYERDEF.HUMAN);
                     StopGame(tPts, PLAYERDEF.COMPUTER, sEnds4);
@@ -1636,7 +1701,7 @@ namespace SchnapsNet
         }
 
 
-        void PrintMsg()
+        protected void PrintMsg()
         {
             preOut.InnerText = aGame.FetchMsg();
             string[] msgs = aGame.FetchMsgArray();
@@ -1648,7 +1713,7 @@ namespace SchnapsNet
             aGame.fetchedMsgCount = msgs.Length;
         }
 
-        void ErrHandler(Exception myErr)
+        protected void ErrHandler(Exception myErr)
         {
             preOut.InnerText += "\r\nCRITICAL ERROR #" + (++errNum);
             preOut.InnerText += "\nMessage: " + myErr.Message;
@@ -1660,7 +1725,7 @@ namespace SchnapsNet
         /// SetTextMessage shows a new Toast dynamic message
         /// </summary>
         /// <param name="textMsg">text to display</param>
-        void SetTextMessage(string textMsg)
+        protected void SetTextMessage(string textMsg)
         {
             string msgSet = string.IsNullOrWhiteSpace(textMsg) ? "" : textMsg;
             if (aGame != null)
@@ -1671,78 +1736,5 @@ namespace SchnapsNet
             Log(msgSet);
         }
 
-        public void Help_Click(object sender, EventArgs e)
-        {
-            preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-            preOut.InnerText += ResReader.GetRes("help_text", Locale) + "\n";
-            preOut.InnerHtml += "-------------------------------------------------------------------------\n";
-        }
-
-        protected void Merge_Click(object sender, EventArgs e)
-        {
-            ToggleTorunament(true);
-            StartGame();
-        }
-
-        protected void ToggleTorunament(bool starts = true)
-        {
-            if (starts)
-            {
-                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-                {
-                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
-                    aTournement = new Tournament();
-                    globalVariable.Tournement = aTournement;
-                    this.Context.Session[Constants.APPNAME] = globalVariable;
-                    DrawPointsTable();
-                }
-            }
-            else // toggle at the end
-            {
-                if (aTournement.WonTournament != PLAYERDEF.UNKNOWN)
-                {
-                    string endTournementMsg = "";
-                    if (aTournement.WonTournament == PLAYERDEF.HUMAN)
-                    {
-                        if (aTournement.Taylor)
-                        {
-                            endTournementMsg = ResReader.GetRes("you_won_taylor", Locale);
-                            DrawPointsTable(2, aTournement.WonTournament);
-                        }
-                        else
-                        {
-                            endTournementMsg = ResReader.GetRes("you_won_tournement", Locale);
-                            DrawPointsTable(1, aTournement.WonTournament);
-                        }
-                    }
-                    else if (aTournement.WonTournament == PLAYERDEF.COMPUTER)
-                    {
-                        if (aTournement.Taylor)
-                        {
-                            endTournementMsg = ResReader.GetRes("computer_won_taylor", Locale);
-                            DrawPointsTable(2, aTournement.WonTournament);
-                        }
-                        else
-                        {
-                            endTournementMsg = ResReader.GetRes("computer_won_tournement", Locale);
-                            DrawPointsTable(1, aTournement.WonTournament);
-                        }
-                    }
-                    SetTextMessage(endTournementMsg);
-                    // TODO: excited end animation
-                }
-            }
-        }
-
-
-        protected void ImageComputerStitch_Click(object sender, EventArgs e)
-        {
-            ShowStitches(-1);
-        }
-
-        protected void ImagePlayerStitch_Click(object sender, EventArgs e)
-        {
-            ShowStitches(0);
-        }
     }
 }

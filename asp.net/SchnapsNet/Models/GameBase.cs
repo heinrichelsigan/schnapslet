@@ -110,10 +110,10 @@ namespace SchnapsNet.Models
 
             schnapsStack = new Stack<SCHNAPSTATE>();
 			statusMessage = "";
-			sayMarriage20 = ResReader.GetValue("b20a_text", "");
-			sayMarriage40 = ResReader.GetValue("b20b_text", "");
+			sayMarriage20 = ResReader.GetRes("b20a_text", globalAppSettings.Locale);
+			sayMarriage40 = ResReader.GetRes("b20b_text", globalAppSettings.Locale);
 
-			InsertMsg(ResReader.GetValue("newgame_starts", globalAppSettings.ISO2Lang)); // TODO: giver msg            
+			InsertMsg(ResReader.GetRes("newgame_starts", globalAppSettings.Locale)); // TODO: giver msg            
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace SchnapsNet.Models
 		{
 			int i, k, j, l, tmp;
             
-            InsertMsg(ResReader.GetValue("merging_cards", globalAppSettings.ISO2Lang));
+            InsertMsg(ResReader.GetRes("merging_cards", globalAppSettings.Locale));
             k = GetRandom(32, true);
 
 			for (i = 0; i < k + 20; i++)
@@ -232,7 +232,7 @@ namespace SchnapsNet.Models
 					computer.hand[i] = playedOut;
 			}
 			schnapState = SCHNAPSTATE.NONE;            
-            InsertMsg(ResReader.GetValue("ending_game", globalAppSettings.ISO2Lang));
+            InsertMsg(ResReader.GetRes("ending_game", globalAppSettings.Locale));
         }
 
 		/// <summary>
@@ -253,13 +253,13 @@ namespace SchnapsNet.Models
 		{
 			switch (ch)
 			{
-				case 'k': return ResReader.GetValue("color_k", globalAppSettings.ISO2Lang);
-				case 'h': return ResReader.GetValue("color_h", globalAppSettings.ISO2Lang);
-				case 't': return ResReader.GetValue("color_t", globalAppSettings.ISO2Lang);
-				case 'p': return ResReader.GetValue("color_p", globalAppSettings.ISO2Lang);
+				case 'k': return ResReader.GetRes("color_k", globalAppSettings.Locale);
+				case 'h': return ResReader.GetRes("color_h", globalAppSettings.Locale);
+				case 't': return ResReader.GetRes("color_t", globalAppSettings.Locale);
+				case 'p': return ResReader.GetRes("color_p", globalAppSettings.Locale);
                 case 'e':
                 case 'n':
-                    return ResReader.GetValue("color_" + ch, globalAppSettings.ISO2Lang);
+                    return ResReader.GetRes("color_" + ch, globalAppSettings.Locale);
 				default: break;
             }
 			return "NoColor";

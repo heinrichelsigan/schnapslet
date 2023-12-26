@@ -594,9 +594,9 @@ namespace SchnapsNet.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Computer won tournament. You&apos;ve been marked with a fat point..
         /// </summary>
-        internal static string computer_won_tournament_ {
+        internal static string computer_won_tournament {
             get {
-                return ResourceManager.GetString("computer_won_tournament.", resourceCulture);
+                return ResourceManager.GetString("computer_won_tournament", resourceCulture);
             }
         }
         
@@ -1157,15 +1157,6 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You win with {0} points!.
-        /// </summary>
-        internal static string you_have_won_points {
-            get {
-                return ResourceManager.GetString("you_have_won_points", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Follow the suit led stict rules!.
         /// </summary>
         internal static string you_must_play_color_hit_force_rules {
@@ -1189,6 +1180,15 @@ namespace SchnapsNet.Properties {
         internal static string you_say_pair {
             get {
                 return ResourceManager.GetString("you_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You win with {0} points!.
+        /// </summary>
+        internal static string you_win_with_points {
+            get {
+                return ResourceManager.GetString("you_win_with_points", resourceCulture);
             }
         }
         

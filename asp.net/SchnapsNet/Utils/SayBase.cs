@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace SchnapsNet.Utils
 {
@@ -14,9 +15,39 @@ namespace SchnapsNet.Utils
     /// </summary>
     public class SayBase
     {       
-        private static string[] TMPS = { "temp", "TEMP", "tmp", "TMP" };
         internal static string saveDir;
         protected internal string[] voices, femaleVoices;
+
+        internal static string SpeechSets
+        {
+            get
+            {
+                if (System.Configuration.ConfigurationManager.AppSettings["AppSpeech"] != null)
+                {
+                    switch (System.Configuration.ConfigurationManager.AppSettings["AppSpeech"].ToLower())
+                    {
+                        case "false":
+                        case "0":
+                            return "false";
+                        case "true":
+                        case "1":
+                            return "true";
+                        case "cache":
+                        case "usecache":
+                            return "usecache";
+                        default:
+                            return "cacheonly";
+                    }
+                }
+                return "false";
+            }
+        }
+
+        internal static Boolean SpeechOut { get => (SpeechSets != "false"); }
+
+        internal static Boolean SpeechNew { get => (SpeechSets == "true" || SpeechSets == "usecache"); }
+
+        internal static Boolean SpeechCache { get => (SpeechSets == "cacheonly" || SpeechSets == "usecache"); }
 
         protected internal static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 

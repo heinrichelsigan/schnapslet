@@ -34,7 +34,7 @@
 
         public void Help_Click(object sender, EventArgs e)
         {
-            schnapsDiv.InnerHtml = ResReader.GetValue("help_text", Paths.ISO2Lang) + "\n";
+            schnapsDiv.InnerHtml = ResReader.GetRes("help_text", Paths.Locale) + "\n";
             GlobalAppSettings globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
             if (globalVariable != null && globalVariable.InnerPreText != null)
                 preOut.InnerText = globalVariable.InnerPreText + "\n";

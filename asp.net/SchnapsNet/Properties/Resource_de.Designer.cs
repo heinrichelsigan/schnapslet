@@ -929,15 +929,6 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sie haben mit {0} Punkten gewonnen!.
-        /// </summary>
-        internal static string you_have_won_points {
-            get {
-                return ResourceManager.GetString("you_have_won_points", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Farb und Stichzwang muss eingehalten werden !.
         /// </summary>
         internal static string you_must_play_color_hit_force_rules {
@@ -961,6 +952,15 @@ namespace SchnapsNet.Properties {
         internal static string you_say_pair {
             get {
                 return ResourceManager.GetString("you_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sie haben mit {0} Punkten gewonnen!.
+        /// </summary>
+        internal static string you_win_with_points {
+            get {
+                return ResourceManager.GetString("you_win_with_points", resourceCulture);
             }
         }
         

@@ -302,7 +302,7 @@
   <data name="computer_won_taylor" xml:space="preserve">
     <value>Computer won tournament. You're a taylor!</value>
   </data>
-  <data name="computer_won_tournament." xml:space="preserve">
+  <data name="computer_won_tournament" xml:space="preserve">
     <value>Computer won tournament. You've been marked with a fat point.</value>
   </data>
   <data name="continue_ToolTip" xml:space="preserve">
@@ -516,9 +516,6 @@ Rules correspond to the Austrian &lt;a href="https://en.wikipedia.org/wiki/Schna
   <data name="your_hit_points" xml:space="preserve">
     <value>Your hit with {0} points</value>
   </data>
-  <data name="you_have_won_points" xml:space="preserve">
-    <value>You win with {0} points!</value>
-  </data>
   <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
     <value>Follow the suit led stict rules!</value>
   </data>
@@ -527,6 +524,9 @@ Rules correspond to the Austrian &lt;a href="https://en.wikipedia.org/wiki/Schna
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>Thou announce a marriages in color {0}!</value>
+  </data>
+  <data name="you_win_with_points" xml:space="preserve">
+    <value>You win with {0} points!</value>
   </data>
   <data name="you_won_taylor" xml:space="preserve">
     <value>You won tournament. Computer lost as a taylor.</value>

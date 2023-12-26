@@ -462,9 +462,6 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   <data name="your_hit_points" xml:space="preserve">
     <value>vous remportez la main avec {0} points.</value>
   </data>
-  <data name="you_have_won_points" xml:space="preserve">
-    <value>vous avez gagné avec {0} points!</value>
-  </data>
   <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
     <value>clôture doive être respecté!</value>
   </data>
@@ -473,6 +470,9 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   </data>
   <data name="you_say_pair" xml:space="preserve">
     <value>vous annoucez mariage à {0}!</value>
+  </data>
+  <data name="you_win_with_points" xml:space="preserve">
+    <value>vous avez gagné avec {0} points!</value>
   </data>
   <data name="you_won_taylor" xml:space="preserve">
     <value>Computer bekommt einen Schneider.</value>
