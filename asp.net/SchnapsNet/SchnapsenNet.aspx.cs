@@ -1836,7 +1836,7 @@ namespace SchnapsNet
                 {
                     if (!File.Exists(waveFile) && SayBase.SpeechNew)
                     {
-                        Log("Speech calling ctor 'new SaySpeach(sayBase)\' to generate new saying \"" + sayMsg + "\"");
+                        Log("Speech calling ctor new SaySpeach(sayBase) to generate new saying \"" + sayMsg + "\"");
                         SaySpeach say = new SaySpeach(sayBase);
                         Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));                        
                     }
