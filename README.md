@@ -10,6 +10,9 @@ https://en.wikipedia.org/wiki/Sixty-six_(card_game)
 https://area23.at/mono/SchnapsNet/
 > schnapslet/asp.net
 
+speech prototype implemented:
+https://area23.at/mono/SchnapsNet/SchnapsenNet.aspx
+
 ## schnapslet java application or applet
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.
