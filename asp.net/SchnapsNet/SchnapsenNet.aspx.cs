@@ -1822,37 +1822,48 @@ namespace SchnapsNet
 
             if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut) 
             {
-                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
-                
-                SayBase sayBase = new SayBase();
-                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
-                if (File.Exists(waveFile) && SayBase.SpeechCache) 
-                {                    
-                    this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                    Log("Speech loaded cached file = " + this.aAudio.HRef);
-                    return; 
-                }
-                try
-                {
-                    if (!File.Exists(waveFile) && SayBase.SpeechNew)
-                    {
-                        Log("Speech calling ctor new SaySpeach(sayBase) to generate new saying \"" + sayMsg + "\"");
-                        SaySpeach say = new SaySpeach(sayBase);
-                        Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));                        
-                    }
-                } 
-                catch (Exception exSay)
-                {
-                    HandleException(exSay);
-                }
-                // Task myTask = SpeakMsg(sayMsg);
-                // myTask.RunSynchronously();
-                // myTask.Wait();                
-                this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
-                Log("Speech opertion finished ⇒ aAudio.HRef = " + aAudio.HRef);
+                SayTextMsg(sayMsg);
             }
+        }
 
+        public void SayTextMsg(string sayMsg)
+        {
+            Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+
+            SayBase sayBase = new SayBase();
+            string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+            if (File.Exists(waveFile) && SayBase.SpeechCache)
+            {
+                this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                Log("Speech loaded cached file = " + this.aAudio.HRef);
+                return;
+            }
+            SpeechOut(sayMsg);
+        }
+
+        public void SpeechOut(string sayMsg)
+        {
+            SaySpeach say = new SaySpeach();
+            string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
+            Log("Speech calling ctor new SaySpeach() to generate new saying \"" + sayMsg + "\"");
+            
+            try
+            {
+                if (!File.Exists(waveFile) && SayBase.SpeechNew)
+                {                    
+                    Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
+                }
+            }
+            catch (Exception exSay)
+            {
+                HandleException(exSay);
+            }
+            // Task myTask = SpeakMsg(sayMsg);
+            // myTask.RunSynchronously();
+            // myTask.Wait();                
+            this.aAudio.HRef = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+            // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
+            Log("Speech opertion finished ⇒ aAudio.HRef = " + aAudio.HRef);
         }
 
     }

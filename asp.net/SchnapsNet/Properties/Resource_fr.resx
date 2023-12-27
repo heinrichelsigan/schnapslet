@@ -304,7 +304,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>&lt;h2&gt;Schnapslet v2.24.1225 (&lt;a href="mailto:he@area23.at"&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
+    <value>&lt;h1&gt;Schnapslet v2.24.1227 (&lt;a href="mailto:he@area23.at"&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
 Jeu de cartes Schnapsen application android de Heinrich Elsigan.
 &lt;br /&gt;
 Le jeu est conçu pour jouer contre l'ordinateur. Si c'est votre tour, 

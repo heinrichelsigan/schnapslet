@@ -619,7 +619,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Schnapslet v2.24.1225 (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1227 (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
         ///Jeu de cartes Schnapsen application android de Heinrich Elsigan.
         ///&lt;br /&gt;
         ///Le jeu est conçu pour jouer contre l&apos;ordinateur. Si c&apos;est votre tour, 
