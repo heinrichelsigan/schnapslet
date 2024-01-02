@@ -54,6 +54,7 @@ namespace SchnapsNet.Utils
         #endregion PictureUrl
 
         #region CultureLanguage
+
         public CultureInfo Locale { get { InitLocale(); return locale; } set => locale = value; }
 
         public CultureInfo SystemLLocale { get { InitLocale(); return systemLocale; } }
@@ -61,6 +62,7 @@ namespace SchnapsNet.Utils
         public String LocaleString { get => Locale.DisplayName; set => locale = new CultureInfo(value); }
 
         public String ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
+        
         #endregion CultureLanguage
 
         #region TournamentGame
@@ -100,32 +102,21 @@ namespace SchnapsNet.Utils
         #endregion properties
 
         #region ctor
-        public GlobalAppSettings()
-        {
-            context = HttpContext.Current;
-            application = HttpContext.Current.Application;
-            session = HttpContext.Current.Session;
-        }
-       
+
+        public GlobalAppSettings() : this(HttpContext.Current) { }
+
+        public GlobalAppSettings(HttpContext c) : this(c, c.Application, c.Session) { }
+
+        public GlobalAppSettings(HttpContext c, HttpSessionState hses) : this(c, c.Application, hses) { }
+
         public GlobalAppSettings(HttpContext c, HttpApplicationState haps, HttpSessionState hses)
         {
             context = c;
             application = haps;
-            this.session = hses;
-        }
-
-        public GlobalAppSettings(HttpContext c, HttpSessionState hses)
-        {
-            context = c;
-            application = c.Application;
-            this.session = hses;
-        }
-
-        public GlobalAppSettings(HttpContext c)
-        {
-            context = c;
-            application = c.Application;
-            this.session = c.Session;
+            session = hses;
+            InitLocale();
+            InitPrefixUrl();
+            InitPictureUrl();
         }
 
         #endregion ctor
@@ -138,7 +129,7 @@ namespace SchnapsNet.Utils
             return context;
         }
 
-        public HttpApplicationState getAppState()
+        public HttpApplicationState getApplication()
         {
             application = HttpContext.Current.Application;
             return application;

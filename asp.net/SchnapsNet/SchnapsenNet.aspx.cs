@@ -694,6 +694,7 @@ namespace SchnapsNet
                     if (aGame.playersTurn && !aGame.pSaid && aGame.CanCloseOrChange)
                     {
                         CloseGame(PLAYERDEF.HUMAN);
+                        SayMsg(ResReader.GetRes("you_close_game", Locale));
                     }
                     return;
                 }
@@ -1483,6 +1484,7 @@ namespace SchnapsNet
 
             if (aGame.playersTurn)
             {
+                string announceMsg = "";
                 // Wann kann man austauschen ?
                 if (ixlevel < 1)
                 {
@@ -1491,6 +1493,7 @@ namespace SchnapsNet
                         psaychange += 1;
                         bChange.Enabled = true;
                         aGame.bChange = true;
+                        announceMsg = ResReader.GetRes("can_change_atou", Locale);
                     }
                 }
                 // Gibts was zum Ansagen ?
@@ -1504,6 +1507,10 @@ namespace SchnapsNet
                         ResReader.GetRes("say_pair", Locale);
                     aGame.a20 = true;
                     b20a.Enabled = true;
+                    if (string.IsNullOrEmpty(announceMsg))
+                        announceMsg = ResReader.GetStringFormated("can_say_pair", Locale,
+                            aGame.PrintColor(aGame.gambler.handpairs[0]));
+
                     if (a20 > 1)
                     {
                         b20b.Text = aGame.PrintSymbol(aGame.gambler.handpairs[1]) + " " +
@@ -1512,6 +1519,8 @@ namespace SchnapsNet
                         aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
                             ResReader.GetRes("say_pair", Locale);
                         b20b.Enabled = true;
+                        announceMsg += " " + ResReader.GetStringFormated("can_say_pair", Locale,
+                            aGame.PrintColor(aGame.gambler.handpairs[1]));
                     }
                     else
                     {
@@ -1519,6 +1528,9 @@ namespace SchnapsNet
                         b20b.Text = ResReader.GetRes("no_second_pair", Locale);
                     }
                 }
+                // Say announce message
+                if (!string.IsNullOrEmpty(announceMsg))
+                    SayMsg(announceMsg);
                 // Info 
                 SetTextMessage(ResReader.GetRes("toplayout_clickon_card", Locale));
             }
@@ -1820,25 +1832,25 @@ namespace SchnapsNet
             if (logMsg)
                 Log(msgSet);
 
-            if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut) 
-            {
-                SayTextMsg(sayMsg);
-            }
+            SayMsg(sayMsg);
         }
 
-        public void SayTextMsg(string sayMsg)
+        public void SayMsg(string sayMsg)
         {
-            Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
-
-            SayBase sayBase = new SayBase();
-            string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
-            if (File.Exists(waveFile) && SayBase.SpeechCache)
+            if (!string.IsNullOrEmpty(sayMsg))
             {
-                this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                Log("Speech loaded cached file = " + this.aAudio.HRef);
-                return;
+                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+
+                SayBase sayBase = new SayBase();
+                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+                if (File.Exists(waveFile) && SayBase.SpeechCache)
+                {
+                    this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                    Log("Speech loaded cached file = " + this.aAudio.HRef);
+                    return;
+                }
+                SpeechOut(sayMsg);
             }
-            SpeechOut(sayMsg);
         }
 
         public void SpeechOut(string sayMsg)

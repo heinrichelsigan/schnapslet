@@ -88,8 +88,10 @@ namespace SchnapsNet.Utils
                 string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
                 if (!audioPath.Contains(AppFolder))
                      audioPath += AppFolder + SepChar;
-                if (!audioPath.Contains("res"))
+                if (!audioPath.Contains("res")) 
                     audioPath += "res" + SepChar;
+                if (!audioPath.Contains("wav"))
+                    audioPath += "wav" + SepChar;
                 // if (!Directory.Exists(audioPath))
                 return audioPath;
             }
@@ -98,10 +100,34 @@ namespace SchnapsNet.Utils
         {
             get
             {
-                string logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                string logAppPath = "." + SepChar;
+                
+                if (AppContext.BaseDirectory != null)
+                {
+                    logAppPath = AppContext.BaseDirectory;
+                    if (!logAppPath.EndsWith(SepChar))
+                        logAppPath += SepChar;
+                }
+                else if (AppDomain.CurrentDomain != null)
+                {
+                    logAppPath = AppDomain.CurrentDomain.BaseDirectory;
+                    if (!logAppPath.EndsWith(SepChar))
+                        logAppPath += SepChar;
+                }
+                try
+                {
+                    if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ApplicationPath != null)
+                        logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                }
+                catch (Exception ex)
+                {
+                }
+                
                 if (!logAppPath.Contains(AppFolder))
                     logAppPath += AppFolder + SepChar;
-                logAppPath += Constants.LOGDIR + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "schnapsnet.log";
+                
+                logAppPath += String.Format("{0}{1}{2}_{3}.log",
+                    Constants.LOGDIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);
                 // if (Directory.Exists(logAppPath))
                 return logAppPath;
             }

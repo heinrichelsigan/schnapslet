@@ -218,6 +218,12 @@
     <value>Sir's Schnapser</value>
     <comment>24</comment>
   </data>
+  <data name="can_change_atou" xml:space="preserve">
+    <value>You can change atou card now!</value>
+  </data>
+  <data name="can_say_pair" xml:space="preserve">
+    <value>You can announce a pair in color {0}.</value>
+  </data>
   <data name="carddeck" xml:space="preserve">
     <value>carddeck</value>
   </data>
@@ -342,7 +348,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>&lt;h1&gt;Schnapslet v2.24.1227 - Pre Alpha Release&lt;/h1&gt;
+    <value>&lt;h1&gt;Schnapslet v3.24.0102 - Pre Alpha Release&lt;/h1&gt;
 	Implementation of the card game Schnapsen as a simple Asp.Net WebApp
 	by Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
 	&lt;br /&gt;
@@ -514,6 +520,9 @@
   </data>
   <data name="your_hit_points" xml:space="preserve">
     <value>Your hit with {0} points</value>
+  </data>
+  <data name="you_close_game" xml:space="preserve">
+    <value>You close game!</value>
   </data>
   <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
     <value>Follow the suit led stict rules!</value>

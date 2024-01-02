@@ -183,6 +183,12 @@
   <data name="build_with" xml:space="preserve">
     <value>another Java or C# compiler</value>
   </data>
+  <data name="can_change_atou" xml:space="preserve">
+    <value>vous pouvez changer atou carte maintenant!</value>
+  </data>
+  <data name="can_say_pair" xml:space="preserve">
+    <value>vous pouvez annoucez mariage à {0}!</value>
+  </data>
   <data name="carddeck" xml:space="preserve">
     <value>l'origin de cartes</value>
   </data>
@@ -304,7 +310,7 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>&lt;h1&gt;Schnapslet v2.24.1227 (&lt;a href="mailto:he@area23.at"&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
+    <value>&lt;h1&gt;Schnapslet v3.24.0102 (&lt;a href="mailto:he@area23.at"&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
 Jeu de cartes Schnapsen application android de Heinrich Elsigan.
 &lt;br /&gt;
 Le jeu est conçu pour jouer contre l'ordinateur. Si c'est votre tour, 
@@ -461,6 +467,9 @@ Les règles correspondent aux schnapsen autrichiens.</value>
   </data>
   <data name="your_hit_points" xml:space="preserve">
     <value>vous remportez la main avec {0} points.</value>
+  </data>
+  <data name="you_close_game" xml:space="preserve">
+    <value>vous fermez la partie!</value>
   </data>
   <data name="you_must_play_color_hit_force_rules" xml:space="preserve">
     <value>clôture doive être respecté!</value>

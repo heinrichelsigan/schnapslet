@@ -9,11 +9,12 @@ namespace SchnapsNet.ConstEnum
     {
         NONE        = 0,
         CHANGEATOU  = 1,
-        CLOSESGAME  = 2,
-        SAYPAIR     = 4,
-        PLAYSCARD   = 8,
-        HITSCARD    = 16,
-        ANDENOUGH   = 32
+        SAYPAIR     = 2,        
+        PLAYSCARD   = 4,
+        HITSCARD    = 8,        
+        CLOSESGAME  = 16,
+        ANDENOUGH   = 32,
+        LASTSTITCH  = 64
     }
     
     public static class PLAYEROPTIONS_Extensions
@@ -22,13 +23,13 @@ namespace SchnapsNet.ConstEnum
         {
             switch(playOpt)
             {
-                case PLAYEROPTIONS.CHANGEATOU: return 1;
-                case PLAYEROPTIONS.CLOSESGAME: return 1;
-                case PLAYEROPTIONS.SAYPAIR: return 4;
-                case PLAYEROPTIONS.PLAYSCARD: return 8;
-                case PLAYEROPTIONS.HITSCARD: return 16;
-                case PLAYEROPTIONS.ANDENOUGH: return 32;
-
+                case PLAYEROPTIONS.CHANGEATOU:  return 1;
+                case PLAYEROPTIONS.SAYPAIR:     return 2;
+                case PLAYEROPTIONS.PLAYSCARD:   return 4;
+                case PLAYEROPTIONS.HITSCARD:    return 8;
+                case PLAYEROPTIONS.CLOSESGAME:  return 16;
+                case PLAYEROPTIONS.ANDENOUGH:   return 32;
+                case PLAYEROPTIONS.LASTSTITCH:  return 64;
             }
             return 0;
         }

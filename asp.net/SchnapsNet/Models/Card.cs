@@ -152,7 +152,7 @@ namespace SchnapsNet.Models
         {
             get
             {
-                String uriString = "https://area23.at/mono/SchnapsNet/cardpics/notfound.gif";
+                String uriString = "https://area23.at/schnapsen/cardpics/notfound.gif";
                 try
                 {
                     uriString = PictureUri.ToString();

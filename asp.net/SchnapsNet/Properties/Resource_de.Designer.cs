@@ -340,6 +340,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sie können jetzt Atou austauschen!.
+        /// </summary>
+        internal static string can_change_atou {
+            get {
+                return ResourceManager.GetString("can_change_atou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sie haben ein Paar in {0} zum Ansagen!.
+        /// </summary>
+        internal static string can_say_pair {
+            get {
+                return ResourceManager.GetString("can_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kartendeck.
         /// </summary>
         internal static string carddeck {
@@ -682,7 +700,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1227 - Pre Alpha Release&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.24.0102 - Pre Alpha Release&lt;/h1&gt;
         ///Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
         ///von Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
         ///&lt;br /&gt;
@@ -925,6 +943,15 @@ namespace SchnapsNet.Properties {
         internal static string you {
             get {
                 return ResourceManager.GetString("you", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sie drehen zu!.
+        /// </summary>
+        internal static string you_close_game {
+            get {
+                return ResourceManager.GetString("you_close_game", resourceCulture);
             }
         }
         

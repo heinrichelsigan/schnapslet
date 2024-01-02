@@ -26,6 +26,9 @@ namespace SchnapsNet.Models
 		public bool isClosed = false;				// game is closed
 		public bool bChange = false;                // can player change atou		
 
+		/// <summary>
+		/// Can close game or change card
+		/// </summary>
 		public bool CanCloseOrChange
 		{
 			get => (!colorHitRule && !isClosed &&
@@ -69,7 +72,6 @@ namespace SchnapsNet.Models
 				return true;
             }
 		}
-
 
         /// <summary>
         /// Constructor of Game
@@ -407,39 +409,44 @@ namespace SchnapsNet.Models
 
             int cBestCloseCard = -1;
 			#region has20_has40
-            if ((i = computer.HasPair) > 0)
+            if ((i = computer.HasPair) > 0)			
 			{
-				// if ((i > 1) && (computer.pairs[1] != null && computer.pairs[1].atou))
-				if ((i > 1) && (computer.handpairs[1] == this.AtouInGame))
-					mark = 1;
+                // if ((i > 1) && (computer.pairs[1] != null && computer.pairs[1].atou))
+                if ((i > 1) && (computer.handpairs[1] == this.AtouInGame))
+                    mark = 1;
 
-				// TODO: Computer closes game
-				int addPoints = (computer.handpairs[mark] == this.AtouInGame) ? 52 : 33;
-				if (!this.isClosed && !this.colorHitRule && schnapState == SCHNAPSTATE.GAME_STARTED &&
-					(computer.points + addPoints >= Constants.ENOUGH))
-				{
-					for (i = 0; i < computer.hand.Length; i++)
-					{
-						if (!computer.hand[i].IsValidCard)
-							continue;
-						else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
+                // TODO: Computer closes game
+                int addPoints = (computer.handpairs[mark] == this.AtouInGame) ? 52 : 33;
+                if (!this.isClosed && !this.colorHitRule && schnapState == SCHNAPSTATE.GAME_STARTED &&
+                    (computer.points + addPoints >= Constants.ENOUGH))
+                {
+                    for (i = 0; i < computer.hand.Length; i++)
+                    {
+                        if (!computer.hand[i].IsValidCard)
+                            continue;
+                        if (computer.hand[i].CardValue == CARDVALUE.ACE && computer.hand[i].IsAtou)
 						{
-							int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
-							if (gambler.hand[bestIdx].IsValidCard &&
-									gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
-									gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
-							{
-								cBestCloseCard = i;
-								break;
-							}
-						}
-					}
+                            cBestCloseCard = i;
+							break;
+                        }
+                        else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
+                        {
+                            int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
+                            if (gambler.hand[bestIdx].IsValidCard &&
+                                    gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
+                                    gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
+                            {
+                                cBestCloseCard = i;
+                            }
+                        }
+                    }			
+                
 					if (cBestCloseCard > -1)
 					{
-						computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
-						computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.GetValue();
-						return cBestCloseCard;
-					}
+                        computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
+                        computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.GetValue();
+                        return cBestCloseCard;
+                    }
 				}
 
 				for (j = 0; j < computer.hand.Length; j++)
@@ -450,8 +457,8 @@ namespace SchnapsNet.Models
 					{
 						computer.playerOptions += PLAYEROPTIONS.SAYPAIR.GetValue();
 						csaid = computer.handpairs[mark];
-						InsertFormated(ResReader.GetRes("computer_says_pair", globalAppSettings.Locale),
-							 PrintColor(csaid));
+						InsertMsg(ResReader.GetStringFormated("computer_says_pair", globalAppSettings.Locale, 
+							PrintColor(csaid)));
 
                         if (computer.hand[j].IsAtou)
 							computer.points += 40;
@@ -491,23 +498,28 @@ namespace SchnapsNet.Models
 				{
 					if (!computer.hand[i].IsValidCard)
 						continue;
-					else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
+					else if (computer.hand[i].CardValue == CARDVALUE.ACE && computer.hand[i].IsAtou)
+					{
+                        cBestCloseCard = i;
+                        break;
+                    }
+                    else if (computer.hand[i].CardValue.GetValue() >= CARDVALUE.TEN.GetValue())
 					{
 						int bestIdx = gambler.PreferedInColorHitsContext(computer.hand[i]);
-						if (gambler.hand[bestIdx].IsValidCard &&
+						if (bestIdx > -1 && gambler.hand[bestIdx].IsValidCard &&
 							gambler.hand[bestIdx].CardColor.GetChar() == computer.hand[i].CardColor.GetChar() &&
 								gambler.hand[bestIdx].CardValue.GetValue() < computer.hand[i].CardValue.GetValue())
 						{
 							cBestCloseCard = i;
-							break;
 						}
 					}
 				}
 				if (cBestCloseCard > -1)
 				{
-					computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.GetValue();
-					return cBestCloseCard;
-				}
+                    computer.playerOptions += PLAYEROPTIONS.PLAYSCARD.GetValue();
+                    computer.playerOptions += PLAYEROPTIONS.CLOSESGAME.GetValue();
+                    return cBestCloseCard;
+                }
 			}
 
 			#region colorHitRule

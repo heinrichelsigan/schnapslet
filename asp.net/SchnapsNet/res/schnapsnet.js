@@ -5,8 +5,8 @@
     https://darkstar.work/mono/SchnapsNet/res/schnapsnet.js
     2023-12-22 last change 
 */
-var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon;
-var helpWin = null, schnapsState, schnapsUrl, soundDuration = 7200, urlAtou;
+var im0, im1, im2, im3, im4, imAtou10, imMerge11, imOut20, imOut21, imTalon, spanAtou, spanTalon, metaAudio, metaLastAudio;
+var helpWin = null, schnapsState, schnapsUrl, soundDuration = 7200, urlAtou, audioContent, lastAudioContent;
 
 function HelpOpen() {
     var Mleft = (screen.width / 2) - (720 / 2);
@@ -20,19 +20,12 @@ function HelpOpen() {
     }
 }
 
-
 function schnapsStateInit() {
     setAllVars();
-    initStateParamFromUrl();
-    // schnapsStateSwitch(0);
-
-    if (schnapsState == null) { 
-        aAudioLoaded();
-    }
+    aAudioLoaded();
 }
 
 function setAllVars() {
-    schnapsState = 0;
     im0 = document.getElementById("im0");
     im1 = document.getElementById("im1");
     im2 = document.getElementById("im2");
@@ -49,95 +42,45 @@ function setAllVars() {
 
     spanAtou = document.getElementById("spanAtou");
     spanTalon = document.getElementById("spanTalon");
+
+    metaAudio = document.getElementById("metaAudio");
+    metaLastAudio = document.getElementById("metaLastAudio");
+    audioContent = "";
 }
-
-function initStateParamFromUrl() {
-    const urlWindowLocation = new URL(window.location.toLocaleString());
-    schnapsUrl = new URL(urlWindowLocation);
-    try {
-        schnapsState = schnapsUrl.searchParams.get("initState");
-    } catch (Exception) {
-
-    }
-    // console.log(schnapsState);
-}
-
-function allInvisibleInit() {
-    if (imOut21 != null)
-        imOut21.style.visibility = "hidden";
-    if (imOut20 != null)
-        imOut20.style.visibility = "hidden";
-    if (imMerge11 != null)
-        imMerge11.style.visibility = "hidden";
-
-    if (im0 != null)
-        im0.style.visibility = "hidden";
-    if (im1 != null)
-        im1.style.visibility = "hidden";
-    if (im2 != null)
-        im2.style.visibility = "hidden";
-    if (im3 != null)
-        im3.style.visibility = "hidden";
-    if (im4 != null)
-        im4.style.visibility = "hidden";
-
-    if (spanAtou != null) {
-        if (imAtou10 != null)
-            imAtou10.style.visibility = "hidden";
-        spanAtou.style.visibility = "hidden";
-    }
-    if (spanTalon != null) {
-        if (imTalon != null)
-            imTalon.style.visibility = "hidden";
-        spanTalon.style.visibility = "hidden";
-    }
-}
-
-function schnapsStateRedirect() {
-    // alert("SchnapsenNet.aspx");
-    window.location.href = "SchnapsNet.aspx";
-}
-
 
 function highLightOnOver(highLightId) {
-
+    // alert("highLightOnOver(" + highLightId + ")");
     if (highLightId != null && document.getElementById(highLightId) != null) {
-
         if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
             document.getElementById(highLightId).style.borderColor == "deeppink") {
             // change only color, when dotted
             document.getElementById(highLightId).style.borderColor = "blueviolet";
-            return; 
-        }                
-
-        if ((document.getElementById("b20a") != null && document.getElementById("b20a").style.borderColor == "purple") ||
-            (document.getElementById("b20b") != null && document.getElementById("b20b").style.borderColor == "purple"))
-            return; // don't highlight other cards in case of pair marriage
-
-        // set border-width: 2; border-style: dashed
-        document.getElementById(highLightId).style.borderWidth = 2;
-        document.getElementById(highLightId).style.borderStyle = "dashed";
-        document.getElementById(highLightId).style.borderColor = "blueviolet";
+        }
+        else {
+            // set border-width: 1; border-style: dashed
+            document.getElementById(highLightId).style.borderWidth = 2;
+            document.getElementById(highLightId).style.borderStyle = "dashed";
+            document.getElementById(highLightId).style.borderColor = "blueviolet";
+        }
     }
 }
 
 function unLightOnOut(unLightId) {
-
+    // alert("unLightOnOut(" + unLightId + ")");
     if (unLightId != null && document.getElementById(unLightId) != null) {
-
         if (document.getElementById(unLightId).style.borderStyle == "dotted" &&
             document.getElementById(unLightId).style.borderColor == "blueviolet") {
             // change only back to pair color, when dotted
             document.getElementById(unLightId).style.borderColor = "deeppink";
-            return; 
         }
-
-        // if (document.getElementById(unLightId).style.borderStyle == "dashed" ||
-        //    document.getElementById(unLightId).style.borderWidth == 1) {
-        document.getElementById(unLightId).style.borderWidth = 2;
-        document.getElementById(unLightId).style.borderStyle = "groove";
-        document.getElementById(unLightId).style.borderColor = "azure";
-        // }
+        else {
+            // if (document.getElementById(unLightId).style.borderStyle == "dashed" ||
+            //    document.getElementById(unLightId).style.borderWidth == 1) {
+            document.getElementById(unLightId).style.borderWidth = 2;
+            document.getElementById(unLightId).style.borderStyle = "groove";
+            document.getElementById(unLightId).style.borderColor = "azure";
+            // }
+        }
     }
 }
 
@@ -164,6 +107,12 @@ function playSound(soundName) {
         sound.pause();
         sound.autoplay = false;
         sound.currentTime = 0;
+        if (metaAudio == null)
+            metaAudio = document.getElementById('metaAudio');
+        metaAudio.setAttribute("content", "");
+        if (metaLastAudio == null)
+            metaLastAudio = document.getElementById('metaLastAudio');
+        metaLastAudio.setAttribute("content", "");
         try {
             sound.src = "";
             sound = null;
@@ -175,24 +124,42 @@ function playSound(soundName) {
 
 function aAudioLoaded() {
     // if (metaId != null && document.getElementById(metaId) != null) {
-    var aAudio = document.getElementById('aAudio');
-    if (aAudio != null) {
-        let aHref = aAudio.getAttribute("href");
-        if (aHref == null || aHref == "")
-            return;
+    if (metaAudio == null)
+        metaAudio = document.getElementById('metaAudio');
 
-        setTimeout(function () { playSound(aHref); }, 400);
+    if (metaLastAudio == null) 
+        metaLastAudio = document.getElementById('metaLastAudio');
+
+    if (metaAudio != null) {
+        let aContent = metaAudio.getAttribute("content");
+        if (aContent == null || aContent == "") {
+            audioContent = "";
+            lastAudioContent = "";
+            return;
+        }
+        let aLastContent = metaLastAudio.getAttribute("content");
+
+
+        if (audioContent == aContent || aContent == aLastContent) {
+            // audioContent = "";
+            return;
+        }
+        
+        audioContent = aContent;
+        metaLastAudio.setAttribute("content", audioContent);
+        
+        setTimeout(function () { playSound(aContent); }, 400);
     }
 }
 
 function audioOutputChanged() {
     // if (metaId != null && document.getElementById(metaId) != null) {
-    var aAudioOutput = document.getElementById("audioOutput");
+    var aAudioOutput = document.getElementById("metaAudio");
     if (aAudioOutput != null) {
         let aOutputName = aAudioOutput.getAttribute("name");
         if (aOutputName != null) {
-            let aAudioValue = aAudioOutput.getAttribute("value");
-            if (aAudioValue != null) {
+            let aAudioValue = aAudioOutput.getAttribute("content");
+            if (aAudioValue != null && aAudioValue != "") {
                 alert("audioOutput.name = " + aOutputName);
                 alert("audioOutput.value = " + aAudioValue);
                 playSound(audioId.value);

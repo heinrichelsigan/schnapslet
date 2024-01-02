@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.UI;
@@ -186,7 +188,7 @@ namespace SchnapsNet
 
             string msg0 = ResReader.GetStringFormated("you_say_pair", Locale, 
                 aGame.PrintColor(aGame.said));
-            SetTextMessage(msg0, true, true);
+            SayTextMessage(msg0);
 
             tPoints.Text = aGame.gambler.points.ToString();
             if (aGame.gambler.points >= Constants.ENOUGH)
@@ -493,6 +495,8 @@ namespace SchnapsNet
         {
             try
             {
+                this.metaAudio.Content = "";
+                this.metaLastAudio.Content = "";
                 StopGame(7, PLAYERDEF.COMPUTER);
             }
             catch (Exception e23)
@@ -520,10 +524,10 @@ namespace SchnapsNet
         }
 
         /// <summary>
-        /// A20_Click - say marriage in first pair
+        /// 1st button for pair marriage click EventHandler
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void A20_Click(object sender, EventArgs e)
         {
             char colorSaid = aGame.gambler.handpairs[0];
@@ -532,7 +536,7 @@ namespace SchnapsNet
         }
 
         /// <summary>
-        /// 2nd Button for pair marriage click
+        /// 2nd button for pair marriage click EventHandler 
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
@@ -545,7 +549,7 @@ namespace SchnapsNet
 
 
         /// <summary>
-        /// EventHandler when clicking on a Card Image
+        /// Clicking on any Card Image EventHandler
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
@@ -587,6 +591,7 @@ namespace SchnapsNet
                     if (aGame.playersTurn && !aGame.pSaid && aGame.CanCloseOrChange)
                     {
                         CloseGame(PLAYERDEF.HUMAN);
+                        SayMsg(ResReader.GetRes("you_close_game", Locale));
                     }
                     return;
                 }
@@ -598,7 +603,7 @@ namespace SchnapsNet
                 if (aGame.isGame == false || aGame.gambler == null || aGame.gambler.hand[ic] == null || !aGame.gambler.hand[ic].IsValidCard)
                 {
                     String msgVC = ResReader.GetRes("this_is_no_valid_card", Locale);
-                    SetTextMessage(msgVC, true, true);
+                    SayTextMessage(msgVC, true, true);
                     return;
                 }
                 if (aGame.pSaid)
@@ -613,7 +618,7 @@ namespace SchnapsNet
                     else
                     {
                         String msgPlayPair = ResReader.GetRes("you_must_play_pair_card", Locale);
-                        SetTextMessage(msgPlayPair, true, true);
+                        SayTextMessage(msgPlayPair, true, true);
                         return;
                     }
                 }
@@ -625,7 +630,7 @@ namespace SchnapsNet
                     if ((!aGame.gambler.IsValidInColorHitsContext(ic, aGame.computer.hand[ccard])))
                     {
                         String msgColorHitRule = ResReader.GetRes("you_must_play_color_hit_force_rules", Locale);
-                        SetTextMessage(msgColorHitRule, true, false);
+                        SayTextMessage(msgColorHitRule, true, false);
                         
                         int tmpint = aGame.gambler.PreferedInColorHitsContext(aGame.computer.hand[ccard]);
                         // for (j = 0; j < 5; j++) {
@@ -709,22 +714,32 @@ namespace SchnapsNet
 
         // public void Help_Click(object sender, EventArgs e)
         // {
-            //ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", 
-            //    "var Mleft = (screen.width/2)-(760/2);" +
-            //    "var Mtop = (screen.height/2)-(700/2);" +
-            //    "window.open( 'Help.aspx', null, 'height=700,width=760,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
+        //ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", 
+        //    "var Mleft = (screen.width/2)-(760/2);" +
+        //    "var Mtop = (screen.height/2)-(700/2);" +
+        //    "window.open( 'Help.aspx', null, 'height=700,width=760,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
 
-            // preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-            // preOut.InnerText += ResReader.GetRes("help_text", Locale) + "\n";
-            // preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+        // preOut.InnerHtml = "-------------------------------------------------------------------------\n";
+        // preOut.InnerText += ResReader.GetRes("help_text", Locale) + "\n";
+        // preOut.InnerHtml += "-------------------------------------------------------------------------\n";
         // }
 
+        /// <summary>
+        /// Image Merge Click Eventhandler
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void Merge_Click(object sender, EventArgs e)
         {
             ToggleTournament(true);
             StartGame();
         }
 
+        /// <summary>
+        /// Image Computer Stitch Eventhandler
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ImageComputerStitch_Click(object sender, EventArgs e)
         {
             if (aGame.computer.cardStitches.Count > 0)
@@ -736,14 +751,23 @@ namespace SchnapsNet
                 }
                 else
                     ShowStitches(-2);
-            }            
+            }
         }
 
+        /// <summary>
+        /// Image Player Stitch Click Eventhandler
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>        
         protected void ImagePlayerStitch_Click(object sender, EventArgs e)
         {
             ShowStitches(0);
         }
 
+        /// <summary>
+        /// Toggle Continue
+        /// </summary>
+        /// <param name="continueEnabled">toggle continue</param>
         protected void ToggleContinue(bool continueEnabled = true)
         {
             aGame.shouldContinue = continueEnabled;
@@ -753,6 +777,10 @@ namespace SchnapsNet
             bContinue.Enabled = continueEnabled;
         }
 
+        /// <summary>
+        /// Toggle Tourament
+        /// </summary>
+        /// <param name="starts"></param>
         protected void ToggleTournament(bool starts = true)
         {
             if (starts)
@@ -803,12 +831,20 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// Draw Tournament points table
+        /// </summary>
+        /// <param name="displayBummerlOrTaylor"></param>
+        /// <param name="whoWon"><see cref="PLAYERDEF"/></param>
         protected override void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             base.DrawPointsTable(displayBummerlOrTaylor, whoWon);
         }
 
-
+        /// <summary>
+        /// Reset Buttons
+        /// </summary>
+        /// <param name="level"></param>
         protected void ResetButtons(int level)
         {
             if (level >= 0)
@@ -872,11 +908,18 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// Stop Game
+        /// </summary>
+        /// <param name="tournementPts"></param>
+        /// <param name="whoWon"><see cref="PLAYERDEF"/></param>
+        /// <param name="endMessage">end message to say</param>
         protected void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
             {
-                SetTextMessage(endMessage);
+                SayTextMessage(endMessage);
+                // SetTextMessage(endMessage);
             }
             aTournement.AddPointsRotateGiver(tournementPts, whoWon);
             bStop.Enabled = false;
@@ -901,6 +944,9 @@ namespace SchnapsNet
             this.ToggleTournament(false);
         }
 
+        /// <summary>
+        /// Starts a new game
+        /// </summary>
         protected void StartGame()
         {  
             /* Mischen */
@@ -908,12 +954,15 @@ namespace SchnapsNet
             bMerge.Visible = false;
 
             aGame = null;
-            aGame = new Game(HttpContext.Current, aTournement.NextGameGiver);
+            // aGame = new Game(HttpContext.Current, PLAYERDEF.HUMAN);
+            aGame = new Game(HttpContext.Current, aTournement.NextGameGiver); 
             aGame.isReady = true;
             tMsg.Visible = false;
             ResetButtons(1);
             this.PreInnerText = string.Empty;
             // tRest.Text = (19 - aGame.index).ToString();
+            this.metaAudio.Content = "";
+            this.metaLastAudio.Content = "";
 
             ShowStitches(-3);
             emptyTmpCard = new Card(-2, HttpContext.Current);
@@ -954,6 +1003,10 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// TwentyEnough 
+        /// </summary>
+        /// <param name="whoWon"><see cref="PLAYERDEF"/></param>
         protected void TwentyEnough(PLAYERDEF whoWon)
         {
             int xj = 0;
@@ -1140,6 +1193,10 @@ namespace SchnapsNet
             return;
         }
 
+        /// <summary>
+        /// Game Turn, when a play move starts
+        /// </summary>
+        /// <param name="ixlevel"></param>
         protected void GameTurn(int ixlevel)
         {
             if (ixlevel < 1)
@@ -1171,9 +1228,13 @@ namespace SchnapsNet
             aGame.b20 = false;
             aGame.sayMarriage20 = ResReader.GetRes("b20a_text", Locale);
             aGame.sayMarriage40 = ResReader.GetRes("b20a_text", Locale);
+            this.metaAudio.Content = "";
+            this.metaLastAudio.Content = "";
 
             if (aGame.playersTurn)
             {
+                string announceMsg = "";
+
                 // Wann kann man austauschen ?
                 if (ixlevel < 1)
                 {
@@ -1182,12 +1243,13 @@ namespace SchnapsNet
                         psaychange += 1;
                         bChange.Enabled = true;
                         aGame.bChange = true;
+                        announceMsg = ResReader.GetRes("can_change_atou", Locale);
                     }
                 }
                 // Gibts was zum Ansagen ?
                 int a20 = aGame.gambler.HasPair;
                 if (a20 > 0)
-                {
+                {                    
                     psaychange += 2;
                     b20a.Text = aGame.PrintSymbol(aGame.gambler.handpairs[0]) + " " +
                         ResReader.GetRes("say_pair", Locale);
@@ -1195,6 +1257,10 @@ namespace SchnapsNet
                         ResReader.GetRes("say_pair", Locale);
                     aGame.a20 = true;
                     b20a.Enabled = true;
+                    if (string.IsNullOrEmpty(announceMsg))
+                        announceMsg = ResReader.GetStringFormated("can_say_pair", Locale,
+                            aGame.PrintColor(aGame.gambler.handpairs[0]));
+
                     if (a20 > 1)
                     {
                         b20b.Text = aGame.PrintSymbol(aGame.gambler.handpairs[1]) + " " +
@@ -1203,13 +1269,19 @@ namespace SchnapsNet
                         aGame.sayMarriage40 = aGame.PrintColor(aGame.gambler.handpairs[1]) + " " +
                             ResReader.GetRes("say_pair", Locale);
                         b20b.Enabled = true;
+                        announceMsg += " " + ResReader.GetStringFormated("can_say_pair", Locale,
+                            aGame.PrintColor(aGame.gambler.handpairs[1]));
                     }
                     else
                     {
                         aGame.sayMarriage40 = ResReader.GetRes("no_second_pair", Locale);
                         b20b.Text = ResReader.GetRes("no_second_pair", Locale);
-                    }
-                }
+                    }                    
+                }                
+                
+                // Say announce message
+                if (!string.IsNullOrEmpty(announceMsg))
+                    SayMsg(announceMsg);
                 // Info 
                 SetTextMessage(ResReader.GetRes("toplayout_clickon_card", Locale));
             }
@@ -1238,7 +1310,7 @@ namespace SchnapsNet
                 }
                 if (outPutMessage == "")
                     outPutMessage = ResReader.GetRes("computer_plays_out", Locale);
-                SetTextMessage(outPutMessage);
+                SayTextMessage(outPutMessage);
 
                 bitShift = PLAYEROPTIONS_Extensions.GetValue(PLAYEROPTIONS.ANDENOUGH);
                 if ((aGame.computer.playerOptions & bitShift) == bitShift)
@@ -1254,7 +1326,7 @@ namespace SchnapsNet
                 {
                     aGame.isClosed = true;
                     outPutMessage += ResReader.GetRes("computer_closed_game", Locale);
-                    SetTextMessage(outPutMessage);
+                    SayTextMessage(outPutMessage);
                     CloseGame(PLAYERDEF.COMPUTER);
                 }
 
@@ -1285,6 +1357,9 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
+        /// <summary>
+        /// End turn
+        /// </summary>
         protected void EndTurn()
         {
             int tmppoints;
@@ -1316,9 +1391,9 @@ namespace SchnapsNet
 
             if (tmppoints > 0)
             {
-                msgText = ResReader.GetStringFormated("your_hit_points", Locale, tmppoints.ToString()) + 
-                    " " + ResReader.GetRes("click_continue", Locale);
-
+                msgText = ResReader.GetStringFormated("your_hit_points", Locale, tmppoints.ToString());
+                SayTextMessage(msgText);
+                msgText += " " + ResReader.GetRes("click_continue", Locale);
                 SetTextMessage(msgText);
 
                 TwoCards stitchPlayer = new TwoCards(aGame.playedOut, aGame.playedOut1);
@@ -1338,8 +1413,9 @@ namespace SchnapsNet
             }
             else
             {
-                msgText = ResReader.GetStringFormated("computer_hit_points", Locale, (-tmppoints).ToString()) + 
-                    " " + ResReader.GetRes("click_continue", Locale);
+                msgText = ResReader.GetStringFormated("computer_hit_points", Locale, (-tmppoints).ToString());
+                SayTextMessage(msgText);
+                msgText +=  " " + ResReader.GetRes("click_continue", Locale);
                 SetTextMessage(msgText);
 
                 TwoCards stitchComputer = new TwoCards(aGame.playedOut, aGame.playedOut1);
@@ -1482,6 +1558,7 @@ namespace SchnapsNet
             SetTextMessage(errStr, true, true);
         }
 
+
         /// <summary>
         /// setTextMessage shows a new Toast dynamic message
         /// </summary>
@@ -1494,20 +1571,87 @@ namespace SchnapsNet
             tMsg.Visible = true;
             tMsg.Text = msgSet;
 
-            if (aGame != null)
+            if (!string.IsNullOrEmpty(msgSet))
             {
-                aGame.statusMessage = msgSet;
-                if (queueMsg) 
+                Log(msgSet);
+
+                if (aGame != null)
                 {
-                    aGame.InsertMsg(msgSet);
-                    if (printMsg)
-                        PrintMsg();
-                   
-                    return;
+                    aGame.statusMessage = msgSet;
+                    if (queueMsg)
+                    {
+                        aGame.InsertMsg(msgSet);
+                        if (printMsg)
+                            PrintMsg();
+
+                        return;
+                    }
                 }
             }
+        }
 
-            Log(msgSet);
+
+        /// <summary>
+        /// SayTextMessage speaks out and sets a text message
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        /// <param name="queueMsg">if true, queue message in internal message queue</param>
+        /// <param name="printMsg">if true, print and log message</param>
+        public void SayTextMessage(string sayMsg, bool queueMsg = false, bool printMsg = false)
+        {
+            SetTextMessage(sayMsg, queueMsg, printMsg);
+            SayMsg(sayMsg);
+        }
+
+        /// <summary>
+        /// Says a message in audio
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        public void SayMsg(string sayMsg)
+        {
+            if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut)
+            {
+                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+
+                SayBase sayBase = new SayBase();
+                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+                if (File.Exists(waveFile) && SayBase.SpeechCache)
+                {
+                    this.metaAudio.Content = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                    Log("Speech loaded cached file = " + this.metaAudio.Content);
+                    return;
+                }
+                SpeechOut(sayMsg);
+            }
+        }
+
+        /// <summary>
+        /// Speaches message out!
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        public void SpeechOut(string sayMsg)
+        {
+            SaySpeach say = new SaySpeach();
+            string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
+            Log("Speech calling ctor new SaySpeach() to generate new saying \"" + sayMsg + "\"");
+
+            try
+            {
+                if (!File.Exists(waveFile) && SayBase.SpeechNew)
+                {
+                    Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
+                }
+            }
+            catch (Exception exSay)
+            {
+                HandleException(exSay);
+            }
+            // Task myTask = SpeakMsg(sayMsg);
+            // myTask.RunSynchronously();
+            // myTask.Wait();                
+            this.metaAudio.Content = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+            // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
+            Log("Speech opertion finished ⇒ aAudio.HRef = " + metaAudio.Content);
         }
 
     }

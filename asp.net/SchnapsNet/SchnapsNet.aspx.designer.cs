@@ -15,6 +15,24 @@ namespace SchnapsNet
     {
 
         /// <summary>
+        /// metaAudio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaAudio;
+
+        /// <summary>
+        /// metaLastAudio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaLastAudio;
+
+        /// <summary>
         /// form1 control.
         /// </summary>
         /// <remarks>
@@ -256,14 +274,5 @@ namespace SchnapsNet
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
-
-        /// <summary>
-        /// aAudio control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAudio;
     }
 }

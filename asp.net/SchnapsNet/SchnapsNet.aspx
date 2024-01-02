@@ -7,7 +7,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Schnaps.Net</title>
         <link rel="stylesheet" href="res/schnapsnet.css" />
-        <script type="text/javascript" src="res/schnapsennet.js"></script>
+        <script type="text/javascript" src="res/schnapsnet.js"></script>
+        <meta name="author" content="Heinrich Elsigan" />
+        <meta id="metaAudio" runat="server" name="audiowav" content="" />
+        <meta id="metaLastAudio" runat="server" name="audiolastwav" content="" />
     </head>
     <body onload="schnapsStateInit()">
         <script>
@@ -112,8 +115,7 @@
             <pre id="preOut" class="PreFormated" runat="server">
             </pre>
             <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
-                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>]            
-                <a id="aAudio" clientid="aAudio" runat="server" name="audioAnchor" href="" loaded="aAudioLoaded()">audio</a>
+                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>]                
             </div>    
         </form>
     </body>

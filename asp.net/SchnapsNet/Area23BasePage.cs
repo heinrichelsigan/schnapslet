@@ -136,6 +136,7 @@ namespace SchnapsNet
             {
                 if (this.Context.Session[Constants.APPNAME] == null)
                 {
+                    xlock = new object();
                     lock (xlock)
                     {
                         pLock = new object();
@@ -147,21 +148,20 @@ namespace SchnapsNet
                             this.Context.Session[Constants.APPNAME] = globalVariable;
                         }
                     }
-                    string initMsg = "New connection started from " + Request.UserHostAddress + " " + HttpContext.Current.Request.UserHostName + " with " + Request.UserAgent + "!";
+                    string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
                     Logger.Log(initMsg);
-                    initMsg = "Requested: " + HttpContext.Current.Request.Url + " Referer: " + HttpContext.Current.Request.UrlReferrer;
+                    initMsg = "Requested: " + Request.Url + " Referer: " + Request.UrlReferrer;
                     Logger.Log(initMsg);
-                    for (int ci = 0; ci < HttpContext.Current.Request.Cookies.Count; ci++)
+                    for (int ci = 0; ci < Request.Cookies.Count; ci++)
                     {
-                        HttpCookie cookie = HttpContext.Current.Request.Cookies[ci];
+                        HttpCookie cookie = Request.Cookies[ci];
                         initMsg = String.Format("Request cookie[{0}]: name={1} domain={2} value={3} expires={4} hasKeys={5}",
                             ci, cookie.Name, cookie.Domain, cookie.Value, cookie.Expires.ToString(), cookie.HasKeys.ToString());
                         Logger.Log(initMsg);
                     }
 
-                    string appPath = HttpContext.Current.Request.ApplicationPath;
-                    Log("AppPath=" + appPath + " logging to " + Logger.LogFile);
-
+                    string appPath = Request.ApplicationPath;
+                    Logger.Log("AppPath=" + appPath + " logging to " + Logger.LogFile);
                 }
                 else
                 {

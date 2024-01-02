@@ -74,7 +74,7 @@ namespace SchnapsNet.Utils
                 if (saveDir != null && saveDir.Length > 1 && Directory.Exists(saveDir))
                     return saveDir;
 
-                saveDir = System.AppDomain.CurrentDomain.BaseDirectory + SepChar + "res" + SepChar;
+                saveDir = System.AppDomain.CurrentDomain.BaseDirectory + SepChar + "res" + SepChar + "wav" + SepChar;
                 if (Directory.Exists(saveDir))
                     return saveDir;
 
@@ -129,6 +129,8 @@ namespace SchnapsNet.Utils
             //     wavOutPath += Paths.AppFolder + "/";
             if (!wavOutPath.Contains("res"))
                 wavOutPath += "res" + "/";
+            if (!wavOutPath.Contains("wav"))
+                wavOutPath += "wav" + "/";
             wavOutPath += fileNameSay;
 
             return wavOutPath;

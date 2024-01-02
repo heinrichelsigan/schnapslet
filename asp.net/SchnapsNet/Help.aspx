@@ -52,7 +52,6 @@
             <hr />
             <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
                 <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
-                <a id="aAudio" clientid="aAudio" runat="server" name="audioAnchor" href="" loaded="aAudioLoaded()">audio</a>
             </div>    
         </form>
     </body>

@@ -259,6 +259,24 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to vous pouvez changer atou carte maintenant!.
+        /// </summary>
+        internal static string can_change_atou {
+            get {
+                return ResourceManager.GetString("can_change_atou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to vous pouvez annoucez mariage à {0}!.
+        /// </summary>
+        internal static string can_say_pair {
+            get {
+                return ResourceManager.GetString("can_say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to l&apos;origin de cartes.
         /// </summary>
         internal static string carddeck {
@@ -619,7 +637,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1227 (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.24.0102 (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
         ///Jeu de cartes Schnapsen application android de Heinrich Elsigan.
         ///&lt;br /&gt;
         ///Le jeu est conçu pour jouer contre l&apos;ordinateur. Si c&apos;est votre tour, 
@@ -1038,6 +1056,15 @@ namespace SchnapsNet.Properties {
         internal static string you {
             get {
                 return ResourceManager.GetString("you", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to vous fermez la partie!.
+        /// </summary>
+        internal static string you_close_game {
+            get {
+                return ResourceManager.GetString("you_close_game", resourceCulture);
             }
         }
         
