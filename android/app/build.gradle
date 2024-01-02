@@ -14,7 +14,7 @@ android {
         applicationId "at.area23.schnapslet"
         minSdkVersion 25
         targetSdkVersion 34
-        versionName '2.4.23'
+        versionName '3.24.0102'
         signingConfig signingConfigs.config
     }
     buildTypes {
