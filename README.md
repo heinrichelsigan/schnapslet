@@ -49,6 +49,8 @@ https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outp
 
 YouTube Video: https://youtu.be/izqcm7XdHYY
 
+https://github.com/heinrichelsigan/schnapslet/assets/16463104/360ccd20-da34-4730-9aae-470623ff7905
+
 ## Schnapslet Schnapsen Wiki 
 
 Wiki files are located at
