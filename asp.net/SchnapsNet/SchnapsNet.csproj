@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <DeployEncryptKey>Encryption password is used only if any deployment setting is marked as secure</DeployEncryptKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -341,6 +344,8 @@
     <Content Include="res\wav\ComputerchangesAtoucard.wav" />
     <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolordiamonds.wav" />
     <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolordiamondsComputerclosesgame.wav" />
+    <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolorhearts.wav" />
+    <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolorheartsComputerclosesgame.wav" />
     <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolorspades.wav" />
     <Content Include="res\wav\ComputerchangesAtoucardcomputerannouncesamarriagesincolorspadesComputerclosesgame.wav" />
     <Content Include="res\wav\ComputerchangesAtoucardComputerclosesgame.wav" />
@@ -353,6 +358,7 @@
     <Content Include="res\wav\Computerhitswith15points.wav" />
     <Content Include="res\wav\Computerhitswith20points.wav" />
     <Content Include="res\wav\Computerhitswith21points.wav" />
+    <Content Include="res\wav\Computerhitswith22points.wav" />
     <Content Include="res\wav\Computerhitswith4points.wav" />
     <Content Include="res\wav\Computerhitswith5points.wav" />
     <Content Include="res\wav\Computerhitswith6points.wav" />
@@ -363,30 +369,51 @@
     <Content Include="res\wav\computerwontournement.wav" />
     <Content Include="res\wav\Computerwonwith66points.wav" />
     <Content Include="res\wav\Computerwonwith67points.wav" />
+    <Content Include="res\wav\Computerwonwith68points.wav" />
     <Content Include="res\wav\Computerwonwith72points.wav" />
     <Content Include="res\wav\Computerwonwith74points.wav" />
+    <Content Include="res\wav\Computerwonwith75points.wav" />
     <Content Include="res\wav\Computerwonwith77points.wav" />
     <Content Include="res\wav\Computerwonwith78points.wav" />
+    <Content Include="res\wav\Computerwonwith81points.wav" />
     <Content Include="res\wav\Computerwonwith84points.wav" />
+    <Content Include="res\wav\Computerwonwith86points.wav" />
     <Content Include="res\wav\Followthesuitledstictrules.wav" />
     <Content Include="res\wav\FortyandenoughComputerwonwith69points.wav" />
     <Content Include="res\wav\FortyandenoughComputerwonwith90points.wav" />
     <Content Include="res\wav\FortyandenoughYouwinwith105points.wav" />
     <Content Include="res\wav\FortyandenoughYouwinwith73points.wav" />
+    <Content Include="res\wav\FortyandenoughYouwinwith79points.wav" />
+    <Content Include="res\wav\Fortyinclubs.wav" />
     <Content Include="res\wav\Fortyinspades.wav" />
     <Content Include="res\wav\Lasttrickyouwin.wav" />
     <Content Include="res\wav\Nogamehasbeenstarted.wav" />
     <Content Include="res\wav\Playerclosesgame.wav" />
+    <Content Include="res\wav\Thisisnovalidcardtoplay.wav" />
     <Content Include="res\wav\Thouannounceamarriagesincolorclubs.wav" />
     <Content Include="res\wav\Thouannounceamarriagesincolordiamonds.wav" />
     <Content Include="res\wav\Thouannounceamarriagesincolorhearts.wav" />
     <Content Include="res\wav\Thouannounceamarriagesincolorspades.wav" />
     <Content Include="res\wav\TwentyandenoughComputerwonwith85points.wav" />
     <Content Include="res\wav\TwentyandenoughYouwinwith72points.wav" />
+    <Content Include="res\wav\TwentyandenoughYouwinwith78points.wav" />
     <Content Include="res\wav\TwentyandenoughYouwinwith80points.wav" />
+    <Content Include="res\wav\Twentyinclubs.wav" />
     <Content Include="res\wav\Twentyindiamonds.wav" />
     <Content Include="res\wav\Twentyinspades.wav" />
+    <Content Include="res\wav\Youcanannounceapairincolorclubs.wav" />
+    <Content Include="res\wav\YoucanannounceapairincolorclubsYoucanannounceapairincolordiamonds.wav" />
+    <Content Include="res\wav\Youcanannounceapairincolordiamonds.wav" />
+    <Content Include="res\wav\Youcanannounceapairincolorhearts.wav" />
+    <Content Include="res\wav\Youcanannounceapairincolorspades.wav" />
+    <Content Include="res\wav\Youcanannounceapairmarrigaeincolorclubs.wav" />
+    <Content Include="res\wav\Youcanchangeatoucardnow.wav" />
+    <Content Include="res\wav\YoucanchangeatoucardnowYoucanannounceapairincolordiamonds.wav" />
+    <Content Include="res\wav\YoucanchangeatoucardnowYoucanannounceapairmarrigaeincolorclubs.wav" />
+    <Content Include="res\wav\Youclosethegame.wav" />
+    <Content Include="res\wav\Youfailedtoclosethisgamecomputerwins.wav" />
     <Content Include="res\wav\Yougotataylor.wav" />
+    <Content Include="res\wav\Youmustplayoutqueenorkingwhenmarriages.wav" />
     <Content Include="res\wav\Yourhitwith12points.wav" />
     <Content Include="res\wav\Yourhitwith13points.wav" />
     <Content Include="res\wav\Yourhitwith14points.wav" />
@@ -402,7 +429,9 @@
     <Content Include="res\wav\Youwinwith66points.wav" />
     <Content Include="res\wav\Youwinwith67points.wav" />
     <Content Include="res\wav\Youwinwith70points.wav" />
+    <Content Include="res\wav\Youwinwith71points.wav" />
     <Content Include="res\wav\Youwinwith73points.wav" />
+    <Content Include="res\wav\Youwinwith74points.wav" />
     <Content Include="res\wav\Youwinwith75points.wav" />
     <Content Include="res\wav\Youwinwith76points.wav" />
     <Content Include="res\wav\Youwinwith77points.wav" />
