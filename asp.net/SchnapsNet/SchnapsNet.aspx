@@ -34,14 +34,14 @@
                     <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="B20_Click" Enabled="false"
                         CssClass="Button20b" />&nbsp;                
                 </span>  
-                <span class="SchnapsBtnSpanWidth12" align="left" valign="middle">
-                    <asp:Button ID="bMerge" Width="12%" Height="8%" runat="server" ToolTip="Start" Text="Continue"  OnClick="Merge_Click" Enabled="true"
+                <span class="SchnapsBtnSpan" align="left" valign="middle">
+                    <asp:Button ID="bMerge" Width="15%" Height="8%" runat="server" ToolTip="Start" Text="Continue"  OnClick="Merge_Click" Enabled="true"
                         CssClass="ButtonMerge" />
-                    <asp:Button ID="bStop" Width="12%" Height="8%" runat="server" ToolTip="Stop" Text="Stop" OnClick="Stop_Click" Enabled="false" Visible="false"
+                    <asp:Button ID="bStop" Width="15%" Height="8%" runat="server" ToolTip="Stop" Text="Stop" OnClick="Stop_Click" Enabled="false" Visible="false"
                         CssClass="ButtonStop" />
                 </span>            
-                <span style="visibility: visible; min-height: 40px; min-width: 36px; width:10%; height: 8%; vertical-align:middle; text-align: left; font-size: large" align="right" valign="middle">
-                    <asp:Button ID="bHelp" Width="10%" Height="8%" runat="server" ToolTip="Help" Text="Help"  Enabled="true" OnClientClick="HelpOpen();"
+                <span class="SchnapsBtnSpanWidth12" align="right" valign="middle">
+                    <asp:Button ID="bHelp" Width="12%" Height="8%" runat="server" ToolTip="Help" Text="Help"  Enabled="true" OnClientClick="HelpOpen();"
                         CssClass="ButtonHelp" />
                 </span>
             </div>
@@ -57,15 +57,15 @@
                 <span id="spanMerge" class="SpanMerge">
                     <asp:ImageButton ID="imMerge11" runat="server" ImageUrl="~/cardpics/mergeshort.gif" Width="20%" OnClick="Merge_Click" ToolTip="Click here to start"
                         CssClass="MergeImage" />&nbsp;
-                </span>
-                <span id="spanAtouTalon" runat="server" class="SpanAtouTalon">
-                    <span id="spanAtou" runat="server" class="SpanAtou">
-                        <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" Visible="false" OnClick="ImageCard_Click" CssClass="AtouImage" />
-                    </span>
-                    <span id="spanTalon" class="SpanTalon">
-                        <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Visible="false" CssClass="TalonImage" Width="18%" />
-                    </span>
-                </span>
+                     <span id="spanAtouTalon" runat="server" class="SpanAtouTalon">
+                         <span id="spanAtou" runat="server" class="SpanAtou">
+                             <asp:ImageButton ID="imAtou10" runat="server" ImageUrl="~/cardpics/n0.gif" Width="15%" Height="10%" ToolTip="Close Game" Visible="false" OnClick="ImageCard_Click" CssClass="AtouImage" />
+                         </span>
+                         <span id="spanTalon" class="SpanTalon">
+                             <asp:Image ID="imTalon" runat="server" ImageUrl="~/cardpics/t.gif" Visible="false" CssClass="TalonImage" Width="18%" />
+                         </span>
+                     </span>
+                </span>               
                 <span id="SpanComputerStitches" runat="server" class="SchnapsStackStitches">
                     <asp:ImageButton ID="ImageComputerStitch0a" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" Visible="false" OnClick="ImageComputerStitch_Click" CssClass="ComputerStich0a" />
                     <asp:ImageButton ID="ImageComputerStitch0b" runat="server" ImageUrl="~/cardpics/n1.gif" Width="15%" BorderStyle="None" Visible="false" OnClick="ImageComputerStitch_Click" CssClass="ComputerStich0b" />
@@ -112,7 +112,7 @@
                     <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="64%" Height="8%" CssClass="MsgTextBox">Short Information</asp:TextBox>
                 </span>       
             </div>
-            <pre id="preOut" class="PreFormated" runat="server">
+            <pre id="preOut" class="PreFormated" runat="server" visible="false">
             </pre>
             <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
                 <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>]                

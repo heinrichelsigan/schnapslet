@@ -14,6 +14,8 @@ using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Utils;
 using SchnapsNet.Models;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace SchnapsNet
 {
@@ -75,6 +77,66 @@ namespace SchnapsNet
         }
 
         internal string ISO2Lang { get => Paths.ISO2Lang; }
+
+        /// <summary>
+        /// Gets or Sets AudioWav
+        /// </summary>
+        protected virtual string AudioWav
+        {
+            get
+            {
+                foreach (Control ctrl in this.Header.Controls)
+                {
+                    if (ctrl != null && ctrl is HtmlGenericControl)
+                    {
+                        HtmlGenericControl htmlCtrl = (HtmlGenericControl)ctrl;
+                        if (htmlCtrl.ID == "metaAudio" ||
+                            (htmlCtrl.Attributes["id"] != null && htmlCtrl.Attributes["id"] == "metaAudio"))
+                        {
+                            if (htmlCtrl.Attributes["name"] != null && htmlCtrl.Attributes["name"] == "audioWav")
+                            {
+                                if (htmlCtrl.Attributes["content"] != null)
+                                    return htmlCtrl.Attributes["content"];
+                                return string.Empty;
+                            }
+                        }
+                    }
+                }
+                return string.Empty;
+            }
+            set
+            {
+                foreach (Control ctrl in this.Header.Controls)
+                {
+                    if (ctrl != null && ctrl is HtmlGenericControl)
+                    {
+                        HtmlGenericControl htmlCtrl = (HtmlGenericControl)ctrl;
+                        if (htmlCtrl.ID == "metaAudio" ||
+                            (htmlCtrl.Attributes["id"] != null && htmlCtrl.Attributes["id"] == "metaAudio"))
+                        {
+                            if (htmlCtrl.Attributes["name"] != null && htmlCtrl.Attributes["name"] == "audioWav")
+                            {
+                                if (htmlCtrl.Attributes["content"] != null)
+                                {
+                                    htmlCtrl.Attributes["content"] = value;
+                                    return;
+                                }
+                                else
+                                {
+                                    htmlCtrl.Attributes.Add("content", value);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }                 
+                var metaAudioTag = new HtmlGenericControl("meta");
+                metaAudioTag.Attributes.Add("id", "metaAudio");
+                metaAudioTag.Attributes.Add("name", "audiowav");
+                metaAudioTag.Attributes.Add("content", value);
+                this.Header.Controls.Add(metaAudioTag);                 
+            }
+        }
 
         protected virtual void InitSchnaps()
         {
@@ -256,6 +318,61 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// Says a message in audio
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        protected virtual void SayMsg(string sayMsg)
+        {
+            if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut)
+            {
+                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+
+                SayBase sayBase = new SayBase();
+                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
+                if (File.Exists(waveFile) && SayBase.SpeechCache)
+                {
+                    this.AudioWav = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                    // this.metaAudio.Content = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+                    Log("Speech loaded cached file = " + this.AudioWav);
+                    return;
+                }
+                SpeechOut(sayMsg);
+            }
+        }
+
+        /// <summary>
+        /// Speaches message out!
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        protected virtual void SpeechOut(string sayMsg)
+        {
+            SaySpeach say = new SaySpeach();
+            string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
+            Log("Speech calling ctor new SaySpeach() to generate new saying \"" + sayMsg + "\"");
+
+            try
+            {
+                if (!File.Exists(waveFile) && SayBase.SpeechNew)
+                {
+                    Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
+                }
+            }
+            catch (Exception exSay)
+            {
+                HandleException(exSay);
+            }
+            // Task myTask = SpeakMsg(sayMsg);
+            // myTask.RunSynchronously();
+            // myTask.Wait();                
+            this.AudioWav = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+            // this.metaAudio.Content = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
+            // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
+            Log("Speech opertion finished ⇒ aAudio´ = " + AudioWav);
+        }
+
+
+
         protected virtual void Log(string msg)
         {            
             string fn = Area23BasePage.LogFile;
@@ -328,6 +445,8 @@ namespace SchnapsNet
             if (globalVariable != null)
                 globalVariable.LastException = e;
         }
+    
+        
     }
 
 }
