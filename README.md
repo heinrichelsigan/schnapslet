@@ -49,7 +49,7 @@ https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outp
 
 YouTube Video: https://youtu.be/izqcm7XdHYY
 
-https://github.com/heinrichelsigan/schnapslet/tree/master/cardpics/2024-01-02_v3.24.0102_Android.gif
+[https://github.com/heinrichelsigan/schnapslet/tree/master/cardpics/2024-01-02_v3.24.0102_Android.gif](https://github.com/heinrichelsigan/schnapslet/blob/master/cardpics/2024-01-02_v3.24.0102_Android.gif?raw=true)
 
 ## Schnapslet Schnapsen Wiki 
 
