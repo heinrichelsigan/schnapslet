@@ -24,13 +24,16 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
+        /// <summary>
+        /// Gets or sets PreInnerText
+        /// </summary>
         protected string PreInnerText
         {
             get => this.preOut.InnerText;
             set
             {
                 this.preOut.InnerText = value;
-                if (globalVariable == null) 
+                if (globalVariable == null)
                 {
                     this.InitGlobalVariable();
                 }
@@ -39,6 +42,15 @@ namespace SchnapsNet
                     this.globalVariable.InnerPreText = this.preOut.InnerText;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or Sets AudioWav
+        /// </summary>
+        protected override string AudioWav
+        {
+            get => this.metaAudio.Content;
+            set => this.metaAudio.Content = value;
         }
 
         // static String emptyJarStr = "/schnapsen/cardpics/e.gif";
@@ -1558,6 +1570,15 @@ namespace SchnapsNet
             SetTextMessage(errStr, true, true);
         }
 
+        /// <summary>
+        /// HandleException
+        /// </summary>
+        /// <param name="myException"></param>
+        protected override void HandleException(Exception myException)
+        {
+            base.HandleException(myException);
+            ErrHandler(myException);
+        }
 
         /// <summary>
         /// setTextMessage shows a new Toast dynamic message
@@ -1603,56 +1624,7 @@ namespace SchnapsNet
             SayMsg(sayMsg);
         }
 
-        /// <summary>
-        /// Says a message in audio
-        /// </summary>
-        /// <param name="sayMsg">message to say</param>
-        public void SayMsg(string sayMsg)
-        {
-            if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut)
-            {
-                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
-
-                SayBase sayBase = new SayBase();
-                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
-                if (File.Exists(waveFile) && SayBase.SpeechCache)
-                {
-                    this.metaAudio.Content = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                    Log("Speech loaded cached file = " + this.metaAudio.Content);
-                    return;
-                }
-                SpeechOut(sayMsg);
-            }
-        }
-
-        /// <summary>
-        /// Speaches message out!
-        /// </summary>
-        /// <param name="sayMsg">message to say</param>
-        public void SpeechOut(string sayMsg)
-        {
-            SaySpeach say = new SaySpeach();
-            string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
-            Log("Speech calling ctor new SaySpeach() to generate new saying \"" + sayMsg + "\"");
-
-            try
-            {
-                if (!File.Exists(waveFile) && SayBase.SpeechNew)
-                {
-                    Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
-                }
-            }
-            catch (Exception exSay)
-            {
-                HandleException(exSay);
-            }
-            // Task myTask = SpeakMsg(sayMsg);
-            // myTask.RunSynchronously();
-            // myTask.Wait();                
-            this.metaAudio.Content = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-            // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
-            Log("Speech opertion finished ⇒ aAudio.HRef = " + metaAudio.Content);
-        }
+        
 
     }
 }

@@ -7,7 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Schnapsen.Net</title>
         <link rel="stylesheet" href="res/schnapsennet.css" />
-        <!-- meta id="metaAudioId" name="" onchange="alert(document.getElementById('metaAudioId').Name); metaAudioNameChanged('metaAudioId')" /-->
+        <meta id="metaAudio" runat="server" name="audiowav" content="" />
+        <meta id="metaLastAudio" runat="server" name="audiolastwav" content="" />
         <script type="text/javascript" src="res/schnapsennet.js"></script>
 </head>
 <body onload="schnapsStateInit()">

@@ -25,6 +25,9 @@ namespace SchnapsNet
         Models.Card emptyTmpCard, playedOutCard0, playedOutCard1;
         volatile byte psaychange = 0;
 
+        /// <summary>
+        /// Gets or sets PreInnerText
+        /// </summary>
         protected string PreInnerText
         {
             get => this.preOut.InnerText;
@@ -41,6 +44,20 @@ namespace SchnapsNet
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or Sets AudioWav
+        /// </summary>
+        protected override string AudioWav
+        {
+            get => this.aAudio.HRef;
+            set
+            {
+                this.metaAudio.Content = value;
+                this.aAudio.HRef = value;
+            }
+        }
+
 
         protected override void InitSchnaps()
         {
@@ -1835,47 +1852,25 @@ namespace SchnapsNet
             SayMsg(sayMsg);
         }
 
-        public void SayMsg(string sayMsg)
+        /// <summary>
+        /// Says a message in audio
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        protected override void SayMsg(string sayMsg)
         {
-            if (!string.IsNullOrEmpty(sayMsg))
-            {
-                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
-
-                SayBase sayBase = new SayBase();
-                string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
-                if (File.Exists(waveFile) && SayBase.SpeechCache)
-                {
-                    this.aAudio.HRef = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                    Log("Speech loaded cached file = " + this.aAudio.HRef);
-                    return;
-                }
-                SpeechOut(sayMsg);
-            }
+            base.SayMsg(sayMsg);
+            this.aAudio.HRef = this.AudioWav;
         }
 
-        public void SpeechOut(string sayMsg)
+
+        /// <summary>
+        /// Speaches message out!
+        /// </summary>
+        /// <param name="sayMsg">message to say</param>
+        protected override void SpeechOut(string sayMsg)
         {
-            SaySpeach say = new SaySpeach();
-            string waveFile = say.SavePath + Paths.SepChar + say.WaveFileName(sayMsg);
-            Log("Speech calling ctor new SaySpeach() to generate new saying \"" + sayMsg + "\"");
-            
-            try
-            {
-                if (!File.Exists(waveFile) && SayBase.SpeechNew)
-                {                    
-                    Task.Run(async () => await say.Say(sayMsg).ConfigureAwait(false));
-                }
-            }
-            catch (Exception exSay)
-            {
-                HandleException(exSay);
-            }
-            // Task myTask = SpeakMsg(sayMsg);
-            // myTask.RunSynchronously();
-            // myTask.Wait();                
-            this.aAudio.HRef = say.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-            // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
-            Log("Speech opertion finished ⇒ aAudio.HRef = " + aAudio.HRef);
+            base.SpeechOut(sayMsg);
+            this.aAudio.HRef = this.AudioWav;
         }
 
     }
