@@ -18,10 +18,14 @@
         </script>
         <form id="form1" runat="server">        
             <div id="DivSchnapsButtons" class="SchnapsBtnDiv">
-                <span class="SchnapsBtnSpan" align="left" valign="middle">
+                <span class="SchnapsBtnStartSpan" align="left" valign="middle">
+                    <asp:Button ID="bMerge" Width="15%" Height="8%" runat="server" ToolTip="Start" Text="Continue"  OnClick="Merge_Click" Enabled="true"
+                        CssClass="ButtonMerge" />
                     <asp:Button ID="bContinue" Width="15%" Height="8%" runat="server" ToolTip="Continue" Text="Continue" OnClick="Continue_Click" Enabled="true" 
-                        CssClass="ButtonContinue"/>&nbsp;
-                </span>
+                        CssClass="ButtonContinue"/>
+                    <asp:Button ID="bStop" Width="15%" Height="8%" runat="server" ToolTip="Stop" Text="Stop" OnClick="Stop_Click" Enabled="false" Visible="false"
+                        CssClass="ButtonStop" />
+                </span>   
                 <span class="SchnapsBtnSpan" align="left" valign="middle">
                     <asp:Button ID="bChange" Width="15%" Height="8%" runat="server" ToolTip="Change Atou" Text="Change Atou Card" OnClick="Change_Click" Enabled="false"
                         CssClass="ButtonChange" />&nbsp;
@@ -33,13 +37,7 @@
                 <span class="SchnapsBtnSpan" align="right" valign="middle">
                     <asp:Button ID="b20b" Width="15%" Height="8%" runat="server" ToolTip="Say marriage 40" Text="Marriage 40" OnClick="B20_Click" Enabled="false"
                         CssClass="Button20b" />&nbsp;                
-                </span>  
-                <span class="SchnapsBtnSpan" align="left" valign="middle">
-                    <asp:Button ID="bMerge" Width="15%" Height="8%" runat="server" ToolTip="Start" Text="Continue"  OnClick="Merge_Click" Enabled="true"
-                        CssClass="ButtonMerge" />
-                    <asp:Button ID="bStop" Width="15%" Height="8%" runat="server" ToolTip="Stop" Text="Stop" OnClick="Stop_Click" Enabled="false" Visible="false"
-                        CssClass="ButtonStop" />
-                </span>            
+                </span>           
                 <span class="SchnapsBtnSpanWidth12" align="right" valign="middle">
                     <asp:Button ID="bHelp" Width="12%" Height="8%" runat="server" ToolTip="Help" Text="Help"  Enabled="true" OnClientClick="HelpOpen();"
                         CssClass="ButtonHelp" />

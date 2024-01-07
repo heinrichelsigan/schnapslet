@@ -453,6 +453,7 @@
     <Compile Include="Area23BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ConstEum\STITCH.cs" />
     <Compile Include="Properties\Resource_en.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

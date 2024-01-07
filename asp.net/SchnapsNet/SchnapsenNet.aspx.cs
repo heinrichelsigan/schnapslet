@@ -101,6 +101,7 @@ namespace SchnapsNet
             // tRest.Text = ResReader.GetRes("tRest_text", Locale);            
             // lRest.Text = ResReader.GetRes("sRest", Locale);
 
+            Reset_ImgOut(true);
             this.imOut20.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
             this.imOut21.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
             this.imMerge11.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
@@ -111,7 +112,7 @@ namespace SchnapsNet
             tMsg.Text = ResReader.GetRes("clickon_start", Locale);
             tMsg.Visible = true;
 
-            ShowStitches(-3);
+            ShowStitches(STITCH.NONE);
         }
 
         protected override void RefreshGlobalVariableSession()
@@ -173,6 +174,27 @@ namespace SchnapsNet
                         imBtns[xj].Style["border-color"] = "deeppink";
                     }
                 }
+            }
+        }
+        protected void Reset_ImgOut(bool reset = true)
+        {
+            if (reset)
+            {
+                imOut20.Style["border-style"] = "none";
+                imOut20.Style["border-width"] = "1";
+                imOut20.Style["border-color"] = "none";
+                imOut21.Style["border-style"] = "none";
+                imOut21.Style["border-width"] = "1";
+                imOut21.Style["border-color"] = "none";
+            }
+            else
+            {
+                imOut20.Style["border-style"] = "dashed";
+                imOut20.Style["border-width"] = "2";
+                imOut20.Style["border-color"] = "purple";
+                imOut21.Style["border-style"] = "dashed";
+                imOut21.Style["border-width"] = "2";
+                imOut21.Style["border-color"] = "deeppink";
             }
         }
 
@@ -435,11 +457,16 @@ namespace SchnapsNet
             }
         }
 
-        protected void ShowStitches(int whichStitch)
+        /// <summary>
+        /// Show Stitches
+        /// </summary>
+        /// <param name="whichStitch"><see cref="STITCH" />, <see cref="STITCH.PLAYER"/> is implemented,
+        /// but commented out, since too view space on page (don't know where to place it)</param>
+        protected void ShowStitches(STITCH whichStitch)
         {
             if (aGame != null && aGame.gambler != null && aGame.computer != null)
             {
-                if (whichStitch < -2)
+                if (whichStitch.Value() < STITCH.HIDDEN.Value())
                 {
                     ImageComputerStitch0a.Visible = false;
                     ImageComputerStitch0b.Visible = false;
@@ -465,14 +492,14 @@ namespace SchnapsNet
                         // ImagePlayerStitch0b.Visible = true;
                     }
                 }
-                if (whichStitch == -2)
+                if (whichStitch == STITCH.HIDDEN)
                 {
                     ImageComputerStitch0a.ImageUrl = notURL.ToString();
                     ImageComputerStitch0b.ImageUrl = notURL.ToString();
                     // ImagePlayerStitch0a.ImageUrl = notURL.ToString();
                     // ImagePlayerStitch0b.ImageUrl = notURL.ToString();
                 }
-                if (whichStitch == -1 && aGame.computer.stitchCount > 0)
+                if (whichStitch == STITCH.COMPUTER && aGame.computer.stitchCount > 0)
                 {
                     if (aGame.computer.stitchCount > 0 && aGame.computer.cardStitches.Count > 0)
                     {
@@ -487,7 +514,7 @@ namespace SchnapsNet
                         }
                     }
                 }
-                if (whichStitch == 0 && aGame.gambler.stitchCount > 0)
+                if (whichStitch == STITCH.PLAYER && aGame.gambler.stitchCount > 0)
                 {
                     if (aGame.gambler.stitchCount > 0 && aGame.gambler.cardStitches.Count > 0)
                     {
@@ -527,6 +554,7 @@ namespace SchnapsNet
                 }
             }
             stage--;
+            Reset_ImgOut(false);
             imOut21.ImageUrl = computerPlayedOut.PictureUrlString;
         }
 
@@ -848,6 +876,7 @@ namespace SchnapsNet
         protected void ToggleContinue(bool continueEnabled = true)
         {
             aGame.shouldContinue = continueEnabled;
+            Reset_ImgOut(true); 
             imOut20.ToolTip = (continueEnabled) ? ResReader.GetRes("continue_ToolTip", Locale) : "";
             imOut21.ToolTip = (continueEnabled) ? ResReader.GetRes("continue_ToolTip", Locale) : "";
             bContinue.ToolTip = (continueEnabled) ? ResReader.GetRes("continue_ToolTip", Locale) : "";
@@ -855,6 +884,11 @@ namespace SchnapsNet
         }
 
 
+        /// <summary>
+        /// Eventhandler, when player clicks on merge card symbol
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ImMerge11_Click(object sender, EventArgs e)
         {
             if (aGame != null && aGame.schnapState == SCHNAPSTATE.MERGE_COMPUTER)
@@ -880,6 +914,11 @@ namespace SchnapsNet
             Merge_Click(sender, e);
         }
 
+        /// <summary>
+        /// Eventhandler, when Player clicks on play out space imOut20 or imOut21
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ImOut_Click(object sender, EventArgs e)
         {
             string senderString = "";
@@ -940,12 +979,21 @@ namespace SchnapsNet
             //preOut.InnerHtml += "-------------------------------------------------------------------------\n";
         }
 
+        /// <summary>
+        /// Merge_Click Eventhandler, when user clicks on start button or on merge card animation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Merge_Click(object sender, EventArgs e)
         {
             ToggleTorunament(true);
             StartGame();
         }
 
+        /// <summary>
+        /// Toggle Tournament 
+        /// </summary>
+        /// <param name="starts">true, when tournament starts, otherwise false</param>
         protected void ToggleTorunament(bool starts = true)
         {
             if (starts)
@@ -996,14 +1044,25 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// Eventhandler, when clicking on computers stitches
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e"><see cref="EventArgs"/> e</param>
         protected void ImageComputerStitch_Click(object sender, EventArgs e)
         {
-            ShowStitches(-1);
+            ShowStitches(STITCH.COMPUTER);
         }
 
+        /// <summary>
+        /// Eventhandler, when clicking on players stitches
+        /// (Implemented, but commented out, since no place for players stitches on page).
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e"><see cref="EventArgs"/> e</param>
         protected void ImagePlayerStitch_Click(object sender, EventArgs e)
         {
-            ShowStitches(0);
+            ShowStitches(STITCH.PLAYER);
         }
 
         protected void ResetButtons(int level)
@@ -1051,6 +1110,7 @@ namespace SchnapsNet
                 {
                     // imOut0.ImageUrl = emptyURL.ToString();
                     // imOut1.ImageUrl = emptyURL.ToString();
+                    Reset_ImgOut(true);
                     imOut20.ImageUrl = emptyURL.ToString();
                     imOut21.ImageUrl = emptyURL.ToString();
                     playedOutCard0 = globalVariable.CardEmpty;
@@ -1086,7 +1146,7 @@ namespace SchnapsNet
             aGame.StopGame();
 
             ResetButtons(tournementPts);
-            ShowStitches(-3);
+            ShowStitches(STITCH.NONE);
             DrawPointsTable();
             lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
             lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
@@ -1098,6 +1158,7 @@ namespace SchnapsNet
             bStop.Enabled = false;
             bStop.Visible = false;
             this.bContinue.Enabled = true;
+            Reset_ImgOut(true);
             this.imOut20.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
             this.imOut21.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
             this.imMerge11.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
@@ -1127,7 +1188,7 @@ namespace SchnapsNet
             }
             // tRest.Text = (19 - aGame.index).ToString();
 
-            ShowStitches(-3);
+            ShowStitches(STITCH.NONE);
             emptyTmpCard = new Card(-2, HttpContext.Current);
             tPoints.Text = "" + aGame.gambler.points;
             lAtouIs.Text = aGame.PrintSymbol(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor));
@@ -1508,6 +1569,7 @@ namespace SchnapsNet
                 {
                     imOut20.ImageUrl = emptyURL.ToString();
                     imOut21.ImageUrl = emptyURL.ToString();
+                    Reset_ImgOut(true);
                     playedOutCard0 = globalVariable.CardEmpty;
                     playedOutCard1 = globalVariable.CardEmpty;
                     aGame.playedOut0 = playedOutCard0;
@@ -1524,7 +1586,7 @@ namespace SchnapsNet
             }
 
             aAudio.HRef = string.Empty;
-            ShowStitches(-2);
+            ShowStitches(STITCH.NONE);
             aGame.bChange = false;
             aGame.a20 = false;
             aGame.b20 = false;
