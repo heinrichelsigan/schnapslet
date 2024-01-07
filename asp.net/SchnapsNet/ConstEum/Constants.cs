@@ -27,8 +27,8 @@ namespace SchnapsNet.ConstEnum
         public const int PLAY_DOWN_FARMER   = 24;   // play down from 24 points in farmer game
         public const int PLAY_DOWN_MOCK     = 1;    // play down mock 1 points            
 
-        public const string COLOR_K     = "♦";  //  "&#9830;";    //  "&diams;"
-        public const string COLOR_H     = "♥";  //  "&#9829;";    //  "&hearts;"
+        public const string COLOR_K     = "🔶";  //  "&#9830;"; "&#128310;" //  "&diams;"🔶
+        public const string COLOR_H     = "♥";  //  "&#9829;";  "&#129505;"  //  "&hearts;"
         public const string COLOR_P     = "♠";  //  "&#9824;";    //  "&spades;"
         public const string COLOR_T     = "♣";  //  "&#9827;";    //  "&clubs;"
         public const string COLOR_N     = "NOCOLOR";

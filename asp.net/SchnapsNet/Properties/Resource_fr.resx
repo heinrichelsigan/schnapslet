@@ -424,10 +424,13 @@ Les règles correspondent aux schnapsen autrichiens.</value>
     <value>rest</value>
   </data>
   <data name="symbol_h" xml:space="preserve">
-    <value>♥</value>
+    <value>❤️</value>
   </data>
   <data name="symbol_k" xml:space="preserve">
-    <value>♦</value>
+    <value>🔶</value>
+  </data>
+  <data name="symbol_n" xml:space="preserve">
+    <value>🚫</value>
   </data>
   <data name="symbol_p" xml:space="preserve">
     <value>♠</value>

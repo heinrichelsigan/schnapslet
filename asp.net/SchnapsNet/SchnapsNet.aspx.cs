@@ -108,6 +108,7 @@ namespace SchnapsNet
             this.imMerge11.ToolTip = ResReader.GetRes("imageMerge_ToolTip", Locale);
 
             lPoints.Text = ResReader.GetRes("sPoints", Locale);
+            lPoints.ToolTip = lPoints.Text;
 
             tMsg.Enabled = false;
             tMsg.Text = ResReader.GetRes("clickon_start", Locale);
@@ -132,6 +133,15 @@ namespace SchnapsNet
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            if (aGame != null && aGame.isGame)
+            {
+                lAtouIs.Text = aGame.PrintSymbol(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor));
+                lAtouIs.ToolTip = ResReader.GetStringFormated("atou_is", Locale,
+                    aGame.PrintColor(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor)));
+            }
+            else
+                lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
+                lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -940,7 +950,8 @@ namespace SchnapsNet
             ResetButtons(tournementPts);
             ShowStitches(-3);
             DrawPointsTable();
-
+            lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
+            lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
             ShowPlayersCards(aGame.schnapState);
             aGame.Dispose();
 
@@ -979,6 +990,9 @@ namespace SchnapsNet
             ShowStitches(-3);
             emptyTmpCard = new Card(-2, HttpContext.Current);
             tPoints.Text = "" + aGame.gambler.points;
+            lAtouIs.Text = aGame.PrintSymbol(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor));
+            lAtouIs.ToolTip = ResReader.GetStringFormated("atou_is", Locale,
+                aGame.PrintColor(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor)));
             ShowAtouCard(aGame.schnapState);
             ShowTalonCard(aGame.schnapState);
             ShowMergeAnim(aGame.schnapState);

@@ -1022,7 +1022,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♥.
+        ///   Looks up a localized string similar to ❤️.
         /// </summary>
         internal static string symbol_h {
             get {
@@ -1031,11 +1031,20 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ♦.
+        ///   Looks up a localized string similar to 🔶.
         /// </summary>
         internal static string symbol_k {
             get {
                 return ResourceManager.GetString("symbol_k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🚫.
+        /// </summary>
+        internal static string symbol_n {
+            get {
+                return ResourceManager.GetString("symbol_n", resourceCulture);
             }
         }
         

@@ -103,10 +103,11 @@
             </div>        
             <div id="schnapsPointMsg" class="SchnapsPointMsg">
                 <span class="PointSpanTextBox" align="left" valign="middle">
-                    <asp:TextBox ID="tPoints" Width="8%" Height="8%"  runat="server" ToolTip="text message" Enabled="false" CssClass="PointTextBox">0</asp:TextBox> 
+                    <asp:TextBox ID="tPoints" Width="3%" Height="8%"  runat="server" ToolTip="text message" Enabled="false" CssClass="PointTextBox">0</asp:TextBox> 
+                    <asp:Label ID="lPoints" Width="5%" Height="8%"  runat="server" ToolTip="Points" CssClass="PointLabel"></asp:Label>                    
                 </span>
-                <span class="PointSpanLabel" align="right" valign="middle">
-                    <asp:Label ID="lPoints" Width="8%" Height="8%"  runat="server" ToolTip="Points" CssClass="PointLabel">Points</asp:Label>
+                <span class="PointSpanLabel" align="left" valign="middle">
+                    <asp:Label ID="lAtouIs" Width="7%" Height="8%"  runat="server" ToolTip="Atou" CssClass="PointLabel"></asp:Label>
                 </span>
                 <span class="MsgSpan" align="center" valign="middle">        
                     <asp:TextBox ID="tMsg" runat="server" ToolTip="text message" Width="64%" Height="8%" CssClass="MsgTextBox">Short Information</asp:TextBox>

@@ -14,9 +14,58 @@ namespace SchnapsNet.Utils
 
         public static void Log(string msg)
         {
-            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
-            string fn = Logger.LogFile;
-            File.AppendAllText(fn, preMsg + msg + "\r\n");
+            string logMsg = string.Empty;
+            if (!File.Exists(LogFile))
+            {
+                try
+                {
+                    File.Create(LogFile);
+                }
+                catch (Exception )
+                {                    
+                }
+            }
+            try
+            {
+                logMsg = String.Format("{0} \t{1}\r\n",
+                        DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                        msg);             
+                File.AppendAllText(LogFile, logMsg);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+
+        public static void Log(Exception exLog)
+        {
+            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
+                exLog.GetType(),
+                exLog.Message,
+                exLog.ToString().Replace("\r", "").Replace("\n", " "),
+                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+
+            if (!File.Exists(LogFile))
+            {
+                try
+                {
+                    File.Create(LogFile);
+                }
+                catch (Exception e)
+                {                    
+                }
+            }
+            try
+            {
+                string logMsg = String.Format("{0} \t{1}\r\n",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                    excMsg);
+                File.AppendAllText(LogFile, logMsg);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
     }
