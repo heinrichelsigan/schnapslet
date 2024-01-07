@@ -337,10 +337,11 @@ namespace SchnapsNet
                     Log("Speech loaded cached file = " + this.AudioWav);
                     return;
                 }
-                SpeechOut(sayMsg);
+                // SpeechOut(sayMsg);
             }
         }
 
+        /*
         /// <summary>
         /// Speaches message out!
         /// </summary>
@@ -370,7 +371,7 @@ namespace SchnapsNet
             // this.aAudio.Name = sayBase.WaveFileName(sayMsg);
             Log("Speech opertion finished ⇒ aAudio´ = " + AudioWav);
         }
-
+        */
 
 
         protected virtual void Log(string msg)
