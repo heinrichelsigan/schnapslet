@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿/*
+using NLog;
 using SchnapsNet.ConstEnum;
 using System;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Web;
 
 namespace SchnapsNet.Utils
-{
+{    
     /// <summary>
     /// simple singelton logger via NLog
     /// </summary>
@@ -163,3 +164,4 @@ namespace SchnapsNet.Utils
     }
 
 }
+*/

@@ -6,13 +6,20 @@ using System.Web;
 namespace SchnapsNet.Utils
 {
     public static class Logger
-    { 
+    {
+        /// <summary>
+        /// LogFile
+        /// </summary>
         public static string LogFile
         {
             get => Paths.LogFile;
         }
 
-        public static void Log(string msg)
+        /// <summary>
+        /// LogStatic - static logger
+        /// </summary>
+        /// <param name="exLog"><see cref="Exception"/> to log</param>
+        public static void LogStatic(string msg)
         {
             string logMsg = string.Empty;
             if (!File.Exists(LogFile))
@@ -37,8 +44,11 @@ namespace SchnapsNet.Utils
             }
         }
 
-
-        public static void Log(Exception exLog)
+        /// <summary>
+        /// LogStatic - static logger
+        /// </summary>
+        /// <param name="exLog"><see cref="Exception"/> to log</param>
+        public static void LogStatic(Exception exLog)
         {
             string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
                 exLog.GetType(),
