@@ -133,6 +133,17 @@ namespace SchnapsNet
         {
             base.OnLoad(e);
             ShowStateSchnapsStack();
+            if (aGame != null && aGame.isGame)
+            {
+                lAtouIs.Text = aGame.PrintSymbol(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor));
+                lAtouIs.ToolTip = ResReader.GetStringFormated("atou_is", Locale,
+                    aGame.PrintColor(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor)));
+            }
+            else
+            {
+                lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
+                lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
+            }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -1059,6 +1070,12 @@ namespace SchnapsNet
         }
 
 
+        /// <summary>
+        /// Stop Game
+        /// </summary>
+        /// <param name="tournementPts"></param>
+        /// <param name="whoWon"><see cref="PLAYERDEF"/></param>
+        /// <param name="endMessage">end message to say</param>
         protected void StopGame(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN, string endMessage = null)
         {
             if (!string.IsNullOrEmpty(endMessage))
@@ -1071,7 +1088,8 @@ namespace SchnapsNet
             ResetButtons(tournementPts);
             ShowStitches(-3);
             DrawPointsTable();
-
+            lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
+            lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
             ShowPlayersCards(aGame.schnapState);
             aGame.Dispose();
 
@@ -1087,8 +1105,11 @@ namespace SchnapsNet
             ToggleTorunament(false);
         }
 
+        /// <summary>
+        /// Starts a new game
+        /// </summary>
         protected void StartGame()
-        {  
+        {
             /* Mischen */
             bMerge.Enabled = false;
             bMerge.Visible = false;
@@ -1109,6 +1130,9 @@ namespace SchnapsNet
             ShowStitches(-3);
             emptyTmpCard = new Card(-2, HttpContext.Current);
             tPoints.Text = "" + aGame.gambler.points;
+            lAtouIs.Text = aGame.PrintSymbol(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor));
+            lAtouIs.ToolTip = ResReader.GetStringFormated("atou_is", Locale,
+                aGame.PrintColor(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor)));
 
             if (aTournement.NextGameGiver == PLAYERDEF.HUMAN)
             {
@@ -1290,6 +1314,10 @@ namespace SchnapsNet
             }
         }
 
+        /// <summary>
+        /// TwentyEnough 
+        /// </summary>
+        /// <param name="whoWon"><see cref="PLAYERDEF"/></param>
         protected void TwentyEnough(PLAYERDEF whoWon)
         {
             int xj = 0;
@@ -1468,6 +1496,10 @@ namespace SchnapsNet
             return;
         }
 
+        /// <summary>
+        /// Game Turn, when a play move starts
+        /// </summary>
+        /// <param name="ixlevel"></param>
         protected void GameTurn(int ixlevel)
         {
             if (ixlevel < 1)
@@ -1623,6 +1655,9 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
 
+        /// <summary>
+        /// End turn
+        /// </summary>
         protected void EndTurn()
         {
             aAudio.HRef = string.Empty;                
@@ -1862,7 +1897,7 @@ namespace SchnapsNet
             this.aAudio.HRef = this.AudioWav;
         }
 
-
+        /*
         /// <summary>
         /// Speaches message out!
         /// </summary>
@@ -1872,6 +1907,6 @@ namespace SchnapsNet
             base.SpeechOut(sayMsg);
             this.aAudio.HRef = this.AudioWav;
         }
-
+        */
     }
 }

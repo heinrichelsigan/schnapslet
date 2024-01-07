@@ -140,8 +140,10 @@ namespace SchnapsNet
                     aGame.PrintColor(CARDCOLOR_Extensions.ColorChar(aGame.set[19].CardColor)));
             }
             else
+            {
                 lAtouIs.Text = ResReader.GetRes("symbol_n", Locale);
                 lAtouIs.ToolTip = ResReader.GetRes("nogame_started", Locale);
+            }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -1555,6 +1557,9 @@ namespace SchnapsNet
             RefreshGlobalVariableSession(); // globalVariable.SetTournementGame(aTournement, aGame);
         }
         
+        /// <summary>
+        /// PrintMsg to PreOut
+        /// </summary>
         protected void PrintMsg()
         {
             this.PreInnerText = aGame.FetchMsg();
