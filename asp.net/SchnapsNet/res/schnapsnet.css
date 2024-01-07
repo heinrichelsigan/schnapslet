@@ -18,6 +18,16 @@ div.SchnapsBtnDiv, #DivSchnapsButtons {
     inset-block-start: initial;
 }
 
+span.SchnapsBtnStartSpan {
+    min-height: 40px;
+    min-width: 60px;
+    width: 30%;
+    height: 8%;
+    vertical-align: middle;
+    text-align: left;
+    font-size: large;
+}
+
 span.SchnapsBtnSpan {
     min-height: 40px;
     min-width: 60px;
@@ -330,7 +340,7 @@ div.SchnapsStack,
 
 .SchnapsPointLabel {
     min-height: 32px;
-    min-width: 32px;
+    min-width: 32px;    
     font-size: large;
 }
 .PointLabel, #lAtouIs, #lPoints {

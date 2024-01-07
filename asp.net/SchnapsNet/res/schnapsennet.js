@@ -40,8 +40,11 @@ function schnapsStateInit() {
             schnapsStateRedirect();
         }
     }
-    else
+    else {
+        computerSaidPair();
         aAudioLoaded();
+    }
+        
 }
 
 
@@ -314,6 +317,27 @@ function unLightOnOut(unLightId) {
             // }
         }
     }
+}
+
+function computerSaidPair() {
+    if (imOut20 == null)
+        imOut20 = document.getElementById("imOut20");
+    if (imOut21 == null)
+        imOut21 = document.getElementById("imOut21");
+    if (imOut21 != null && imOut20 != null &&
+        imOut20.style.borderColor == "purple" &&
+        imOut20.style.borderStyle == "dashed") {
+        setTimeout(function () {
+            imOut20.style.borderColor = "none";
+            imOut20.style.borderStyle = "none";
+            imOut20.style.borderWidth = 1;
+            imOut21.style.borderColor = "none";
+            imOut21.style.borderStyle = "none";
+            imOut21.style.borderWidth = 1;
+            imOut20.src = "https://area23.at/schnapsen/cardpics/e.gif";
+        }, 1250);
+    }
+    return;
 }
 
 function playSound(soundName) {
