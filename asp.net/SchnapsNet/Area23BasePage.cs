@@ -211,19 +211,19 @@ namespace SchnapsNet
                         }
                     }
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
-                    Area23Log.LogStatic(initMsg);
+                    Logger.LogStatic(initMsg);
                     initMsg = "Requested: " + Request.Url + " Referer: " + Request.UrlReferrer;
-                    Area23Log.LogStatic(initMsg);
+                    Logger.LogStatic(initMsg);
                     for (int ci = 0; ci < Request.Cookies.Count; ci++)
                     {
                         HttpCookie cookie = Request.Cookies[ci];
                         initMsg = String.Format("Request cookie[{0}]: name={1} domain={2} value={3} expires={4} hasKeys={5}",
                             ci, cookie.Name, cookie.Domain, cookie.Value, cookie.Expires.ToString(), cookie.HasKeys.ToString());
-                        Area23Log.LogStatic(initMsg);
+                        Logger.LogStatic(initMsg);
                     }
 
                     string appPath = Request.ApplicationPath;
-                    Area23Log.LogStatic("AppPath=" + appPath + " logging to " + Logger.LogFile);
+                    Logger.LogStatic("AppPath=" + appPath + " logging to " + Logger.LogFile);
                 }
                 else
                 {
@@ -374,13 +374,13 @@ namespace SchnapsNet
 
 
         protected virtual void Log(string msg)
-        {            
-            Area23Log.LogStatic(msg);
+        {
+            Logger.LogStatic(msg);
         }
 
         protected virtual void Log(Exception exLog)
         {
-            Area23Log.LogStatic(exLog);
+            Logger.LogStatic(exLog);
         }
 
         protected virtual void HandleException(Exception e)
