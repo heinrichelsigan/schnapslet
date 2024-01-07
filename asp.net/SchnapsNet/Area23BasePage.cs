@@ -211,19 +211,19 @@ namespace SchnapsNet
                         }
                     }
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
-                    Area23Log.Logger.Log(initMsg);
+                    Area23Log.LogStatic(initMsg);
                     initMsg = "Requested: " + Request.Url + " Referer: " + Request.UrlReferrer;
-                    Area23Log.Logger.Log(initMsg);
+                    Area23Log.LogStatic(initMsg);
                     for (int ci = 0; ci < Request.Cookies.Count; ci++)
                     {
                         HttpCookie cookie = Request.Cookies[ci];
                         initMsg = String.Format("Request cookie[{0}]: name={1} domain={2} value={3} expires={4} hasKeys={5}",
                             ci, cookie.Name, cookie.Domain, cookie.Value, cookie.Expires.ToString(), cookie.HasKeys.ToString());
-                        Area23Log.Logger.Log(initMsg);
+                        Area23Log.LogStatic(initMsg);
                     }
 
                     string appPath = Request.ApplicationPath;
-                    Area23Log.Logger.Log("AppPath=" + appPath + " logging to " + Logger.LogFile);
+                    Area23Log.LogStatic("AppPath=" + appPath + " logging to " + Logger.LogFile);
                 }
                 else
                 {
@@ -375,42 +375,12 @@ namespace SchnapsNet
 
         protected virtual void Log(string msg)
         {            
-            Area23Log.Logger.Log(msg);
+            Area23Log.LogStatic(msg);
         }
 
         protected virtual void Log(Exception exLog)
         {
-            string fn = Area23BasePage.LogFile;
-            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
-                exLog.GetType(),
-                exLog.Message,
-                exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
-            
-            if (!File.Exists(fn))
-            {
-                try
-                {
-                    File.Create(fn);
-                }
-                catch (Exception e)
-                {
-                    if (globalVariable != null)
-                        globalVariable.LastException = e;
-                }
-            }
-            try
-            {
-                string logMsg = String.Format("{0} \t{1}\r\n",
-                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                    excMsg);
-                File.AppendAllText(fn, logMsg);
-            }
-            catch (Exception e)
-            {
-                if (globalVariable != null)
-                    globalVariable.LastException = e;
-            }
+            Area23Log.LogStatic(exLog);
         }
 
         protected virtual void HandleException(Exception e)
