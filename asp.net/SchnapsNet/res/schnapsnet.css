@@ -298,7 +298,7 @@ div.SchnapsStack,
 }
 
 .PointSpanTextBox, .PointsSpanTextBox {
-    width: 8%;
+    width: 9%;
     vertical-align: middle;
     text-align: left;
     font-size: large;
@@ -321,7 +321,7 @@ div.SchnapsStack,
 }
 
 .PointSpanLabel, .SchnapsPointSpanLabel {
-    width: 8%;
+    width: 7%;
     vertical-align: central;
     text-align: left;
     font-size: large;
@@ -329,14 +329,14 @@ div.SchnapsStack,
 }
 
 .SchnapsPointLabel {
-    min-height: 40px;
+    min-height: 32px;
     min-width: 40px;
     font-size: large;
 }
-.PointLabel, #lPoints {
+.PointLabel, #lAtouIs, #lPoints {
     min-height: 32px;
     min-width: 24px;
-    font-size: large
+    font-size: large;
 }
 
 .SchnapsMsgSpan {
