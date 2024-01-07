@@ -138,8 +138,8 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception exi)
                 {
-                    Area23Log.Logger.Log("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
-                    Area23Log.Logger.Log(exi.StackTrace.ToString());
+                    Area23Log.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Area23Log.LogStatic(exi.StackTrace.ToString());
                 }
                 return uri;
             }
@@ -159,8 +159,8 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception exi)
                 {
-                    Area23Log.Logger.Log("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
-                    Area23Log.Logger.Log(exi.StackTrace.ToString());
+                    Area23Log.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Area23Log.LogStatic(exi.StackTrace.ToString());
                 }
                 return uriString;
             }
@@ -577,7 +577,7 @@ namespace SchnapsNet.Models
             }
             catch (Exception e)
             {
-                Area23Log.Logger.Log(e.ToString());
+                Area23Log.LogStatic(e);
             }
             
             return byBuf;

@@ -17,12 +17,12 @@ namespace SchnapsNet
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            string initMsg = String.Format("application started at {0} object sender = {2}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.Logger.Log(initMsg);
-            Area23Log.Logger.Log("logging to logfile = " + Logger.LogFile);
+            //string initMsg = String.Format("application started at {0} object sender = {2}, EventArgs e = {2}",
+            //    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+            //    (sender == null) ? "(null)" : sender.ToString(),
+            //    (e == null) ? "(null)" : e.ToString());
+            //Area23Log.Logger.Log(initMsg);
+            //Area23Log.Logger.Log("logging to logfile = " + Logger.LogFile);
         }
 
 
