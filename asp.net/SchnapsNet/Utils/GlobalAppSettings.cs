@@ -12,34 +12,65 @@ namespace SchnapsNet.Utils
     public class GlobalAppSettings
     {
         public int ccard = -1;
-        public String pictureUrl = Constants.URLPIC;
-        public string prefixUrl = Constants.URLPREFIX;
-        public Uri prefixUri = null;
-        public Uri pictureUri = null;
+        public static String pictureUrl = Constants.URLPIC;
+        public static string prefixUrl = Constants.URLPREFIX;
+        public static Uri prefixUri = null;
+        public static Uri pictureUri = null;
         public CultureInfo systemLocale, locale;
         // private DIALOGS dialogOpened = DIALOGS.None;
-        public Card emptyCard = null;
-        public Card noneCard = null;
+        public static Card emptyCard = null;
+        public static Card noneCard = null;
         public Game game = null;
         public Tournament tournement = null;
+        private Exception lastException = null;
+        private string innerPreText = string.Empty;
         private static HttpContext context;
-        private HttpSessionState session;
-        private static HttpApplicationState application;        
+        private static HttpSessionState session;
+        private static HttpApplicationState application;
+        private static readonly Lazy<GlobalAppSettings> lazyAppSettings = 
+            new Lazy<GlobalAppSettings>(() => new GlobalAppSettings());
 
         #region properties
 
-        #region PictureUrl
-        public Uri PictureUri { get { InitPictureUrl(); return this.pictureUri; } }
-
-        public String PictureUrl
+        public static GlobalAppSettings GlobalAppSettingsFormSession
         {
-            get { InitPictureUrl(); return this.pictureUrl; }
+            get
+            {
+                if (HttpContext.Current.Session[Constants.APPNAME] == null)
+                {
+                    lazyAppSettings.Value.Init();
+                    HttpContext.Current.Session[Constants.APPNAME] = lazyAppSettings.Value;
+                }
+                    
+                return (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+            }
+            set
+            {
+                if (value != null)
+                {                                        
+                    HttpContext.Current.Session[Constants.APPNAME] = value;
+                    GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+                    myAppSets.game = value.Game;
+                    myAppSets.tournement = value.Tournement;
+                    myAppSets.ccard = value.CcCard;
+                    myAppSets.LastException = value.LastException;
+                    HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
+                }
+            }
+        }
+
+        #region PictureUrl
+        public static Uri PictureUri { get { InitPictureUrl(); return pictureUri; } }
+
+        public static String PictureUrl
+        {
+            get { InitPictureUrl(); return pictureUrl; }
             set
             {
                 try
                 {
-                    this.pictureUri = new Uri(value);
-                    this.pictureUrl = value;
+                    pictureUri = new Uri(value);
+                    pictureUrl = value;
                 }
                 catch (Exception exi)
                 {
@@ -48,29 +79,109 @@ namespace SchnapsNet.Utils
             }
         }
 
-        public String PrefixUrl { get { InitPrefixUrl(); return this.prefixUrl; } }
+        public static String PrefixUrl { get { InitPrefixUrl(); return prefixUrl; } }
 
-        public Uri PrefixUri { get { InitPrefixUrl(); return this.prefixUri; } }
+        public static Uri PrefixUri { get { InitPrefixUrl(); return prefixUri; } }
+
+
+        public static void InitPrefixUrl()
+        {
+            try
+            {
+                if (prefixUri == null)
+                    prefixUri = new Uri(prefixUrl);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+            }
+        }
+
+        public static void InitPictureUrl()
+        {
+            try
+            {
+                if (pictureUri == null)
+                    pictureUri = new Uri(pictureUrl);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+            }
+        }
+
         #endregion PictureUrl
 
         #region CultureLanguage
 
-        public CultureInfo Locale { get { InitLocale(); return locale; } set => locale = value; }
+        public long LongTick { get; set; }
 
-        public CultureInfo SystemLLocale { get { InitLocale(); return systemLocale; } }
+        public CultureInfo Locale
+        {
+            get { InitLocale(); return locale; }
+            set => lazyAppSettings.Value.locale = value;
+        }
 
-        public String LocaleString { get => Locale.DisplayName; set => locale = new CultureInfo(value); }
+        public CultureInfo SystemLLocale
+        {
+            get { InitLocale(); return lazyAppSettings.Value.systemLocale; }
+        }
 
-        public String ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
-        
+        public String LocaleString
+        {
+            get => lazyAppSettings.Value.Locale.DisplayName;
+            set => lazyAppSettings.Value.locale = new CultureInfo(value);
+        }
+
+        public String ISO2Lang { get => lazyAppSettings.Value.Locale.TwoLetterISOLanguageName; }
+
+
+        public void InitLocale(bool realInit = false)
+        {
+            if ((systemLocale == null && locale == null) || realInit)
+            {
+                CultureInfo cultureInfo = CultureInfo.GetCultureInfo("en-US");
+                try
+                {
+                    string defaultLang = getContext().Request.Headers["Accept-Language"].ToString().Split(',').FirstOrDefault();
+                    defaultLang = string.IsNullOrEmpty(defaultLang) ? "en" : defaultLang;
+                    cultureInfo = new CultureInfo(defaultLang);
+                }
+                catch (Exception e)
+                {
+                    LastException = e;
+                    cultureInfo = CultureInfo.GetCultureInfo("en-US");
+                }
+                if (systemLocale == null || systemLocale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                    systemLocale = cultureInfo;
+                if (locale == null || locale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                    locale = cultureInfo;
+            }
+        }
+
+
         #endregion CultureLanguage
 
         #region TournamentGame
-        public Game Game { get => game; }
+        public Game Game { get => GlobalAppSettingsFormSession.game; }
 
-        public Tournament Tournement { get => tournement; set => tournement = value; }
+        public Tournament Tournement
+        {
+            get => GlobalAppSettingsFormSession.tournement;
+            set
+            {
+                GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+                if (myAppSets == null)
+                {
+                    myAppSets = lazyAppSettings.Value;
+                    myAppSets.Init();
+                }
+                myAppSets.tournement = value;
+                HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
+            }
+        }
 
-        public Card CardEmpty { get => (emptyCard == null) ? new Card(-2, getContext()) : emptyCard; }
+        public Card CardEmpty { get => (emptyCard == null) ? emptyCard = new Card(-2, getContext()) : emptyCard; }        
 
         public Card CardNone { get => (noneCard == null) ? noneCard = new Card(-1, getContext()) : noneCard; }
 
@@ -93,11 +204,34 @@ namespace SchnapsNet.Utils
                 getContext().Session[Constants.CCARD] = ccard;
             }
         }
+        
         #endregion TournamentGame
 
-        public Exception LastException { get; set; }
+        public Exception LastException
+        {
+            get => GlobalAppSettingsFormSession.lastException;
+            set
+            {
+                GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+                if (myAppSets == null)        
+                    myAppSets = lazyAppSettings.Value;
+                myAppSets.lastException = value;
+                HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
+            }
+        }
 
-        public String InnerPreText { get; internal set; }
+        public String InnerPreText
+        {
+            get => GlobalAppSettingsFormSession.innerPreText;
+            set
+            {
+                GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+                if (myAppSets == null)
+                    myAppSets = lazyAppSettings.Value;
+                myAppSets.innerPreText = value;
+                HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
+            }
+        }
 
         #endregion properties
 
@@ -114,96 +248,73 @@ namespace SchnapsNet.Utils
             context = c;
             application = haps;
             session = hses;
-            InitLocale();
+            InitLocale(true);
             InitPrefixUrl();
             InitPictureUrl();
+            emptyCard = new Card(-2, getContext());
+            noneCard = new Card(-1, getContext());
+            Init();
         }
 
         #endregion ctor
 
+        #region static members
+
+        /// <summary>
+        /// SetSchnapsGame - static set current Tournament & Game state to lazily initialized singleton 
+        /// </summary>
+        /// <param name="aTournament">current <see cref="Tournament"/></param>
+        /// <param name="aGame">current <see cref="Game"/></param>
+        public static void SetSchnapsGame(Tournament aTournament, Game aGame)
+        {
+            GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+            if (myAppSets == null) {
+                lazyAppSettings.Value.Init();
+                myAppSets = lazyAppSettings.Value;
+            }
+            myAppSets.tournement = aTournament;
+            myAppSets.game = aGame;
+            HttpContext.Current.Session[Constants.APPNAME] = myAppSets;            
+        }
+
+        #endregion static members
+
         #region members
 
-        public HttpContext getContext()
+        public static HttpContext getContext()
         {
             context = HttpContext.Current;            
             return context;
         }
 
-        public HttpApplicationState getApplication()
+        public static HttpApplicationState getApplication()
         {
             application = HttpContext.Current.Application;
             return application;
         }
 
-        public HttpSessionState getSession()
+        public static HttpSessionState getSession()
         {
             session = HttpContext.Current.Session;
             return session;
         }
 
-        public void InitLocale()
-        {
-            if (systemLocale == null)
-            {
-                try
-                {                    
-                    string defaultLang = getContext().Request.Headers["Accept-Language"].ToString();
-                    string firstLang = defaultLang.Split(',').FirstOrDefault();
-                    defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                    systemLocale = new CultureInfo(defaultLang);
-                }
-                catch (Exception e)
-                {
-                    LastException = e;
-                    systemLocale = new CultureInfo("en");
-                }
-            }
-            if (locale == null)
-            {
-                try
-                {
-                    string defaultLang = getContext().Request.Headers["Accept-Language"].ToString().Split(',').FirstOrDefault();
-                    if (string.IsNullOrEmpty(defaultLang)) defaultLang = "en";
-                    locale = new CultureInfo(defaultLang);
-                }
-                catch (Exception e)
-                {
-                    LastException = e;
-                    locale = new CultureInfo(systemLocale.TwoLetterISOLanguageName.ToLower());
-                }
-            }
-        }
-
-        public void InitPrefixUrl()
-        {
-            try
-            {
-                if (prefixUri == null)
-                    prefixUri = new Uri(prefixUrl);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e.StackTrace);
-            }
-        }
-
-        public void InitPictureUrl()
-        {
-            try
-            {
-                if (pictureUri == null)
-                    pictureUri = new Uri(pictureUrl);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e.StackTrace);
-            }
-        }
-
+        [Obsolete("Please use static void SetSchnapsGame(Tournament aTournement, Game aGame) instead!", false)]
         public void SetTournementGame(Tournament aTournement, Game aGame)
         {
-            this.tournement = aTournement;
-            this.game = aGame;            
+            SetSchnapsGame(aTournement, aGame);
+        }
+
+        /// <summary>
+        /// Init lazy singelton, when a new session arrives
+        /// </summary>
+        public void Init()
+        {
+            if (tournement == null)
+                tournement = new Tournament();
+
+            // game = new Game(getContext(), tournement.NextGameGiver);
+            InitLocale(true);
         }
 
         public int ClearCcCard()

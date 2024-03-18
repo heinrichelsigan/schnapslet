@@ -92,15 +92,17 @@ namespace SchnapsNet.Models
 		}
 
         /// <summary>
-        /// destructor Dispose, it really destroys a game
+		/// destructor Dispose, it really destroys a game
 		/// originally destroyGame in Java => realized by implementing IDisposible
-        /// </summary>
-        public override void Dispose()
+		/// </summary>
+		/// <param name="disposing">disposing parameter set default to true</param>
+        public override void Dispose(bool disposing = true)
         {
             computer1 = null;
             computer2 = null;
-            base.Dispose();
+            base.Dispose(disposing);
 		}
+
 
         /// <summary>
         /// StopGame - stops softley a game

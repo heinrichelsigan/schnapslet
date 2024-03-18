@@ -96,12 +96,13 @@ namespace SchnapsNet.Utils
                 return audioPath;
             }
         }
-        public static string LogFile
+
+        public static string LogAppPath
         {
             get
             {
                 string logAppPath = "." + SepChar;
-                
+
                 if (AppContext.BaseDirectory != null)
                 {
                     logAppPath = AppContext.BaseDirectory;
@@ -121,13 +122,25 @@ namespace SchnapsNet.Utils
                 }
                 catch (Exception ex)
                 {
+                    Area23Log.LogStatic(ex);
                 }
-                
+
                 if (!logAppPath.Contains(AppFolder))
                     logAppPath += AppFolder + SepChar;
-                
-                logAppPath += String.Format("{0}{1}{2}_{3}.log",
-                    Constants.LOGDIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);
+
+                logAppPath += Constants.LOGDIR + SepChar;
+                // if (Directory.Exists(logAppPath))
+                return logAppPath;
+            }
+        }
+
+        public static string LogFile
+        {
+            get
+            {
+                string logAppPath = LogAppPath;
+                logAppPath += String.Format("{0}_{1}.log",
+                    DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);
                 // if (Directory.Exists(logAppPath))
                 return logAppPath;
             }

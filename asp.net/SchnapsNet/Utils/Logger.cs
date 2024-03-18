@@ -28,14 +28,14 @@ namespace SchnapsNet.Utils
                 {
                     File.Create(LogFile);
                 }
-                catch (Exception )
+                catch (Exception)
                 {                    
                 }
             }
             try
             {
                 logMsg = String.Format("{0} \t{1}\r\n",
-                        DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                        Constants.DateArea23Seconds,
                         msg);             
                 File.AppendAllText(LogFile, logMsg);
             }
@@ -62,18 +62,18 @@ namespace SchnapsNet.Utils
                 {
                     File.Create(LogFile);
                 }
-                catch (Exception e)
-                {                    
+                catch (Exception)
+                {
                 }
             }
             try
             {
                 string logMsg = String.Format("{0} \t{1}\r\n",
-                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                    DateTime.UtcNow.ToString(Constants.DateArea23Seconds),
                     excMsg);
                 File.AppendAllText(LogFile, logMsg);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }

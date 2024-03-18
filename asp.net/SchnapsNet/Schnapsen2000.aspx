@@ -152,8 +152,9 @@
 
     public void RefreshGlobalVariableSession()
     {
-        globalVariable.SetTournementGame(aTournement, aGame);
-        this.Context.Session[Constants.APPNAME] = globalVariable;
+        GlobalAppSettings.SetSchnapsGame(aTournement, aGame);
+        // globalVariable.SetTournementGame(aTournement, aGame);
+        // this.Context.Session[Constants.APPNAME] = globalVariable;
 
         //string saveFileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,
         //    "Schnapsen_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" +

@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.DynamicData;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Models;
 using SchnapsNet.Utils;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SchnapsNet
 {

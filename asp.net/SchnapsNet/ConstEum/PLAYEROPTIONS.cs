@@ -5,6 +5,7 @@ using System.Web;
 
 namespace SchnapsNet.ConstEnum
 {
+    [Serializable]
     public enum PLAYEROPTIONS
     {
         NONE        = 0,

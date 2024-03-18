@@ -19,6 +19,7 @@ namespace SchnapsNet.Models
     /// <summary>
     /// Port of class Card
     /// </summary>
+    [Serializable]
     public class Card
     {
         internal int intern = -1;    // 20 values for internal representation and (-1) for unitialized
@@ -86,6 +87,7 @@ namespace SchnapsNet.Models
         {
             get
             {
+                globalVariable = GlobalAppSettings.GlobalAppSettingsFormSession;
                 string colorNameStr = ResReader.GetRes("color_" + this.cardColor.GetChar(), globalVariable.Locale);
                 if (cardColor == CARDCOLOR.EMPTY || cardColor == CARDCOLOR.NONE) 
                     return colorNameStr;
@@ -138,8 +140,8 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception exi)
                 {
-                    Logger.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
-                    Logger.LogStatic(exi.StackTrace.ToString());
+                    Area23Log.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Area23Log.LogStatic(exi.StackTrace.ToString());
                 }
                 return uri;
             }
@@ -159,8 +161,8 @@ namespace SchnapsNet.Models
                 }
                 catch (Exception exi)
                 {
-                    Logger.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
-                    Logger.LogStatic(exi.StackTrace.ToString());
+                    Area23Log.LogStatic("Wrong card: " + this.name + " => " + CardPicsPath + this.ColorValue + ".gif");
+                    Area23Log.LogStatic(exi.StackTrace.ToString());
                 }
                 return uriString;
             }
@@ -184,7 +186,7 @@ namespace SchnapsNet.Models
             this.context = HttpContext.Current;
             if (context != null && context.Session != null && context.Session[Constants.APPNAME] != null)
             {
-                globalVariable = (GlobalAppSettings)context.Session[Constants.APPNAME];
+                globalVariable = GlobalAppSettings.GlobalAppSettingsFormSession;
             }
         }
 
@@ -577,7 +579,7 @@ namespace SchnapsNet.Models
             }
             catch (Exception e)
             {
-                Logger.LogStatic(e);
+                Area23Log.LogStatic(e);
             }
             
             return byBuf;

@@ -5,6 +5,10 @@ using System.Web;
 
 namespace SchnapsNet.ConstEnum
 {
+    /// <summary>
+    /// Enum CARDCOLOR
+    /// </summary>
+    [Serializable]
     public enum CARDCOLOR
     {
         EMPTY       = 'e',

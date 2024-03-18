@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.ConstEnum;
 using SchnapsNet.Utils;
 using SchnapsNet.Models;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace SchnapsNet
 {
@@ -146,9 +142,22 @@ namespace SchnapsNet
 
         protected virtual void RefreshGlobalVariableSession()
         {
-            globalVariable.SetTournementGame(aTournement, aGame);
-            this.Context.Session[Constants.APPNAME] = globalVariable;
+            GlobalAppSettings.SetSchnapsGame(aTournement, aGame);
+            //globalVariable.SetTournementGame(aTournement, aGame);
+            //GlobalAppSettings.GlobalAppSettingsFormSession = globalVariable;
+            //this.Context.Session[Constants.APPNAME] = globalVariable;            
 
+            //string saveFileName = Paths.LogAppPath + Constants.DateFile + "_tournament.json";
+            //string jsonString = JsonConvert.SerializeObject(aTournement);
+            //System.IO.File.WriteAllText(saveFileName, jsonString);
+
+            //saveFileName = Paths.LogAppPath + Constants.DateFile + "_game.json";
+            //jsonString = JsonConvert.SerializeObject(aGame);
+            //System.IO.File.WriteAllText(saveFileName, jsonString);
+
+            //saveFileName = Paths.LogAppPath + Constants.DateFile + "_global.json";
+            //jsonString = JsonConvert.SerializeObject(globalVariable);
+            //System.IO.File.WriteAllText(saveFileName, jsonString);
         }
 
         protected override void OnInit(EventArgs e)
@@ -211,23 +220,23 @@ namespace SchnapsNet
                         }
                     }
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
-                    Logger.LogStatic(initMsg);
+                    Area23Log.LogStatic(initMsg);
                     initMsg = "Requested: " + Request.Url + " Referer: " + Request.UrlReferrer;
-                    Logger.LogStatic(initMsg);
+                    Area23Log.LogStatic(initMsg);
                     for (int ci = 0; ci < Request.Cookies.Count; ci++)
                     {
                         HttpCookie cookie = Request.Cookies[ci];
                         initMsg = String.Format("Request cookie[{0}]: name={1} domain={2} value={3} expires={4} hasKeys={5}",
                             ci, cookie.Name, cookie.Domain, cookie.Value, cookie.Expires.ToString(), cookie.HasKeys.ToString());
-                        Logger.LogStatic(initMsg);
+                        Area23Log.LogStatic(initMsg);
                     }
 
                     string appPath = Request.ApplicationPath;
-                    Logger.LogStatic("AppPath=" + appPath + " logging to " + Logger.LogFile);
+                    Area23Log.LogStatic("AppPath=" + appPath + " logging to " + Area23Log.LogFile);
                 }
                 else
                 {
-                    globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
+                    globalVariable = GlobalAppSettings.GlobalAppSettingsFormSession;
                 }
             }
         }
@@ -376,12 +385,12 @@ namespace SchnapsNet
 
         protected virtual void Log(string msg)
         {
-            Logger.LogStatic(msg);
+            Area23Log.LogStatic(msg);
         }
 
         protected virtual void Log(Exception exLog)
         {
-            Logger.LogStatic(exLog);
+            Area23Log.LogStatic(exLog);
         }
 
         protected virtual void HandleException(Exception e)
