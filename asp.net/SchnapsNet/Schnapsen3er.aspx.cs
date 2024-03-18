@@ -108,7 +108,7 @@ namespace SchnapsNet
                     Log(initMsg);
                     string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
                     string appPath = HttpContext.Current.Request.ApplicationPath;
-                    Log("AppPath=" + appPath + " logging to " + Logger.LogFile);
+                    Log("AppPath=" + appPath + " logging to " + Area23Log.LogFile);
                     globalVariable = new Utils.GlobalAppSettings(this.Context, this.Session);
                     aTournement = new Tournament();
                     globalVariable.Tournement = aTournement;
@@ -116,7 +116,7 @@ namespace SchnapsNet
                 }
                 else
                 {
-                    globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
+                    globalVariable = (GlobalAppSettings)GlobalAppSettings.GlobalAppSettingsFormSession;
                 }
             }
 

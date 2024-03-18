@@ -16,6 +16,7 @@ namespace SchnapsNet.Models
     /// <summary>
     /// Port of class Player
     /// </summary>
+    [Serializable]
     public class Player : IDisposable
     {
         volatile bool _disposed = false;
@@ -134,16 +135,21 @@ namespace SchnapsNet.Models
         {            
             Stop();
             if (disposing)
-                _disposed = true;
+            {
+                lock (this)
+                {
+                    if (_disposed) return;
+                    _disposed = true;
+                    GC.SuppressFinalize(this);
+                }
+            }
         }
 
         public void Dispose()
         {
             lock (this)
-            {
-                if (_disposed) return;
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
+            {                
+                this.Dispose(true);                
             }
         }
 

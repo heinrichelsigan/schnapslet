@@ -17,6 +17,7 @@ namespace SchnapsNet.Models
     /// Port of class TournamentThree
     /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
     /// </summary>
+    [Serializable]
     public class TournamentThree : Tournament
     {
         public override int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FARMER;

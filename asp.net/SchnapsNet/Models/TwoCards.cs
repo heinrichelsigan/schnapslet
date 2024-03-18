@@ -12,9 +12,10 @@ using System.Web.UI.WebControls;
 
 namespace SchnapsNet.Models
 {
-	/// <summary>
-	/// Port of class TwoCards
-	/// </summary>
+    /// <summary>
+    /// Port of class TwoCards
+    /// </summary>
+    [Serializable]
 	public class TwoCards
     {
         private Card[] cards = new Card[2]; // the 2 Cards, that represents the pair

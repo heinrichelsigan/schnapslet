@@ -16,6 +16,7 @@ namespace SchnapsNet.Models
     /// Port of class Tournament
     /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
     /// </summary>
+    [Serializable]
     public class Tournament
     {
         public virtual int PlayDownFrom { get; set; } = Constants.PLAY_DOWN_FROM;

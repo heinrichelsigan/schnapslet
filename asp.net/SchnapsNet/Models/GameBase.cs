@@ -1,25 +1,16 @@
-﻿using SchnapsNet.ConstEnum;	
+﻿using SchnapsNet.ConstEnum;
 using SchnapsNet.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Policy;
 using System.Web;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
 
 namespace SchnapsNet.Models
 {
-	/// <summary>
-	/// Basic game for all variants of Schnapsen
-	/// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Basic game for all variants of Schnapsen
+    /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
+    /// </summary>
+    [Serializable]
 	public abstract class GameBase : IDisposable
 	{
 		public volatile bool isGame = false;		// a Game is running
@@ -29,9 +20,10 @@ namespace SchnapsNet.Models
 		public bool shouldContinue = false;			// should continue the game
 		public bool a20 = false;					// can player announce 1st pair
 		public bool b20 = false;					// can player announce 2nd pair
-		public bool pSaid = false;					// said pair in game
+		public bool pSaid = false;                  // said pair in game
+		private bool _disposed;
 
-		public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
+        public SCHNAPSTATE schnapState = SCHNAPSTATE.NONE;
 		public Stack<SCHNAPSTATE> schnapsStack = new Stack<SCHNAPSTATE>();
 		public CARDCOLOR atouColor = CARDCOLOR.NONE;    // CARDCOLOR that is atou in this game
 														// public char atouInGame = 'n';
@@ -142,7 +134,7 @@ namespace SchnapsNet.Models
         /// <param name="modulo">modulo modulo %</param>
         /// <param name="generate">true for generate a new Random, false for use existing one</param>
         /// <returns>random as int</returns>
-        internal virtual int GetRandom(int modulo, bool generate)
+        internal int GetRandom(int modulo, bool generate)
 		{
 			int rand = 0;
 			if (random == null || generate)
@@ -194,13 +186,17 @@ namespace SchnapsNet.Models
 
         /// <summary>
         /// destructor Dispose, it really destroys a game
-		/// originally destroyGame in Java => realized by implementing IDisposible
+        /// originally destroyGame in Java => realized by implementing IDisposible
         /// </summary>
-        public virtual void Dispose()
+        /// <param name="disposing">bool disposing default to true</param>
+        public virtual void Dispose(bool disposing = true)
 		{
 			isGame = false;
 			computer.Stop();
 			gambler.Stop();
+			computer.Dispose(disposing);
+			gambler.Dispose(disposing);
+
 			gambler = null;
 			computer = null;
 			playedOut = null;
@@ -212,12 +208,27 @@ namespace SchnapsNet.Models
 				set[i] = null;
 				inGame[i] = i;
 			}
+            if (disposing)
+            {
+                lock (this)
+                {
+                    if (_disposed) return;
+                    _disposed = true;
+                    GC.SuppressFinalize(this);
+                }
+            }
+        }
+
+		public void Dispose()
+		{
+			this.Dispose(true);
 		}
 
-        /// <summary>
-        /// StopGame - stops softley a game
-        /// </summary>
-        public virtual void StopGame()
+
+		/// <summary>
+		/// StopGame - stops softley a game
+		/// </summary>
+		public virtual void StopGame()
 		{
 			isGame = false;
 			atouColor = CARDCOLOR.NONE;

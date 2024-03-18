@@ -3,10 +3,11 @@ using System;
 
 namespace SchnapsNet.Models
 {
-	/// <summary>
-	/// Port of class PairCard
-	/// </summary>
-	public class PairCard : TwoCards
+    /// <summary>
+    /// Port of class PairCard
+    /// </summary>
+    [Serializable]
+    public class PairCard : TwoCards
 	{
         #region fields
         CARDCOLOR cardColor = CARDCOLOR.NONE;					// Color of Pair		

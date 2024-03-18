@@ -1,25 +1,17 @@
 ﻿using SchnapsNet.ConstEnum;
 using SchnapsNet.Utils;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Policy;
 using System.Web;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
 
 namespace SchnapsNet.Models
 {
-	/// <summary>
-	/// Game Schnapsen with 2 Players
-	/// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Game Schnapsen with 2 Players
+    /// <see cref="https://github.com/heinrichelsigan/schnapslet/wiki"/>
+    /// </summary>
+    [Serializable]
 	public class Game : GameBase, IDisposable
 	{		
 		public bool atouChanged = false;			// Atou allready changed	
@@ -39,7 +31,9 @@ namespace SchnapsNet.Models
 				schnapState != SCHNAPSTATE.ZERO_CARD_REMAINS);
 		}
 
-		public bool ZeroRemain
+        [XmlIgnore]
+        [ScriptIgnore]
+        internal bool ZeroRemain
 		{
 			get
 			{
@@ -131,10 +125,11 @@ namespace SchnapsNet.Models
         /// destructor Dispose, it really destroys a game
 		/// originally destroyGame in Java => realized by implementing IDisposible
         /// </summary>
-        public override void Dispose()
-		{
-			base.Dispose();
+        public override void Dispose(bool disposing = true)
+        {
+			base.Dispose(disposing);
 		}
+
 
         /// <summary>
         /// StopGame - stops softley a game
