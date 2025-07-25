@@ -335,7 +335,7 @@ namespace SchnapsNet
         {
             if (!string.IsNullOrEmpty(sayMsg) && SayBase.SpeechOut)
             {
-                Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
+                // Log("Speech (mode = " + SayBase.SpeechSets + ")\t\"" + sayMsg + "\"");
 
                 SayBase sayBase = new SayBase();
                 string waveFile = sayBase.SavePath + Paths.SepChar + sayBase.WaveFileName(sayMsg);
@@ -343,7 +343,7 @@ namespace SchnapsNet
                 {
                     this.AudioWav = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
                     // this.metaAudio.Content = sayBase.WaveFileUrl(sayMsg, HttpContext.Current.Request.RawUrl);
-                    Log("Speech loaded cached file = " + this.AudioWav);
+                    // Log("Speech loaded cached file = " + this.AudioWav);
                     return;
                 }
                 // SpeechOut(sayMsg);

@@ -339,11 +339,11 @@
     <value>https://github.com/heinrichelsigan/schnapslet/wiki</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>&lt;h1&gt;Schnapslet v3.24.0102 - Pre Alpha Release&lt;/h1&gt;
+    <value>&lt;h1&gt;Schnapslet v3.25.0725  - Pre Alpha Release&lt;/h1&gt;
 Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
 von Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
 &lt;br /&gt;
-Schnapslet Quellcode (open source unter der &lt;a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"&gt;GPL 3&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
+Schnapslet Quellcode (open source unter der &lt;a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"&gt;GPL 3"&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
 &lt;hr /&gt;
 
 &lt;h2&gt;Funktionsweise:&lt;/h2&gt;

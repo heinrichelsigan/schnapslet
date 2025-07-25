@@ -109,8 +109,8 @@
         </div>
         <pre id="preOut" class="PreFormated" runat="server">
         </pre>
-        <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
-            <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+        <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">           
+            <a href="mailto:zen@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="https://area23-at.blogspot.com/">blog.</a>]<a href="https://area23.at">area23.at</a>
             <a id="aAudio" clientid="aAudio" runat="server" name="audioAnchor" href="" loaded="aAudioLoaded()">audio</a>
         </div>    
     </form>

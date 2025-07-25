@@ -637,7 +637,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.24.0102 (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.25.0725(&lt;a href=&quot;mailto:he@area23.at&quot;&gt;he23@area23.at&lt;/a&gt;)&lt;/h2&gt;
         ///Jeu de cartes Schnapsen application android de Heinrich Elsigan.
         ///&lt;br /&gt;
         ///Le jeu est conçu pour jouer contre l&apos;ordinateur. Si c&apos;est votre tour, 
@@ -646,7 +646,7 @@ namespace SchnapsNet.Properties {
         ///&lt;br /&gt;
         ///Pour échanger Atou, vous pouvez tirer le Jack Atou sur la carte Atou ci-dessus 
         ///et pour annoncer une paire, vous appelez la reine au roi correspondant 
-        ///ou inversement [rest of string was truncated]&quot;;.
+        ///ou inversement. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {

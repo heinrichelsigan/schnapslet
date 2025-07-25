@@ -7,16 +7,17 @@ namespace SchnapsNet.ConstEnum
 {
     /// <summary>
     /// Enum CARDCOLOR
+    /// HEARTS, SPADES, DIAMONDS, CLUBS
     /// </summary>
     [Serializable]
     public enum CARDCOLOR
     {
         EMPTY       = 'e',
-        NONE        = 'n',
-        HEARTS      = 'h',
-        SPADES      = 'p',
-        DIAMONDS    = 'k',
-        CLUBS       = 't'
+        NONE        = 'n', 
+        HEARTS      = 'h',  // HERZ 
+        SPADES      = 'p',  // PIK 
+        DIAMONDS    = 'k',  // KARO 
+        CLUBS       = 't'   // TREFF 
     }
     
     public static class CARDCOLOR_Extensions

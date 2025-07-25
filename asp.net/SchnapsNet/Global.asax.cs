@@ -45,7 +45,7 @@ namespace SchnapsNet
                 DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
                 (sender == null) ? "(null)" : sender.ToString(),
                 (e == null) ? "(null)" : e.ToString());
-            Area23Log.Logger.Log(initMsg);
+            Area23Log.LogStatic(initMsg);
         }
 
 

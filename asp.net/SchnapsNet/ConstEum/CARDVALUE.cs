@@ -6,6 +6,16 @@ using System.Web;
 
 namespace SchnapsNet.ConstEnum
 {
+
+    /// <summary>
+    /// Enum CARDVALUE 
+    /// Jack     2
+    /// Queen    3
+    /// King     4
+    /// Ten     10
+    /// Ace     11
+    /// </summary>
+    [Serializable]
     public enum CARDVALUE
     {
         EMPTY   = -2,

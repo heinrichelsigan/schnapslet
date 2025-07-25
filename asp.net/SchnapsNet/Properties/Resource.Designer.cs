@@ -727,14 +727,14 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.24.0102 - Pre Alpha Release&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.25.0725 Pre Alpha Release&lt;/h1&gt;
         ///	Implementation of the card game Schnapsen as a simple Asp.Net WebApp
         ///	by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
         ///	&lt;br /&gt;
         ///	Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
         ///	&lt;hr /&gt;
         ///	&lt;h2&gt;Functionality:&lt;/h2&gt;
-        ///	&lt;p&gt;The  [rest of string was truncated]&quot;;.
+        ///	&lt;p&gt;The ga [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {
@@ -1157,7 +1157,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.24.12127.
+        ///   Looks up a localized string similar to v2.25.0725.
         /// </summary>
         internal static string version_name {
             get {

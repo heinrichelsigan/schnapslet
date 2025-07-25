@@ -445,12 +445,10 @@
     <Content Include="res\wav\YouwontournamentComputerlostasataylor.wav" />
     <Content Include="res\wav\YouwontournamentComputersmarkedwithafatpoint.wav" />
     <Content Include="Schnapsen2000.aspx" />
-    <Content Include="SchnapsApplet.html" />
     <Content Include="Schnapsen3er.aspx" />
     <Content Include="SchnapsenNet.aspx" />
     <Content Include="SchnapsNet.aspx" />
     <Content Include="Web.config" />
-    <Content Include="OctalDump.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area23BasePage.cs">
@@ -464,10 +462,8 @@
     </Compile>
     <Compile Include="Utils\Area23Log.cs" />
     <Compile Include="Utils\Extensions.cs" />
-    <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\MimeType.cs" />
     <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Utils\ProcessCmd.cs" />
     <Compile Include="Utils\ResReader.cs" />
     <Compile Include="ConstEum\CARDCOLOR.cs" />
     <Compile Include="ConstEum\CARDVALUE.cs" />

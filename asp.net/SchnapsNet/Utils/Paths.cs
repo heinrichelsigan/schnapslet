@@ -53,8 +53,8 @@ namespace SchnapsNet.Utils
             {
                 if (cardPicsPath == null)
                 {
-                    if (HttpContext.Current.Request.RawUrl.Contains("darkstar.work"))
-                        cardPicsPath = "https://darkstar.work/mono/" + AppFolder + "/cardpics/";
+                    if (HttpContext.Current.Request.RawUrl.Contains("cqrxs.eu"))
+                        cardPicsPath = "https://cqrxs.eu/mono/" + AppFolder + "/cardpics/";
                     // cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;                    
                     // cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
                     // cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
@@ -101,7 +101,7 @@ namespace SchnapsNet.Utils
         {
             get
             {
-                string logAppPath = "." + SepChar;
+                string logAppPath = "." + SepChar, logPathContext = "";
 
                 if (AppContext.BaseDirectory != null)
                 {
@@ -115,21 +115,24 @@ namespace SchnapsNet.Utils
                     if (!logAppPath.EndsWith(SepChar))
                         logAppPath += SepChar;
                 }
+                logPathContext = logAppPath;
                 try
                 {
                     if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ApplicationPath != null)
-                        logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                        logPathContext = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                    if (Directory.Exists(logPathContext))
+                        logAppPath = logPathContext;
                 }
                 catch (Exception ex)
                 {
-                    Area23Log.LogStatic(ex);
+                    logPathContext = logAppPath;
                 }
 
                 if (!logAppPath.Contains(AppFolder))
                     logAppPath += AppFolder + SepChar;
 
                 logAppPath += Constants.LOGDIR + SepChar;
-                // if (Directory.Exists(logAppPath))
+                
                 return logAppPath;
             }
         }
