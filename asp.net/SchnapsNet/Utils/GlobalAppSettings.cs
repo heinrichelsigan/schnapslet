@@ -29,6 +29,7 @@ namespace SchnapsNet.Utils
         private static HttpApplicationState application;
         private static readonly Lazy<GlobalAppSettings> lazyAppSettings = 
             new Lazy<GlobalAppSettings>(() => new GlobalAppSettings());
+        private static readonly object _locker = new object();
 
         #region properties
 
@@ -245,10 +246,27 @@ namespace SchnapsNet.Utils
 
         public GlobalAppSettings(HttpContext c, HttpApplicationState haps, HttpSessionState hses)
         {
-            context = c;
-            application = haps;
-            session = hses;
-            InitLocale(true);
+            try
+            {
+                context = (c == null) ? HttpContext.Current : c;
+                application = (haps == null) ? HttpContext.Current.Application : haps;
+                session = hses = (hses == null) ? HttpContext.Current.Session : hses;
+                InitLocale(true);
+            }
+            catch (Exception exInit)
+            {
+                lock (_locker)
+                {
+                    context = HttpContext.Current;
+                    application = HttpContext.Current.Application;
+                    session = HttpContext.Current.Session;
+                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo("en-US");
+                    if (systemLocale == null || systemLocale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                        systemLocale = cultureInfo;
+                    if (locale == null || locale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                        locale = cultureInfo;
+                }
+            }
             InitPrefixUrl();
             InitPictureUrl();
             emptyCard = new Card(-2, getContext());
