@@ -1,7 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" %>
-<%@ Import namespace="Newtonsoft.Json" %>
-<%@ Import namespace="Newtonsoft.Json.Linq" %>
-<%@ Import namespace="Newtonsoft.Json.Bson" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Collections.Generic" %>
 <%@ Import namespace="System.Drawing" %>

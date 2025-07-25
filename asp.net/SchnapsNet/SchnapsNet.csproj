@@ -531,11 +531,6 @@
     <Compile Include="Utils\SaySpeach.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="log\20230600_schnapsnet.log" />
-    <Content Include="log\20230700_schnapsnet.log" />
-    <Content Include="log\20230800_schnapsnet.log" />
-    <Content Include="log\20230900_schnapsnet.log" />
-    <Content Include="log\20231000_schnapsnet.log" />
     <Content Include="log\20231100_schnapsnet.log" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
