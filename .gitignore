@@ -51,3 +51,4 @@
 *.nar
 *.ear
 hs_err_pid*
+/Deploy/asp.net
