@@ -174,9 +174,10 @@ namespace SchnapsNet.Utils
                 GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
                 if (myAppSets == null)
                 {
+                    lazyAppSettings.Value.Init();
                     myAppSets = lazyAppSettings.Value;
-                    myAppSets.Init();
                 }
+                lazyAppSettings.Value.tournement = value;
                 myAppSets.tournement = value;
                 HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
             }

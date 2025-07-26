@@ -114,7 +114,7 @@
             <pre id="preOut" class="PreFormated" runat="server" visible="false">
             </pre>
             <div id="SchnapsFooterDiv" class="SchnapsFooter" align="left">
-                <a href="mailto:zen@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>]
+                <a href="mailto:zen@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="https://github.com/heinrichelsigan" target="_blank">github.com/heinrichelsigan</a>/<a href="https://github.com/heinrichelsigan/schnapslet" target="_blank">schnapslet</a>],  [<a href="https://blog.area23.at" target="_blank">>blog.</a>]<a href="https://area23.at target="_blank">area23.at</a>
             </div>    
         </form>
     </body>
