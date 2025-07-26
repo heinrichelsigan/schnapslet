@@ -197,7 +197,21 @@ namespace SchnapsNet
                 }
             }
 
-            DrawPointsTable();
+            try
+            {
+                if (this.Page.ToString().Contains("default_aspx") ||
+                    this.Page.ToString().EndsWith("default_aspx", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ;
+                }
+                else
+                {
+                    DrawPointsTable();
+                }
+            } 
+            catch (Exception) 
+            { 
+            }
             loaded = true;
         }
 
