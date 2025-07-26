@@ -199,15 +199,7 @@ namespace SchnapsNet
 
             try
             {
-                if (this.Page.ToString().Contains("default_aspx") ||
-                    this.Page.ToString().EndsWith("default_aspx", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    ;
-                }
-                else
-                {
-                    DrawPointsTable();
-                }
+               DrawPointsTable();
             } 
             catch (Exception) 
             { 
@@ -274,6 +266,11 @@ namespace SchnapsNet
 
         protected virtual void DrawPointsTable(short displayBummerlOrTaylor = 0, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
+            if (this.Page.ToString().Contains("default_aspx") ||
+                    this.Page.ToString().EndsWith("default_aspx", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return;
+            }
             lock (xlock)
             {
                 pLock = new object();
