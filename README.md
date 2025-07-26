@@ -7,13 +7,12 @@ https://en.wikipedia.org/wiki/Sixty-six_(card_game)
 
 ## SchnapsNet Asp.Net C#
 
-https://area23.at/mono/SchnapsNet/
-https://cqrxs.eu/mono/SchnapsNet/
+-  https://area23.at/mono/SchnapsNet/
+-  https://cqrxs.eu/mono/SchnapsNet/
+
 > schnapslet/asp.net
 
-https://raw.githubusercontent.com/heinrichelsigan/schnapslet/refs/heads/master/SchnapsNet.gif
-
-https://area23.at/mono/SchnapsNet/SchnapsenNet.aspx
+<a href="https://area23.at/mono/SchnapsNet/SchnapsenNet.aspx" target="_blank"><img src="https://raw.githubusercontent.com/heinrichelsigan/schnapslet/refs/heads/master/SchnapsNet.gif" /></a>
 
 ## schnapslet java application or applet
 
@@ -43,14 +42,14 @@ Sources for android using Abdroid Studio are located under
 > schnapslet/android
 
 ###  android APK packages
-Release build:
-https://github.com/heinrichelsigan/schnapslet/blob/master/android/app/build/outputs/apk/release/app-release.apk
-Latest debug build:
-https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outputs/apk/debug
+-   Release build:
+    https://github.com/heinrichelsigan/schnapslet/blob/master/android/app/build/outputs/apk/release/app-release.apk
+-   Latest debug build:
+    https://github.com/heinrichelsigan/schnapslet/tree/master/android/app/build/outputs/apk/debug
 
 YouTube Video: https://youtu.be/izqcm7XdHYY
 
-https://github.com/heinrichelsigan/schnapslet/assets/16463104/360ccd20-da34-4730-9aae-470623ff7905
+<img src="https://github.com/heinrichelsigan/schnapslet/assets/16463104/360ccd20-da34-4730-9aae-470623ff7905" />
 
 ## Schnapslet Schnapsen Wiki 
 
