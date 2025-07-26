@@ -11,6 +11,10 @@ https://area23.at/mono/SchnapsNet/
 https://cqrxs.eu/mono/SchnapsNet/
 > schnapslet/asp.net
 
+https://raw.githubusercontent.com/heinrichelsigan/schnapslet/refs/heads/master/SchnapsNet.gif
+
+https://area23.at/mono/SchnapsNet/SchnapsenNet.aspx
+
 ## schnapslet java application or applet
 
 Java Applet and Java applicatopm source Files are located at top level in root of this projec.

@@ -17,12 +17,11 @@ namespace SchnapsNet
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            //            string initMsg = String.Format("application started at {0} object sender = {2}, EventArgs e = {2}",
-            //                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-            // (sender == null) ? "(null)" : sender.ToString(),
-            // (e == null) ? "(null)" : e.ToString());
-            // Area23Log.LogStatic(initMsg);
-            // Area23Log.LogStatic("logging to logfile = " + Logger.LogFile);
+            string initMsg = String.Format("application started at {0} object sender = {2}, EventArgs e = {2}",
+                                 DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                                (sender == null) ? "(null)" : sender.ToString(),
+                                (e == null) ? "(null)" : e.ToString());
+            Area23Log.LogStatic(initMsg);
         }
 
 
@@ -49,24 +48,24 @@ namespace SchnapsNet
         }
 
 
-        //    protected void Session_Start(object sender, EventArgs e)
-        //    {
-        //        string initMsg = String.Format("new session started at {0} object sender = {1}, EventArgs e = {2}",
-        //            DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-        //            (sender == null) ? "(null)" : sender.ToString(),
-        //            (e == null) ? "(null)" : e.ToString());
-        //        Area23Log.Logger.Log(initMsg);
-        //    }
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            string initMsg = String.Format("new session started at {0} object sender = {1}, EventArgs e = {2}",
+                  DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                  (sender == null) ? "(null)" : sender.ToString(),
+                  (e == null) ? "(null)" : e.ToString());
+            Area23Log.LogStatic(initMsg);
+        }
 
 
-        //    protected void Session_End(object sender, EventArgs e)
-        //    {
-        //        string initMsg = String.Format("session ended at {0} object sender = {2}, EventArgs e = {2}",
-        //            DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-        //            (sender == null) ? "(null)" : sender.ToString(),
-        //            (e == null) ? "(null)" : e.ToString());
-        //        Area23Log.Logger.Log(initMsg);
-        //    }
+        protected void Session_End(object sender, EventArgs e)
+        {
+            string initMsg = String.Format("session ended at {0} object sender = {2}, EventArgs e = {2}",
+                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                (sender == null) ? "(null)" : sender.ToString(),
+                (e == null) ? "(null)" : e.ToString());
+            Area23Log.LogStatic(initMsg);
+        }
 
     }
 }

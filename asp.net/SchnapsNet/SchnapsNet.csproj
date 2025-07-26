@@ -462,6 +462,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\TournamentThree.cs" />
     <Compile Include="Properties\Resource_en.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -490,7 +491,6 @@
     <Compile Include="Utils\GlobalAppSettings.cs" />
     <Compile Include="Models\PairCard.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\TournamentThree.cs" />
     <Compile Include="Models\Tournament.cs" />
     <Compile Include="Models\TwoCards.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

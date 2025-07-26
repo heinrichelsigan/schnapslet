@@ -19,15 +19,15 @@ namespace SchnapsNet.Models
     [Serializable]
     public class Tournament
     {
-        public virtual int PlayDownFrom { get; set; } = Constants.PLAY_DOWN_FROM;
-        public virtual int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;
-        public virtual int ComputerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;       
+        public int PlayDownFrom { get; set; } = Constants.PLAY_DOWN_FROM;
+        public int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;
+        public int ComputerTPoints { get; set; } = Constants.PLAY_DOWN_FROM;       
 
         public List<Point> tHistory = new List<Point>();
 
-        public virtual PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
+        public PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER;
 
-        public virtual PLAYERDEF NextGameStarter 
+        public PLAYERDEF NextGameStarter 
         {
             get
             {
@@ -39,7 +39,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public virtual PLAYERDEF WonTournament
+        public PLAYERDEF WonTournament
         {
             get
             {
@@ -51,7 +51,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public virtual bool Taylor
+        public bool Taylor
         {
             get
             {
@@ -100,7 +100,7 @@ namespace SchnapsNet.Models
         /// <param name="tournementPts"></param>
         /// <param name="whoWon"></param>
         /// <exception cref="InvalidProgramException"></exception>
-        public virtual void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        public void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             if (whoWon == PLAYERDEF.HUMAN)
             {

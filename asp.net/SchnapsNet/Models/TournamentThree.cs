@@ -20,15 +20,15 @@ namespace SchnapsNet.Models
     [Serializable]
     public class TournamentThree : Tournament
     {
-        public override int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FARMER;
+        public new int GamblerTPoints { get; set; } = Constants.PLAY_DOWN_FARMER;
         public int Computer1TPoints { get; set; } = Constants.PLAY_DOWN_FARMER;
         public int Computer2TPoints { get; set; } = Constants.PLAY_DOWN_FARMER;
 
         public List<Triplet> threeHistory = new List<Triplet>();
 
-        public override PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER1;
+        public new PLAYERDEF NextGameGiver { get; set; } = PLAYERDEF.COMPUTER1;
 
-        public override PLAYERDEF NextGameStarter 
+        public new PLAYERDEF NextGameStarter 
         {
             get
             {
@@ -42,7 +42,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public override PLAYERDEF WonTournament
+        public new PLAYERDEF WonTournament
         {
             get
             {
@@ -56,7 +56,7 @@ namespace SchnapsNet.Models
             }
         }
 
-        public override bool Taylor
+        public new bool Taylor
         {
             get
             {
@@ -107,7 +107,7 @@ namespace SchnapsNet.Models
         /// <param name="tournementPts"></param>
         /// <param name="whoWon"></param>
         /// <exception cref="InvalidProgramException"></exception>
-        public override void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
+        public new void AddPointsRotateGiver(int tournementPts, PLAYERDEF whoWon = PLAYERDEF.UNKNOWN)
         {
             if (whoWon == PLAYERDEF.HUMAN)
             {
