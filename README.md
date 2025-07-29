@@ -58,5 +58,5 @@ https://github.com/heinrichelsigan/schnapslet/wiki/
 
 ## README.md
 
-the current File readme.md is located at
+Current READNE.md is located at
 > schnapslet/README.md
