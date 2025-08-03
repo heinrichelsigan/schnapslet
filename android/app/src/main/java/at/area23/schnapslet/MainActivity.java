@@ -916,25 +916,28 @@ public class MainActivity
                             dropCard = aGame.gambler.hand[i];
                         }
                     }
+
+                    if (lcId == R.id.playedCard0)       dropCard = aGame.gambler.hand[0];
+                    else if (lcId == R.id.playerCard1)  dropCard = aGame.gambler.hand[1];
+                    else if (lcId == R.id.playerCard2)  dropCard = aGame.gambler.hand[2];
+                    else if (lcId == R.id.playerCard3)  dropCard = aGame.gambler.hand[3];
+                    else if (lcId == R.id.playerCard4)  dropCard = aGame.gambler.hand[4];
+                    else ;
+
+                    /*
+                    // switch is only possible with const types
+                    // since R.id.playerCard[0-4] is public static abstract
+                    // this throws an compiler error
                     switch (lcId) {
-                        case R.id.playerCard0:
-                            dropCard = aGame.gambler.hand[0];
-                            break;
-                        case R.id.playerCard1:
-                            dropCard = aGame.gambler.hand[1];
-                            break;
-                        case R.id.playerCard2:
-                            dropCard = aGame.gambler.hand[2];
-                            break;
-                        case R.id.playerCard3:
-                            dropCard = aGame.gambler.hand[3];
-                            break;
-                        case R.id.playerCard4:
-                            dropCard = aGame.gambler.hand[4];
-                            break;
-                        default:
-                            break;
-                    }
+                        case R.id.playerCard0: dropCard = aGame.gambler.hand[0]; break;
+                        case R.id.playerCard1: dropCard = aGame.gambler.hand[1]; break;
+                        case R.id.playerCard2: dropCard = aGame.gambler.hand[2]; break;
+                        case R.id.playerCard3: dropCard = aGame.gambler.hand[3]; break;
+                        case R.id.playerCard4: dropCard = aGame.gambler.hand[4]; break;
+                        default:  break;
+                     }
+                     */
+
                     if ((dropCard.getCardColor().getChar()
                             == touchedCard.getCardColor().getChar()) &&
                             (dropCard.getCardValue().getValue() +
@@ -965,31 +968,55 @@ public class MainActivity
 
                         dragged20 = true;
 
+                        String imgi = "";
+                        for (int jimc = 0; jimc < 5; jimc++) {
+                            imgi = "im" + jimc;
+                            int rImgID = getApplicationContext().getResources().getIdentifier(imgi, "id", getApplicationContext().getPackageName());
+                            if (viewID == rImgID) {
+                                imageView_ClickEventHandler(view, jimc);
+                                ((ImageView) findViewById(rImgID)).setImageResource(R.drawable.e);
+                            }
+                        }
+
+                        if (viewID == R.id.im0) {
+                            imageView_ClickEventHandler(view, 0);
+                            im0.setImageResource(R.drawable.e);
+                        } else if (viewID == R.id.im1) {
+                            imageView_ClickEventHandler(view, 1);
+                            im1.setImageResource(R.drawable.e);
+                        } else if (viewID == R.id.im2) {
+                            imageView_ClickEventHandler(view, 2);
+                            im2.setImageResource(R.drawable.e);
+                        } else if (viewID == R.id.im3) {
+                            imageView_ClickEventHandler(view, 3);
+                            im3.setImageResource(R.drawable.e);
+                        } else if (viewID == R.id.im4) {
+                            imageView_ClickEventHandler(view, 4);
+                            im4.setImageResource(R.drawable.e);
+                        } else ; /* assert(0); */
+
+                        /*
+                        // switch is only possible with const types
+                        // since R.id.im[0-4] is public static abstract
+                        // this throws an compiler error
                         switch (viewID) {
                             case R.id.im0:
                                 imageView_ClickEventHandler(view, 0);
-                                im0.setImageResource(R.drawable.e);
-                                break;
+                                im0.setImageResource(R.drawable.e); break;
                             case R.id.im1:
                                 imageView_ClickEventHandler(view, 1);
-                                im1.setImageResource(R.drawable.e);
-                                break;
+                                im1.setImageResource(R.drawable.e); break;
                             case R.id.im2:
                                 imageView_ClickEventHandler(view, 2);
-                                im2.setImageResource(R.drawable.e);
-                                break;
+                                im2.setImageResource(R.drawable.e); break;
                             case R.id.im3:
                                 imageView_ClickEventHandler(view, 3);
-                                im3.setImageResource(R.drawable.e);
-                                break;
+                                im3.setImageResource(R.drawable.e); break;
                             case R.id.im4:
                                 imageView_ClickEventHandler(view, 4);
-                                im4.setImageResource(R.drawable.e);
-                                break;
-                            default:
-                                // assert(0);
-                                break;
-                        }
+                                im4.setImageResource(R.drawable.e); break;
+                            default: break; // assert(0);
+                        }*/
 
                         view.setVisibility(View.VISIBLE);
                         return true;

@@ -5,4 +5,5 @@
 /build/outputs/sdk-dependencies
 /build/outputs/apk/debug/output-metadata.json
 /build/outputs/apk/release/output-metadata.json
+/build/outputs/apk/release/baselineProfiles
 /build/tmp
