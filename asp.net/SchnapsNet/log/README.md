@@ -1,1 +1,1 @@
-﻿
+﻿# logfile directory

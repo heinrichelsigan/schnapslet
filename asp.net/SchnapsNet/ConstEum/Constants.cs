@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchnapsNet.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,10 +8,10 @@ namespace SchnapsNet.ConstEnum
 {
     public static class Constants
     {
-        public const string APPNAME     = "Schnaps.Net";
-        public const string APPDIR      = "SchnapsNet";
-        public const string VERSION     = "v2.11.33";
-        public const string APPPATH     = "https://area23.at/mono/SchnapsNet";
+        public const string APPNAME             = "Schnaps.Net";
+        public const string APPDIR              = "SchnapsNet";
+        public const string VERSION             = "v2.11.33";
+        public const string APPPATH             = "https://area23.at/mono/SchnapsNet";
 
         public const string GITURL              = "https://github.com/heinrichelsigan/schnapslet";
         public const string WIKIURL             = "https://github.com/heinrichelsigan/schnapslet/wiki";
@@ -25,12 +26,17 @@ namespace SchnapsNet.ConstEnum
         public const string RES_FOLDER          = "res";
         public const string ACCEPT_LANGUAGE     = "Accept-Language";
         public const string DEFAULT_MIMETYPE    = "application/octet-stream";
+        public const string APP_ERROR           = "ApplicationError";
+        public const string LAST_EXCEPTION      = "Last_Exception";
+        public const string LOG_EXT             = ".log";
+        public const string LOG_EXCEPT_STATIC   = "LogExceptionStatic";
 
-        public const char ANNOUNCE = ':';
-        public const char DATE_DELIM = '-';
-        public const char WHITE_SPACE = ' ';
-        public const char UNDER_SCORE = '_';
+        public const char ANNOUNCE              = ':';
+        public const char DATE_DELIM            = '-';
+        public const char WHITE_SPACE           = ' ';
+        public const char UNDER_SCORE           = '_';
 
+        public const string ALL_KEYS            = "AllKeys";
         public const string BACK_COLOR          = "BackColor";
         public const string FORE_COLOR          = "ForeColor";
         public const string BACK_COLOR_STRING   = "BackColorString";
@@ -85,6 +91,14 @@ namespace SchnapsNet.ConstEnum
         /// UTC DateTime File Prefix
         /// </summary>
         public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, UNDER_SCORE).Replace(ANNOUNCE, UNDER_SCORE); }
+
+
+
+        /// <summary>
+        /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
+        /// </summary>
+        public static string AppLogFile { get => DateTime.UtcNow.Area23Date() + UNDER_SCORE + APPNAME + LOG_EXT; }
+
 
         #endregion properties
 

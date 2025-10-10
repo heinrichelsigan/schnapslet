@@ -40,11 +40,14 @@ namespace SchnapsNet
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            string initMsg = String.Format("new session started at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(initMsg);
+            Exception ex = Server.GetLastError();
+            string path = "N/A";
+            if (sender is HttpApplication)
+                path = ((HttpApplication)sender).Request.Url.PathAndQuery;
+
+            string appLogErr = string.Format("Application_Error: {0}: {1} thrown at path {2}",
+                ex.GetType(), ex.Message, path);            
+            Area23Log.LogStatic(appLogErr);
         }
 
 

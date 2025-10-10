@@ -470,6 +470,8 @@
     </Compile>
     <Compile Include="Utils\Area23Log.cs" />
     <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\LibPaths.cs" />
+    <Compile Include="Utils\LogMutalExclusion.cs" />
     <Compile Include="Utils\MimeType.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\ResReader.cs" />
@@ -532,9 +534,10 @@
     </Compile>
     <Compile Include="Utils\SayBase.cs" />
     <Compile Include="Utils\SaySpeach.cs" />
+    <Compile Include="Utils\SchnapsException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="log\20231100_schnapsnet.log" />
+    <Content Include="log\README.md" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

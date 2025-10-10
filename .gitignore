@@ -1,3 +1,5 @@
+[Dd]eploy/
+*.7z
 /local.properties
 /.idea/caches
 /.idea/libraries

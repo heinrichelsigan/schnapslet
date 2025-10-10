@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SchnapsNet.ConstEnum;
+using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace SchnapsNet.Utils
 {
     public static class Extensions
     {
+
         /// <summary>
         /// Extension method for <see cref="System.IO.Stream"/>
         /// </summary>
@@ -43,6 +45,68 @@ namespace SchnapsNet.Utils
                 return ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == img.RawFormat.Guid).MimeType;
             }
         }
+
+
+        #region DateTime extensions
+
+        /// <summary>
+        /// <see cref="DateTime"/>.Area23Date() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd")
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date <see cref="string"/></returns>
+        public static string Area23Date(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd");
+        }
+
+        /// <summary>
+        /// <see cref="DateTime"/>.Area23DateTime() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd HH:mm")
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date time <see cref="string"/> </returns>
+        public static string Area23DateTime(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("MM") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("dd") + Constants.WHITE_SPACE +
+                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
+                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITE_SPACE;
+        }
+
+        /// <summary>
+        /// <see cref="DateTime"/>.Area23DateTimeWithSeconds() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd_HH:mm:ss")
+        /// </summary>
+        /// <param name="dateTime">d</param>
+        /// <returns><see cref="string"/> formatted date time including seconds</returns>
+        public static string Area23DateTimeWithSeconds(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd_HH:mm:ss");
+        }
+
+        public static string DTsec(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd_HH:mm:ss");
+        }
+
+        /// <summary>
+        /// <see cref="DateTime"/>.Area23DateTimeWithMillis() extension method: formats <see cref="DateTime"/>.ToString("yyyyMMdd_HHmmss_milis")
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date time <see cref="string"/> </returns>
+        public static string Area23DateTimeWithMillis(this DateTime dateTime)
+        {
+            string formatted = String.Format("{0:yyyy-MM-dd_HH.mm.ss.fff}", dateTime);
+            // return formatted;
+            return formatted;
+        }
+
+        public static string Area23DateTimeMilliseconds(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
+
+        #endregion DateTime extensions
+
 
         #region System.Drawing.Color extensions
 
