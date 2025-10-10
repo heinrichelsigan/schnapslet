@@ -700,7 +700,7 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.25.0725  - Pre Alpha Release&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.25.1010  - Pre Alpha Release&lt;/h1&gt;
         ///Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
         ///von Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
         ///&lt;br /&gt;
