@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SchnapsNet")]
 [assembly: AssemblyDescription("schnapsen web application")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("darkstar.work")]
+[assembly: AssemblyCompany("area23.at")]
 [assembly: AssemblyProduct("SchnapsNet")]
 [assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000-2040")]
 [assembly: AssemblyTrademark("")]
