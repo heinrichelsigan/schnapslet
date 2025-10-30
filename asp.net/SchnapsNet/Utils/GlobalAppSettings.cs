@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using SchnapsNet.ConstEnum;
+using SchnapsNet.Models;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Web;
-using System.Globalization;
-using SchnapsNet.ConstEnum;
 using System.Web.SessionState;
-using SchnapsNet.Models;
 
 namespace SchnapsNet.Utils
 {
@@ -120,18 +121,18 @@ namespace SchnapsNet.Utils
         public CultureInfo Locale
         {
             get { InitLocale(); return locale; }
-            set => lazyAppSettings.Value.locale = value;
+            set => locale = value;
         }
 
         public CultureInfo SystemLLocale
         {
-            get { InitLocale(); return lazyAppSettings.Value.systemLocale; }
+            get { InitLocale(true); return systemLocale; }
         }
 
         public String LocaleString
         {
-            get => lazyAppSettings.Value.Locale.DisplayName;
-            set => lazyAppSettings.Value.locale = new CultureInfo(value);
+            get => Locale.DisplayName;
+            set => locale = new CultureInfo(value);
         }
 
         public String ISO2Lang { get => lazyAppSettings.Value.Locale.TwoLetterISOLanguageName; }
@@ -174,10 +175,10 @@ namespace SchnapsNet.Utils
                 GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
                 if (myAppSets == null)
                 {
-                    lazyAppSettings.Value.Init();
-                    myAppSets = lazyAppSettings.Value;
+                    Init();
+                    myAppSets = this;
                 }
-                lazyAppSettings.Value.tournement = value;
+                tournement = value;
                 myAppSets.tournement = value;
                 HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
             }
@@ -239,7 +240,53 @@ namespace SchnapsNet.Utils
 
         #region ctor
 
-        public GlobalAppSettings() : this(HttpContext.Current) { }
+        static GlobalAppSettings()
+        {
+            try
+            {
+                GlobalAppSettings myAppSets = (GlobalAppSettings)HttpContext.Current.Session[Constants.APPNAME];
+                if (myAppSets == null)
+                {
+                    myAppSets = new GlobalAppSettings();
+                    myAppSets.Init();
+                    myAppSets.InitLocale(true);
+                }
+                HttpContext.Current.Session[Constants.APPNAME] = myAppSets;
+                context = HttpContext.Current;
+                application = HttpContext.Current.Application;
+                session = HttpContext.Current.Session;
+            } catch { }
+        }
+
+        public GlobalAppSettings()
+        {
+            try
+            {
+                context = HttpContext.Current;
+                application = HttpContext.Current.Application;
+                session = HttpContext.Current.Session;
+                InitLocale(true);
+            }
+            catch (Exception exInit)
+            {
+                lock (_locker)
+                {
+                    context = HttpContext.Current;
+                    application = HttpContext.Current.Application;
+                    session = HttpContext.Current.Session;
+                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo("en-US");
+                    if (systemLocale == null || systemLocale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                        systemLocale = cultureInfo;
+                    if (locale == null || locale.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName)
+                        locale = cultureInfo;
+                }
+            }
+            InitPrefixUrl();
+            InitPictureUrl();
+            emptyCard = new Card(-2, getContext());
+            noneCard = new Card(-1, getContext());
+            Init();
+        }
 
         public GlobalAppSettings(HttpContext c) : this(c, c.Application, c.Session) { }
 
