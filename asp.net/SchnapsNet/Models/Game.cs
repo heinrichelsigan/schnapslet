@@ -2,7 +2,6 @@
 using SchnapsNet.Utils;
 using System;
 using System.Web;
-using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 
 namespace SchnapsNet.Models
@@ -32,7 +31,6 @@ namespace SchnapsNet.Models
 		}
 
         [XmlIgnore]
-        [ScriptIgnore]
         internal bool ZeroRemain
 		{
 			get

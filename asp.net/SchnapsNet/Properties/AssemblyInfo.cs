@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
 [assembly: AssemblyProduct("SchnapsNet")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000-2040")]
+[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000-2100")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("3.25.1031.0")]
-[assembly: AssemblyFileVersion("3.25.1031.0")]
+[assembly: AssemblyVersion("3.26.702.0")]
+[assembly: AssemblyFileVersion("3.26.702.0")]

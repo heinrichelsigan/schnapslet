@@ -9,7 +9,6 @@ using System.Web.UI.WebControls.WebParts;
 using SchnapsNet.Models;
 using System.Runtime.Serialization.Formatters;
 using System.Drawing;
-using System.EnterpriseServices;
 
 namespace SchnapsNet.Models
 {

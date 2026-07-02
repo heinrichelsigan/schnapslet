@@ -19,7 +19,7 @@ namespace SchnapsNet.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource_de {
@@ -700,11 +700,11 @@ namespace SchnapsNet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.25.1010  - Pre Alpha Release&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v3.26.702  - Pre Alpha Release&lt;/h1&gt;
         ///Implementierung des Kartenspiel Schnapsen als einfache Asp.Net WebApp
         ///von Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
         ///&lt;br /&gt;
-        ///Schnapslet Quellcode (open source unter der &lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot; target=&quot;_blank&quot;&gt;GPL 3&quot;&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot;  [rest of string was truncated]&quot;;.
+        ///Schnapslet Quellcode (open source unter der &lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot; target=&quot;_blank&quot;&gt;GPL 3&quot;&lt;/a&gt; Lizenz) ist &amp;ouml;ffentlich verf&amp;uuml;gbar als &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string help_text {
             get {
