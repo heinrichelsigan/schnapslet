@@ -3,7 +3,6 @@
 // Retrieved 2026-03-07, License - CC BY-SA 2.5
 package at.area23.schnapsen;
 
-import at.area23.schnapsen.ImagePanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;

@@ -15,34 +15,26 @@
    See the GNU Library General Public License for more details.
 
 */
-package at.area23.schnapsen;
+package at;
 
 import at.area23.schnapsen.ImagePanel;
-import at.area23.schnapsen.Game;
-import at.area23.schnapsen.Card;
+import at.area23.schnapsen.Context;
+import at.area23.schnapsen.GetFrame;
 import at.area23.schnapsen.Player;
-import at.area23.schnapsen.*;
-
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.TextArea;
-import java.awt.TextField;
+import at.area23.schnapsen.Card;
+import at.area23.schnapsen.Game;
 import java.awt.*;
 import java.net.*;
 import java.util.*;
 import java.io.*;
 import java.lang.*;
 import java.applet.*;
-// import java.beans.*;
+import java.beans.*;
 
-public class Schnapslet extends Applet implements Runnable
+public class Area23Schnapslet extends Applet implements Runnable
 {
     final static String PROTO = "https";
-    final static String HOST  = "area23.at";
+    final static String HOST  = "^area23.at";
     final static int    PORT  = 80;
     long errNum = 0; // Errors Ticker
     int ccard; // Computers Card played
@@ -63,25 +55,16 @@ public class Schnapslet extends Applet implements Runnable
 	//{{DECLARE_CONTROLS
 	java.awt.TextArea tDbg = new java.awt.TextArea();
 	java.awt.Panel pHand = new java.awt.Panel();
-    ImagePanel ip0 = new ImagePanel();
-    ImagePanel ip1 = new ImagePanel();
-    ImagePanel ip2 = new ImagePanel();
-    ImagePanel ip3 = new ImagePanel();
-    ImagePanel ip4 = new ImagePanel();
-    ImagePanel ipOut0 = new ImagePanel();
-    ImagePanel ipOut1 = new ImagePanel();
-    ImagePanel ipTalon = new ImagePanel();
-    ImagePanel ipAtou = new ImagePanel();
-	// ImageViewer im0 = new ImageViewer();
-	// ImageViewer im1 = new ImageViewer();
-	// ImageViewer im2 = new ImageViewer();
-	// ImageViewer im3 = new ImageViewer();
-	// ImageViewer im4 = new ImageViewer();
-	// ImageViewer imOut0 = new ImageViewer();
-	// ImageViewer imOut1 = new ImageViewer();
-	// ImageViewer imTalon = new ImageViewer();
-	// ImageViewer imAtou = new ImageViewer();
+	ImagePanel im1 = new ImagePanel();
+	ImagePanel im0 = new ImagePanel();
+	ImagePanel im2 = new ImagePanel();
+	ImagePanel im3 = new ImagePanel();
+	ImagePanel im4 = new ImagePanel();
 	java.awt.Panel pGame = new java.awt.Panel();
+	ImagePanel imOut0 = new ImagePanel();
+	ImagePanel imOut1 = new ImagePanel();
+	ImagePanel imTalon = new ImagePanel();
+	ImagePanel imAtou = new ImagePanel();
 	java.awt.Panel pAction = new java.awt.Panel();
 	java.awt.Button bMerge = new java.awt.Button();
 	java.awt.Button bStop = new java.awt.Button();
@@ -107,12 +90,13 @@ public class Schnapslet extends Applet implements Runnable
 		}
 	}
 	
-	 public static void main(String args[]) {
-        Frame appletFrame = new Frame("Schnapslet");
+	 
+	public static void main(String args[]) {
+        Frame appletFrame = new Frame("Area23Schnapslet");
         appletFrame.setLayout(new GridLayout(1,1));
         appletFrame.setSize(504,432);
         appletFrame.setVisible(true);
-        Applet myApplet = new Schnapslet();
+        Applet myApplet = new Area23Schnapslet();
         appletFrame.add(myApplet);
         myApplet.init();
         myApplet.start();
@@ -143,90 +127,90 @@ public class Schnapslet extends Applet implements Runnable
 		pHand.setBounds(0,132,384,108);
 		
 		try { 
-			ip0.setImage(notJarStr); 
+			im0.setImage(notJarStr); 
 		} catch (Exception im0ex) {
 			System.err.println(im0ex.toString());
 			im0ex.printStackTrace();
 		}
-		pHand.add(ip0);
-		ip0.setBounds(12,12,72,96);		
+		pHand.add(im0);
+		im0.setBounds(12,12,72,96);		
 		
 		try {
-			ip1.setImage(notJarStr); 
+			im1.setImage(notJarStr); 
 		} catch (Exception im1ex) {
 			System.err.println(im1ex.toString());
 			im1ex.printStackTrace();
 		}
-		pHand.add(ip1);
-		ip1.setBounds(84,12,72,96);
+		pHand.add(im1);
+		im1.setBounds(84,12,72,96);
 
 		try {
-		    ip2.setImage(notJarStr); 
+		    im2.setImage(notJarStr); 
 		} catch (Exception im2ex) {
 			System.err.println(im2ex.toString());
 			im2ex.printStackTrace();			
 		}
-		pHand.add(ip2);
-		ip2.setBounds(156,12,72,96);
+		pHand.add(im2);
+		im2.setBounds(156,12,72,96);
 		
 		try {
-			ip3.setImage(notJarStr); 
+			im3.setImage(notJarStr); 
 		} catch (Exception im3ex) {
 			System.err.println(im3ex.toString());
 			im3ex.printStackTrace();			
 		}
-		pHand.add(ip3);
-		ip3.setBounds(228,12,72,96);
+		pHand.add(im3);
+		im3.setBounds(228,12,72,96);
     
 		try {
-			ip4.setImage(setJarIncludedImage(notJarStr)); 
+			im4.setImage(notJarStr); 
 		} catch (Exception im4ex) {
 			System.err.println(im4ex.toString());
 			im4ex.printStackTrace();
 		}
-		pHand.add(ip4);
-		ip4.setBounds(300,12,72,96);
+		pHand.add(im4);
+		im4.setBounds(300,12,72,96);
 		
 		pGame.setLayout(null);
 		add(pGame);
 		pGame.setBounds(0,12,384,132);
 		
 		try {
-			ipOut0.setImage(setJarIncludedImage(emptyJarStr)); 
+			imOut0.setImage(emptyJarStr); 
 		} catch (Exception imOutEx) {
 			System.err.println(imOutEx.toString());
 			imOutEx.printStackTrace();			
 		}	
-		pGame.add(ipOut0);
-		ipOut0.setBounds(96,24,72,96);
+		pGame.add(imOut0);
+		imOut0.setBounds(96,24,72,96);
 		
 		try {
-			ipOut1.setImage(setJarIncludedImage(emptyJarStr)); 
+			imOut1.setImage(emptyJarStr); 
 		} catch (Exception imOutEx) {
 			System.err.println(imOutEx.toString());
 			imOutEx.printStackTrace();
 		}
-		pGame.add(ipOut1);
-		ipOut1.setBounds(12,12,72,96);
+		pGame.add(imOut1);
+		imOut1.setBounds(12,12,72,96);
 		
 		try {
-			ipTalon.setImage(setJarIncludedImage(talonJarStr)); 
+			imTalon.setImage(talonJarStr); 
 		} catch (Exception imTalonEx) {
 			System.err.println(imTalonEx.toString());
 			imTalonEx.printStackTrace();
 		}
-		ipTalon.setVisible(true);			
-		pGame.add(ipTalon);
-		ipTalon.setBounds(204,24,96,72);
+		imTalon.setVisible(true);			
+		pGame.add(imTalon);
+		imTalon.setBounds(204,24,96,72);
     
 		try {
-			ipAtou.setImage(setJarIncludedImage(notJarStr)); 
+		    imAtou.setImage(notJarStr); 
 		} catch (Exception imAtouEx) {
 			System.err.println(imAtouEx.toString());
 			imAtouEx.printStackTrace();
 		}
-		pGame.add(ipAtou);
-		ipAtou.setBounds(276,12,72,96);
+		pGame.add(imAtou);
+		imAtou.setBounds(276,12,72,96);
 		
 		pAction.setLayout(null);
 		add(pAction);
@@ -322,15 +306,15 @@ public class Schnapslet extends Applet implements Runnable
 		SymMouse aSymMouse = new SymMouse();
 		b20a.addActionListener(lSymAction);
 		b20b.addActionListener(lSymAction);
-		ip0.addMouseListener(aSymMouse);
-		ip1.addMouseListener(aSymMouse);
-		ip2.addMouseListener(aSymMouse);
-		ip3.addMouseListener(aSymMouse);
-		ip4.addMouseListener(aSymMouse);
+		im0.addMouseListener(aSymMouse);
+		im1.addMouseListener(aSymMouse);
+		im2.addMouseListener(aSymMouse);
+		im3.addMouseListener(aSymMouse);
+		im4.addMouseListener(aSymMouse);
+		imAtou.addMouseListener(aSymMouse);
 		tMes.addMouseListener(aSymMouse);
 		bcont.addActionListener(lSymAction);
 		pHelp.addActionListener(lSymAction);
-		ipAtou.addMouseListener(aSymMouse);
 		//}}
 	}
 	
@@ -358,7 +342,7 @@ public class Schnapslet extends Applet implements Runnable
 
 	
 	//     try { im0.setImage(setJarIncludedImage("cardpics/n0.gif")); } catch (Exception e) {  System.err.println(e.toString()); }
-	public Image setJarIncludedImage(String imgstr) {
+	Image setJarIncludedImage(String imgstr) {
 		Image img = null;
 		try {
 			InputStream is = getClass().getResourceAsStream(imgstr);
@@ -373,7 +357,7 @@ public class Schnapslet extends Applet implements Runnable
 		return img;
 	}
 
-	public void errHandler(java.lang.Throwable myErr) {
+	void errHandler(java.lang.Throwable myErr) {
 	    tDbg.append("\nCRITICAL ERROR #" + (++errNum));
 	    tDbg.append("\nMessage: " + myErr.getMessage());
 	    tDbg.append("\nString: " + myErr.toString());
@@ -381,7 +365,7 @@ public class Schnapslet extends Applet implements Runnable
 	    myErr.printStackTrace();
 	}
 	
-	public void resetButtons(int level) {
+	void resetButtons(int level) {
         if (level >= 0 ) {
             b20a.setLabel("20 Ansagen");
             b20a.setEnabled(false);
@@ -391,19 +375,19 @@ public class Schnapslet extends Applet implements Runnable
         }
         if (level >= 1) {
             bcont.setEnabled(false);
-	        if (ipTalon.isVisible()==false)
-	            ipTalon.setVisible(true);  
+	        if (imTalon.isVisible()==false)
+	            imTalon.setVisible(true);  
             try {
- 				ipTalon.setImage(setJarIncludedImage(talonJarStr)); 
-				ipAtou.setImage(setJarIncludedImage(emptyJarStr)); 
+ 				imTalon.setImage(talonJarStr); 
+				imAtou.setImage(emptyJarStr); 
             } catch (Exception ex) {
 				this.errHandler(ex);
 			}
         }
         if (level >= 2) {        
             try {
-				ipOut0.setImage(setJarIncludedImage(emptyJarStr));
-				ipOut1.setImage(setJarIncludedImage(emptyJarStr));
+				imOut0.setImage(emptyJarStr);
+				imOut1.setImage(emptyJarStr);
             } catch (Exception ex) {
 				this.errHandler(ex);
             }
@@ -422,7 +406,7 @@ public class Schnapslet extends Applet implements Runnable
 		}
 	}
 	
-    public void stopGame(int levela) {
+    void stopGame(int levela) {
         bStop.setEnabled(false);
         aGame.stopGame();
         resetButtons(levela);            
@@ -442,7 +426,7 @@ public class Schnapslet extends Applet implements Runnable
         startGame();
 	}
 
-    public void startGame() {	/* Mischen */
+    void startGame() {	/* Mischen */
         bMerge.setEnabled(false);
         runtime = java.lang.Runtime.getRuntime();
         aGame = null;
@@ -463,8 +447,8 @@ public class Schnapslet extends Applet implements Runnable
         gameTurn(0);
     }
     
-    public void closeGame() { //	Implementierung des Zudrehens
-        if (aGame.isGame() == false || aGame.gambler == null) {
+    void closeGame() { //	Implementierung des Zudrehens
+        if (!aGame.isGame() || aGame.gambler == null) {
 			tsMes.setVisible(true);
 			tsMes.setText("Kein Spiel gestartet!");
 			return;
@@ -473,19 +457,19 @@ public class Schnapslet extends Applet implements Runnable
 		tsMes.setText("Spieler dreht zu !");
         
 		try {
-			ipTalon.setImage(setJarIncludedImage(emptyJarStr));
-            ipTalon.setVisible(false);
+			imTalon.setImage(emptyJarStr);
+            imTalon.setVisible(false);
         } catch (Exception jbpvex) {
             this.errHandler(jbpvex);
         }                   
 		
 		try {	
-			ipAtou.setImage(backJarStr);
+			imAtou.setImage(backJarStr);
         } catch (Exception jbpvex) {
             this.errHandler(jbpvex);
         }    
 		
-        aGame.setColorHitRule(true);;
+        aGame.setColorHitRule(true);
         aGame.setClosed(true);
         aGame.gambler.hasClosed = true;
 		
@@ -495,15 +479,15 @@ public class Schnapslet extends Applet implements Runnable
         gameTurn(0);
     }
     
-    public void tsEnds(String endMessage, int ix) {
+    void tsEnds(String endMessage, int ix) {
         tsMes.setText(endMessage);
         tsMes.setVisible(true);
         stopGame(ix);
         return ;
     }
-        
     
-    public void twentyEnough(boolean who) {
+   
+    void twentyEnough(boolean who) {
         int xking = 0;
 		int xqueen = 0;
 		boolean xfinished = false;
@@ -517,8 +501,8 @@ public class Schnapslet extends Applet implements Runnable
 						(aGame.gambler.hand[xqueen].getValue() == 3 ||
 							aGame.gambler.hand[xqueen].getValue() == 4))
 					{
-						ipOut0.setImage(aGame.gambler.hand[xqueen].getImgPath());
-						ipOut1.setImage(aGame.gambler.hand[xqueen + 1].getImgPath());
+						imOut0.setImage(aGame.gambler.hand[xqueen].getImgPath());
+						imOut1.setImage(aGame.gambler.hand[xqueen + 1].getImgPath());
 						xfinished = true;
 						break;
  					}	
@@ -530,7 +514,7 @@ public class Schnapslet extends Applet implements Runnable
 				}
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
-            } 
+            }
             tsEnds(new String(andEnough+" Sie haben gewonnen mit " + aGame.gambler.points + " Punkten !"), 1);       
         } else {
             try {
@@ -542,10 +526,8 @@ public class Schnapslet extends Applet implements Runnable
 						(aGame.computer.hand[xqueen].getValue() == 3 ||
 							aGame.computer.hand[xqueen].getValue() == 4))
 					{
-						URL enoughCQueenUrl = new URL(
-							"https://area23.at/schnapsen/cardpics/" +  aGame.csaid + "3.gif");
-						ipOut0.setImage(aGame.gambler.hand[xqueen].getImgPath());
-						ipOut1.setImage(aGame.computer.hand[xqueen + 1].getImgPath());
+						imOut0.setImage(aGame.gambler.hand[xqueen].getImgPath());
+						imOut1.setImage(aGame.computer.hand[xqueen + 1].getImgPath());
 						xfinished = true;
 						break;
  					}			
@@ -557,21 +539,21 @@ public class Schnapslet extends Applet implements Runnable
 				}
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
-            }
+            } 
             printMes();
             tsEnds(new String(andEnough+"Computer hatgewonnen mit " + aGame.computer.points + " Punkten !"), 1);
         }
         return;        
     }
     
-	
-    public void endTurn() {
+    
+    void endTurn() {
         int tmppoints;
         /* IMPLEMENT COMPUTERS STRATEGIE HERE */
         if (aGame.playersTurn) {
             ccard = aGame.computersAnswer();
             try {				
-				ipOut1.setImage(aGame.computer.hand[ccard].getImgPath());
+				imOut1.setImage(aGame.computer.hand[ccard].getImage());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -600,10 +582,10 @@ public class Schnapslet extends Applet implements Runnable
         if (aGame.assignNewCard() == 1) {
             /* NOW WE HAVE NO MORE TALON */
             try {
-				ipTalon.setImage(setJarIncludedImage(emptyJarStr)); 
-                ipTalon.setVisible(false);
+				imTalon.setImage(emptyJarStr); 
+                imTalon.setVisible(false);
 				
-				ipAtou.setImage(setJarIncludedImage(emptyJarStr)); 
+				imAtou.setImage(emptyJarStr); 
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }              
@@ -653,11 +635,11 @@ public class Schnapslet extends Applet implements Runnable
     }
         
     
-    public void gameTurn(int ixlevel) {
+    void gameTurn(int ixlevel) {
         if (ixlevel < 1) {
             try {
-				ipOut0.setImage(setJarIncludedImage(emptyJarStr)); 
-				ipOut1.setImage(setJarIncludedImage(emptyJarStr)); 
+				imOut0.setImage(emptyJarStr); 
+				imOut1.setImage(emptyJarStr); 
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -707,7 +689,8 @@ public class Schnapslet extends Applet implements Runnable
 				}
             }            
             try {
-				ipOut1.setImage(aGame.computer.hand[ccard].getImgPath());
+				imOut1.setImage(aGame.computer.hand[ccard].getImgPath());
+                // imOut1.setImageURL(aGame.computer.hand[ccard].getPictureUrl());
             } catch (Exception jbpvex) {
                 this.errHandler(jbpvex);
             }
@@ -717,38 +700,37 @@ public class Schnapslet extends Applet implements Runnable
         printMes();
 	}
     
-    public void printMes() {
+    void printMes() {
         tDbg.append(aGame.mqueue.fetch());   
     }
     
-	public void showPlayersCards() {
+	void showPlayersCards() {
 
 		try {
-			ip0.setImage(aGame.gambler.hand[0].getImgPath());
-	        ip1.setImage(aGame.gambler.hand[1].getImgPath());
-	        ip2.setImage(aGame.gambler.hand[2].getImgPath());
-    	    ip3.setImage(aGame.gambler.hand[3].getImgPath());
-	        ip4.setImage(aGame.gambler.hand[4].getImgPath());
+			im0.setImage(aGame.gambler.hand[0].getImgPath());
+	        im1.setImage(aGame.gambler.hand[1].getImgPath());
+	        im2.setImage(aGame.gambler.hand[2].getImgPath());
+    	    im3.setImage(aGame.gambler.hand[3].getImgPath());
+	        im4.setImage(aGame.gambler.hand[4].getImgPath());
 	    } catch (Exception exp) {
              this.errHandler(exp);
 	    }
 	}
 	
-	public void showTalonCard() {
+	void showTalonCard() {
 		try {
-			ipTalon.setImage(talonJarStr); 
-			// ipTalon.setImage(setJarIncludedImage(talonJarStr)); 
+			imTalon.setImage(talonJarStr); 
 		} catch (Exception imTalonEx) {
 			System.err.println(imTalonEx.toString());
 			imTalonEx.printStackTrace();
 		}
-		ipTalon.setVisible(true);	
+		imTalon.setVisible(true);	
 	}
 	
-	public void showAtouCard() {
+	void showAtouCard() {
 
 	    try {
-	        ipAtou.setImage(aGame.set[19].getImgPath());
+	        imAtou.setImage(aGame.set[19].getImgPath());
 	    } catch (Exception exp) {
             this.errHandler(exp);
 	    }
@@ -774,12 +756,12 @@ public class Schnapslet extends Applet implements Runnable
 	class SymMouse extends java.awt.event.MouseAdapter {
 		public void mouseClicked(java.awt.event.MouseEvent event) {
 			Object object = event.getSource();
-			if (object == ip0) imageMouseEventHandler(event, 0);
-			else if (object == ip1) imageMouseEventHandler(event, 1);
-			else if (object == ip2) imageMouseEventHandler(event, 2);
-			else if (object == ip3)imageMouseEventHandler(event, 3);
-			else if (object == ip4) imageMouseEventHandler(event, 4);
-			else if (object == ipAtou) imageMouseEventHandler(event, 10);
+			if (object == im0) imageMouseEventHandler(event, 0);
+			else if (object == im1) imageMouseEventHandler(event, 1);
+			else if (object == im2) imageMouseEventHandler(event, 2);
+			else if (object == im3) imageMouseEventHandler(event, 3);
+			else if (object == im4) imageMouseEventHandler(event, 4);
+			else if (object == imAtou) imageMouseEventHandler(event, 10);
 		}
 	}
 
@@ -893,24 +875,24 @@ public class Schnapslet extends Applet implements Runnable
 			// Besser Cards als Array
 			switch (ic) {
 			    case 0: 
-					ip0.setImage(setJarIncludedImage(emptyJarStr));  
+					im0.setImage((emptyJarStr));  
 					break;
 			    case 1: 
-					ip1.setImage(setJarIncludedImage(emptyJarStr)); 
+					im1.setImage((emptyJarStr)); 
 					break;			    
 			    case 2: 
-					ip2.setImage(setJarIncludedImage(emptyJarStr));  
+					im2.setImage((emptyJarStr));  
 					break;			    
 			    case 3: 
-					ip3.setImage(setJarIncludedImage(emptyJarStr)); 
+					im3.setImage((emptyJarStr)); 
 					break;			    
 			    case 4: 
-					ip4.setImage(setJarIncludedImage(emptyJarStr)); 
+					im4.setImage((emptyJarStr)); 
 					break;			    
 			    default: tDbg.append("Assertion !");
 			}
 			
-			ipOut0.setImage(aGame.gambler.hand[ic].getImgPath());
+			imOut0.setImage(aGame.gambler.hand[ic].getImgPath());
 		
 		} catch (Exception e) {
             this.errHandler(e);		    
@@ -943,7 +925,7 @@ public class Schnapslet extends Applet implements Runnable
 		pHelp_ActionPerformed_Interaction1(event);
 	}
 
-	public void pHelp_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
+	void pHelp_ActionPerformed_Interaction1(java.awt.event.ActionEvent event) {
 		try {
 		    tDbg.append("-------------------------------------------------------------------------\n");
 		    tDbg.append("Schnapslet V 0.2 - Pre Alpha Release \n");

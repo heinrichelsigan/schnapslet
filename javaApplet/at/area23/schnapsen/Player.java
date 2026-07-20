@@ -17,6 +17,7 @@
 */
 package at.area23.schnapsen;
 
+import at.area23.schnapsen.Card;
 import at.area23.schnapsen.*;
 import java.lang.*;
 import java.io.*;
@@ -29,7 +30,7 @@ public class Player {
     // not implemented yet !
     // Card hits[] = new Card[10]; // hits made by this player 
     
-    boolean hasClosed = false;
+    public boolean hasClosed = false;
     public int points = 0;             // points made by this {@link Player}
     public char pairs[] = { 'n', 'n', 'n', 'n' };
     public char handpairs[] = { 'n', 'n' };
@@ -39,7 +40,7 @@ public class Player {
         super();
         hasClosed = false;
         for (int i = 0; i < 5; i++) {
-           hand[i] = new Card();
+           hand[i] = new at.area23.schnapsen.Card();
            colorHitArray[i] = (-1);
         }        
     }
@@ -64,7 +65,7 @@ public class Player {
     
     public void sortHand() {
         int j, k, min, mark;
-        Card tmpCard;
+        at.area23.schnapsen.Card tmpCard;
         for (k=0; k<4; k++) { // Bubble
             min = 20;
             mark = -1;
@@ -102,13 +103,13 @@ public class Player {
     }
             
         
-    public void assignCard(Card gotCard) {
+    public void assignCard(at.area23.schnapsen.Card gotCard) {
         int i=0;
         while ((i<5) && (hand[i].isValidCard())) i++;
-        if (i<5) hand[i] = new Card(gotCard);
+        if (i<5) hand[i] = new at.area23.schnapsen.Card(gotCard);
     }        
     
-    public boolean isInColorHitsContextValid(int nynum, Card aCard) {
+    public boolean isInColorHitsContextValid(int nynum, at.area23.schnapsen.Card aCard) {
         int i=0; int j=0; int max=-1;
         for (i=0; i<5; i++) {
             // ist gueltige Karte -> PRI 0
@@ -138,7 +139,7 @@ public class Player {
         return false;   
     }
     
-    public int bestInColorHitsContext(Card aCard) {
+    public int bestInColorHitsContext(at.area23.schnapsen.Card aCard) {
         int i=0, j=0, mark=-1, max=-1;
         for (i=0; i<5; i++) {
 						if (hand[i].isValidCard()==false) {
@@ -183,7 +184,7 @@ public class Player {
     }    
                     
     
-    public boolean isColorHitValid(int cidx, Card otherCard) {
+    public boolean isColorHitValid(int cidx, at.area23.schnapsen.Card otherCard) {
         int i;
         // gleiche Farbe und groesser -> OK 
         if (hand[cidx].hitsValue(otherCard)) return true;

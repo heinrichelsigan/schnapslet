@@ -15,14 +15,15 @@
    See the GNU Library General Public License for more details.
 
 */
-// package at.area23.schnapslet;
+// package at;
 
-import at.area23.ImagePanel;
-import at.area23.Context;
-import at.area23.GetFrame;
+import at.area23.schnapsen.ImagePanel;
+import at.area23.schnapsen.Context;
+import at.area23.schnapsen.GetFrame;
 import at.area23.schnapsen.Player;
 import at.area23.schnapsen.Card;
 import at.area23.schnapsen.Game;
+import at.area23.schnapsen.*;
 import java.awt.*;
 import java.net.*;
 import java.util.*;
@@ -90,7 +91,8 @@ public class area23Schnapslet extends Applet implements Runnable
 		}
 	}
 	
-	 public static void main(String args[]) {
+	 
+	public static void main(String args[]) {
         Frame appletFrame = new Frame("area23Schnapslet");
         appletFrame.setLayout(new GridLayout(1,1));
         appletFrame.setSize(504,432);
@@ -447,7 +449,7 @@ public class area23Schnapslet extends Applet implements Runnable
     }
     
     void closeGame() { //	Implementierung des Zudrehens
-        if (aGame.isGame == false || aGame.gambler == null) {
+        if (!aGame.isGame() || aGame.gambler == null) {
 			tsMes.setVisible(true);
 			tsMes.setText("Kein Spiel gestartet!");
 			return;
@@ -468,8 +470,8 @@ public class area23Schnapslet extends Applet implements Runnable
             this.errHandler(jbpvex);
         }    
 		
-        aGame.colorHitRule = true;
-        aGame.isClosed = true;
+        aGame.setColorHitRule(true);
+        aGame.setClosed(true);
         aGame.gambler.hasClosed = true;
 		
         if (aGame.atouChanged == false) {
@@ -565,13 +567,13 @@ public class area23Schnapslet extends Applet implements Runnable
 		
         if (tmppoints > 0) {
             tMes.setText("Ihr Stich mit Punkten " + tmppoints + " ! Klicken Sie auf Weiter !");
-            if (aGame.isClosed && (aGame.computer.hasClosed)) {
+            if (aGame.isClosed() && (aGame.computer.hasClosed)) {
                 tsEnds("Zudrehen des Computers fehlgeschlagen, sie haben gewonnen !", 1);
                 return ;
             }
         } else { 
             tMes.setText("Computer sticht " + (-tmppoints) + " ! Klicken Sie auf Weiter !"); 
-            if ((aGame.isClosed) && (aGame.gambler.hasClosed)) {
+            if ((aGame.isClosed()) && (aGame.gambler.hasClosed)) {
                 tsEnds("Zudrehen fehlgeschlagen, Computer hat gewonnen !", 1);
                 return ;
             }
@@ -611,7 +613,7 @@ public class area23Schnapslet extends Applet implements Runnable
         }        
 
         if (aGame.movs >= 5) {
-            if (aGame.isClosed) {
+            if (aGame.isClosed()) {
                 if (aGame.gambler.hasClosed) {
                     tsEnds("Zudrehen fehlgeschlagen, Computer hat gewonnen !", 1);
                 }
@@ -831,7 +833,7 @@ public class area23Schnapslet extends Applet implements Runnable
 			}
 			
 		    if (ic == 10) {
-		        if (aGame.playersTurn && (aGame.isClosed == false) && (pSaid == false) && (aGame.index < 16)) {
+		        if (aGame.playersTurn && (!aGame.isClosed()) && (pSaid == false) && (aGame.index < 16)) {
                     closeGame();   
 				}
 		        return;
@@ -852,7 +854,7 @@ public class area23Schnapslet extends Applet implements Runnable
 		            return ;		    
 		         }
 			}
-		    if (aGame.colorHitRule && (aGame.playersTurn == false)) {
+		    if (aGame.isColorHitRule() && (aGame.playersTurn == false)) {
 		        // CORRECT WAY ?
 		        if ((aGame.gambler.isInColorHitsContextValid(ic,aGame.computer.hand[ccard])) == false) {
                     aGame.mqueue.insert("Farb und Stichzwang muss eingehalten werden !");

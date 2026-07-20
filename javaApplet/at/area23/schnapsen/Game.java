@@ -24,33 +24,42 @@ import java.net.*;
 import java.util.*;
 
 public class Game {
-    volatile boolean isGame = false;   // a Game is running
-    char atouInGame = 'n';             // color that is atou in this Game
-    boolean atouChanged = false;      // Atou allready changed
-    boolean playersTurn = true;      // Who's playing
-    char said = 'n';
-    char csaid = 'n';
+    volatile boolean game = false;   // a Game is running
+    public char atouInGame = 'n';             // color that is atou in this Game
+    public boolean atouChanged = false;      // Atou allready changed
+    public boolean playersTurn = true;      // Who's playing
+    public char said = 'n';
+    public char csaid = 'n';
     boolean colorHitRule = false;
-    boolean isClosed = false;
+    boolean closed = false;
     public Card playedOut;
-    int index = 9;    
-    int movs = 0;
+    public int index = 9;    
+    public int movs = 0;
     public int inGame[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10,11,12,13,14,15,16,17,18,19 };
     public Card set[] = new Card[20]; 
-    messageQueue mqueue = new messageQueue();
+    public messageQueue mqueue = new messageQueue();
     public Player gambler;
     public Player computer;
 	java.applet.Applet masterApplet = null;
     
+	public boolean isColorHitRule() { return colorHitRule; }
+	public void setColorHitRule(boolean colorHitRules) { colorHitRule = colorHitRules;  }
+
+	public boolean isGame()  { return game; }
+
+	public boolean isClosed()  { return closed; }
+	public void setClosed(boolean closing)  { closed = closing; }
+
                     
-    public Game() {
-        super();
-        isGame = true;
-        atouChanged = false;   
-        playersTurn = true;
-        colorHitRule = false;    
-        isClosed = false;
+    
+	public Game() {
+       		super();
+ 	       	game = true;
+  	      	atouChanged = false;   
+        	playersTurn = true;
+        	colorHitRule = false;    
+        	closed = false;
 	}
 	
 	public Game(java.applet.Applet applet) {
@@ -107,6 +116,8 @@ public class Game {
         computer.sortHand();
 	}
 	
+
+
     public void destroyGame() {
         computer.stop();
         gambler.stop();
@@ -120,11 +131,11 @@ public class Game {
 	}
 
 	public void stopGame() {
-        isGame = false;
+        game = false;
         atouInGame = 'n';
        
         colorHitRule = false;
-        isClosed = false;
+        closed = false;
         playedOut = new Card(); // new Card(masterApplet, -1);
         for (int i = 0; i < 5; i++) {
 	        gambler.hand[i] = new Card(); // new Card(masterApplet, -1);

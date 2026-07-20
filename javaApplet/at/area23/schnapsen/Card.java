@@ -17,6 +17,7 @@
 
 */
 package at.area23.schnapsen;
+
 import at.area23.schnapsen.*;
 import java.lang.*;
 import java.io.*;
@@ -26,8 +27,8 @@ import java.awt.*;
 public class Card {
     
 	boolean atou = false;
-    char color = 'n';   // 4 colors and 'n' for unitialized
-    int value = 0;      // 5 values and 0 for unitialized
+    public char color = 'n';   // 4 colors and 'n' for unitialized
+    public int value = 0;      // 5 values and 0 for unitialized
     public int intern = -1;    // 20 values for internal representation and (-1) for unitialized
     public java.lang.String name = new String();  // Human readable classifier
     public java.net.URL picture;  // picture 
@@ -35,20 +36,20 @@ public class Card {
 	public java.applet.Applet masterApplet = null;
 	
     
-    /**
-     */
-    public Card() {
-        super();
-        this.color = 'n';
-        this.value = 0;
-        this.intern = -1;
-        this.name = "nocard";        
-    }
-	
+    	/**
+     	 */
+    	public Card() {
+        	super();
+        	this.color = 'n';
+        	this.value = 0;
+        	this.intern = -1;
+        	this.name = "nocard";        
+    	} 
+
 	public Card(java.applet.Applet applet) {
-        this();
-        this.masterApplet = applet;   
-    }
+        	this();
+        	this.masterApplet = applet;   
+    	}
     
 
 	
